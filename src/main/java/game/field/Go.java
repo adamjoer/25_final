@@ -10,7 +10,7 @@ public class Go extends Field {
     }
 
     public void fieldAction() {
-        // TODO: should this field do anything or will the 'Pass Go' reward be handled elsewhere?
+        // FIXME: should this field do anything or will the 'pass go' reward be handled elsewhere?
     }
 
     public int getReward() {
