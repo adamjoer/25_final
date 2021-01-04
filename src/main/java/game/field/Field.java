@@ -5,10 +5,10 @@ package game.field;
  */
 public abstract class Field {
 
-    final protected String title;
-    final protected String subText;
-    final protected String description;
-    final protected int position;
+    protected final String title;
+    protected final String subText;
+    protected final String description;
+    protected final int position;
 
     public Field(String title, String subText, String description, int position) {
         this.title = title;

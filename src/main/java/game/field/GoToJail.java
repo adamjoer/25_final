@@ -2,7 +2,7 @@ package game.field;
 
 public class GoToJail extends Field {
 
-    final private int jailPosition;
+    private final int jailPosition;
 
     public GoToJail(String title, String subText, String description, int position, int jailPosition) {
         super(title, subText, description, position);
