@@ -40,6 +40,6 @@ public abstract class Field {
                "\n\t[title=\"" + title +
                "\"]\n\t[subText=\"" + subText +
                "\"]\n\t[description=\"" + description +
-               "\"]\n\t[position=" + position + "]";
+               "\"]\n\t[position=" + position + ']';
     }
 }
