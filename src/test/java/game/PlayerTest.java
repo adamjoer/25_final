@@ -20,6 +20,11 @@ class PlayerTest {
 
         System.out.println(player.getProperties().length);
 
+        player.removeProperty(6);
+        player.removeProperty(49);
+
+        System.out.println(player.getProperties().length);
+
         assertTrue(true);
     }
 
