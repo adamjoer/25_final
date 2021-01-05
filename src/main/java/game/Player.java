@@ -27,6 +27,7 @@ public class Player {
 
     public void addProperty(int place){
 
+
     }
 
 

@@ -2,7 +2,7 @@ package game;
 
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
@@ -10,10 +10,9 @@ class PlayerTest {
 
     @Test
     void makeTransaction() {
+
         player.getProperties();
-
         assertTrue(player.makeTransaction(10));
-
     }
 
     @Test
