@@ -31,6 +31,9 @@ public class Player {
         }
     }
 
+    /** Method for adding properties to a player
+     * @param place : The new place for the player to own
+     */
     public void addProperty(int place){
         if(properties[0] == 0){
             properties[0] = place;
@@ -47,6 +50,10 @@ public class Player {
 
     }
 
+
+    /** Method used to remove a property from a player
+     * @param place : The place to remove from the player
+     */
     public void removeProperty(int place){
         boolean owned = false;
         for(int i : properties){
@@ -66,6 +73,9 @@ public class Player {
         }
     }
 
+    /**
+     * @param increment : The amount to increment the players position
+     */
     public void movePlayer(int increment){
         oldPosition = currentPosition;
         currentPosition = (currentPosition + increment) % 40;
@@ -88,13 +98,8 @@ public class Player {
         return oldPosition;
     }
 
-
     public void setBalance(int amount){
         account.setBalance(amount);
-    }
-
-    private void setOldPosition(int oldPosition) {
-        this.oldPosition = oldPosition;
     }
 
     public void setCurrentPosition(int currentPosition) {
