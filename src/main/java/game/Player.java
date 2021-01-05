@@ -66,6 +66,11 @@ public class Player {
         }
     }
 
+    public void movePlayer(int newPosition){
+        oldPosition = currentPosition;
+        currentPosition = newPosition;
+    }
+
 
     public int getBalance() {
         return account.getBalance();
