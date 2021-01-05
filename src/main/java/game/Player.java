@@ -48,16 +48,21 @@ public class Player {
     }
 
     public void removeProperty(int place){
-        if(Arrays.asList(properties).contains(place)){
+        boolean owned = false;
+        for(int i : properties){
+            if(i == place){
+                owned = true;
+            }
+        }
+        if(owned){
             int[] newList = new int[properties.length - 1];
             for(int i = 0; i < properties.length - 1; i++){
                 if(properties[i] == place){
                     properties[i] = properties[properties.length - 1];
                 }
-                else{
-                    newList[i] = properties[i];
-                }
+                newList[i] = properties[i];
             }
+            properties = newList;
         }
     }
 
