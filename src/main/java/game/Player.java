@@ -13,4 +13,36 @@ public class Player {
         account = new Account(startBalance);
         this.NAME = NAME;
     }
+
+
+    public boolean makeTransaction(int amount){
+        if(getBalance() >= -amount){
+            setBalance(getBalance() + amount);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void addProperty(int place){
+
+    }
+
+
+    public int getBalance() {
+        return account.getBalance();
+    }
+
+    public int[] getProperties(){
+        return properties;
+    }
+
+    public void setBalance(int amount){
+        account.setBalance(amount);
+    }
+
+
+
+
 }
