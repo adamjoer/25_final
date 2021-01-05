@@ -46,10 +46,11 @@ public class Utility {
                     // Extract potentially additional data and initialise object based on the field type
                     switch (fieldType) {
                         case "Property":
-                            Color color = new Color(getInt(ele, "color"));
-                            int value = getInt(ele, "value");
-                            int relatedPropertyPosition = getInt(ele, "relatedPropertyPosition");
-                            fields[i] = new Property(title, subText, description, i, value, color, relatedPropertyPosition);
+                            fields[i] = new Property(title, subText, description, i,
+                                    getInt(ele, "value"),
+                                    new Color(getInt(ele, "color")),
+                                    getInt(ele, "relatedPropertyPosition")
+                            );
                             break;
 
                         case "Chance":
@@ -57,14 +58,16 @@ public class Utility {
                             break;
 
                         case "Jail":
-                            int bail = getInt(ele, "fine");
-                            int goToJailPosition = getInt(ele, "goToJailPosition");
-                            fields[i] = new Jail(title, subText, description, i, bail, goToJailPosition);
+                            fields[i] = new Jail(title, subText, description, i,
+                                    getInt(ele, "bail"),
+                                    getInt(ele, "goToJailPosition")
+                            );
                             break;
 
                         case "GoToJail":
-                            int jailPosition = getInt(ele, "jailPosition");
-                            fields[i] = new GoToJail(title, subText, description, i, jailPosition);
+                            fields[i] = new GoToJail(title, subText, description, i,
+                                    getInt(ele, "jailPosition")
+                            );
                             break;
 
                         case "Parking":
@@ -72,7 +75,6 @@ public class Utility {
                             break;
 
                         case "Go":
-                            int reward = getInt(ele, "reward");
                             fields[i] = new Go(title, subText, description, i);
                             break;
                     }
