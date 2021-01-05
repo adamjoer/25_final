@@ -73,7 +73,7 @@ public class Utility {
 
                         case "Go":
                             int reward = getInt(ele, "reward");
-                            fields[i] = new Go(title, subText, description, i, reward);
+                            fields[i] = new Go(title, subText, description, i);
                             break;
                     }
                 }
