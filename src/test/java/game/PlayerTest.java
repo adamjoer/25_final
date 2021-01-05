@@ -11,25 +11,43 @@ class PlayerTest {
     @Test
     void makeTransaction() {
 
-        System.out.println(player.getProperties().length);
+        assertTrue(player.makeTransaction(-500));
+
+        assertTrue(player.makeTransaction(500));
+
+        assertFalse(player.makeTransaction(-3000));
+
+        assertFalse(player.makeTransaction(-2001));
+
+        assertTrue(player.makeTransaction(100000));
+
+    }
+
+    @Test
+    void addProperty() {
 
         player.addProperty(29);
         player.addProperty(22);
         player.addProperty(6);
         player.addProperty(3);
 
-        System.out.println(player.getProperties().length);
+        assertEquals(4, player.getProperties().length);
+
+
+    }
+
+    @Test
+    void removeProperty(){
+
+        player.addProperty(29);
+        player.addProperty(22);
+        player.addProperty(6);
+        player.addProperty(3);
 
         player.removeProperty(6);
         player.removeProperty(49);
 
-        System.out.println(player.getProperties().length);
-
-        assertTrue(true);
-    }
-
-    @Test
-    void addProperty() {
-
+        assertEquals(3, player.getProperties().length);
+        assertEquals(3, player.getProperties()[2]);
     }
 }
