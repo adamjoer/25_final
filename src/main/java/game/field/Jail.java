@@ -14,4 +14,10 @@ public class Jail extends Field{
     public void fieldAction() {
         //TODO: Implement getting out of jail
     }
+
+    public String toString() {
+        return super.toString() +
+               "\n\t[bail=" + bail +
+               "]\n\t[goToJailPosition=" + goToJailPosition + ']';
+    }
 }
