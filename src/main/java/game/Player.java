@@ -75,11 +75,24 @@ public class Player {
         return properties;
     }
 
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public int getOldPosition() {
+        return oldPosition;
+    }
+
+
     public void setBalance(int amount){
         account.setBalance(amount);
     }
 
+    public void setOldPosition(int oldPosition) {
+        this.oldPosition = oldPosition;
+    }
 
-
-
+    public void setCurrentPosition(int currentPosition) {
+        this.currentPosition = currentPosition;
+    }
 }
