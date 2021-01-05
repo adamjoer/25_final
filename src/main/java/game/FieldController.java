@@ -12,7 +12,7 @@ public class FieldController {
     }
 
     public void fieldAction(int position) {
-        // TODO: This method needs the same parameters that the Field.fieldAction() gets,
+        // TODO: This method needs the same parameters that Field.fieldAction() gets,
         //       which will then be passed to it here
         fields[position].fieldAction();
     }
