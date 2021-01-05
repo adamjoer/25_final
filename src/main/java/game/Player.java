@@ -93,11 +93,12 @@ public class Player {
         account.setBalance(amount);
     }
 
-    public void setOldPosition(int oldPosition) {
+    private void setOldPosition(int oldPosition) {
         this.oldPosition = oldPosition;
     }
 
     public void setCurrentPosition(int currentPosition) {
+        this.oldPosition = this.currentPosition;
         this.currentPosition = currentPosition;
     }
 }

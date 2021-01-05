@@ -50,4 +50,20 @@ class PlayerTest {
         assertEquals(3, player.getProperties().length);
         assertEquals(3, player.getProperties()[2]);
     }
+
+    @Test
+    void movePlayer(){
+        assertEquals(0, player.getCurrentPosition());
+
+        player.movePlayer(3);
+
+        assertEquals(3, player.getCurrentPosition());
+        assertEquals(0, player.getOldPosition());
+
+        player.movePlayer(41);
+
+        assertEquals(4, player.getCurrentPosition());
+        assertEquals(3, player.getOldPosition());
+
+    }
 }
