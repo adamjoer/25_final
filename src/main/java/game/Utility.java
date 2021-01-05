@@ -26,64 +26,6 @@ public class Utility {
         NodeList fieldList = getXmlContent(filePath, "field");
         Field[] fields = new Field[fieldList.getLength()];
 
-        try {
-
-            // Go over each Node in the NodeList
-            for (int i = 0; i < fieldList.getLength(); i++) {
-
-                // Check if the node is an element
-                if (fieldList.item(i).getNodeType() == Node.ELEMENT_NODE) {
-
-                    // Convert the conde to an element
-                    Element ele = (Element) fieldList.item(i);
-
-                    // Extract general data from XML-elements
-                    String fieldType = getString(ele, "fieldType");
-                    String title = getString(ele, "title");
-                    String subText = getString(ele, "subText");
-                    String description = getString(ele, "description");
-
-                    // Extract potentially additional data and initialise object based on the field type
-                    switch (fieldType) {
-                        case "Property":
-                            fields[i] = new Property(title, subText, description, i,
-                                    getInt(ele, "value"),
-                                    new Color(getInt(ele, "color")),
-                                    getInt(ele, "relatedPropertyPosition")
-                            );
-                            break;
-
-                        case "Chance":
-                            fields[i] = new Chance(title, subText, description, i);
-                            break;
-
-                        case "Jail":
-                            fields[i] = new Jail(title, subText, description, i,
-                                    getInt(ele, "bail"),
-                                    getInt(ele, "goToJailPosition")
-                            );
-                            break;
-
-                        case "GoToJail":
-                            fields[i] = new GoToJail(title, subText, description, i,
-                                    getInt(ele, "jailPosition")
-                            );
-                            break;
-
-                        case "Parking":
-                            fields[i] = new Parking(title, subText, description, i);
-                            break;
-
-                        case "Go":
-                            fields[i] = new Go(title, subText, description, i);
-                            break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         // Return array of Field objects
         return fields;
     }
