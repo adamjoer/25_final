@@ -11,11 +11,20 @@ class PlayerTest {
     @Test
     void makeTransaction() {
 
-        player.getProperties();
-        assertTrue(player.makeTransaction(10));
+        System.out.println(player.getProperties().length);
+
+        player.addProperty(29);
+        player.addProperty(22);
+        player.addProperty(6);
+        player.addProperty(3);
+
+        System.out.println(player.getProperties().length);
+
+        assertTrue(true);
     }
 
     @Test
     void addProperty() {
+
     }
 }
