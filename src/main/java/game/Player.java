@@ -66,9 +66,9 @@ public class Player {
         }
     }
 
-    public void movePlayer(int newPosition){
+    public void movePlayer(int increment){
         oldPosition = currentPosition;
-        currentPosition = newPosition;
+        currentPosition = (currentPosition + increment) % 40;
     }
 
 
