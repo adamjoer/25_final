@@ -41,11 +41,24 @@ public class Property extends Field {
         // TODO: Implement buying property, or paying rent
     }
 
+    // Relevant getters
     public int getCurrentRent() {
         return rentLevels[propertyLevel];
     }
 
-    // Relevant getters
+    public int getNumberOfHouses() {
+        return switch (propertyLevel) {
+            case 0, 1, 6 -> 0;
+            case 2, 3, 4, 5 -> propertyLevel - 1;
+            default -> throw new IllegalArgumentException("propertyLevel has invalid value: " + propertyLevel);
+        };
+    }
+
+    public int getNumberOfHotels() {
+        if (propertyLevel == 6) return 1;
+        return 0;
+    }
+
     public int getCost() {
         return cost;
     }
