@@ -2,7 +2,7 @@
 <fieldList>
     <field>
         <fieldType>Start</fieldType>
-        <title>Start</title>
+        <title>START</title>
         <subText>Hver gang De passerer modtag kr. 4.000</subText>
         <description/>
         <reward>4000</reward>
@@ -24,7 +24,7 @@
             <seven>6000</seven>
         </rentStages>
         <pawnValue>600</pawnValue>
-        <color>0x000000</color>
+        <color>0x3b5998</color>
         <relatedProperties>2</relatedProperties>
         <nextRelatedProperty>3</nextRelatedProperty>
     </field>
@@ -51,7 +51,7 @@
             <seven>6000</seven>
         </rentStages>
         <pawnValue>600</pawnValue>
-        <color>0x000000</color>
+        <color>0x3b5998</color>
         <relatedProperties>2</relatedProperties>
         <nextRelatedProperty>1</nextRelatedProperty>
     </field>
@@ -94,7 +94,7 @@
             <seven>11000</seven>
         </rentStages>
         <pawnValue>1000</pawnValue>
-        <color>0x000000</color>
+        <color>0xb41f0f</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>8</nextRelatedProperty>
     </field>
@@ -121,7 +121,7 @@
             <seven>11000</seven>
         </rentStages>
         <pawnValue>1000</pawnValue>
-        <color>0x000000</color>
+        <color>0xb41f0f</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>9</nextRelatedProperty>
     </field>
@@ -142,7 +142,7 @@
             <seven>12000</seven>
         </rentStages>
         <pawnValue>1200</pawnValue>
-        <color>0x000000</color>
+        <color>0xb41f0f</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>6</nextRelatedProperty>
     </field>
@@ -169,7 +169,7 @@
             <seven>15000</seven>
         </rentStages>
         <pawnValue>1400</pawnValue>
-        <color>0x000000</color>
+        <color>0x227744</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>13</nextRelatedProperty>
     </field>
@@ -204,7 +204,7 @@
             <seven>15000</seven>
         </rentStages>
         <pawnValue>1400</pawnValue>
-        <color>0x000000</color>
+        <color>0x227744</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>14</nextRelatedProperty>
     </field>
@@ -225,7 +225,7 @@
             <seven>18000</seven>
         </rentStages>
         <pawnValue>1600</pawnValue>
-        <color>0x000000</color>
+        <color>0x227744</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>11</nextRelatedProperty>
     </field>
@@ -252,7 +252,7 @@
         <cost>3600</cost>
         <buildingCost>2000</buildingCost>
         <rentStages>
-            <one>30000</one>
+            <one>300</one>
             <two>600</two>
             <three>1400</three>
             <four>4000</four>
@@ -261,7 +261,7 @@
             <seven>19000</seven>
         </rentStages>
         <pawnValue>1800</pawnValue>
-        <color>0x000000</color>
+        <color>0xa1b49b</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>18</nextRelatedProperty>
     </field>
@@ -288,7 +288,7 @@
             <seven>19000</seven>
         </rentStages>
         <pawnValue>1800</pawnValue>
-        <color>0x000000</color>
+        <color>0xa1b49b</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>19</nextRelatedProperty>
     </field>
@@ -309,7 +309,7 @@
             <seven>20000</seven>
         </rentStages>
         <pawnValue>2000</pawnValue>
-        <color>0x000000</color>
+        <color>0xa1b49b</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>16</nextRelatedProperty>
     </field>
@@ -336,7 +336,7 @@
             <seven>21000</seven>
         </rentStages>
         <pawnValue>2200</pawnValue>
-        <color>0x000000</color>
+        <color>0xcd0000</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>23</nextRelatedProperty>
     </field>
@@ -363,7 +363,7 @@
             <seven>21000</seven>
         </rentStages>
         <pawnValue>2200</pawnValue>
-        <color>0x000000</color>
+        <color>0xcd0000</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>24</nextRelatedProperty>
     </field>
@@ -384,7 +384,7 @@
             <seven>22000</seven>
         </rentStages>
         <pawnValue>2400</pawnValue>
-        <color>0x000000</color>
+        <color>0xcd0000</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>21</nextRelatedProperty>
     </field>
@@ -421,7 +421,7 @@
             <seven>23000</seven>
         </rentStages>
         <pawnValue>2600</pawnValue>
-        <color>0x000000</color>
+        <color>0xf0f8ff</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>27</nextRelatedProperty>
     </field>
@@ -442,7 +442,7 @@
             <seven>23000</seven>
         </rentStages>
         <pawnValue>2600</pawnValue>
-        <color>0x000000</color>
+        <color>0xf0f8ff</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>29</nextRelatedProperty>
     </field>
@@ -477,7 +477,7 @@
             <seven>23000</seven>
         </rentStages>
         <pawnValue>2800</pawnValue>
-        <color>0x000000</color>
+        <color>0xf0f8ff</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>26</nextRelatedProperty>
     </field>
@@ -505,7 +505,7 @@
             <seven>26000</seven>
         </rentStages>
         <pawnValue>3000</pawnValue>
-        <color>0x000000</color>
+        <color>0xffd700</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>32</nextRelatedProperty>
     </field>
@@ -526,7 +526,7 @@
             <seven>26000</seven>
         </rentStages>
         <pawnValue>3000</pawnValue>
-        <color>0x000000</color>
+        <color>0xffd700</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>34</nextRelatedProperty>
     </field>
@@ -553,7 +553,7 @@
             <seven>28000</seven>
         </rentStages>
         <pawnValue>3200</pawnValue>
-        <color>0x000000</color>
+        <color>0xffd700</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>31</nextRelatedProperty>
     </field>
@@ -570,7 +570,6 @@
             <four>4000</four>
         </rentStages>
         <pawnValue>2000</pawnValue>
-        <color>0x000000</color>
         <relatedProperties>4</relatedProperties>
         <nextRelatedProperty>5</nextRelatedProperty>
     </field>
@@ -597,7 +596,7 @@
             <seven>30000</seven>
         </rentStages>
         <pawnValue>3500</pawnValue>
-        <color>0x000000</color>
+        <color>0x483d8b</color>
         <relatedProperties>2</relatedProperties>
         <nextRelatedProperty>39</nextRelatedProperty>
     </field>
@@ -625,7 +624,7 @@
             <seven>40000</seven>
         </rentStages>
         <pawnValue>4000</pawnValue>
-        <color>0x000000</color>
+        <color>0x483d8b</color>
         <relatedProperties>2</relatedProperties>
         <nextRelatedProperty>37</nextRelatedProperty>
     </field>
