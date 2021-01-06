@@ -30,6 +30,7 @@ class PlayerControllerTest {
         }
 
         assertTrue(pc.makePlayerTransaction(0, 2, 20000));
+
         assertEquals(10000, pc.getPlayerBalance(0));
     }
 

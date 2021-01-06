@@ -37,7 +37,7 @@ class PlayerTest {
     }
 
     @Test
-    void removeProperty(){
+    void removeProperty() {
 
         player.addProperty(29);
         player.addProperty(22);
@@ -52,7 +52,7 @@ class PlayerTest {
     }
 
     @Test
-    void movePlayer(){
+    void movePlayer() {
         assertEquals(0, player.getCurrentPosition());
 
         player.movePlayer(3);

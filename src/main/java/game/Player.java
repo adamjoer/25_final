@@ -3,7 +3,7 @@ package game;
 import org.apache.commons.lang.ArrayUtils;
 
 public class Player {
-    
+
     private Account account;
     private int previousPosition;
     private int currentPosition;
@@ -13,7 +13,7 @@ public class Player {
 
 
     /**
-     * @param NAME : Name of the player
+     * @param NAME         : Name of the player
      * @param startBalance : The amount of money they start off with
      */
     public Player(String NAME, int startBalance) {
@@ -26,24 +26,24 @@ public class Player {
      * @param amount : Amount to transfer
      * @return : Return true if transfer was sucessfull, return false if player doesn't have anough money
      */
-    public boolean makeTransaction(int amount){
-        if(getBalance() >= -amount){
+    public boolean makeTransaction(int amount) {
+        if (getBalance() >= -amount) {
             setBalance(getBalance() + amount);
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    /** Method for adding properties to a player
+    /**
+     * Method for adding properties to a player
+     *
      * @param place : The new place for the player to own
      */
-    public void addProperty(int place){
-        if(properties[0] == 0){
+    public void addProperty(int place) {
+        if (properties[0] == 0) {
             properties[0] = place;
-        }
-        else{
+        } else {
             int[] newList = new int[properties.length + 1];
             System.arraycopy(properties, 0, newList, 0, properties.length);
             newList[properties.length] = place;
@@ -54,17 +54,19 @@ public class Player {
     }
 
 
-    /** Method used to remove a property from a player
+    /**
+     * Method used to remove a property from a player
+     *
      * @param place : The place to remove from the player
      */
-    public void removeProperty(int place){
+    public void removeProperty(int place) {
         boolean owned = false;
-        for(int i : properties){
-            if(i == place){
+        for (int i : properties) {
+            if (i == place) {
                 owned = true;
             }
         }
-        if(owned){
+        if (owned) {
             int[] newList = new int[properties.length - 1];
             properties[ArrayUtils.indexOf(properties, place)] = properties[properties.length - 1];
             System.arraycopy(properties, 0, newList, 0, newList.length);
@@ -75,7 +77,7 @@ public class Player {
     /**
      * @param increment : The amount to increment the players position
      */
-    public void movePlayer(int increment){
+    public void movePlayer(int increment) {
         previousPosition = currentPosition;
         currentPosition = (currentPosition + increment) % BOARD_LENGTH;
     }
@@ -85,7 +87,7 @@ public class Player {
         return account.getBalance();
     }
 
-    public int[] getProperties(){
+    public int[] getProperties() {
         return properties;
     }
 
@@ -97,7 +99,7 @@ public class Player {
         return previousPosition;
     }
 
-    public void setBalance(int amount){
+    public void setBalance(int amount) {
         account.setBalance(amount);
     }
 
