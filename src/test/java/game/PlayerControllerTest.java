@@ -10,28 +10,19 @@ class PlayerControllerTest {
 
     @Test
     void makeTransaction() {
-        assertTrue(pc.makeTransaction(1, 1000));
+        assertTrue(pc.makeTransaction(1000, 1));
 
-        assertTrue(pc.makeTransaction(1, -1000));
+        assertTrue(pc.makeTransaction(-1000, 1));
 
-        assertFalse(pc.makeTransaction(2, -30001));
+        assertFalse(pc.makeTransaction(-30001, 2));
 
-        assertTrue(pc.makeTransaction(2, -30000));
+        assertTrue(pc.makeTransaction(-30000, 2));
 
-        assertFalse(pc.makeTransaction(2, -3000));
+        assertFalse(pc.makeTransaction(-3000, 2));
 
-    }
+        assertTrue(pc.makeTransaction(1000, 0, 3));
+        assertEquals(31000, pc.getPlayerBalance(3));
 
-    @Test
-    void makePlayerTransaction() {
-
-        for (Player p : pc.players) {
-            p.setBalance(30000);
-        }
-
-        assertTrue(pc.makePlayerTransaction(0, 2, 20000));
-
-        assertEquals(10000, pc.getPlayerBalance(0));
     }
 
     @Test

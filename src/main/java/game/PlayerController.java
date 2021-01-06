@@ -26,7 +26,7 @@ public class PlayerController {
      * @param amount : The amount to transfer/withdraw
      * @return True if successfull transaction, otherwise false
      */
-    public boolean makeTransaction(int player, int amount) {
+    public boolean makeTransaction(int amount, int player) {
         return players[player].makeTransaction(amount);
     }
 
@@ -39,7 +39,7 @@ public class PlayerController {
      * @param amount   : The amount to transfer
      * @return True if the transaction was a success, false if the sender doens't have enough money
      */
-    public boolean makePlayerTransaction(int sender, int receiver, int amount) {
+    public boolean makeTransaction(int amount, int sender, int receiver) {
         if (players[sender].makeTransaction(-amount)) {
             players[receiver].makeTransaction(amount);
             return true;
