@@ -84,6 +84,11 @@ class PlayerControllerTest {
         assertTrue(pc.giftPlayer(1, 100));
 
         assertEquals(30300, pc.getPlayerBalance(1));
+        assertEquals(29900, pc.getPlayerBalance(0));
+        assertEquals(29900, pc.getPlayerBalance(2));
+        assertEquals(29900, pc.getPlayerBalance(3));
+
+        assertFalse(pc.giftPlayer(1, 30000));
 
     }
 }
