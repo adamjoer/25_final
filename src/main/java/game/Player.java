@@ -31,6 +31,7 @@ public class Player {
             setBalance(getBalance() + amount);
             return true;
         } else {
+            setBalance(0);
             return false;
         }
     }
