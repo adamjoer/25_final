@@ -72,11 +72,18 @@ class PlayerControllerTest {
         pc.removeProperty(1, 12);
 
         assertEquals(2, pc.getProperties(1).length);
-
-
     }
 
     @Test
     void giftPlayer() {
+        for(Player p : pc.players){
+            p.setBalance(30000);
+        }
+
+
+        assertTrue(pc.giftPlayer(1, 100));
+
+        assertEquals(30300, pc.getPlayerBalance(1));
+
     }
 }
