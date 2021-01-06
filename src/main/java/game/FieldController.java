@@ -60,11 +60,23 @@ public class FieldController {
      * @return True if player has passed, or is on the 'Go' field, false otherwise
      */
     public boolean hasPassedGo(int previousPosition, int currentPosition) {
-        // FIXME: Should this just be placed in Board?
 
         // If start field position is zero, player will have passed start if their position has overflowed to a smaller value,
         // i.e. their previous position is larger than their current position
         return previousPosition > currentPosition;
+    }
+
+    /**
+     * Method for getting the cost of rent on a specific property on bard
+     * The cost of rent can fluctuate depending on different factors
+     *
+     * @param propertyPosition The position on board of specific property
+     * @return The current cost of rent on the specified property
+     */
+    public int getCurrentRent(int propertyPosition) {
+
+        // FIXME: This should be changed when Shipping and Brewery classed are added
+        return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
     // Relevant getters
