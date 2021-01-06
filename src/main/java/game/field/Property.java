@@ -41,6 +41,10 @@ public class Property extends Field {
         // TODO: Implement buying property, or paying rent
     }
 
+    public int getCurrentRent() {
+        return rentLevels[propertyLevel];
+    }
+
     // Relevant getters
     public int getCost() {
         return cost;
