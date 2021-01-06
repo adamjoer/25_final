@@ -88,17 +88,17 @@ public class Utility {
                         case "GoToJail":
                             int jailPosition = getInt(ele,"jailPosition");
 
-                            fieldArr[i] = new GoToJail(title, subText, description, color, i, jailPosition);
+                            fieldArr[i] = new GoToJail(title, subText, description, i, color, jailPosition);
 
                             break;
                         case "Parking":
-                            fieldArr[i] = new Parking(title, subText, description, color, i);
+                            fieldArr[i] = new Parking(title, subText, description, i, color);
 
                             break;
                         case "Start":
                             int reward = getInt(ele,"reward");
 
-                            fieldArr[i] = new Start(title, subText, description, color, i);
+                            fieldArr[i] = new Start(title, subText, description, i, color);
 
                             break;
                         case "TaxField":
