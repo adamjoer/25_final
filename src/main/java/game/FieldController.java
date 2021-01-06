@@ -74,8 +74,6 @@ public class FieldController {
      * @return The current cost of rent on the specified property
      */
     public int getCurrentRent(int propertyPosition) {
-
-        // FIXME: This should be changed when Shipping and Brewery classed are added
         return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
