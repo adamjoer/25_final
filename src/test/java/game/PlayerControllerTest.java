@@ -10,15 +10,41 @@ class PlayerControllerTest {
 
     @Test
     void makeTransaction() {
+        assertTrue(pc.makeTransaction(1, 1000));
+
+        assertTrue(pc.makeTransaction(1, -1000));
+
+        assertFalse(pc.makeTransaction(2, -30001));
+
+        assertTrue(pc.makeTransaction(2, -30000));
+
+        assertFalse(pc.makeTransaction(2, -3000));
 
     }
 
     @Test
     void movePlayer() {
+        assertEquals(0, pc.getPlayerPosition(0));
+
+        pc.movePlayer(0, 5);
+
+        assertEquals(5, pc.getPlayerPosition(0));
+
+        pc.movePlayer(0, 39);
+
+        assertEquals(4, pc.getPlayerPosition(0));
+
+        pc.movePlayer(3, 38);
+
+        assertEquals(38, pc.getPlayerPosition(3));
+
     }
 
     @Test
     void addProperty() {
+        assertEquals(1, pc.getProperties(0).length);
+
+
     }
 
     @Test
