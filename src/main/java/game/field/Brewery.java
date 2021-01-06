@@ -27,6 +27,10 @@ public class Brewery extends Field {
     }
 
     // Relevant getters
+    public int getCurrentRent() {
+        return rentLevels[propertyLevel];
+    }
+
     public int getCost() {
         return cost;
     }
