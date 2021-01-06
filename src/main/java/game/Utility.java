@@ -24,10 +24,98 @@ public class Utility {
 
         // Load XML-file and get a list of field data.
         NodeList fieldList = getXmlContent(filePath, "field");
-        Field[] fields = new Field[fieldList.getLength()];
+        Field[] fieldArr = new Field[fieldList.getLength()];
+        try {
 
+            // Extract data from each fieldList element and create Field objects for the Field[].
+            for (int i = 0; i < fieldList.getLength(); i++) {
+
+                Node field = fieldList.item(i);
+
+                if (field.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element ele = (Element) field;
+                    Color color = new Color(getInt(ele,"color"));
+                    String fieldType = getString(ele,"fieldType");
+                    String title = getString(ele, "title");
+                    String subText = getString(ele, "subText");
+                    String description = getString(ele, "description");
+                    int cost, buildingCost, pawnValue, relatedProperties,nextRelatedProperty;
+                    int[] rentLevels;
+                    switch (fieldType){
+                        case "Property":
+                            cost = getInt(ele,"cost");
+                            buildingCost = getInt(ele,"buildingCost");
+                            pawnValue = getInt(ele,"pawnValue");
+                            rentLevels = getIntArray(ele,"rentStages");
+                            relatedProperties = getInt(ele, "relatedProperties");
+                            nextRelatedProperty = getInt(ele, "relatedProperty");
+
+                            fieldArr[i] = new Property(title, subText, description, i, color, cost, buildingCost,
+                                    pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+
+                            break;
+                        case "Brewery":
+                            cost = getInt(ele,"cost");
+                            pawnValue = getInt(ele,"pawnValue");
+                            rentLevels = getIntArray(ele,"rentStages");
+                            relatedProperties = getInt(ele,"relatedProperties");
+                            nextRelatedProperty = getInt(ele,"nextRelatedProperty");
+
+                            fieldArr[i] = new Brewery(title, subText, description, i, color, cost, pawnValue, rentLevels,
+                                    relatedProperties, nextRelatedProperty);
+                            break;
+                        case "Shipping":
+                            cost = getInt(ele,"cost");
+                            pawnValue = getInt(ele,"pawnValue");
+                            rentLevels = getIntArray(ele,"rentStages");
+                            relatedProperties = getInt(ele,"relatedProperties");
+                            nextRelatedProperty = getInt(ele,"nextRelatedProperty");
+
+                            fieldArr[i] = new Shipping(title, subText, description, i, color, cost, pawnValue, rentLevels,
+                                    relatedProperties, nextRelatedProperty);
+                            break;
+                        case "Chance":
+                            fieldArr[i] = new Chance(title, subText, description, i, color);
+
+                            break;
+                        case "Jail":
+                            int bail = getInt(ele,"bail");
+
+                            fieldArr[i] = new Jail(title, subText, description, i, color, bail);
+
+                            break;
+                        case "GoToJail":
+                            int jailPosition = getInt(ele,"jailPosition");
+
+                            fieldArr[i] = new GoToJail(title, subText, description, color, i, jailPosition);
+
+                            break;
+                        case "Parking":
+                            fieldArr[i] = new Parking(title, subText, description, color, i);
+
+                            break;
+                        case "Start":
+                            int reward = getInt(ele,"reward");
+
+                            fieldArr[i] = new Start(title, subText, description, color, i);
+
+                            break;
+                        case "TaxField":
+                            int fine = getInt(ele,"fine");
+
+                            fieldArr[i] = new TaxField(title, subText, description, color, i, fine);
+
+                            break;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Return array of Field objects
-        return fields;
+        return fieldArr;
     }
 
     /**
@@ -44,7 +132,7 @@ public class Utility {
 
         try {
 
-            // Go over each Node int the NodeList
+            // Go over each Node in the NodeList
             for (int i = 0; i < stringRefList.getLength(); i++) {
 
                 // Check if node is an element
