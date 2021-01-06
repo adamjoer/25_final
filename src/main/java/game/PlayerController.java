@@ -34,8 +34,45 @@ public class PlayerController {
 
     public boolean giftPlayer(int player, int amountFromOthers){
         for(int i = 0; i < players.length; i++){
-            if()
+            if(i == player){
+                players[player].makeTransaction(amountFromOthers * (players.length - 1));
+            }
+            else{
+                if(players[i].makeTransaction(-amountFromOthers)){
+                    //do nothing
+                }
+                else{
+                    return false;
+                }
+            }
         }
+        return true;
+    }
+
+
+
+    public int[] getProperties(int player){
+        return players[player].getProperties();
+    }
+
+    public int getPlayerPosition(int player){
+        return players[player].getCurrentPosition();
+    }
+
+    public int getOldPlayerPosition(int player){
+        return players[player].getOldPosition();
+    }
+
+    public int getPlayerBalance(int player){
+        return players[player].getBalance();
+    }
+
+    public void setPlayerPosition(int player, int position){
+        players[player].setCurrentPosition(position);
+    }
+
+    public void setPlayerBalance(int player, int balance){
+        players[player].setBalance(balance);
     }
 
 }
