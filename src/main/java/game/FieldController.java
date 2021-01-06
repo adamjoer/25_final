@@ -67,7 +67,7 @@ public class FieldController {
     }
 
     /**
-     * Method for getting the cost of rent on a specific property on bard
+     * Method for getting the cost of rent on a specific property
      * The cost of rent can fluctuate depending on different factors
      *
      * @param propertyPosition The position on board of specific property
