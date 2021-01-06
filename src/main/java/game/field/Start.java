@@ -1,8 +1,8 @@
 package game.field;
 
-public class Go extends Field {
+public class Start extends Field {
 
-    public Go(String title, String subText, String description, int position) {
+    public Start(String title, String subText, String description, int position) {
         super(title, subText, description, position);
     }
 
