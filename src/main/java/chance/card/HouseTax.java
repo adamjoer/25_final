@@ -5,8 +5,9 @@ public class HouseTax extends ChanceCard {
     public final int amount;
     public final int cardnumber;
     public static int increment;
-    public static int priceIncrease;
+    public static int houseTax;
     public static int destination;
+    public static int player;
     public static boolean prison;
 
     public static Instructions instructions;
@@ -17,18 +18,19 @@ public class HouseTax extends ChanceCard {
      * @param amount
      * @param cardnumber
      */
-    public HouseTax(String CARD_TEXT, int amount, int cardnumber){
+    public HouseTax(String CARD_TEXT, int amount, int cardnumber, int player){
         super(CARD_TEXT);
         this.amount = amount;
         this.cardnumber = cardnumber;
+        this.player = player;
         this.increment = 0;
-        this.priceIncrease = 0;
+        this.houseTax = 0;
         this.prison = false;
 
     }
 
     public Instructions executeCard(){
-        instructions = new Instructions(amount, cardnumber, increment, priceIncrease, destination, prison);
+        instructions = new Instructions(cardnumber, amount, increment, destination, houseTax, player, prison);
         return instructions;
     }
 }

@@ -5,9 +5,9 @@ public class Instructions {
     int cardnumber;
     int amount;
     int increment;
-    int priceIncrease;
-    int destiantion;
-    int playerNumber;
+    int houseTax;
+    int destination;
+    int player;
     boolean prison;
 
 
@@ -16,18 +16,19 @@ public class Instructions {
      * @param cardnumber
      * @param amount
      * @param increment
-     * @param destiantion
-     * @param priceIncrease
+     * @param destination
+     * @param houseTax
      * @param prison
      */
-    public Instructions (int cardnumber, int amount, int increment, int destiantion, int priceIncrease, boolean prison){
+    public Instructions (int cardnumber, int amount, int increment, int destination, int houseTax, int player, boolean prison){
 
         this.cardnumber = cardnumber;
         this.amount = amount;
         this.increment = increment;
         this.prison = prison;
-        this.priceIncrease = priceIncrease;
-        this.destiantion = destiantion;
+        this.houseTax = houseTax;
+        this.player = player;
+        this.destination = destination;
 
 
     }
@@ -38,20 +39,21 @@ public class Instructions {
     public void choices(){
 
         switch(cardnumber){
-            case 1: players[player].adjustBalance(amount); break; /* transaction with bank */
+            case 1: players.makeTransaction(amount, player); break; /* transaction with bank */
 
             case 2: players[player].giftPlayer(amount); break; /* get from other players */
 
-            case 3: players[player].adjustbalance(amount*priceIncrease); break; /* pay price pr house */
+            case 3: amount = amount*houseTax;
+                    players.makeTransaction(amount, player); break; /* pay price pr house ... skal lige fikses med hensyn til huse*/
 
-            case 4: player[player].movePlayer(increment); break; /* moves player increments forward or backwards */
+            case 4: players[player].movePlayer(increment); break; /* moves player increments forward or backwards */
 
-            case 5: players[player].setDestination(destiantion); break; /* moves player to a specific location */
+            case 5: players[player].setDestination(destination); break; /* moves player to a specific location */
 
             case 6: players[player].goToPrison(prison); break; /* sends player to prison */
 
-            case 7: if(players.getPlayerBalance(player) ==15000 || players.getPlayerBalance(player)>15000)
-                        {players.makeTransaction(amount, playerNumber);} break;
+            case 7: if(players.getPlayerBalance(player)==15000 || players.getPlayerBalance(player)>15000)
+                        {players.makeTransaction(amount, player);} break;
 
 
         }

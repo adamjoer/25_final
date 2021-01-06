@@ -5,8 +5,9 @@ public class Lottery extends ChanceCard {
     public final int amount;
     public final int cardnumber;
     public static int increment;
-    public static int priceIncrease;
+    public static int houseTax;
     public static int destination;
+    public static int player;
     public static boolean prison;
 
     public static Instructions instructions;
@@ -22,13 +23,15 @@ public class Lottery extends ChanceCard {
         this.amount = amount;
         this.cardnumber = cardnumber;
         this.increment = 0;
-        this.priceIncrease = 0;
+        this.player = 0;
+        this.destination = 0;
+        this.houseTax = 0;
         this.prison = false;
 
     }
 
     public Instructions executeCard(){
-        instructions = new Instructions(amount, cardnumber, increment, priceIncrease, destination, prison);
+        instructions = new Instructions(cardnumber, amount, increment, destination, houseTax, player, prison);
         return instructions;
     }
 }
