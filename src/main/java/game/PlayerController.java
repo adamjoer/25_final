@@ -12,6 +12,12 @@ public class PlayerController {
         for(int i = 0; i < playerNames.length; i++){
             players[i] = new Player(playerNames[i], startBalance);
         }
-
     }
+
+
+    public boolean makeTransaction(int player, int amount){
+        return players[player].makeTransaction(amount);
+    }
+
+
 }
