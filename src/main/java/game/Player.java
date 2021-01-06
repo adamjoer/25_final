@@ -11,6 +11,10 @@ public class Player {
     private final String NAME;
 
 
+    /**
+     * @param NAME : Name of the player
+     * @param startBalance : The amount of money they start off with
+     */
     public Player(String NAME, int startBalance) {
         account = new Account(startBalance);
         this.NAME = NAME;
