@@ -59,7 +59,7 @@ public class FieldController {
      * @param currentPosition  The player's current position
      * @return True if player has passed, or is on the 'Go' field, false otherwise
      */
-    public boolean hasPassedGo(int previousPosition, int currentPosition) {
+    public boolean hasPassedStart(int previousPosition, int currentPosition) {
 
         // If start field position is zero, player will have passed start if their position has overflowed to a smaller value,
         // i.e. their previous position is larger than their current position
