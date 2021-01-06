@@ -53,19 +53,27 @@ class PlayerControllerTest {
 
         assertEquals(3, pc.getProperties(0).length);
 
-        pc.removeProperty(0, 23);
-        pc.removeProperty(0, 29);
-
-        assertEquals(2, pc.getProperties(0).length);
-
-
-
-
-
     }
 
     @Test
     void removeProperty() {
+        assertEquals(1, pc.getProperties(1).length);
+
+        pc.addProperty(1, 11);
+        pc.addProperty(1, 20);
+
+        pc.removeProperty(1, 11);
+
+        assertEquals(1, pc.getProperties(1).length);
+
+        pc.addProperty(1, 12);
+        pc.addProperty(1, 21);
+
+        pc.removeProperty(1, 12);
+
+        assertEquals(2, pc.getProperties(1).length);
+
+
     }
 
     @Test
