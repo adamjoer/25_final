@@ -20,4 +20,22 @@ public class PlayerController {
     }
 
 
+    public void movePlayer(int player, int increment){
+        players[player].movePlayer(increment);
+    }
+
+    public void addProperty(int player, int place){
+        players[player].addProperty(place);
+    }
+
+    public void removeProperty(int player, int place){
+        players[player].removeProperty(place);
+    }
+
+    public boolean giftPlayer(int player, int amountFromOthers){
+        for(int i = 0; i < players.length; i++){
+            if()
+        }
+    }
+
 }
