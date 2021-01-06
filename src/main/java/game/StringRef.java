@@ -35,4 +35,3 @@ public class StringRef {
         return outputString;
     }
 }
-
