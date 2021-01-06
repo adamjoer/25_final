@@ -3,11 +3,9 @@ package game.field;
 public class Jail extends Field{
 
     private final int bail;
-    private final int goToJailPosition;
 
-    public Jail(String title, String subText, String description, int position, int bail, int goToJailPosition) {
+    public Jail(String title, String subText, String description, int position, int bail) {
         super(title, subText, description, position);
-        this.goToJailPosition = goToJailPosition;
         this.bail = bail;
     }
 
@@ -17,7 +15,6 @@ public class Jail extends Field{
 
     public String toString() {
         return super.toString() +
-               "\n\t[bail=" + bail +
-               "]\n\t[goToJailPosition=" + goToJailPosition + ']';
+               "\n\t[bail=" + bail + ']';
     }
 }
