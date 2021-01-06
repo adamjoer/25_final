@@ -3,13 +3,12 @@ package game;
 public class PlayerController {
 
     Player[] players;
-    private final int startBalance = 30000;
 
 
     /** Make a list of players, with their given names and set their bank account balance
      * @param playerNames : A list of playernames, also used to determine how many players are in the game
      */
-    public PlayerController(String[] playerNames) {
+    public PlayerController(String[] playerNames, int startBalance) {
         players = new Player[playerNames.length];
 
         for(int i = 0; i < playerNames.length; i++){
@@ -25,6 +24,23 @@ public class PlayerController {
      */
     public boolean makeTransaction(int player, int amount){
         return players[player].makeTransaction(amount);
+    }
+
+
+    /** Method to send money between money
+     * @param sender : The player who sends money
+     * @param receiver : The player who receives money
+     * @param amount : The amount to transfer
+     * @return True if the transaction was a success, false if the sender doens't have enough money
+     */
+    public boolean makePlayerTransaction(int sender, int receiver, int amount){
+        if(players[sender].makeTransaction(-amount)){
+            players[receiver].makeTransaction(amount);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 
@@ -85,7 +101,7 @@ public class PlayerController {
     }
 
     public int getOldPlayerPosition(int player){
-        return players[player].getOldPosition();
+        return players[player].getPreviousPosition();
     }
 
     public int getPlayerBalance(int player){

@@ -58,12 +58,12 @@ class PlayerTest {
         player.movePlayer(3);
 
         assertEquals(3, player.getCurrentPosition());
-        assertEquals(0, player.getOldPosition());
+        assertEquals(0, player.getPreviousPosition());
 
         player.movePlayer(41);
 
         assertEquals(4, player.getCurrentPosition());
-        assertEquals(3, player.getOldPosition());
+        assertEquals(3, player.getPreviousPosition());
 
     }
 }

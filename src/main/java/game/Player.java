@@ -1,14 +1,15 @@
 package game;
 
-import java.util.Arrays;
+import org.apache.commons.lang.ArrayUtils;
 
 public class Player {
     
     private Account account;
-    private int oldPosition;
+    private int previousPosition;
     private int currentPosition;
     private int[] properties = new int[1];
     private final String NAME;
+    private final int BOARD_LENGTH = 40;
 
 
     /**
@@ -44,9 +45,7 @@ public class Player {
         }
         else{
             int[] newList = new int[properties.length + 1];
-            for(int i = 0; i < properties.length; i++){
-                newList[i] = properties[i];
-            }
+            System.arraycopy(properties, 0, newList, 0, properties.length);
             newList[properties.length] = place;
 
             properties = newList;
@@ -67,12 +66,8 @@ public class Player {
         }
         if(owned){
             int[] newList = new int[properties.length - 1];
-            for(int i = 0; i < properties.length - 1; i++){
-                if(properties[i] == place){
-                    properties[i] = properties[properties.length - 1];
-                }
-                newList[i] = properties[i];
-            }
+            properties[ArrayUtils.indexOf(properties, place)] = properties[properties.length - 1];
+            System.arraycopy(properties, 0, newList, 0, newList.length);
             properties = newList;
         }
     }
@@ -81,8 +76,8 @@ public class Player {
      * @param increment : The amount to increment the players position
      */
     public void movePlayer(int increment){
-        oldPosition = currentPosition;
-        currentPosition = (currentPosition + increment) % 40;
+        previousPosition = currentPosition;
+        currentPosition = (currentPosition + increment) % BOARD_LENGTH;
     }
 
 
@@ -98,8 +93,8 @@ public class Player {
         return currentPosition;
     }
 
-    public int getOldPosition() {
-        return oldPosition;
+    public int getPreviousPosition() {
+        return previousPosition;
     }
 
     public void setBalance(int amount){
@@ -107,7 +102,7 @@ public class Player {
     }
 
     public void setCurrentPosition(int currentPosition) {
-        this.oldPosition = this.currentPosition;
+        this.previousPosition = this.currentPosition;
         this.currentPosition = currentPosition;
     }
 }
