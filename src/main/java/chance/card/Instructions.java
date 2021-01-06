@@ -7,6 +7,7 @@ public class Instructions {
     int increment;
     int priceIncrease;
     int destiantion;
+    int playerNumber;
     boolean prison;
 
 
@@ -48,6 +49,11 @@ public class Instructions {
             case 5: players[player].setDestination(destiantion); break; /* moves player to a specific location */
 
             case 6: players[player].goToPrison(prison); break; /* sends player to prison */
+
+            case 7: if(players.getPlayerBalance(player) ==15000 || players.getPlayerBalance(player)>15000)
+                        {players.makeTransaction(amount, playerNumber);} break;
+
+
         }
 
 
