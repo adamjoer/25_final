@@ -37,19 +37,17 @@ public class Instructions {
     public void choices(){
 
         switch(cardnumber){
-            case 1: players[player].adjustBalance(amount); break; /* get from bank */
+            case 1: players[player].adjustBalance(amount); break; /* transaction with bank */
 
-            case 2: players[player].adjustBalance(-amount); break; /* give to bank */
+            case 2: players[player].giftPlayer(amount); break; /* get from other players */
 
-            case 3: players[player].giftPlayer(amount); break; /* get from other players */
+            case 3: players[player].adjustbalance(amount*priceIncrease); break; /* pay price pr house */
 
-            case 4: players[player].adjustbalance(amount*priceIncrease); break; /* pay price pr house */
+            case 4: player[player].movePlayer(increment); break; /* moves player increments forward or backwards */
 
-            case 5: player[player].movePlayer(increment); break; /* moves player increments forward or backwards */
+            case 5: players[player].setDestination(destiantion); break; /* moves player to a specific location */
 
-            case 6: players[player].setDestination(destiantion); break; /* moves player to a specific location */
-
-            case 7: players[player].goToPrison(prison); break; /* sends player to prison */
+            case 6: players[player].goToPrison(prison); break; /* sends player to prison */
         }
 
 

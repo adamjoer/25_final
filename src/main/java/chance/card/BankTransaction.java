@@ -1,6 +1,6 @@
 package chance.card;
 
-public class CashFromBank extends ChanceCard {
+public class BankTransaction extends ChanceCard {
 
     public final int amount;
     public final int cardnumber;
@@ -16,7 +16,7 @@ public class CashFromBank extends ChanceCard {
      * @param amount
      * @param cardnumber
      */
-    public CashFromBank(String CARD_TEXT, int amount, int cardnumber){
+    public BankTransaction(String CARD_TEXT, int amount, int cardnumber){
         super(CARD_TEXT);
         this.amount = amount;
         this.cardnumber = cardnumber;
