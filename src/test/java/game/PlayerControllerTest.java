@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerControllerTest {
 
-    PlayerController pc = new PlayerController(new String[]{"John", "Elise", "Jane", "Carsten", "Bo", "Jeff"});
+    PlayerController pc = new PlayerController(new String[]{"John", "Elise", "Jane", "Carsten", "Bo", "Jeff"}, 30000);
 
     @Test
     void makeTransaction() {
@@ -20,6 +20,17 @@ class PlayerControllerTest {
 
         assertFalse(pc.makeTransaction(2, -3000));
 
+    }
+
+    @Test
+    void makePlayerTransaction() {
+
+        for (Player p : pc.players) {
+            p.setBalance(30000);
+        }
+
+        assertTrue(pc.makePlayerTransaction(0, 2, 20000));
+        assertEquals(10000, pc.getPlayerBalance(0));
     }
 
     @Test
@@ -76,7 +87,7 @@ class PlayerControllerTest {
 
     @Test
     void giftPlayer() {
-        for(Player p : pc.players){
+        for (Player p : pc.players) {
             p.setBalance(30000);
         }
 
