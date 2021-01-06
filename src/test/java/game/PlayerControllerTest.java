@@ -44,6 +44,23 @@ class PlayerControllerTest {
     void addProperty() {
         assertEquals(1, pc.getProperties(0).length);
 
+        pc.addProperty(0, 28);
+
+        assertEquals(1, pc.getProperties(0).length);
+
+        pc.addProperty(0, 26);
+        pc.addProperty(0, 23);
+
+        assertEquals(3, pc.getProperties(0).length);
+
+        pc.removeProperty(0, 23);
+        pc.removeProperty(0, 29);
+
+        assertEquals(2, pc.getProperties(0).length);
+
+
+
+
 
     }
 
