@@ -3,7 +3,7 @@ package game.field;
 import java.awt.Color;
 import java.util.Arrays;
 
-public class Property extends Field {
+public class Street extends Field {
 
     // Attributes
     private final int cost;
@@ -25,8 +25,8 @@ public class Property extends Field {
     //      5: With four houses built on it
     //      6: With a hotel built on it
 
-    public Property(String title, String subText, String description, int position, int cost, int buildingCost, int pawnValue, Color color, int[] rent,
-                    int relatedProperties, int nextRelatedProperty) {
+    public Street(String title, String subText, String description, int position, int cost, int buildingCost, int pawnValue, Color color, int[] rent,
+                  int relatedProperties, int nextRelatedProperty) {
         super(title, subText, description, position);
         this.cost = cost;
         this.buildingCost = buildingCost;
