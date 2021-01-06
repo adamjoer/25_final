@@ -44,6 +44,7 @@ public class PlayerController {
             players[receiver].makeTransaction(amount);
             return true;
         } else {
+            players[sender].setBalance(0);
             return false;
         }
     }
@@ -94,6 +95,7 @@ public class PlayerController {
                 if (players[i].makeTransaction(-amountFromOthers)) {
                     //do nothing
                 } else {
+                    players[i].setBalance(0);
                     return false;
                 }
             }

@@ -7,7 +7,7 @@ public class Player {
     private Account account;
     private int previousPosition;
     private int currentPosition;
-    private int[] properties = new int[1];
+    private int[] properties = new int[0];
     private final String NAME;
     private final int BOARD_LENGTH = 40;
 
@@ -31,6 +31,7 @@ public class Player {
             setBalance(getBalance() + amount);
             return true;
         } else {
+            setBalance(0);
             return false;
         }
     }
@@ -41,16 +42,11 @@ public class Player {
      * @param place : The new place for the player to own
      */
     public void addProperty(int place) {
-        if (properties[0] == 0) {
-            properties[0] = place;
-        } else {
-            int[] newList = new int[properties.length + 1];
-            System.arraycopy(properties, 0, newList, 0, properties.length);
-            newList[properties.length] = place;
+        int[] newList = new int[properties.length + 1];
+        System.arraycopy(properties, 0, newList, 0, properties.length);
+        newList[properties.length] = place;
 
-            properties = newList;
-        }
-
+        properties = newList;
     }
 
 
@@ -68,8 +64,13 @@ public class Player {
         }
         if (owned) {
             int[] newList = new int[properties.length - 1];
-            properties[ArrayUtils.indexOf(properties, place)] = properties[properties.length - 1];
-            System.arraycopy(properties, 0, newList, 0, newList.length);
+            if(newList.length == 0){
+                //do nothing
+            }
+            else{
+                properties[ArrayUtils.indexOf(properties, place)] = properties[properties.length - 1];
+                System.arraycopy(properties, 0, newList, 0, newList.length);
+            }
             properties = newList;
         }
     }
