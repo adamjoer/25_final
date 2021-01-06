@@ -94,6 +94,7 @@ public class PlayerController {
                 if (players[i].makeTransaction(-amountFromOthers)) {
                     //do nothing
                 } else {
+                    players[i].setBalance(0);
                     return false;
                 }
             }
