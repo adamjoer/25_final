@@ -1,7 +1,5 @@
 package game.field;
 
-import game.*;
-
 import java.awt.Color;
 
 public class Parking extends Field {
@@ -10,8 +8,8 @@ public class Parking extends Field {
         super(title, subText, description, position, color);
     }
 
-    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
+    public FieldInstruction fieldAction(int player) {
         // Do nothing
-        return false;
+        return null;
     }
 }

@@ -1,7 +1,5 @@
 package game.field;
 
-import game.*;
-
 import java.awt.Color;
 
 public class TaxField extends Field {
@@ -13,9 +11,9 @@ public class TaxField extends Field {
         this.fine = fine;
     }
 
-    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
+    public FieldInstruction fieldAction(int player) {
         // TODO: Implement whatever happens on this field
-        return false;
+        return null;
     }
 
     //Relevant getters

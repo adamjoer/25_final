@@ -1,7 +1,5 @@
 package game.field;
 
-import game.*;
-
 import java.awt.Color;
 
 public class Shipping extends Property {
@@ -10,8 +8,8 @@ public class Shipping extends Property {
         super(title, subText, description, position, color, cost, pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
     }
 
-    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
+    public FieldInstruction fieldAction(int player) {
         // TODO: Implement whatever happens on this field
-        return false;
+        return null;
     }
 }

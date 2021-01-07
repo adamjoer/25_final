@@ -1,7 +1,5 @@
 package game.field;
 
-import game.*;
-
 import java.awt.Color;
 
 public class Chance extends Field {
@@ -10,8 +8,8 @@ public class Chance extends Field {
         super(title, subText, description, position, color);
     }
 
-    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
+    public FieldInstruction fieldAction(int player) {
         // TODO: Implement drawing chance card and acting based on it
-        return false;
+        return null;
     }
 }

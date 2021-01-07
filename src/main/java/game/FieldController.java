@@ -11,8 +11,8 @@ public class FieldController {
         fields = Utility.fieldGenerator(XML_FILEPATH);
     }
 
-    public boolean fieldAction(int position, int player, PlayerController playerController, GUIController guiController, int diceSum) {
-        return fields[position].fieldAction(player, playerController, guiController, diceSum);
+    public FieldInstruction fieldAction(int position, int player) {
+        return fields[position].fieldAction(player);
     }
 
     /**
@@ -45,6 +45,29 @@ public class FieldController {
 
         // If we've gone through all the properties and all of them are owned by the player, return true
         return true;
+    }
+
+    public int getNumberOfPropertiesOwnedInGroup(int player, int propertyPosition) {
+
+        // Find the specified property
+        Property property = (Property) fields[propertyPosition];
+        int count = 0;
+
+        // Go over each property in the group
+        // (the number of properties in the group is represented with the relatedProperties attribute)
+        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
+
+            // Find the next property in the group
+            property = (Property) fields[property.getNextRelatedProperty()];
+
+            // If the property is owned by the player, increment the count
+            if (property.getOwner() == player) count++;
+        }
+
+        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
+        assert property == fields[propertyPosition];
+
+        return count;
     }
 
     /**

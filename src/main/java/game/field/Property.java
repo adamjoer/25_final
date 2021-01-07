@@ -1,7 +1,5 @@
 package game.field;
 
-import game.*;
-
 import java.awt.Color;
 import java.util.Arrays;
 
@@ -35,7 +33,7 @@ public abstract class Property extends Field {
         this.nextRelatedProperty = nextRelatedProperty;
     }
 
-    public abstract boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum);
+    public abstract FieldInstruction fieldAction(int player);
 
     // Relevant getters
     public int getCurrentRent() {
