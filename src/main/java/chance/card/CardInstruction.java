@@ -1,41 +1,40 @@
 package chance.card;
 
-public class CardInstructions {
+public class CardInstruction {
 
     private final String CARD_TYPE, CARD_TEXT;
     private int amount, threshold, increment, houseTax, hotelTax, destination;
 
 
 
-
-    public CardInstructions (String cardType, String cardText, int amount){
+    public CardInstruction(String cardType, String cardText, int amount){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
         this.amount = amount;
     }
 
-    public CardInstructions (String cardType, String cardText, int houseTax, int hotelTax){
+    public CardInstruction(String cardType, String cardText, int houseTax, int hotelTax){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
         this.houseTax = houseTax;
         this.hotelTax = hotelTax;
     }
 
-    public CardInstructions (int amount, int threshold, String cardType, String cardText){
+    public CardInstruction(int amount, int threshold, String cardType, String cardText){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
         this.amount = amount;
         this.threshold = threshold;
     }
 
-    public CardInstructions (String cardType,int increment, String cardText){
+    public CardInstruction(String cardType, int increment, String cardText){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
         this.increment = increment;
 
     }
 
-    public CardInstructions (int destination, String cardType, String cardText){
+    public CardInstruction(int destination, String cardType, String cardText){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
         this.destination = destination;
