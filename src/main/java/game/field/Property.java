@@ -3,18 +3,16 @@ package game.field;
 import java.awt.Color;
 import java.util.Arrays;
 
-public class Property extends Field {
+public abstract class Property extends Field {
 
     // Attributes
-    private final int cost;
-    private final int buildingCost;
-    private final int pawnValue;
-    private final Color color;
-    private final int[] rentLevels;
-    private int propertyLevel = 0;
-    private final int relatedProperties;
-    private final int nextRelatedProperty;
-    private int owner = -1; // -1 means the property is owned by the bank
+    protected final int cost;
+    protected final int pawnValue;
+    protected final int[] rentLevels;
+    protected int propertyLevel = 0;
+    protected final int relatedProperties;
+    protected final int nextRelatedProperty;
+    protected int owner = -1; // -1 means the property is owned by the bank
 
     // The array rentLevels represents the cost of rent at different levels:
     //      0: Base rent
@@ -25,54 +23,29 @@ public class Property extends Field {
     //      5: With four houses built on it
     //      6: With a hotel built on it
 
-    public Property(String title, String subText, String description, int position, int cost, int buildingCost, int pawnValue, Color color, int[] rent,
-                    int relatedProperties, int nextRelatedProperty) {
-        super(title, subText, description, position);
+    // Constructor
+    public Property(String title, String subText, String description, int position, Color color, int cost, int pawnValue, int[] rentLevels, int relatedProperties, int nextRelatedProperty) {
+        super(title, subText, description, position, color);
         this.cost = cost;
-        this.buildingCost = buildingCost;
         this.pawnValue = pawnValue;
-        this.color = color;
-        this.rentLevels = rent;
+        this.rentLevels = rentLevels;
         this.relatedProperties = relatedProperties;
         this.nextRelatedProperty = nextRelatedProperty;
     }
 
-    public void fieldAction() {
-        // TODO: Implement buying property, or paying rent
-    }
+    public abstract void fieldAction();
 
     // Relevant getters
     public int getCurrentRent() {
         return rentLevels[propertyLevel];
     }
 
-    public int getNumberOfHouses() {
-        return switch (propertyLevel) {
-            case 0, 1, 6 -> 0;
-            case 2, 3, 4, 5 -> propertyLevel - 1;
-            default -> throw new IllegalArgumentException("propertyLevel has invalid value: " + propertyLevel);
-        };
-    }
-
-    public int getNumberOfHotels() {
-        if (propertyLevel == 6) return 1;
-        return 0;
-    }
-
     public int getCost() {
         return cost;
     }
 
-    public int getBuildingCost() {
-        return buildingCost;
-    }
-
     public int getPawnValue() {
         return pawnValue;
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     public int[] getRentLevels() {
@@ -107,10 +80,8 @@ public class Property extends Field {
     public String toString() {
         return super.toString() +
                "\n\t[cost=" + cost +
-               "]\n\t[buildingCost=" + buildingCost +
                "]\n\t[pawnValue=" + pawnValue +
-               "]\n\t[Color=\"" + color.toString() +
-               "\"]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
+               "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
                "]\n\t[propertyLevel=" + propertyLevel +
                "]\n\t[relatedProperties=" + relatedProperties +
                "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
