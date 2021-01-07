@@ -39,21 +39,21 @@ public class Instructions {
     public void choices(){
 
         switch(cardnumber){
-            case 1: players.makeTransaction(amount, player); break; /* transaction with bank */
+            case 1: players.makeTransaction(player, amount); break; /* transaction with bank */
 
-            case 2: players[player].giftPlayer(amount); break; /* get from other players */
+            case 2: players.giftPlayer(player, amount); break; /* get from other players */
 
             case 3: amount = amount*houseTax;
-                    players.makeTransaction(amount, player); break; /* pay price pr house ... skal lige fikses med hensyn til huse*/
+                    players.makeTransaction(player, amount); break; /* pay price pr house ... skal lige fikses med hensyn til huse*/
 
-            case 4: players[player].movePlayer(increment); break; /* moves player increments forward or backwards */
+            case 4: players.movePlayer(player, increment); break; /* moves player increments forward or backwards */
 
-            case 5: players[player].setDestination(destination); break; /* moves player to a specific location */
+            case 5: players.setPlayerPosition(player, destination); break; /* moves player to a specific location */
 
-            case 6: players[player].goToPrison(prison); break; /* sends player to prison */
+            case 6: players.goToPrison(player, prison); break; /* sends player to prison */
 
             case 7: if(players.getPlayerBalance(player)==15000 || players.getPlayerBalance(player)>15000)
-                        {players.makeTransaction(amount, player);} break;
+                        {players.makeTransaction(player, amount);} break;
 
 
         }
