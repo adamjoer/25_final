@@ -1,5 +1,6 @@
 package game;
 
+import game.field.*;
 import gui_fields.*;
 import gui_main.GUI;
 
@@ -14,24 +15,95 @@ public class GUIController {
     private final int playerAmount; // The actual number of players in the game
     private final GUI_Player[] guiPlayerList;
     private final String[] playerNames;
-    private final StringHandler stringHandler;
+    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");;
 
-    public GUIController() {
+    public static void main(String[] args){
+        Field[] fieldsGen = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
+        GUIController gui = new GUIController(fieldsGen);
+        GUI_Field[] fields = gui.getFields();
+        GUI_Field field_ownable = fields[3];
+        ((GUI_Ownable) field_ownable).setOwnerName("Jens");
+        ((GUI_Ownable) field_ownable).setRent("2000");
+        ((GUI_Street) field_ownable).setHouses(4);
+    }
+
+    public GUIController(Field[] fields) {
         // TODO: Initialise the class's attributes
+        GUI_Field[] guiFields = new GUI_Field[fields.length];
+        for(int i = 0; i<fields.length; i++){
+            Field field = fields[i];
+
+            switch (field.toString()){
+                case "Start":
+                    //Opret start felt
+                    guiFields[i] = new GUI_Start(field.getTitle(), field.getSubText(), field.getDescription(), Color.red, Color.BLACK);
+                    break;
+                case "Property":
+                    Property property = (Property) fields[i];
+                    //Color color = property.getColor();
+                    guiFields[i] = new GUI_Street(property.getTitle(), property.getSubText(), property.getDescription(),
+                            String.valueOf(property.getCost()), property.getColor(), Color.BLACK);
+                    break;
+                case "Shipping":
+                    //
+                    Shipping shipping = (Shipping) fields[i];
+                    guiFields[i] = new GUI_Shipping("default",shipping.getTitle(), shipping.getSubText(), shipping.getDescription(),
+                            String.valueOf(shipping.getCurrentRent()), Color.WHITE, Color.BLACK);
+                    break;
+                case "TaxField":
+                    //
+                    TaxField tax = (TaxField) fields[i];
+                    guiFields[i] = new GUI_Tax(tax.getTitle(), tax.getSubText(), tax.getDescription(),Color.GRAY, Color.BLACK);
+                    break;
+                case "Brewery":
+                    //
+                    Brewery brewery = (Brewery) fields[i];
+                    String title = brewery.getTitle();
+                    guiFields[i] = new GUI_Brewery("default", brewery.getTitle(),brewery.getSubText(),brewery.getDescription(),
+                            String.valueOf(brewery.getCurrentRent()), Color.WHITE, Color.BLACK);
+                    break;
+                case "GoToJail":
+                case "Jail":
+                    guiFields[i] = new GUI_Jail("default",field.getTitle(), field.getTitle(), field.getTitle(),
+                            new Color(125, 125, 125), Color.BLACK);
+                    break;
+                case "ParkingLot":
+                    guiFields[i] = new GUI_Refuge("default", field.getTitle(), field.getSubText(), field.getDescription(),
+                            Color.white, Color.black);
+                    break;
+                case "Chance":
+                    guiFields[i] = new GUI_Chance(field.getTitle(), field.getSubText(), field.getDescription(),
+                            Color.white, Color.black);
+                    break;
+                // Error: Field name not recognised
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+        gui = new GUI(guiFields);
+
+
+        //gui = new GUI();
+        playerNames = askForPlayerNames();
+        playerAmount = playerNames.length;
+        this.guiPlayerList = new GUI_Player[playerAmount];
+    }
+
+    public GUI_Field[] getFields(){
+        return gui.getFields();
     }
 
     /**
      * Places buttons on the board with a message, and wait for the button pressed
      *
      * @param msg  : The message that the player will see
-     * @param btn1 : The first btn a text string, that the player will see on the btn
-     * @param btn2 : The 2nd btn a text string, that the player will see on the btn
+     * @param btn  : multiple argumented buttons
      * @return returns a text string with the button pressed
      */
-    public String getUserButton(String msg, String btn1, String btn2) {
+    public String getUserButton(String msg, String... btn) {
         return gui.getUserButtonPressed(
                 msg,
-                btn1, btn2
+                btn
         );
     }
 
@@ -57,6 +129,8 @@ public class GUIController {
         return gui.getUserString(msg);
     }
 
+
+
     /**
      * Ask the players for their names on the board.
      * Checks for the max. and min. amount of players.
@@ -70,7 +144,7 @@ public class GUIController {
         while (true) {
             boolean btnPressed = getUserLeftButtonPressed(getString("createPlayer"), getString("yes"), getString("no"));
             if (btnPressed) {
-                if (i == 4) {
+                if (i == 6) {
                     String userBtn = getUserButton(getString("maxPlayerReachedPrompt"),
                             getString("closeGameOption"), getString("continueOption"));
                     if (userBtn.equals(getString("closeGameOption"))) {
@@ -121,6 +195,26 @@ public class GUIController {
     }
 
     /**
+     * Set the visibility of a players car
+     * @param player : A player from the game
+     * @param visibility : Whether the car is shown on the board or not
+     */
+    public void setCar(int player, boolean visibility, int fieldPlacement){
+        gui.getFields()[fieldPlacement].drawCar(getGuiPlayer(player), visibility);
+    }
+
+    /**
+     * Moves a players car
+     * @param player : A player from the game
+     * @param fieldPlacement : Position of the player (array position) not actual position
+     * @param newFieldPlacement : The position where the player should be moved to (array position)
+     */
+    public void setCarPlacement(int player, int fieldPlacement, int newFieldPlacement){
+        gui.getFields()[fieldPlacement].drawCar(getGuiPlayer(player),false);
+        gui.getFields()[newFieldPlacement].drawCar(getGuiPlayer(player), true);
+    }
+
+    /**
      * Displays two dice on the board with the given values and a fixed rotation,
      * at a random position on the board.
      * If the dice value is not between 1-6, the dice won't be displayed.
@@ -160,28 +254,46 @@ public class GUIController {
      * - GUI_Brewery
      * - GUI_Shipping
      *
-     * @param subtext       : Subtext on field
-     * @param playerName    : Name of the player who owns the field
+     * @param player        : The player that will own the field (int of player)
      * @param rent          : Rent of the field
-     * @param fieldColor    : Change of color to indicate change of ownership
      * @param fieldPosition : The position of the field that changes ownership (array position), not actual position
      */
-    public void fieldOwnable(String subtext, String playerName, int rent, Color fieldColor, int fieldPosition) {
+    public void fieldOwnable(int fieldPosition, int player, int rent) {
         GUI_Ownable ownable = (GUI_Ownable) gui.getFields()[fieldPosition];
-        ownable.setSubText(subtext);
-        ownable.setOwnerName(playerName);
+        ownable.setOwnerName(guiPlayerList[player].getName());
         ownable.setRent(Integer.toString(rent));
-        ownable.setBackGroundColor(fieldColor);
     }
 
     /**
-     * Removes ownership of field
+     * Removes ownership of field and removes the rent of the field
      *
      * @param fieldPosition : The position of the field (array position), not actual position
      */
-    public void fieldOwnable(int fieldPosition) {
+    public void removeRentOwnership(int fieldPosition) {
         GUI_Ownable ownable = (GUI_Ownable) gui.getFields()[fieldPosition];
         ownable.setOwnerName(null);
+        ownable.setRent(null);
+    }
+
+    /**
+     * Sets the ownership of a field
+     *
+     * @param fieldPosition : The position of the field (array position), not the actual position
+     * @param player : the number of the player
+     */
+    public void setOwnership(int fieldPosition, int player) {
+        GUI_Ownable ownable = (GUI_Ownable) gui.getFields()[fieldPosition];
+        ownable.setOwnerName(guiPlayerList[player].getName());
+    }
+
+    /**
+     * Sets the rent of a field
+     * @param fieldPosition : The position of the field (array position), not the actual position
+     * @param rent : the rent that the field will get
+     */
+    public void setRent(int fieldPosition, int rent){
+        GUI_Ownable ownable = (GUI_Ownable) gui.getFields()[fieldPosition];
+        ownable.setRent(Integer.toString(rent));
     }
 
     /**
@@ -237,6 +349,21 @@ public class GUIController {
      */
     public void close() {
         gui.close();
+    }
+
+    /**
+     * Takes a player from the game and retrieves it from board
+     * @param player : a player from the main game
+     * @return a GUI_Player
+     */
+    private GUI_Player getGuiPlayer(int player){
+
+        for(GUI_Player p : guiPlayerList){
+            if (playerNames[player].equals(p.getName())){
+                return p;
+            }
+        }
+        return null;
     }
 
     private String getString(String reference) {

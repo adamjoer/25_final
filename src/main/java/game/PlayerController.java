@@ -105,6 +105,14 @@ public class PlayerController {
 
 
     //Relevant getters
+    public String getName(int player){
+        return players[player].getName();
+    }
+
+    public Player[] getPlayers(){
+        return players;
+    }
+
     public int[] getProperties(int player) {
         return players[player].getProperties();
     }

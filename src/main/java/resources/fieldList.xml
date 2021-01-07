@@ -115,7 +115,7 @@
         <title>Valby Langgade</title>
         <subText>kr. 2.000</subText>
         <description/>
-        <cost>2.000</cost>
+        <cost>2000</cost>
         <buildingCost>1000</buildingCost>
         <rentLevels>7</rentLevels>
         <level>100</level>
