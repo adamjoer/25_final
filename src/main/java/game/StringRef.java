@@ -3,7 +3,7 @@ package game;
 /**
  * StringRef class is intended to make a objects with a reference string for calling in various code.
  * The checkReference compares a given reference with the object's REFERENCE String and returns true if they are the same.
- * The OUTPUT_STRING is the string correct reference should be "translated" to.
+ * The OUTPUT_STRING is the string the corresponding reference should be "translated" to.
  */
 public class StringRef {
     private final String reference;
@@ -35,4 +35,3 @@ public class StringRef {
         return outputString;
     }
 }
-

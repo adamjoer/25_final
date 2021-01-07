@@ -24,10 +24,99 @@ public class Utility {
 
         // Load XML-file and get a list of field data.
         NodeList fieldList = getXmlContent(filePath, "field");
-        Field[] fields = new Field[fieldList.getLength()];
+        Field[] fieldArr = new Field[fieldList.getLength()];
+        try {
 
+            // Extract data from each fieldList element and create Field objects for the Field[].
+            for (int i = 0; i < fieldList.getLength(); i++) {
+
+                Node field = fieldList.item(i);
+
+                if (field.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element ele = (Element) field;
+                    Color color = new Color(getInt(ele,"color",0));
+                    String fieldType = getString(ele,"fieldType");
+                    String title = getString(ele, "title");
+                    String subText = getString(ele, "subText");
+                    String description = getString(ele, "description");
+
+
+
+
+                    switch (fieldType){
+                        case "Property":
+                            // int cost, buildingCost, pawnValue, relatedProperties,nextRelatedProperty;
+
+                            int cost = getInt(ele,"cost",0);
+                            int pawnValue = getInt(ele, "pawnValue",0);
+                            int relatedProperties = getInt(ele, "relatedProperties",0);
+                            int nextRelatedProperty = getInt(ele, "nextRelatedProperty",0);
+
+                            int[] rentLevels = getIntArray(ele,"rentLevels","level");
+                            String subType = getString(ele, "subType");
+
+
+                            switch (subType){
+                                case "Street":
+                                    int buildingCost = getInt(ele, "buildingCost",0);
+
+                                    fieldArr[i] = new Street(title, subText, description, i, color, cost, buildingCost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+
+                                case "Shipping":
+
+                                    fieldArr[i] = new Shipping(title, subText, description, i, color, cost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+
+                                case "Brewery":
+                                    fieldArr[i] = new Brewery(title, subText, description, i, color, cost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+                            }
+                            break;
+
+                        case "Chance":
+                            fieldArr[i] = new Chance(title, subText, description, i, color);
+
+                            break;
+                        case "Jail":
+                            int bail = getInt(ele,"bail",0);
+
+                            fieldArr[i] = new Jail(title, subText, description, i, color, bail);
+
+                            break;
+                        case "GoToJail":
+                            int jailPosition = getInt(ele,"jailPosition",0);
+
+                            fieldArr[i] = new GoToJail(title, subText, description, i, color, jailPosition);
+
+                            break;
+                        case "Parking":
+                            fieldArr[i] = new Parking(title, subText, description, i, color);
+
+                            break;
+                        case "Start":
+                            fieldArr[i] = new Start(title, subText, description, i, color);
+
+                            break;
+                        case "TaxField":
+                            int fine = getInt(ele,"fine",0);
+
+                            fieldArr[i] = new TaxField(title, subText, description, color, i, fine);
+
+                            break;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Return array of Field objects
-        return fields;
+        return fieldArr;
     }
 
     /**
@@ -44,7 +133,7 @@ public class Utility {
 
         try {
 
-            // Go over each Node int the NodeList
+            // Go over each Node in the NodeList
             for (int i = 0; i < stringRefList.getLength(); i++) {
 
                 // Check if node is an element
@@ -107,14 +196,38 @@ public class Utility {
      * @param tag The XML tag to extract an integer value from
      * @return The integer requested
      */
-    private static int getInt(Element ele, String tag) {
+    private static int getInt(Element ele, String tag, int index) {
         int n = Integer.MAX_VALUE;
         try {
-            n = Integer.decode(ele.getElementsByTagName(tag).item(0).getTextContent());
+            n = Integer.decode(ele.getElementsByTagName(tag).item(index).getTextContent());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return n;
+    }
+
+    /**
+     * Extracts an integer array from an XML element, that has child elements.
+     * @param element The parent element.
+     * @param childTag The tag of the child elements to extract.
+     * @return An integer array with the integers from the child elements.
+     */
+    private static int[] getIntArray(Element element, String nodeTag, String childTag){
+        NodeList nodeList = (NodeList) element.getElementsByTagName(nodeTag).item(0);
+        int[] intArr = new int[nodeList.getLength()];
+        try{
+            Node node = (Node) nodeList;
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                for (int i = 0; i < nodeList.getLength(); i++) {
+
+                    Element ele = (Element) node;
+                    intArr[i] = getInt(ele, childTag, i);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return intArr;
     }
 
     /**
