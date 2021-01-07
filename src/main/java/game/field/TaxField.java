@@ -13,7 +13,7 @@ public class TaxField extends Field {
         this.fine = fine;
     }
 
-    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
+    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
         // TODO: Implement whatever happens on this field
         return false;
     }
