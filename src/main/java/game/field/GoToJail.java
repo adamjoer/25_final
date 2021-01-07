@@ -13,7 +13,7 @@ public class GoToJail extends Field {
         this.jailPosition = jailPosition;
     }
 
-    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
+    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
         // TODO: Implement going to jail
         return false;
     }

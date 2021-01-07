@@ -14,7 +14,7 @@ public class Street extends Property {
         this.buildingCost = buildingCost;
     }
 
-    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
+    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
         // TODO: Implement buying property, or paying rent
         return false;
     }

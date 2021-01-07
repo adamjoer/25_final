@@ -23,7 +23,7 @@ public abstract class Field {
         this.color = color;
     }
 
-    public abstract boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum);
+    public abstract boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum);
 
     public String getTitle() {
         return title;

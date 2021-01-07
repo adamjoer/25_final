@@ -10,7 +10,7 @@ public class Chance extends Field {
         super(title, subText, description, position, color);
     }
 
-    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
+    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
         // TODO: Implement drawing chance card and acting based on it
         return false;
     }

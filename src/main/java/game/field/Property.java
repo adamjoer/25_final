@@ -35,7 +35,7 @@ public abstract class Property extends Field {
         this.nextRelatedProperty = nextRelatedProperty;
     }
 
-    public abstract boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum);
+    public abstract boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum);
 
     // Relevant getters
     public int getCurrentRent() {

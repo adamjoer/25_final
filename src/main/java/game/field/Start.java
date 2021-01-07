@@ -10,7 +10,7 @@ public class Start extends Field {
         super(title, subText, description, position, color);
     }
 
-    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
+    public boolean fieldAction(int player, PlayerController playerController, GUIController guiController, int diceSum) {
 
         // Do nothing, 'pass go' reward will be handled in Board
         return true;

@@ -11,8 +11,8 @@ public class FieldController {
         fields = Utility.fieldGenerator(XML_FILEPATH);
     }
 
-    public boolean fieldAction(int position, PlayerController playerController, GUIController guiController, int diceSum) {
-        return fields[position].fieldAction(playerController, guiController, diceSum);
+    public boolean fieldAction(int position, int player, PlayerController playerController, GUIController guiController, int diceSum) {
+        return fields[position].fieldAction(player, playerController, guiController, diceSum);
     }
 
     /**
