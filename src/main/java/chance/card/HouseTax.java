@@ -2,35 +2,23 @@ package chance.card;
 
 public class HouseTax extends ChanceCard {
 
-    public final int amount;
-    public final int cardnumber;
-    public static int increment;
-    public static int houseTax;
-    public static int destination;
-    public static int player;
-    public static boolean prison;
-
-    public static Instructions instructions;
+    public final int HOUSE_TAX;
+    public final int HOTEL_TAX;
 
 
     /**
      * @param CARD_TEXT
-     * @param amount
-     * @param cardnumber
+     * @param houseTax
+     * @param hotelTax
      */
-    public HouseTax(String CARD_TEXT, int amount, int cardnumber, int player){
-        super(CARD_TEXT);
-        this.amount = amount;
-        this.cardnumber = cardnumber;
-        this.player = player;
-        this.increment = 0;
-        this.houseTax = 0;
-        this.prison = false;
 
+    public HouseTax(String CARD_TEXT, int houseTax, int hotelTax){
+        super(CARD_TEXT);
+        HOUSE_TAX = houseTax;
+        HOTEL_TAX = hotelTax;
     }
 
-    public Instructions executeCard(){
-        instructions = new Instructions(cardnumber, amount, increment, destination, houseTax, player, prison);
-        return instructions;
+    public CardInstruction executeCard(){
+        return new CardInstruction(getClass().getSimpleName(),CARD_TEXT,HOUSE_TAX,HOTEL_TAX);
     }
 }

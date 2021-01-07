@@ -11,5 +11,4 @@ public class ChanceCard {
     public String getChanceCardText() {
         return CARD_TEXT;
     }
-
 }

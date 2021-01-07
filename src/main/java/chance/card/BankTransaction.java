@@ -2,7 +2,7 @@ package chance.card;
 
 public class BankTransaction extends ChanceCard {
 
-    public final int AMOUNT;
+    private final int AMOUNT;
 
 
     /**
@@ -16,7 +16,6 @@ public class BankTransaction extends ChanceCard {
     }
 
     public CardInstruction executeCard(){
-        CardInstruction instruction = new CardInstruction(getClass().getSimpleName(),AMOUNT);
-        return instruction;
+        return new CardInstruction(getClass().getSimpleName(),CARD_TEXT,AMOUNT);
     }
 }
