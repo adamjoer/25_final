@@ -11,8 +11,42 @@ public class FieldController {
         fields = Utility.fieldGenerator(XML_FILEPATH);
     }
 
-    public FieldInstruction fieldAction(int position, int player) {
+    public FieldInstruction fieldAction(int player, int position) {
         return fields[position].fieldAction(player);
+    }
+
+    public void buyProperty(int player, int propertyPosition) {
+
+        // Get the property
+        Property property = (Property) fields[propertyPosition];
+
+        // It shouldn't be possible to call this method
+        assert property.getOwner() != player;
+
+        // Change the owner to player
+        property.setOwner(player);
+
+        // If necessary, change propertyLevel, based on what the property type is
+        switch (property.getField()) {
+
+            case "Street":
+
+                // If the player owns all the properties in the group, change propertyLevel to 1
+                if (ownsAllPropertiesInGroup(player, propertyPosition)) property.setPropertyLevel(1);
+                break;
+
+            case "Shipping":
+
+                // Set propertyLevel to the number of properties owned in the group minus one
+                property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                break;
+
+            case "Brewery":
+
+                // Set propertyLevel to 1 if both breweries is owned, otherwise 0
+                property.setPropertyLevel(ownsAllPropertiesInGroup(player, propertyPosition) ? 1 : 0);
+                break;
+        }
     }
 
     /**
