@@ -1,5 +1,7 @@
 package game.field;
 
+import game.*;
+
 import java.awt.Color;
 
 public class Shipping extends Property {
@@ -9,7 +11,8 @@ public class Shipping extends Property {
     }
 
     public FieldInstruction fieldAction(int player) {
-        // TODO: Implement whatever happens on this field
-        return null;
+        boolean ownedByPlayer = owner == player;
+
+        return new FieldInstruction("Shipping", ownedByPlayer, getCurrentRent(), getCost(), getPropertyLevel());
     }
 }
