@@ -12,8 +12,6 @@ public class FieldController {
     }
 
     public boolean fieldAction(int position, PlayerController playerController, GUIController guiController, int diceSum) {
-        // TODO: This method needs the same parameters that Field.fieldAction() gets,
-        //       which will then be passed to it here
         return fields[position].fieldAction(playerController, guiController, diceSum);
     }
 
