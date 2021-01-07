@@ -6,13 +6,25 @@ public class CardInstruction {
     private int amount, threshold, increment, houseTax, hotelTax, destination;
 
 
-
+    /**
+     * Constructor for BankTransaction Cardtype
+     * @param cardType
+     * @param cardText
+     * @param amount
+     */
     public CardInstruction(String cardType, String cardText, int amount){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
         this.amount = amount;
     }
 
+    /**
+     * Constructor for HouseTax Cardtype
+     * @param cardType
+     * @param cardText
+     * @param houseTax
+     * @param hotelTax
+     */
     public CardInstruction(String cardType, String cardText, int houseTax, int hotelTax){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
@@ -20,6 +32,13 @@ public class CardInstruction {
         this.hotelTax = hotelTax;
     }
 
+    /**
+     * Constructor for Lottery Cardtype
+     * @param amount
+     * @param threshold
+     * @param cardType
+     * @param cardText
+     */
     public CardInstruction(int amount, int threshold, String cardType, String cardText){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
@@ -27,6 +46,12 @@ public class CardInstruction {
         this.threshold = threshold;
     }
 
+    /**
+     * Constructor for MovePlayer Cardtype
+     * @param cardType
+     * @param increment
+     * @param cardText
+     */
     public CardInstruction(String cardType, int increment, String cardText){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
@@ -34,6 +59,12 @@ public class CardInstruction {
 
     }
 
+    /**
+     * Constructor for MovePlayerToTyle Cardtype
+     * @param destination
+     * @param cardType
+     * @param cardText
+     */
     public CardInstruction(int destination, String cardType, String cardText){
         CARD_TYPE = cardType;
         CARD_TEXT = cardText;
