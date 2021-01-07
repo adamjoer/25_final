@@ -2,8 +2,7 @@ package chance.card;
 
 public class BankTransaction extends ChanceCard {
 
-    public final int amount;
-    public static int player;
+    public final int AMOUNT;
 
 
     /**
@@ -13,10 +12,11 @@ public class BankTransaction extends ChanceCard {
 
     public BankTransaction(String CARD_TEXT, int amount){
         super(CARD_TEXT);
-        this.amount = amount;
+        AMOUNT = amount;
     }
 
     public CardInstruction executeCard(){
-        CardInstruction instruction = new CardInstruction(getClass().getSimpleName(),amount);
+        CardInstruction instruction = new CardInstruction(getClass().getSimpleName(),AMOUNT);
+        return instruction;
     }
 }
