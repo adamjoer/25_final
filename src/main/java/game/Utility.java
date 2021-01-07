@@ -40,44 +40,44 @@ public class Utility {
                     String title = getString(ele, "title");
                     String subText = getString(ele, "subText");
                     String description = getString(ele, "description");
-                    int cost, buildingCost, pawnValue, relatedProperties,nextRelatedProperty;
-                    int[] rentLevels;
+
 
 
 
                     switch (fieldType){
                         case "Property":
-                            cost = getInt(ele,"cost",0);
-                            buildingCost = getInt(ele,"buildingCost",0);
-                            pawnValue = getInt(ele,"pawnValue",0);
-                            rentLevels = getIntArray(ele,"rentStages","stage");
-                            relatedProperties = getInt(ele, "relatedProperties",0);
-                            nextRelatedProperty = getInt(ele, "relatedProperty",0);
+                            // int cost, buildingCost, pawnValue, relatedProperties,nextRelatedProperty;
 
-                            fieldArr[i] = new Property(title, subText, description, i, color, cost, buildingCost,
-                                    pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                            int cost = getInt(ele,"cost",0);
+                            int pawnValue = getInt(ele, "pawnValue",0);
+                            int relatedProperties = getInt(ele, "relatedProperties",0);
+                            int nextRelatedProperty = getInt(ele, "nextRelatedProperty",0);
 
+                            int[] rentLevels = getIntArray(ele,"rentLevels","level");
+                            String subType = getString(ele, "subType");
+
+
+                            switch (subType){
+                                case "Street":
+                                    int buildingCost = getInt(ele, "buildingCost",0);
+
+                                    fieldArr[i] = new Street(title, subText, description, i, color, cost, buildingCost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+
+                                case "Shipping":
+
+                                    fieldArr[i] = new Shipping(title, subText, description, i, color, cost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+
+                                case "Brewery":
+                                    fieldArr[i] = new Brewery(title, subText, description, i, color, cost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+                            }
                             break;
-                        case "Brewery":
-                            cost = getInt(ele,"cost",0);
-                            pawnValue = getInt(ele,"pawnValue",0);
-                            rentLevels = getIntArray(ele,"rentStages", "stage");
-                            relatedProperties = getInt(ele,"relatedProperties",0);
-                            nextRelatedProperty = getInt(ele,"nextRelatedProperty",0);
 
-                            fieldArr[i] = new Brewery(title, subText, description, i, color, cost, pawnValue, rentLevels,
-                                    relatedProperties, nextRelatedProperty);
-                            break;
-                        case "Shipping":
-                            cost = getInt(ele,"cost",0);
-                            pawnValue = getInt(ele,"pawnValue",0);
-                            rentLevels = getIntArray(ele,"rentStages", "stage");
-                            relatedProperties = getInt(ele,"relatedProperties",0);
-                            nextRelatedProperty = getInt(ele,"nextRelatedProperty",0);
-
-                            fieldArr[i] = new Shipping(title, subText, description, i, color, cost, pawnValue, rentLevels,
-                                    relatedProperties, nextRelatedProperty);
-                            break;
                         case "Chance":
                             fieldArr[i] = new Chance(title, subText, description, i, color);
 
@@ -229,6 +229,7 @@ public class Utility {
         }
         return intArr;
     }
+
     /**
      * Imports data from an XML file to a NodeList and returns the NodeList.
      *
