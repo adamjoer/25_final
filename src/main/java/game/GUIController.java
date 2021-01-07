@@ -11,13 +11,14 @@ import java.util.Objects;
 public class GUIController {
 
     private final GUI gui;
-    private final int MAX_PLAYER_AMOUNT = 4;
+    private final int MAX_PLAYER_AMOUNT = 6;
     private final int playerAmount; // The actual number of players in the game
     private final GUI_Player[] guiPlayerList;
     private final String[] playerNames;
+    private final GUI_Car.Type[] carType;
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");;
 
-    public static void main(String[] args){
+    /*public static void main(String[] args){
         Field[] fieldsGen = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
         GUIController gui = new GUIController(fieldsGen);
         GUI_Field[] fields = gui.getFields();
@@ -25,7 +26,7 @@ public class GUIController {
         ((GUI_Ownable) field_ownable).setOwnerName("Jens");
         ((GUI_Ownable) field_ownable).setRent("2000");
         ((GUI_Street) field_ownable).setHouses(4);
-    }
+    }*/
 
     public GUIController(Field[] fields) {
         // TODO: Initialise the class's attributes
@@ -33,12 +34,12 @@ public class GUIController {
         for(int i = 0; i<fields.length; i++){
             Field field = fields[i];
 
-            switch (field.toString()){
+            switch (field.getField()){
                 case "Start":
                     //Opret start felt
                     guiFields[i] = new GUI_Start(field.getTitle(), field.getSubText(), field.getDescription(), Color.red, Color.BLACK);
                     break;
-                case "Property":
+                case "Street":
                     Property property = (Property) fields[i];
                     //Color color = property.getColor();
                     guiFields[i] = new GUI_Street(property.getTitle(), property.getSubText(), property.getDescription(),
@@ -67,7 +68,7 @@ public class GUIController {
                     guiFields[i] = new GUI_Jail("default",field.getTitle(), field.getTitle(), field.getTitle(),
                             new Color(125, 125, 125), Color.BLACK);
                     break;
-                case "ParkingLot":
+                case "Parking":
                     guiFields[i] = new GUI_Refuge("default", field.getTitle(), field.getSubText(), field.getDescription(),
                             Color.white, Color.black);
                     break;
@@ -80,10 +81,11 @@ public class GUIController {
                     throw new IllegalArgumentException();
             }
         }
-        gui = new GUI(guiFields);
+        gui = new GUI(guiFields, Color.PINK);
 
 
         //gui = new GUI();
+        carType = new GUI_Car.Type[MAX_PLAYER_AMOUNT];
         playerNames = askForPlayerNames();
         playerAmount = playerNames.length;
         this.guiPlayerList = new GUI_Player[playerAmount];
@@ -154,6 +156,13 @@ public class GUIController {
                 } else {
                     userInputName = getUserString(getString("inputNamePrompt")).toLowerCase();
                     userInputName = userInputName.substring(0, 1).toUpperCase() + userInputName.substring(1);
+                    String vehicleType = gui.getUserSelection("Vælg type af dit køretøj","Bil", "Traktor", "Racerbil", "UFO");
+                    switch (vehicleType) {
+                        case "Bil" -> carType[i] = GUI_Car.Type.CAR;
+                        case "Traktor" -> carType[i] = GUI_Car.Type.TRACTOR;
+                        case "Racerbil" -> carType[i] = GUI_Car.Type.RACECAR;
+                        case "UFO" -> carType[i] = GUI_Car.Type.UFO;
+                    }
 
                     if (Arrays.asList(names).contains(userInputName)) {
                         showMessage(getString("nameNotUniqueError"));
@@ -174,6 +183,29 @@ public class GUIController {
         String[] tempNames = new String[i];
         System.arraycopy(names, 0, tempNames, 0, i);
         return tempNames;
+    }
+
+    /**
+     *  Adds all players to the board
+     * @param players : players needs to be created before sending to GUI controller
+     * @return true if the players are created otherwise false, can also return false if the player array size is over 4
+     */
+    public boolean addPlayers(Player[] players){
+        Color[] color = new Color[]{Color.black, Color.blue, Color.red, Color.yellow, Color.GRAY, Color.CYAN};
+        GUI_Car car;
+        boolean playerCheck = false;
+        if (players.length > 6 || players.length < 2){
+            return false;
+        }
+
+        for(int i = 0; i < playerAmount; i++){
+            car = new GUI_Car(color[i], null, carType[i], GUI_Car.Pattern.FILL);
+            GUI_Player player = new GUI_Player(players[i].getName(),players[i].getBalance(), car);
+            playerCheck = gui.addPlayer(player);
+            guiPlayerList[i] = player;
+            setCar(i, true, 0);
+        }
+        return playerCheck;
     }
 
     /**

@@ -71,6 +71,7 @@
         <title>Scandlines</title>
         <subText>kr. 4.000</subText>
         <description>Helsingør - Helsingborg</description>
+        <cost>4000</cost>
         <rentLevels>4</rentLevels>
         <level>500</level>
         <level>1000</level>
@@ -243,6 +244,7 @@
         <title>Mols-Linien</title>
         <subText>kr. 4.000</subText>
         <description>En genvej i Danmark</description>
+        <cost>4000</cost>
         <rentLevels>4</rentLevels>
         <level>500</level>
         <level>1000</level>
