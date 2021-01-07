@@ -1,5 +1,7 @@
 package game.field;
 
+import game.*;
+
 import java.awt.Color;
 
 public class Start extends Field {
@@ -8,7 +10,9 @@ public class Start extends Field {
         super(title, subText, description, position, color);
     }
 
-    public void fieldAction() {
+    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
+
         // Do nothing, 'pass go' reward will be handled in Board
+        return true;
     }
 }

@@ -1,5 +1,7 @@
 package game.field;
 
+import game.*;
+
 import java.awt.Color;
 
 public class Street extends Property {
@@ -12,8 +14,9 @@ public class Street extends Property {
         this.buildingCost = buildingCost;
     }
 
-    public void fieldAction() {
+    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
         // TODO: Implement buying property, or paying rent
+        return false;
     }
 
     // Relevant getters

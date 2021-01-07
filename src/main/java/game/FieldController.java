@@ -11,10 +11,10 @@ public class FieldController {
         fields = Utility.fieldGenerator(XML_FILEPATH);
     }
 
-    public void fieldAction(int position) {
+    public boolean fieldAction(int position, PlayerController playerController, GUIController guiController, int diceSum) {
         // TODO: This method needs the same parameters that Field.fieldAction() gets,
         //       which will then be passed to it here
-        fields[position].fieldAction();
+        return fields[position].fieldAction(playerController, guiController, diceSum);
     }
 
     /**

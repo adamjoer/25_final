@@ -1,5 +1,7 @@
 package game.field;
 
+import game.*;
+
 import java.awt.Color;
 
 public class GoToJail extends Field {
@@ -11,8 +13,9 @@ public class GoToJail extends Field {
         this.jailPosition = jailPosition;
     }
 
-    public void fieldAction() {
+    public boolean fieldAction(PlayerController playerController, GUIController guiController, int diceSum) {
         // TODO: Implement going to jail
+        return false;
     }
 
     public int getJailPosition() {
