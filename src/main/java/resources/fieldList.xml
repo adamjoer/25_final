@@ -16,15 +16,14 @@
         <description/>
         <cost>1200</cost>
         <buildingCost>1000</buildingCost>
-        <rentLevels>
-            <level>50</level>
-            <level>100</level>
-            <level>250</level>
-            <level>750</level>
-            <level>2250</level>
-            <level>4000</level>
-            <level>6000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>50</level>
+        <level>100</level>
+        <level>250</level>
+        <level>750</level>
+        <level>2250</level>
+        <level>4000</level>
+        <level>6000</level>
         <pawnValue>600</pawnValue>
         <color>0x3b5998</color>
         <relatedProperties>2</relatedProperties>
@@ -45,15 +44,14 @@
         <description/>
         <cost>1200</cost>
         <buildingCost>1000</buildingCost>
-        <rentLevels>
-            <level>50</level>
-            <level>100</level>
-            <level>250</level>
-            <level>750</level>
-            <level>2250</level>
-            <level>4000</level>
-            <level>6000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>50</level>
+        <level>100</level>
+        <level>250</level>
+        <level>750</level>
+        <level>2250</level>
+        <level>4000</level>
+        <level>6000</level>
         <pawnValue>600</pawnValue>
         <color>0x3b5998</color>
         <relatedProperties>2</relatedProperties>
@@ -73,12 +71,11 @@
         <title>Scandlines</title>
         <subText>kr. 4.000</subText>
         <description>Helsingør - Helsingborg</description>
-        <rentLevels>
-            <level>500</level>
-            <level>1000</level>
-            <level>2000</level>
-            <level>4000</level>
-        </rentLevels>
+        <rentLevels>4</rentLevels>
+        <level>500</level>
+        <level>1000</level>
+        <level>2000</level>
+        <level>4000</level>
         <pawnValue>2000</pawnValue>
         <color>0x0000cd</color>
         <relatedProperties>4</relatedProperties>
@@ -92,15 +89,14 @@
         <description/>
         <cost>2000</cost>
         <buildingCost>1000</buildingCost>
-        <rentLevels>
-            <level>100</level>
-            <level>200</level>
-            <level>600</level>
-            <level>1800</level>
-            <level>5400</level>
-            <level>8000</level>
-            <level>11000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>100</level>
+        <level>200</level>
+        <level>600</level>
+        <level>1800</level>
+        <level>5400</level>
+        <level>8000</level>
+        <level>11000</level>
         <pawnValue>1000</pawnValue>
         <color>0xb41f0f</color>
         <relatedProperties>3</relatedProperties>
@@ -121,15 +117,14 @@
         <description/>
         <cost>2.000</cost>
         <buildingCost>1000</buildingCost>
-        <rentLevels>
-            <level>100</level>
-            <level>200</level>
-            <level>600</level>
-            <level>1800</level>
-            <level>5400</level>
-            <level>8000</level>
-            <level>11000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>100</level>
+        <level>200</level>
+        <level>600</level>
+        <level>1800</level>
+        <level>5400</level>
+        <level>8000</level>
+        <level>11000</level>
         <pawnValue>1000</pawnValue>
         <color>0xb41f0f</color>
         <relatedProperties>3</relatedProperties>
@@ -143,15 +138,14 @@
         <description/>
         <cost>2400</cost>
         <buildingCost>1000</buildingCost>
-        <rentLevels>
-            <level>150</level>
-            <level>300</level>
-            <level>800</level>
-            <level>2000</level>
-            <level>6000</level>
-            <level>9000</level>
-            <level>12000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>150</level>
+        <level>300</level>
+        <level>800</level>
+        <level>2000</level>
+        <level>6000</level>
+        <level>9000</level>
+        <level>12000</level>
         <pawnValue>1200</pawnValue>
         <color>0xb41f0f</color>
         <relatedProperties>3</relatedProperties>
@@ -173,15 +167,14 @@
         <description/>
         <cost>2800</cost>
         <buildingCost>2000</buildingCost>
-        <rentLevels>
-            <level>200</level>
-            <level>400</level>
-            <level>1000</level>
-            <level>3000</level>
-            <level>9000</level>
-            <level>12500</level>
-            <level>15000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>200</level>
+        <level>400</level>
+        <level>1000</level>
+        <level>3000</level>
+        <level>9000</level>
+        <level>12500</level>
+        <level>15000</level>
         <pawnValue>1400</pawnValue>
         <color>0x227744</color>
         <relatedProperties>3</relatedProperties>
@@ -194,10 +187,9 @@
         <subText>kr. 3.000</subText>
         <description/>
         <cost>3000</cost>
-        <rentLevels>
-            <level>100</level>
-            <level>200</level>
-        </rentLevels>
+        <rentLevels>2</rentLevels>
+        <level>100</level>
+        <level>200</level>
         <pawnValue>1500</pawnValue>
         <color>0xcd0000</color>
         <relatedProperties>2</relatedProperties>
@@ -211,15 +203,14 @@
         <description/>
         <cost>2800</cost>
         <buildingCost>2000</buildingCost>
-        <rentLevels>
-            <level>200</level>
-            <level>400</level>
-            <level>1000</level>
-            <level>3000</level>
-            <level>9000</level>
-            <level>12500</level>
-            <level>15000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>200</level>
+        <level>400</level>
+        <level>1000</level>
+        <level>3000</level>
+        <level>9000</level>
+        <level>12500</level>
+        <level>15000</level>
         <pawnValue>1400</pawnValue>
         <color>0x227744</color>
         <relatedProperties>3</relatedProperties>
@@ -233,15 +224,14 @@
         <description/>
         <cost>3200</cost>
         <buildingCost>2000</buildingCost>
-        <rentLevels>
-            <level>250</level>
-            <level>500</level>
-            <level>1250</level>
-            <level>3750</level>
-            <level>10000</level>
-            <level>14000</level>
-            <level>18000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>250</level>
+        <level>500</level>
+        <level>1250</level>
+        <level>3750</level>
+        <level>10000</level>
+        <level>14000</level>
+        <level>18000</level>
         <pawnValue>1600</pawnValue>
         <color>0x227744</color>
         <relatedProperties>3</relatedProperties>
@@ -253,12 +243,11 @@
         <title>Mols-Linien</title>
         <subText>kr. 4.000</subText>
         <description>En genvej i Danmark</description>
-        <rentLevels>
-            <level>500</level>
-            <level>1000</level>
-            <level>2000</level>
-            <level>4000</level>
-        </rentLevels>
+        <rentLevels>4</rentLevels>
+        <level>500</level>
+        <level>1000</level>
+        <level>2000</level>
+        <level>4000</level>
         <pawnValue>2000</pawnValue>
         <color>0xcd0000</color>
         <relatedProperties>4</relatedProperties>
@@ -272,15 +261,14 @@
         <description/>
         <cost>3600</cost>
         <buildingCost>2000</buildingCost>
-        <rentLevels>
-            <level>300</level>
-            <level>600</level>
-            <level>1400</level>
-            <level>4000</level>
-            <level>11000</level>
-            <level>15000</level>
-            <level>19000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>300</level>
+        <level>600</level>
+        <level>1400</level>
+        <level>4000</level>
+        <level>11000</level>
+        <level>15000</level>
+        <level>19000</level>
         <pawnValue>1800</pawnValue>
         <color>0xa1b49b</color>
         <relatedProperties>3</relatedProperties>
@@ -301,15 +289,14 @@
         <description/>
         <cost>3600</cost>
         <buildingCost>2000</buildingCost>
-        <rentLevels>
-            <level>300</level>
-            <level>600</level>
-            <level>1400</level>
-            <level>4000</level>
-            <level>11000</level>
-            <level>15000</level>
-            <level>19000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>300</level>
+        <level>600</level>
+        <level>1400</level>
+        <level>4000</level>
+        <level>11000</level>
+        <level>15000</level>
+        <level>19000</level>
         <pawnValue>1800</pawnValue>
         <color>0xa1b49b</color>
         <relatedProperties>3</relatedProperties>
@@ -323,15 +310,14 @@
         <description/>
         <cost>4000</cost>
         <buildingCost>2000</buildingCost>
-        <rentLevels>
-            <level>350</level>
-            <level>700</level>
-            <level>1600</level>
-            <level>4400</level>
-            <level>12000</level>
-            <level>16000</level>
-            <level>20000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>350</level>
+        <level>700</level>
+        <level>1600</level>
+        <level>4400</level>
+        <level>12000</level>
+        <level>16000</level>
+        <level>20000</level>
         <pawnValue>2000</pawnValue>
         <color>0xa1b49b</color>
         <relatedProperties>3</relatedProperties>
@@ -352,15 +338,14 @@
         <description/>
         <cost>4400</cost>
         <buildingCost>3000</buildingCost>
-        <rentLevels>
-            <level>350</level>
-            <level>700</level>
-            <level>1800</level>
-            <level>5000</level>
-            <level>14000</level>
-            <level>17500</level>
-            <level>21000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>350</level>
+        <level>700</level>
+        <level>1800</level>
+        <level>5000</level>
+        <level>14000</level>
+        <level>17500</level>
+        <level>21000</level>
         <pawnValue>2200</pawnValue>
         <color>0xcd0000</color>
         <relatedProperties>3</relatedProperties>
@@ -381,15 +366,14 @@
         <description/>
         <cost>4400</cost>
         <buildingCost>3000</buildingCost>
-        <rentLevels>
-            <level>350</level>
-            <level>700</level>
-            <level>1800</level>
-            <level>5000</level>
-            <level>14000</level>
-            <level>17500</level>
-            <level>21000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>350</level>
+        <level>700</level>
+        <level>1800</level>
+        <level>5000</level>
+        <level>14000</level>
+        <level>17500</level>
+        <level>21000</level>
         <pawnValue>2200</pawnValue>
         <color>0xcd0000</color>
         <relatedProperties>3</relatedProperties>
@@ -403,15 +387,14 @@
         <description/>
         <cost>4800</cost>
         <buildingCost>3000</buildingCost>
-        <rentLevels>
-            <level>400</level>
-            <level>800</level>
-            <level>2000</level>
-            <level>6000</level>
-            <level>15000</level>
-            <level>18500</level>
-            <level>22000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>400</level>
+        <level>800</level>
+        <level>2000</level>
+        <level>6000</level>
+        <level>15000</level>
+        <level>18500</level>
+        <level>22000</level>
         <pawnValue>2400</pawnValue>
         <color>0xcd0000</color>
         <relatedProperties>3</relatedProperties>
@@ -424,12 +407,11 @@
         <subText>kr. 4.000</subText>
         <description>Gedser - Rostock</description>
         <cost>4000</cost>
-        <rentLevels>
-            <level>500</level>
-            <level>1000</level>
-            <level>2000</level>
-            <level>4000</level>
-        </rentLevels>
+        <rentLevels>4</rentLevels>
+        <level>500</level>
+        <level>1000</level>
+        <level>2000</level>
+        <level>4000</level>
         <pawnValue>2000</pawnValue>
         <color>0x0000cd</color>
         <relatedProperties>4</relatedProperties>
@@ -443,15 +425,14 @@
         <description/>
         <cost>5200</cost>
         <buildingCost>3000</buildingCost>
-        <rentLevels>
-            <level>450</level>
-            <level>900</level>
-            <level>2200</level>
-            <level>6600</level>
-            <level>16000</level>
-            <level>19500</level>
-            <level>23000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>450</level>
+        <level>900</level>
+        <level>2200</level>
+        <level>6600</level>
+        <level>16000</level>
+        <level>19500</level>
+        <level>23000</level>
         <pawnValue>2600</pawnValue>
         <color>0xf0f8ff</color>
         <relatedProperties>3</relatedProperties>
@@ -465,15 +446,14 @@
         <description/>
         <cost>5200</cost>
         <buildingCost>3000</buildingCost>
-        <rentLevels>
-            <level>450</level>
-            <level>900</level>
-            <level>2200</level>
-            <level>6600</level>
-            <level>16000</level>
-            <level>19500</level>
-            <level>23000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>450</level>
+        <level>900</level>
+        <level>2200</level>
+        <level>6600</level>
+        <level>16000</level>
+        <level>19500</level>
+        <level>23000</level>
         <pawnValue>2600</pawnValue>
         <color>0xf0f8ff</color>
         <relatedProperties>3</relatedProperties>
@@ -486,10 +466,9 @@
         <subText>kr. 3.000</subText>
         <description/>
         <cost>3000</cost>
-        <rentLevels>
-            <level>100</level>
-            <level>200</level>
-        </rentLevels>
+        <rentLevels>2</rentLevels>
+        <level>100</level>
+        <level>200</level>
         <pawnValue>1500</pawnValue>
         <color>0xcd0000</color>
         <relatedProperties>2</relatedProperties>
@@ -503,15 +482,14 @@
         <description/>
         <cost>5600</cost>
         <buildingCost>3000</buildingCost>
-        <rentLevels>
-            <level>500</level>
-            <level>100</level>
-            <level>2400</level>
-            <level>7200</level>
-            <level>17000</level>
-            <level>20500</level>
-            <level>23000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>500</level>
+        <level>1000</level>
+        <level>2400</level>
+        <level>7200</level>
+        <level>17000</level>
+        <level>20500</level>
+        <level>23000</level>
         <pawnValue>2800</pawnValue>
         <color>0xf0f8ff</color>
         <relatedProperties>3</relatedProperties>
@@ -533,15 +511,14 @@
         <description/>
         <cost>6000</cost>
         <buildingCost>4000</buildingCost>
-        <rentLevels>
-            <level>550</level>
-            <level>1100</level>
-            <level>2600</level>
-            <level>7800</level>
-            <level>18000</level>
-            <level>22000</level>
-            <level>26000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>550</level>
+        <level>1100</level>
+        <level>2600</level>
+        <level>7800</level>
+        <level>18000</level>
+        <level>22000</level>
+        <level>26000</level>
         <pawnValue>3000</pawnValue>
         <color>0xffd700</color>
         <relatedProperties>3</relatedProperties>
@@ -555,15 +532,14 @@
         <description/>
         <cost>6000</cost>
         <buildingCost>4000</buildingCost>
-        <rentLevels>
-            <level>550</level>
-            <level>1100</level>
-            <level>2600</level>
-            <level>7800</level>
-            <level>18000</level>
-            <level>22000</level>
-            <level>26000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>550</level>
+        <level>1100</level>
+        <level>2600</level>
+        <level>7800</level>
+        <level>18000</level>
+        <level>22000</level>
+        <level>26000</level>
         <pawnValue>3000</pawnValue>
         <color>0xffd700</color>
         <relatedProperties>3</relatedProperties>
@@ -584,15 +560,14 @@
         <description/>
         <cost>6400</cost>
         <buildingCost>4000</buildingCost>
-        <rentLevels>
-            <level>600</level>
-            <level>1200</level>
-            <level>3000</level>
-            <level>9000</level>
-            <level>20000</level>
-            <level>24000</level>
-            <level>28000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>600</level>
+        <level>1200</level>
+        <level>3000</level>
+        <level>9000</level>
+        <level>20000</level>
+        <level>24000</level>
+        <level>28000</level>
         <pawnValue>3200</pawnValue>
         <color>0xffd700</color>
         <relatedProperties>3</relatedProperties>
@@ -605,12 +580,11 @@
         <subText>kr. 4.000</subText>
         <description>Rødby - Puttgarden</description>
         <cost>4000</cost>
-        <rentLevels>
-            <level>500</level>
-            <level>1000</level>
-            <level>2000</level>
-            <level>4000</level>
-        </rentLevels>
+        <rentLevels>4</rentLevels>
+        <level>500</level>
+        <level>1000</level>
+        <level>2000</level>
+        <level>4000</level>
         <pawnValue>2000</pawnValue>
         <color>0xcd0000</color>
         <relatedProperties>4</relatedProperties>
@@ -631,15 +605,14 @@
         <description/>
         <cost>7000</cost>
         <buildingCost>4000</buildingCost>
-        <rentLevels>
-            <level>700</level>
-            <level>1400</level>
-            <level>3500</level>
-            <level>10000</level>
-            <level>22000</level>
-            <level>26000</level>
-            <level>30000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>700</level>
+        <level>1400</level>
+        <level>3500</level>
+        <level>10000</level>
+        <level>22000</level>
+        <level>26000</level>
+        <level>30000</level>
         <pawnValue>3500</pawnValue>
         <color>0x483d8b</color>
         <relatedProperties>2</relatedProperties>
@@ -661,15 +634,14 @@
         <description/>
         <cost>8000</cost>
         <buildingCost>4000</buildingCost>
-        <rentLevels>
-            <level>1000</level>
-            <level>2000</level>
-            <level>4000</level>
-            <level>12000</level>
-            <level>28000</level>
-            <level>34000</level>
-            <level>40000</level>
-        </rentLevels>
+        <rentLevels>7</rentLevels>
+        <level>1000</level>
+        <level>2000</level>
+        <level>4000</level>
+        <level>12000</level>
+        <level>28000</level>
+        <level>34000</level>
+        <level>40000</level>
         <pawnValue>4000</pawnValue>
         <color>0x483d8b</color>
         <relatedProperties>2</relatedProperties>

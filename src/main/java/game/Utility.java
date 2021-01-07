@@ -298,25 +298,16 @@ public class Utility {
     }
 
     /**
-     * Extracts an integer array from an XML element, that has child elements.
-     * @param element The parent element.
-     * @param childTag The tag of the child elements to extract.
-     * @return An integer array with the integers from the child elements.
+     * Extracts an integer array from XML elements with the same tag - number of elements specified by another XML element.
+     * @param countTag The tag for the XML element, which holds the tag for the number of ints to extract from the XML doc.
+     * @param tag The tag that holds the requested ints for the array.
+     * @return An integer array with the integers from the elements in the XML doc.
      */
-    private static int[] getIntArray(Element element, String nodeTag, String childTag){
-        NodeList nodeList = (NodeList) element.getElementsByTagName(nodeTag).item(0);
-        int[] intArr = new int[nodeList.getLength()];
-        try{
-            Node node = (Node) nodeList;
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                for (int i = 0; i < nodeList.getLength(); i++) {
-
-                    Element ele = (Element) node;
-                    intArr[i] = getInt(ele, childTag, i);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    private static int[] getIntArray(Element ele, String countTag, String tag){
+        int count = getInt(ele,countTag);
+        int[] intArr = new int[count];
+        for (int i = 0; i < count; i++) {
+            intArr[i] = getInt(ele,tag,i);
         }
         return intArr;
     }
