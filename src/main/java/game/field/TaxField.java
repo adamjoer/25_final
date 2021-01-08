@@ -11,7 +11,7 @@ public class TaxField extends Field {
         this.fine = fine;
     }
 
-    public FieldInstruction fieldAction(int player) {
+    public FieldInstruction fieldAction() {
         return new FieldInstruction(getField(), fine);
     }
 

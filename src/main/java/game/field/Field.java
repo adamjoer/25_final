@@ -23,7 +23,7 @@ public abstract class Field {
         this.color = color;
     }
 
-    public abstract FieldInstruction fieldAction(int player);
+    public abstract FieldInstruction fieldAction();
 
     public String getField() {
         return getClass().getSimpleName();

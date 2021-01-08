@@ -8,7 +8,7 @@ public class Parking extends Field {
         super(title, subText, description, position, color);
     }
 
-    public FieldInstruction fieldAction(int player) {
+    public FieldInstruction fieldAction() {
         return new FieldInstruction(getField());
     }
 }

@@ -12,10 +12,6 @@ public class Street extends Property {
         this.buildingCost = buildingCost;
     }
 
-    public FieldInstruction fieldAction(int player) {
-        return new FieldInstruction(getField(), getOwner(), getCurrentRent(), getCost());
-    }
-
     // Relevant getters
     public int getNumberOfHouses() {
         return switch (propertyLevel) {

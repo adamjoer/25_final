@@ -11,7 +11,7 @@ public class Jail extends Field{
         this.bail = bail;
     }
 
-    public FieldInstruction fieldAction(int player) {
+    public FieldInstruction fieldAction() {
         return new FieldInstruction(getField(), bail);
     }
 

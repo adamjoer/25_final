@@ -8,7 +8,4 @@ public class Brewery extends Property {
         super(title, subText, description, position, color, cost, pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
     }
 
-    public FieldInstruction fieldAction(int player) {
-        return new FieldInstruction(getField(), getOwner(), getCurrentRent(), getCost());
-    }
 }

@@ -11,8 +11,8 @@ public class FieldController {
         fields = Utility.fieldGenerator(XML_FILEPATH);
     }
 
-    public FieldInstruction fieldAction(int player, int position) {
-        return fields[position].fieldAction(player);
+    public FieldInstruction fieldAction(int position) {
+        return fields[position].fieldAction();
     }
 
     public void buyProperty(int player, int propertyPosition) {
