@@ -4,7 +4,7 @@ import game.field.*;
 
 public class FieldController {
 
-    private final String XML_FILEPATH = "src/main/resources/fieldList.xml";
+    private final String XML_FILEPATH = "src/main/java/resources/fieldList.xml";
     private final Field[] fields;
 
     public FieldController() {

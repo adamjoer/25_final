@@ -21,6 +21,7 @@ public class Game {
         guiController = new GUIController(fields);
         diceController = new DiceController(2,6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
+        fieldController = new FieldController();
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
     }
@@ -44,6 +45,10 @@ public class Game {
             guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
 
             movePlayer(playerTurn, diceController.getSum());
+
+            fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
+            fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
+
             while(isDieIdentical){
                 guiController.showMessage("You got identical dies, roll the dice again!");
                 guiController.getUserButton("Roll the dice", "Roll");
@@ -53,6 +58,8 @@ public class Game {
                 dice2 = diceController.getFaceValue(1);
                 guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
                 movePlayer(playerTurn, diceController.getSum());
+                fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
+                fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
             }
             String userBtn = guiController.getUserButton("Continue or close game?",
                     "Close game", "Continuegame");
@@ -125,6 +132,8 @@ public class Game {
 
     public boolean fieldAction(int position, int player){
         FieldInstruction instructions = fieldController.fieldAction(position);
+        System.out.print(position + ":");
+        System.out.println(instructions.getOwner());
 
         switch(instructions.getFieldType()) {
 
@@ -145,7 +154,7 @@ public class Game {
                     if(guiController.getUserButton("Ingen spillere ejer dette felt, vil du købe det?", "Ja", "Nej") == "Ja"){
 
                         //If they want to buy it, check if they have money for it
-                        if(playerController.makeTransaction(instructions.getCost(), player)){
+                        if(playerController.makeTransaction(-instructions.getCost(), player)){
                             buyProperty(player, position, instructions.getRent());
                             guiController.setBalance(playerController.getPlayerBalance(player), player);
                         }
@@ -171,25 +180,18 @@ public class Game {
                     return successfulRent;
                 }
 
-                break;
-
             case "Chance":
-                break;
 
             case "GoToJail":
-                break;
 
             case "Jail":
-                break;
 
             case "Parking":
-                break;
 
             case "Start":
-                break;
 
             case "TaxField":
-                break;
+                return true;
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
