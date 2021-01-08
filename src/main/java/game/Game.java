@@ -16,8 +16,6 @@ public class Game {
     private int playerTurn;
 
     public static void main(String[] arg){
-        //Field[] fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
-        //GUIController guiController = new GUIController(fields);
         Game game = new Game();
         game.gameLoop();
     }
@@ -33,7 +31,7 @@ public class Game {
 
     public void gameLoop(){
         boolean stop = false;
-        boolean isDieIdentical = false;
+        boolean isDieIdentical;
 
         guiController.addPlayers(players);
 
@@ -58,6 +56,7 @@ public class Game {
                 dice1 = diceController.getFaceValue(0);
                 dice2 = diceController.getFaceValue(1);
                 guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
+                movePlayer(playerTurn, dice1+dice2);
             }
             String userBtn = guiController.getUserButton("Continue or close game?",
                     "Close game", "Continuegame");
@@ -65,23 +64,23 @@ public class Game {
                 stop = true;
                 guiController.close();
             }
-
-
         }
     }
-
 
     public void movePlayer(int player, int increment){
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
+        if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player)){
+            setGuiBalance(player, playerController.getPlayerBalance(player));
+        }
     }
 
-    public void setPlayerPosition(int player, int position){
+    /*public void setPlayerPosition(int player, int position){
         playerController.setPlayerPosition(player, position);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
     }
 
-    /*public void checkStartPass(int player, int increment){
+    public void checkStartPass(int player, int increment){
         if (playerController.getPlayerPosition(player) > playerController.getCurrentPosition(player) + increment){
             giveStartPassReward(player);
         }
@@ -100,7 +99,7 @@ public class Game {
         guiController.showMessage("%s has been removed from the game", players[player].getName());
         players = ArrayUtils.removeElement(players, players[player]);
         guiController.setCar(player, false);
-    }*/
+    }
 
     public boolean sellProperty(int player, int place){
         // TODO : make a check for if the property exists
@@ -124,7 +123,7 @@ public class Game {
 
     public String[] getPlayerNames(){
         return guiController.returnPlayerNames();
-    }
+    }*/
 
     public void fieldAction(int position){
         //Will be handled by the field controller
@@ -135,15 +134,19 @@ public class Game {
         return playerTurn;
     }
 
-    public int getPlayerTurn(){
+    /*public int getPlayerTurn(){
         return 0;
     }
 
     public boolean hasWinner(){
         return false;
-    }
+    }*/
 
     public void makeTransaction(int receiver, int sender, int amount){
         playerController.makeTransaction(receiver, sender, amount);
+    }
+
+    public void setGuiBalance(int player, int amount){
+        guiController.setBalance(amount, player);
     }
 }

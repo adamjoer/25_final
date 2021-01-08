@@ -226,6 +226,11 @@ public class GUIController {
         return gui.getFields()[fieldPosition].hasCar(player);
     }
 
+    public void setBalance(int balance, int player){
+        //set balance
+        Objects.requireNonNull(getGuiPlayer(player)).setBalance(balance);
+    }
+
     /**
      * Set the visibility of a players car
      * @param player : A player from the game
