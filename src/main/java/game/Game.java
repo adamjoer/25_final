@@ -1,6 +1,9 @@
 package game;
 
 import game.field.Field;
+import game.field.FieldInstruction;
+
+import java.io.FileInputStream;
 
 public class Game {
 
@@ -118,6 +121,37 @@ public class Game {
     }*/
 
     public void fieldAction(int position){
+        FieldInstruction instructions = fieldController.fieldAction(position);
+
+        switch(instructions.getFieldType()) {
+
+            case "Brewery":
+            case "Street":
+            case "Shipping":
+                break;
+
+            case "Chance":
+                break;
+
+            case "GoToJail":
+                break;
+
+            case "Jail":
+                break;
+
+            case "Parking":
+                break;
+
+            case "Start":
+                break;
+
+            case "TaxField":
+                break;
+
+            default:
+                throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
+        }
+
     }
 
     public int getNextPlayerTurn(){
