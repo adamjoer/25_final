@@ -107,12 +107,13 @@ public class Game {
         return false;
     }
 
-    public boolean buyProperty(int player, int place){
+    public boolean buyProperty(int player, int place, int rent){
         // TODO : make a check for if the property is not owned
         int[] properties = playerController.getProperties(player);
         if(Arrays.stream(properties).anyMatch(i -> i == place )){
             fieldController.buyProperty(player, place);
             playerController.addProperty(player, place);
+            guiController.fieldOwnable(place, player, rent);
             return true;
         }
         return false;
@@ -134,6 +135,7 @@ public class Game {
                 //Check if the field is owned by the player
                 if(player == instructions.getOwner()){
                     guiController.showMessage("Det er dit eget felt");
+                    return true;
                 }
 
                 //Check if the field is owned by the bank
@@ -145,7 +147,8 @@ public class Game {
 
                         //If they want to buy it, check if they have money for it
                         if(playerController.makeTransaction(instructions.getCost(), player)){
-                            buyProperty(player, position);
+                            buyProperty(player, position, instructions.getRent());
+                            guiController.setBalance(playerController.getPlayerBalance(player), player);
                         }
                         else{
                             guiController.showMessage("Du har ikke nok penge");
@@ -157,9 +160,16 @@ public class Game {
                 //Field is owned by another player, so they have to pay rent
                 else{
                     guiController.showMessage("Feltet er eget af en anden spiller, du skal betale husleje");
+                    int owner = instructions.getOwner();
 
                     //Make transaction from the current player to the owner of the field
-                    return playerController.makeTransaction(instructions.getRent(), player, instructions.getOwner());
+                    boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
+
+                    //Set the balance of both players in the GUI
+                    guiController.setBalance(playerController.getPlayerBalance(player), player);
+                    guiController.setBalance(playerController.getPlayerBalance(owner), owner);
+
+                    return successfulRent;
                 }
 
                 break;
@@ -185,7 +195,6 @@ public class Game {
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
         }
-        return true;
     }
 
     public int getNextPlayerTurn(){
