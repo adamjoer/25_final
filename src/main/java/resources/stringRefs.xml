@@ -40,4 +40,8 @@
         <reference>test</reference>
         <outputString>Test did not fail!</outputString>
     </stringRef>
+    <stringRef>
+        <reference>goToPrison</reference>
+        <outputString>Du skal sgu i fængsel!</outputString>
+    </stringRef>
 </stringRefs>
