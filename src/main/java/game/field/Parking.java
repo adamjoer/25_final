@@ -9,7 +9,6 @@ public class Parking extends Field {
     }
 
     public FieldInstruction fieldAction(int player) {
-        // Do nothing
-        return null;
+        return new FieldInstruction(getField());
     }
 }
