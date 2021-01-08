@@ -1,4 +1,4 @@
-package chance.card;
+package game.chance.card;
 
 public class HouseTax extends ChanceCard {
 
@@ -18,7 +18,10 @@ public class HouseTax extends ChanceCard {
         HOTEL_TAX = hotelTax;
     }
 
-    public CardInstruction executeCard(){
-        return new CardInstruction(getClass().getSimpleName(),CARD_TEXT,HOUSE_TAX,HOTEL_TAX);
-    }
+    public int getAmount(){ return 0; }
+    public int getHouseTax(){ return HOUSE_TAX; }
+    public int getHotelTax(){ return HOTEL_TAX; }
+    public int getThreshold(){ return 0; }
+    public int getIncrement(){ return 0; }
+    public int getDestination(){ return 0; }
 }

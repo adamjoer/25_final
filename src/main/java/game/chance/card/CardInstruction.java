@@ -1,4 +1,4 @@
-package chance.card;
+package game.chance.card;
 
 public class CardInstruction {
 

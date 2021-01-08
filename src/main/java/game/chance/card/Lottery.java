@@ -1,4 +1,4 @@
-package chance.card;
+package game.chance.card;
 
 public class Lottery extends ChanceCard {
 
@@ -18,7 +18,10 @@ public class Lottery extends ChanceCard {
         THRESHOLD = threshold;
     }
 
-    public CardInstruction executeCard(){
-        return new CardInstruction(AMOUNT,THRESHOLD,getClass().getSimpleName(),CARD_TEXT);
-    }
+    public int getAmount(){ return AMOUNT; }
+    public int getHouseTax(){ return 0; }
+    public int getHotelTax(){ return 0; }
+    public int getThreshold(){ return THRESHOLD; }
+    public int getIncrement(){ return 0; }
+    public int getDestination(){ return 0; }
 }
