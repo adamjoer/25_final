@@ -8,7 +8,4 @@ public class Brewery extends Property {
         super(title, subText, description, position, color, cost, pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
     }
 
-    public void fieldAction() {
-        // TODO: Implement whatever happens on this field
-    }
 }

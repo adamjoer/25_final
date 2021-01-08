@@ -11,10 +11,42 @@ public class FieldController {
         fields = Utility.fieldGenerator(XML_FILEPATH);
     }
 
-    public void fieldAction(int position) {
-        // TODO: This method needs the same parameters that Field.fieldAction() gets,
-        //       which will then be passed to it here
-        fields[position].fieldAction();
+    public FieldInstruction fieldAction(int position) {
+        return fields[position].fieldAction();
+    }
+
+    public void buyProperty(int player, int propertyPosition) {
+
+        // Get the property
+        Property property = (Property) fields[propertyPosition];
+
+        // It shouldn't be possible to call this method
+        assert property.getOwner() != player;
+
+        // Change the owner to player
+        property.setOwner(player);
+
+        // If necessary, change propertyLevel, based on what the property type is
+        switch (property.getField()) {
+
+            case "Street":
+
+                // If the player owns all the properties in the group, change propertyLevel to 1
+                if (ownsAllPropertiesInGroup(player, propertyPosition)) property.setPropertyLevel(1);
+                break;
+
+            case "Shipping":
+
+                // Set propertyLevel to the number of properties owned in the group minus one
+                property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                break;
+
+            case "Brewery":
+
+                // Set propertyLevel to 1 if both breweries is owned, otherwise 0
+                property.setPropertyLevel(ownsAllPropertiesInGroup(player, propertyPosition) ? 1 : 0);
+                break;
+        }
     }
 
     /**
@@ -47,6 +79,29 @@ public class FieldController {
 
         // If we've gone through all the properties and all of them are owned by the player, return true
         return true;
+    }
+
+    public int getNumberOfPropertiesOwnedInGroup(int player, int propertyPosition) {
+
+        // Find the specified property
+        Property property = (Property) fields[propertyPosition];
+        int count = 0;
+
+        // Go over each property in the group
+        // (the number of properties in the group is represented with the relatedProperties attribute)
+        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
+
+            // Find the next property in the group
+            property = (Property) fields[property.getNextRelatedProperty()];
+
+            // If the property is owned by the player, increment the count
+            if (property.getOwner() == player) count++;
+        }
+
+        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
+        assert property == fields[propertyPosition];
+
+        return count;
     }
 
     /**

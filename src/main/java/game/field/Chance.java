@@ -8,7 +8,7 @@ public class Chance extends Field {
         super(title, subText, description, position, color);
     }
 
-    public void fieldAction() {
-        // TODO: Implement drawing chance card and acting based on it
+    public FieldInstruction fieldAction() {
+        return new FieldInstruction(getField());
     }
 }

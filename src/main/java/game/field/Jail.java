@@ -11,8 +11,8 @@ public class Jail extends Field{
         this.bail = bail;
     }
 
-    public void fieldAction() {
-        //TODO: Implement getting out of jail
+    public FieldInstruction fieldAction() {
+        return new FieldInstruction(getField(), bail);
     }
 
     public String toString() {

@@ -1,5 +1,7 @@
 package game.field;
 
+import game.*;
+
 import java.awt.Color;
 
 /**
@@ -21,7 +23,11 @@ public abstract class Field {
         this.color = color;
     }
 
-    public abstract void fieldAction();
+    public abstract FieldInstruction fieldAction();
+
+    public String getField() {
+        return getClass().getSimpleName();
+    }
 
     public String getTitle() {
         return title;
