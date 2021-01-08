@@ -8,28 +8,24 @@ public class FieldInstruction {
     private int cost;
     private int propertyLevel;
     private int fineOrBailOrJailPosition;
-    private final String SUB_TEXT;
 
     // Property
-    public FieldInstruction(String fieldType, int owner, int rent, int cost, String SUB_TEXT) {
+    public FieldInstruction(String fieldType, int owner, int rent, int cost) {
         this.fieldType = fieldType;
         this.owner = owner;
         this.rent = rent;
         this.cost = cost;
-        this.SUB_TEXT = SUB_TEXT;
     }
 
     // Chance, Start, Parking,
-    public FieldInstruction(String fieldType, String SUB_TEXT) {
+    public FieldInstruction(String fieldType) {
         this.fieldType = fieldType;
-        this.SUB_TEXT = SUB_TEXT;
     }
 
     // TaxField, Jail, GoToJail
-    public FieldInstruction(String fieldType, int fineOrBailOrJailPosition, String SUB_TEXT) {
+    public FieldInstruction(String fieldType, int fineOrBailOrJailPosition) {
         this.fieldType = fieldType;
         this.fineOrBailOrJailPosition = fineOrBailOrJailPosition;
-        this.SUB_TEXT = SUB_TEXT;
     }
 
     // Relevant getters
@@ -63,9 +59,5 @@ public class FieldInstruction {
 
     public int getJailPosition() {
         return fineOrBailOrJailPosition;
-    }
-
-    public String getSubText(){
-        return SUB_TEXT;
     }
 }
