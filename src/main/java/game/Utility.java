@@ -1,9 +1,11 @@
 package game;
 
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
 import game.field.*;
+import chance.card.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -24,10 +26,181 @@ public class Utility {
 
         // Load XML-file and get a list of field data.
         NodeList fieldList = getXmlContent(filePath, "field");
-        Field[] fields = new Field[fieldList.getLength()];
+        Field[] fieldArr = new Field[fieldList.getLength()];
+        try {
 
+            // Extract data from each fieldList element and create Field objects for the Field[].
+            for (int i = 0; i < fieldList.getLength(); i++) {
+
+                Node field = fieldList.item(i);
+
+                if (field.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element ele = (Element) field;
+                    Color color = new Color(getInt(ele,"color"));
+                    String fieldType = getString(ele,"fieldType");
+                    String title = getString(ele, "title");
+                    String subText = getString(ele, "subText");
+                    String description = getString(ele, "description");
+
+
+
+
+                    switch (fieldType){
+                        case "Property":
+                            // int cost, buildingCost, pawnValue, relatedProperties,nextRelatedProperty;
+
+                            int cost = getInt(ele,"cost");
+                            int pawnValue = getInt(ele, "pawnValue");
+                            int relatedProperties = getInt(ele, "relatedProperties");
+                            int nextRelatedProperty = getInt(ele, "nextRelatedProperty");
+
+                            int[] rentLevels = getIntArray(ele,"rentLevels","level");
+                            String subType = getString(ele, "subType");
+
+
+                            switch (subType){
+                                case "Street":
+                                    int buildingCost = getInt(ele, "buildingCost");
+
+                                    fieldArr[i] = new Street(title, subText, description, i, color, cost, pawnValue,
+                                            rentLevels, relatedProperties, nextRelatedProperty, buildingCost);
+                                    break;
+
+                                case "Shipping":
+
+                                    fieldArr[i] = new Shipping(title, subText, description, i, color, cost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+
+                                case "Brewery":
+                                    fieldArr[i] = new Brewery(title, subText, description, i, color, cost,
+                                            pawnValue, rentLevels, relatedProperties, nextRelatedProperty);
+                                    break;
+                            }
+                            break;
+
+                        case "Chance":
+                            fieldArr[i] = new Chance(title, subText, description, i, color);
+
+                            break;
+                        case "Jail":
+                            int bail = getInt(ele,"bail");
+
+                            fieldArr[i] = new Jail(title, subText, description, i, color, bail);
+
+                            break;
+                        case "GoToJail":
+                            int jailPosition = getInt(ele,"jailPosition");
+
+                            fieldArr[i] = new GoToJail(title, subText, description, i, color, jailPosition);
+
+                            break;
+                        case "Parking":
+                            fieldArr[i] = new Parking(title, subText, description, i, color);
+
+                            break;
+                        case "Start":
+                            fieldArr[i] = new Start(title, subText, description, i, color);
+
+                            break;
+                        case "TaxField":
+                            int fine = getInt(ele,"fine");
+
+                            fieldArr[i] = new TaxField(title, subText, description, i, color, fine);
+
+                            break;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         // Return array of Field objects
-        return fields;
+        return fieldArr;
+    }
+    /**
+     * Generates an array of ChanceCard objects from an XML-file.
+     *
+     * @param filePath Filepath of the XML-file.
+     * @return An array of objects inherited from ChanceCard with data from specified XML-file.
+     */
+    public static ChanceCard[] chanceCardGenerator(String filePath){
+        // Load XML-file and get a list of field data.
+        NodeList chanceCardList = getXmlContent(filePath, "chanceCard");
+        int arrayLength = 0;
+        try {
+            for (int i = 0; i < chanceCardList.getLength(); i++) {
+                Node chanceCard = chanceCardList.item(i);
+
+                if (chanceCard.getNodeType() == Node.ELEMENT_NODE) {
+                    Element ele = (Element) chanceCard;
+                    arrayLength += getInt(ele,"duplicates");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ChanceCard[] chanceCards = new ChanceCard[arrayLength];
+        try {
+
+            // Extract data from each fieldList element and create Field objects for the Field[].
+            for (int i = 0; i < chanceCardList.getLength(); i++) {
+
+                Node chanceCard = chanceCardList.item(i);
+
+                if (chanceCard.getNodeType() == Node.ELEMENT_NODE) {
+
+                    Element ele  = (Element) chanceCard;
+                    String cardText = getString(ele,"cardText");
+                    String cardType = getString(ele, "cardType");
+                    int duplicates = getInt(ele,"duplicates");
+                    int amount;
+
+                    for (int j = 0; j < duplicates; j++) {
+                        switch (cardType) {
+                            case "HouseTax":
+                                int houseTax = getInt(ele, "houseTax");
+                                int hotelTax = getInt(ele, "hotelTax");
+                                chanceCards[i+j] = new HouseTax(cardText,houseTax,hotelTax);
+                                break;
+
+                            case "BankTransaction":
+                                amount = getInt(ele,"amount");
+                                chanceCards[i+j] = new BankTransaction(cardText,amount);
+                                break;
+
+                            case "CashFromPlayer":
+                                amount = getInt(ele,"amount");
+                                chanceCards[i+j] = new CashFromPlayer(cardText,amount);
+                                break;
+
+                            case "MovePlayer":
+                                int increment = getInt(ele, "increment");
+                                chanceCards[i+j] = new MovePlayer(cardText,increment);
+                                break;
+
+                            case "Lottery":
+                                int threshold = getInt(ele,"threshold");
+                                amount = getInt(ele,"amount");
+                                chanceCards[i+j] = new Lottery(cardText,amount,threshold);
+                                break;
+
+                            case "MovePlayerToTile":
+                                int destination = getInt(ele, "destination");
+                                chanceCards[i+j] = new MovePlayerToTile(cardText,destination);
+                                break;
+                        }
+                    }
+                    // Correcting the index for number of duplicates created in the array.
+                    i += duplicates-1;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return chanceCards;
     }
 
     /**
@@ -44,7 +217,7 @@ public class Utility {
 
         try {
 
-            // Go over each Node int the NodeList
+            // Go over each Node in the NodeList
             for (int i = 0; i < stringRefList.getLength(); i++) {
 
                 // Check if node is an element
@@ -64,6 +237,7 @@ public class Utility {
         // Return array of stringRef objects
         return stringRefs;
     }
+
 
     /*
      * Extracts a boolean from an XML element
@@ -99,22 +273,43 @@ public class Utility {
         return str;
     }
 
+
     /**
      * Extracts an integer from an XML element.
      * Can also decode decimal, hexadecimal, and octal numbers.
      *
      * @param ele An XML element extracted from a document
      * @param tag The XML tag to extract an integer value from
+     * @param index The index for the requested tag (in case of multiple uses of the tag).
      * @return The integer requested
      */
-    private static int getInt(Element ele, String tag) {
+    private static int getInt(Element ele, String tag, int index) {
         int n = Integer.MAX_VALUE;
         try {
-            n = Integer.decode(ele.getElementsByTagName(tag).item(0).getTextContent());
+            n = Integer.decode(ele.getElementsByTagName(tag).item(index).getTextContent());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return n;
+    }
+    // Variation of getInt without the use of index (for unique tags in the element).
+    private static int getInt(Element ele, String tag){
+        return getInt(ele,tag,0);
+    }
+
+    /**
+     * Extracts an integer array from XML elements with the same tag - number of elements specified by another XML element.
+     * @param countTag The tag for the XML element, which holds the tag for the number of ints to extract from the XML doc.
+     * @param tag The tag that holds the requested ints for the array.
+     * @return An integer array with the integers from the elements in the XML doc.
+     */
+    private static int[] getIntArray(Element ele, String countTag, String tag){
+        int count = getInt(ele,countTag);
+        int[] intArr = new int[count];
+        for (int i = 0; i < count; i++) {
+            intArr[i] = getInt(ele,tag,i);
+        }
+        return intArr;
     }
 
     /**

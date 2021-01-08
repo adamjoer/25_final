@@ -58,6 +58,9 @@ public class PlayerController {
      */
     public void movePlayer(int player, int increment) {
         players[player].movePlayer(increment);
+        if(players[player].getCurrentPosition() < players[player].getPreviousPosition()){
+            players[player].makeTransaction(4000);
+        }
     }
 
     /**
@@ -105,6 +108,14 @@ public class PlayerController {
 
 
     //Relevant getters
+    public String getName(int player){
+        return players[player].getName();
+    }
+
+    public Player[] getPlayers(){
+        return players;
+    }
+
     public int[] getProperties(int player) {
         return players[player].getProperties();
     }

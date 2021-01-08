@@ -120,6 +120,8 @@
         <cardType>Lottery</cardType>
         <cardText>De modtager “Matador-legatet” på kr. 40.000, men kun hvis Deres værdier ikke overstiger kr.
             15.000.</cardText>
+        <amount>40000</amount>
+        <threshold>15000</threshold>
         <duplicates>1</duplicates>
     </chanceCard>
     <chanceCard>

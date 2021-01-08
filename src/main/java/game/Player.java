@@ -83,6 +83,9 @@ public class Player {
         currentPosition = (currentPosition + increment) % BOARD_LENGTH;
     }
 
+    public String getName(){
+        return this.NAME;
+    }
 
     public int getBalance() {
         return account.getBalance();
