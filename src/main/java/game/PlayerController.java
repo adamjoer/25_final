@@ -124,7 +124,7 @@ public class PlayerController {
         return players[player].getCurrentPosition();
     }
 
-    public int getOldPlayerPosition(int player) {
+    public int getPreviousPlayerPosition(int player) {
         return players[player].getPreviousPosition();
     }
 
