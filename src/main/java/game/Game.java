@@ -1,9 +1,6 @@
 package game;
 
 import game.field.Field;
-import org.apache.commons.lang.ArrayUtils;
-
-import java.util.Arrays;
 
 public class Game {
 
@@ -14,11 +11,6 @@ public class Game {
     //private ChanceCardController chanceCardController;
     private Player[] players;
     private int playerTurn;
-
-    public static void main(String[] arg){
-        Game game = new Game();
-        game.gameLoop();
-    }
 
     public Game(){
         Field[] fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
