@@ -142,8 +142,7 @@ public class Game {
                 else if(instructions.getOwner() == -1){
 
                     //If field is owned by the bank, ask player if they want to buy it
-                    guiController.showMessage("Ingen spillere ejer dette felt, vil du købe det?");
-                    if(guiController.getUserButton("Ja", "Nej") == "Ja"){
+                    if(guiController.getUserButton("Ingen spillere ejer dette felt, vil du købe det?", "Ja", "Nej") == "Ja"){
 
                         //If they want to buy it, check if they have money for it
                         if(playerController.makeTransaction(instructions.getCost(), player)){
