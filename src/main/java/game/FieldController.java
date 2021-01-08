@@ -104,6 +104,24 @@ public class FieldController {
         return count;
     }
 
+    public void incarcerate(int player) {
+        for (Field field : fields) {
+            if (!(field instanceof Jail)) continue;
+
+            ((Jail) field).incarcerate(player);
+            break;
+        }
+    }
+
+    public void free(int player) {
+        for (Field field : fields) {
+            if (!(field instanceof Jail)) continue;
+
+            ((Jail) field).free(player);
+            break;
+        }
+    }
+
     /**
      * Method for checking whether a player has passed the Go field,
      * and is therefore eligible for the 'pass go' reward.
