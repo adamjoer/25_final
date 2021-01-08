@@ -41,6 +41,10 @@
         <outputString>Test did not fail!</outputString>
     </stringRef>
     <stringRef>
+        <reference>goToPrison</reference>
+        <outputString>Du skal sgu i fængsel!</outputString>
+    </stringRef>
+    <stringRef>
         <reference>statsSkat</reference>
         <outputString>Du er landet på statsskat, og skal dermed af med 2000 kr.</outputString>
     </stringRef>

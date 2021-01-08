@@ -76,7 +76,7 @@ public class Game {
     public void movePlayer(int player, int increment){
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
-        if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player)){
+        if(playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player)){
             setGuiBalance(player, playerController.getPlayerBalance(player));
         }
     }
@@ -185,6 +185,10 @@ public class Game {
                 break;
 
             case "GoToJail":
+                guiController.showMessage(stringHandler.getString("goToJail") );
+                playerController.setPlayerPosition(player, instructions.getJailPosition());
+                guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
+                fieldController.incarcerate(player);
                 break;
 
             case "Jail":
