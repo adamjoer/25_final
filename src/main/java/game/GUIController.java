@@ -221,6 +221,12 @@ public class GUIController {
         Objects.requireNonNull(getGuiPlayer(player)).setBalance(balance);
     }
 
+    public void makeTransaction(int balance, int player){
+        GUI_Player guiPlayer = getGuiPlayer(player);
+        assert guiPlayer != null;
+        guiPlayer.setBalance(balance + guiPlayer.getBalance());
+    }
+
     /**
      * Set the visibility of a players car
      * @param player : A player from the game
