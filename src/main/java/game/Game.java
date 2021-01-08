@@ -4,6 +4,7 @@ import game.field.Field;
 import game.field.FieldInstruction;
 
 import java.io.FileInputStream;
+import java.util.Arrays;
 
 public class Game {
 
@@ -70,12 +71,12 @@ public class Game {
         }
     }
 
-    /*public void setPlayerPosition(int player, int position){
+    public void setPlayerPosition(int player, int position){
         playerController.setPlayerPosition(player, position);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
     }
 
-    public void checkStartPass(int player, int increment){
+    /*public void checkStartPass(int player, int increment){
         if (playerController.getPlayerPosition(player) > playerController.getCurrentPosition(player) + increment){
             giveStartPassReward(player);
         }
@@ -94,7 +95,7 @@ public class Game {
         guiController.showMessage("%s has been removed from the game", players[player].getName());
         players = ArrayUtils.removeElement(players, players[player]);
         guiController.setCar(player, false);
-    }
+    }*/
 
     public boolean sellProperty(int player, int place){
         // TODO : make a check for if the property exists
@@ -110,6 +111,7 @@ public class Game {
         // TODO : make a check for if the property is not owned
         int[] properties = playerController.getProperties(player);
         if(Arrays.stream(properties).anyMatch(i -> i == place )){
+            fieldController.buyProperty(player, place);
             playerController.addProperty(player, place);
             return true;
         }
@@ -118,9 +120,9 @@ public class Game {
 
     public String[] getPlayerNames(){
         return guiController.returnPlayerNames();
-    }*/
+    }
 
-    public void fieldAction(int position){
+    public boolean fieldAction(int position, int player){
         FieldInstruction instructions = fieldController.fieldAction(position);
 
         switch(instructions.getFieldType()) {
@@ -128,6 +130,38 @@ public class Game {
             case "Brewery":
             case "Street":
             case "Shipping":
+
+                //Check if the field is owned by the player
+                if(player == instructions.getOwner()){
+                    guiController.showMessage("Det er dit eget felt");
+                }
+
+                //Check if the field is owned by the bank
+                else if(instructions.getOwner() == -1){
+
+                    //If field is owned by the bank, ask player if they want to buy it
+                    guiController.showMessage("Ingen spillere ejer dette felt, vil du købe det?");
+                    if(guiController.getUserButton("Ja", "Nej") == "Ja"){
+
+                        //If they want to buy it, check if they have money for it
+                        if(playerController.makeTransaction(instructions.getCost(), player)){
+                            buyProperty(player, position);
+                        }
+                        else{
+                            guiController.showMessage("Du har ikke nok penge");
+                        }
+                    }
+                    return true;
+                }
+
+                //Field is owned by another player, so they have to pay rent
+                else{
+                    guiController.showMessage("Feltet er eget af en anden spiller, du skal betale husleje");
+
+                    //Make transaction from the current player to the owner of the field
+                    return playerController.makeTransaction(instructions.getRent(), player, instructions.getOwner());
+                }
+
                 break;
 
             case "Chance":
@@ -151,7 +185,7 @@ public class Game {
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
         }
-
+        return true;
     }
 
     public int getNextPlayerTurn(){
