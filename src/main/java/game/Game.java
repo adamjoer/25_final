@@ -225,8 +225,9 @@ public class Game {
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
-        }
 
+        }
+        return true;
     }
 
     public int getNextPlayerTurn(){
