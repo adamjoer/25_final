@@ -59,4 +59,22 @@
             Eller
             2: Betale 10% af din værdi</outputString>
     </stringRef>
+    <stringRef>
+        <reference>ownField</reference>
+        <outputString>Du er landet på dit eget felt</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>buyField</reference>
+        <outputString>Ingen spillere ejer dette felt, vil du købe det?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>noMoney</reference>
+        <outputString>Du har ikke nok penge</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>payRent</reference>
+        <outputString>Feltet er eget af en anden spiller, du skal betale husleje</outputString>
+    </stringRef>
+
+
 </stringRefs>

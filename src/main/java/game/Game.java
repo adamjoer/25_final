@@ -144,7 +144,7 @@ public class Game {
 
                 //Check if the field is owned by the player
                 if(player == instructions.getOwner()){
-                    guiController.showMessage("Det er dit eget felt");
+                    guiController.showMessage(stringHandler.getString("ownField"));
                     return true;
                 }
 
@@ -152,7 +152,7 @@ public class Game {
                 else if(instructions.getOwner() == -1){
 
                     //If field is owned by the bank, ask player if they want to buy it
-                    if(guiController.getUserButton("Ingen spillere ejer dette felt, vil du købe det?", "Ja", "Nej") == "Ja"){
+                    if(guiController.getUserButton(stringHandler.getString("buyField"), "Ja", "Nej") == "Ja"){
 
                         //If they want to buy it, check if they have money for it
                         if(playerController.makeTransaction(-instructions.getCost(), player)){
@@ -160,7 +160,7 @@ public class Game {
                             guiController.setBalance(playerController.getPlayerBalance(player), player);
                         }
                         else{
-                            guiController.showMessage("Du har ikke nok penge");
+                            guiController.showMessage(stringHandler.getString("noMoney"));
                         }
                     }
                     return true;
@@ -168,7 +168,7 @@ public class Game {
 
                 //Field is owned by another player, so they have to pay rent
                 else{
-                    guiController.showMessage("Feltet er eget af en anden spiller, du skal betale husleje");
+                    guiController.showMessage(stringHandler.getString("payRent"));
                     int owner = instructions.getOwner();
 
                     //Make transaction from the current player to the owner of the field
