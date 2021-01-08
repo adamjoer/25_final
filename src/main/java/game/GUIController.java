@@ -12,24 +12,14 @@ public class GUIController {
 
     private final GUI gui;
     private final int MAX_PLAYER_AMOUNT = 6;
+    private final int MIN_PLAYER_AMOUNT = 2;
     private final int playerAmount; // The actual number of players in the game
     private final GUI_Player[] guiPlayerList;
     private final String[] playerNames;
     private final GUI_Car.Type[] carType;
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");;
 
-    /*public static void main(String[] args){
-        Field[] fieldsGen = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
-        GUIController gui = new GUIController(fieldsGen);
-        GUI_Field[] fields = gui.getFields();
-        GUI_Field field_ownable = fields[3];
-        ((GUI_Ownable) field_ownable).setOwnerName("Jens");
-        ((GUI_Ownable) field_ownable).setRent("2000");
-        ((GUI_Street) field_ownable).setHouses(4);
-    }*/
-
     public GUIController(Field[] fields) {
-        // TODO: Initialise the class's attributes
         GUI_Field[] guiFields = new GUI_Field[fields.length];
         for(int i = 0; i<fields.length; i++){
             Field field = fields[i];
@@ -146,7 +136,7 @@ public class GUIController {
         while (true) {
             boolean btnPressed = getUserLeftButtonPressed(getString("createPlayer"), getString("yes"), getString("no"));
             if (btnPressed) {
-                if (i == 6) {
+                if (i == MAX_PLAYER_AMOUNT) {
                     String userBtn = getUserButton(getString("maxPlayerReachedPrompt"),
                             getString("closeGameOption"), getString("continueOption"));
                     if (userBtn.equals(getString("closeGameOption"))) {
@@ -172,7 +162,7 @@ public class GUIController {
                     }
                 }
             } else {
-                if (i < 2) {
+                if (i < MIN_PLAYER_AMOUNT) {
                     showMessage(getString("tooFewPlayersError"));
                 } else {
                     break;
@@ -194,7 +184,7 @@ public class GUIController {
         Color[] color = new Color[]{Color.black, Color.blue, Color.red, Color.yellow, Color.GRAY, Color.CYAN};
         GUI_Car car;
         boolean playerCheck = false;
-        if (players.length > 6 || players.length < 2){
+        if (players.length > MAX_PLAYER_AMOUNT || players.length < MIN_PLAYER_AMOUNT){
             return false;
         }
 

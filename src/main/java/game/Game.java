@@ -47,7 +47,7 @@ public class Game {
 
             guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
 
-            movePlayer(playerTurn, dice1+dice2);
+            movePlayer(playerTurn, diceController.getSum());
             while(isDieIdentical){
                 guiController.showMessage("You got identical dies, roll the dice again!");
                 guiController.getUserButton("Roll the dice", "Roll");
@@ -56,15 +56,15 @@ public class Game {
                 dice1 = diceController.getFaceValue(0);
                 dice2 = diceController.getFaceValue(1);
                 guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
-                movePlayer(playerTurn, dice1+dice2);
+                movePlayer(playerTurn, diceController.getSum());
             }
             String userBtn = guiController.getUserButton("Continue or close game?",
                     "Close game", "Continuegame");
             if (userBtn.equals("Close game")) {
                 stop = true;
-                guiController.close();
             }
         }
+        guiController.close();
     }
 
     public void movePlayer(int player, int increment){
@@ -126,7 +126,6 @@ public class Game {
     }*/
 
     public void fieldAction(int position){
-        //Will be handled by the field controller
     }
 
     public int getNextPlayerTurn(){
