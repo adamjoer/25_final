@@ -1,7 +1,5 @@
 package game.field;
 
-import game.*;
-
 import java.awt.Color;
 
 /**
@@ -47,10 +45,6 @@ public abstract class Field {
 
     public Color getColor() {
         return color;
-    }
-
-    public String getField() {
-        return getClass().getSimpleName();
     }
 
     public String toString() {
