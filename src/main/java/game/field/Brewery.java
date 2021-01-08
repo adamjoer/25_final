@@ -9,8 +9,6 @@ public class Brewery extends Property {
     }
 
     public FieldInstruction fieldAction(int player) {
-        boolean ownedByPlayer = owner == player;
-
-        return new FieldInstruction(getField(), ownedByPlayer, getCurrentRent(), getCost(), getPropertyLevel());
+        return new FieldInstruction(getField(), getOwner(), getCurrentRent(), getCost(), getSubText());
     }
 }
