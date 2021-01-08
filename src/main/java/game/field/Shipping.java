@@ -12,6 +12,6 @@ public class Shipping extends Property {
 
     public FieldInstruction fieldAction(int player) {
 
-        return new FieldInstruction(getField(), getOwner(), getCurrentRent(), getCost(), getSubText());
+        return new FieldInstruction(getField(), getOwner(), getCurrentRent(), getCost());
     }
 }
