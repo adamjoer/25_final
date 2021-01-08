@@ -132,6 +132,18 @@ public class FieldController {
         return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
+    public int getPlayerValueSum(int player, int[] playerProperties){
+        int propertyValues = 0;
+        for (Field field : fields) {
+            if (field instanceof Property) {
+                if (((Property) field).getOwner() == player) {
+                    propertyValues += ((Property) field).getCurrentRent();
+                }
+            }
+        }
+
+        return propertyValues;
+    }
     // Relevant getters
     public Field[] getFields() {
         return fields;

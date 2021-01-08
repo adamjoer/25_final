@@ -2,6 +2,7 @@ package game;
 
 import game.field.Field;
 import game.field.FieldInstruction;
+import game.field.TaxField;
 
 import java.io.FileInputStream;
 import java.util.Arrays;
@@ -15,13 +16,15 @@ public class Game {
     //private ChanceCardController chanceCardController;
     private Player[] players;
     private int playerTurn;
+    private Field[] fields;
+    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");;
 
     public Game(){
-        Field[] fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
+        fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
+        fieldController = new FieldController();
         guiController = new GUIController(fields);
         diceController = new DiceController(2,6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
-        fieldController = new FieldController();
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
     }
@@ -78,12 +81,12 @@ public class Game {
         }
     }
 
-    public void setPlayerPosition(int player, int position){
+    /*public void setPlayerPosition(int player, int position){
         playerController.setPlayerPosition(player, position);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
     }
 
-    /*public void checkStartPass(int player, int increment){
+    public void checkStartPass(int player, int increment){
         if (playerController.getPlayerPosition(player) > playerController.getCurrentPosition(player) + increment){
             giveStartPassReward(player);
         }
@@ -132,8 +135,6 @@ public class Game {
 
     public boolean fieldAction(int position, int player){
         FieldInstruction instructions = fieldController.fieldAction(position);
-        System.out.print(position + ":");
-        System.out.println(instructions.getOwner());
 
         switch(instructions.getFieldType()) {
 
@@ -181,21 +182,47 @@ public class Game {
                 }
 
             case "Chance":
+                break;
 
             case "GoToJail":
+                break;
 
             case "Jail":
+                break;
 
             case "Parking":
+                break;
 
             case "Start":
+                break;
 
             case "TaxField":
-                return true;
+                TaxField currentField = (TaxField) fields[playerController.getPlayerPosition(playerTurn)];
+                int fine = currentField.getFine();
+                int playerValue = fieldController.getPlayerValueSum(playerTurn, playerController.getProperties(playerTurn));
+                if (currentField.getTitle().equals("Statsskat")) {
+                    guiController.showMessage(stringHandler.getString("statsSkat"));
+                    playerController.makeTransaction(-currentField.getFine(), playerTurn);
+                    guiController.makeTransaction(-currentField.getFine(), playerTurn);
+                } else{
+                    guiController.showMessage(stringHandler.getString("skat"));
+                    String playerChoiceOne = "1";
+                    String playerChoice = guiController.getUserButton(stringHandler.getString("skatOptions"),
+                                                playerChoiceOne, "2");
+                    if(playerChoice.equals(playerChoiceOne)){
+                        playerController.makeTransaction(-fine, playerTurn);
+                        guiController.makeTransaction(-fine, playerTurn);
+                    } else{
+                        playerController.makeTransaction(-playerValue, playerTurn);
+                        guiController.makeTransaction(-playerValue, playerTurn);
+                    }
+                }
+                break;
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
         }
+
     }
 
     public int getNextPlayerTurn(){
