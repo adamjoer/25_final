@@ -12,8 +12,7 @@ public class TaxField extends Field {
     }
 
     public FieldInstruction fieldAction(int player) {
-        // TODO: Implement whatever happens on this field
-        return null;
+        return new FieldInstruction(getField(), fine);
     }
 
     //Relevant getters

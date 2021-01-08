@@ -13,7 +13,7 @@ public class Street extends Property {
     }
 
     public FieldInstruction fieldAction(int player) {
-        return null;
+        return new FieldInstruction(getField(), getOwner(), getCurrentRent(), getCost());
     }
 
     // Relevant getters

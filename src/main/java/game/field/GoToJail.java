@@ -12,8 +12,7 @@ public class GoToJail extends Field {
     }
 
     public FieldInstruction fieldAction(int player) {
-        // TODO: Implement going to jail
-        return null;
+        return new FieldInstruction(getField(), getJailPosition());
     }
 
     public int getJailPosition() {

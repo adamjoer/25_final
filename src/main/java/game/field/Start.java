@@ -9,8 +9,6 @@ public class Start extends Field {
     }
 
     public FieldInstruction fieldAction(int player) {
-
-        // Do nothing, 'pass go' reward will be handled in Board
-        return null;
+        return new FieldInstruction(getField());
     }
 }

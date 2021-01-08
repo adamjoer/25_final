@@ -9,7 +9,6 @@ public class Chance extends Field {
     }
 
     public FieldInstruction fieldAction(int player) {
-        // TODO: Implement drawing chance card and acting based on it
-        return null;
+        return new FieldInstruction(getField());
     }
 }
