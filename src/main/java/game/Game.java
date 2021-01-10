@@ -16,27 +16,27 @@ public class Game {
     private Player[] players;
     private int playerTurn;
     private Field[] fields;
-    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");;
+    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
 
-    public Game(){
+    public Game() {
         fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
         fieldController = new FieldController();
         guiController = new GUIController(fields);
-        diceController = new DiceController(2,6);
+        diceController = new DiceController(2, 6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
     }
 
-    public void gameLoop(){
+    public void gameLoop() {
         boolean stop = false;
         boolean isDieIdentical;
 
         guiController.addPlayers(players);
 
-        while(!stop){
+        while (!stop) {
             playerTurn = getNextPlayerTurn();
-            guiController.showMessage("Player "+ playerController.getName(playerTurn) + " turn to roll the dice" );
+            guiController.showMessage("Player " + playerController.getName(playerTurn) + " turn to roll the dice");
 
             // Check if player is on jail field
             if (playerController.getPlayerPosition(playerTurn) == fieldController.getJailPosition()) {
@@ -65,7 +65,7 @@ public class Game {
             fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
             fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
-            while(isDieIdentical){
+            while (isDieIdentical) {
                 guiController.showMessage("You got identical dies, roll the dice again!");
                 guiController.getUserButton("Roll the dice", "Roll");
                 diceController.roll();
@@ -86,10 +86,10 @@ public class Game {
         guiController.close();
     }
 
-    public void movePlayer(int player, int increment){
+    public void movePlayer(int player, int increment) {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
-        if(playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player)){
+        if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player)) {
             setGuiBalance(player, playerController.getPlayerBalance(player));
         }
     }
@@ -120,59 +120,58 @@ public class Game {
         guiController.setCar(player, false);
     }*/
 
-    public boolean sellProperty(int player, int place){
+    public boolean sellProperty(int player, int place) {
         // TODO : make a check for if the property exists
         int[] properties = playerController.getProperties(player);
-        if(Arrays.stream(properties).anyMatch(i -> i == place )){
+        if (Arrays.stream(properties).anyMatch(i -> i == place)) {
             playerController.removeProperty(player, place);
             return true;
         }
         return false;
     }
 
-    public boolean buyProperty(int player, int place, int rent){
+    public boolean buyProperty(int player, int place, int rent) {
         // TODO : make a check for if the property is not owned
         //int[] properties = playerController.getProperties(player);
         //if(Arrays.stream(properties).anyMatch(i -> i == place )){
-            fieldController.buyProperty(player, place);
-            playerController.addProperty(player, place);
-            guiController.fieldOwnable(place, player, rent);
-            return true;
+        fieldController.buyProperty(player, place);
+        playerController.addProperty(player, place);
+        guiController.fieldOwnable(place, player, rent);
+        return true;
         //}
         //return false;
     }
 
-    public String[] getPlayerNames(){
+    public String[] getPlayerNames() {
         return guiController.returnPlayerNames();
     }
 
-    public boolean fieldAction(int position, int player){
+    public boolean fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
 
-        switch(instructions.getFieldType()) {
+        switch (instructions.getFieldType()) {
 
             case "Brewery":
             case "Street":
             case "Shipping":
 
                 //Check if the field is owned by the player
-                if(player == instructions.getOwner()){
+                if (player == instructions.getOwner()) {
                     guiController.showMessage(stringHandler.getString("ownField"));
                     return true;
                 }
 
                 //Check if the field is owned by the bank
-                else if(instructions.getOwner() == -1){
+                else if (instructions.getOwner() == -1) {
 
                     //If field is owned by the bank, ask player if they want to buy it
-                    if(guiController.getUserButton(stringHandler.getString("buyField"), "Ja", "Nej") == "Ja"){
+                    if (guiController.getUserButton(stringHandler.getString("buyField"), "Ja", "Nej") == "Ja") {
 
                         //If they want to buy it, check if they have money for it
-                        if(playerController.makeTransaction(-instructions.getCost(), player)){
+                        if (playerController.makeTransaction(-instructions.getCost(), player)) {
                             buyProperty(player, position, instructions.getRent());
                             guiController.setBalance(playerController.getPlayerBalance(player), player);
-                        }
-                        else{
+                        } else {
                             guiController.showMessage(stringHandler.getString("noMoney"));
                         }
                     }
@@ -180,7 +179,7 @@ public class Game {
                 }
 
                 //Field is owned by another player, so they have to pay rent
-                else{
+                else {
                     guiController.showMessage(stringHandler.getString("payRent"));
                     int owner = instructions.getOwner();
 
@@ -198,7 +197,7 @@ public class Game {
                 break;
 
             case "GoToJail":
-                guiController.showMessage(stringHandler.getString("goToJail") );
+                guiController.showMessage(stringHandler.getString("goToJail"));
                 playerController.setPlayerPosition(player, instructions.getJailPosition());
                 guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
                 fieldController.incarcerate(player);
@@ -221,15 +220,15 @@ public class Game {
                     guiController.showMessage(stringHandler.getString("statsSkat"));
                     playerController.makeTransaction(-currentField.getFine(), playerTurn);
                     guiController.makeTransaction(-currentField.getFine(), playerTurn);
-                } else{
+                } else {
                     guiController.showMessage(stringHandler.getString("skat"));
                     String playerChoiceOne = "1";
                     String playerChoice = guiController.getUserButton(stringHandler.getString("skatOptions"),
-                                                playerChoiceOne, "2");
-                    if(playerChoice.equals(playerChoiceOne)){
+                            playerChoiceOne, "2");
+                    if (playerChoice.equals(playerChoiceOne)) {
                         playerController.makeTransaction(-fine, playerTurn);
                         guiController.makeTransaction(-fine, playerTurn);
-                    } else{
+                    } else {
                         playerController.makeTransaction(-playerValue, playerTurn);
                         guiController.makeTransaction(-playerValue, playerTurn);
                     }
@@ -243,7 +242,7 @@ public class Game {
         return true;
     }
 
-    public int getNextPlayerTurn(){
+    public int getNextPlayerTurn() {
         playerTurn = (playerTurn + 1) % players.length;
         return playerTurn;
     }
@@ -256,11 +255,11 @@ public class Game {
         return false;
     }*/
 
-    public void makeTransaction(int receiver, int sender, int amount){
+    public void makeTransaction(int receiver, int sender, int amount) {
         playerController.makeTransaction(receiver, sender, amount);
     }
 
-    public void setGuiBalance(int player, int amount){
+    public void setGuiBalance(int player, int amount) {
         guiController.setBalance(amount, player);
     }
 }
