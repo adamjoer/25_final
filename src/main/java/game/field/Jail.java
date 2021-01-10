@@ -1,8 +1,9 @@
 package game.field;
 
 import java.awt.Color;
+import java.util.Arrays;
 
-public class Jail extends Field{
+public class Jail extends Field {
 
     private final int bail;
     private int[] prisoners;
@@ -66,6 +67,7 @@ public class Jail extends Field{
 
     public String toString() {
         return super.toString() +
-               "\n\t[bail=" + bail + ']';
+               "\n\t[bail=" + bail +
+               "\n\t[prisoners=" + Arrays.toString(prisoners) + ']';
     }
 }
