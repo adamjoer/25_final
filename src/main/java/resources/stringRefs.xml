@@ -41,7 +41,7 @@
         <outputString>Test did not fail!</outputString>
     </stringRef>
     <stringRef>
-        <reference>goToPrison</reference>
+        <reference>goToJail</reference>
         <outputString>Du skal sgu i fængsel!</outputString>
     </stringRef>
     <stringRef>
