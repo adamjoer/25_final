@@ -4,7 +4,7 @@ import game.field.*;
 
 public class FieldController {
 
-    private final String XML_FILEPATH = "src/main/resources/fieldList.xml";
+    private final String XML_FILEPATH = "src/main/java/resources/fieldList.xml";
     private final Field[] fields;
 
     public FieldController() {
@@ -104,6 +104,24 @@ public class FieldController {
         return count;
     }
 
+    public void incarcerate(int player) {
+        for (Field field : fields) {
+            if (!(field instanceof Jail)) continue;
+
+            ((Jail) field).incarcerate(player);
+            break;
+        }
+    }
+
+    public void free(int player) {
+        for (Field field : fields) {
+            if (!(field instanceof Jail)) continue;
+
+            ((Jail) field).free(player);
+            break;
+        }
+    }
+
     /**
      * Method for checking whether a player has passed the Go field,
      * and is therefore eligible for the 'pass go' reward.
@@ -132,6 +150,18 @@ public class FieldController {
         return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
+    public int getPlayerValueSum(int player, int[] playerProperties){
+        int propertyValues = 0;
+        for (Field field : fields) {
+            if (field instanceof Property) {
+                if (((Property) field).getOwner() == player) {
+                    propertyValues += ((Property) field).getCurrentRent();
+                }
+            }
+        }
+
+        return propertyValues;
+    }
     // Relevant getters
     public Field[] getFields() {
         return fields;
