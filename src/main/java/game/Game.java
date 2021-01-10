@@ -4,6 +4,9 @@ import game.field.Field;
 import game.field.FieldInstruction;
 import game.field.TaxField;
 
+import java.io.FileInputStream;
+import java.util.Arrays;
+
 public class Game {
 
     private PlayerController playerController;
@@ -44,9 +47,11 @@ public class Game {
 
             guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
 
-            //movePlayer(playerTurn, diceController.getSum());
-            movePlayer(playerTurn, 4);
-            fieldAction(playerController.getPlayerPosition(playerTurn));
+            movePlayer(playerTurn, diceController.getSum());
+
+            fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
+            fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
+
             while(isDieIdentical){
                 guiController.showMessage("You got identical dies, roll the dice again!");
                 guiController.getUserButton("Roll the dice", "Roll");
@@ -56,7 +61,8 @@ public class Game {
                 dice2 = diceController.getFaceValue(1);
                 guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
                 movePlayer(playerTurn, diceController.getSum());
-                fieldAction(playerController.getPlayerPosition(playerTurn));
+                fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
+                fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
             }
             String userBtn = guiController.getUserButton("Continue or close game?",
                     "Close game", "Continuegame");
@@ -99,7 +105,7 @@ public class Game {
         guiController.showMessage("%s has been removed from the game", players[player].getName());
         players = ArrayUtils.removeElement(players, players[player]);
         guiController.setCar(player, false);
-    }
+    }*/
 
     public boolean sellProperty(int player, int place){
         // TODO : make a check for if the property exists
@@ -111,21 +117,23 @@ public class Game {
         return false;
     }
 
-    public boolean buyProperty(int player, int place){
+    public boolean buyProperty(int player, int place, int rent){
         // TODO : make a check for if the property is not owned
-        int[] properties = playerController.getProperties(player);
-        if(Arrays.stream(properties).anyMatch(i -> i == place )){
+        //int[] properties = playerController.getProperties(player);
+        //if(Arrays.stream(properties).anyMatch(i -> i == place )){
+            fieldController.buyProperty(player, place);
             playerController.addProperty(player, place);
+            guiController.fieldOwnable(place, player, rent);
             return true;
-        }
-        return false;
+        //}
+        //return false;
     }
 
     public String[] getPlayerNames(){
         return guiController.returnPlayerNames();
-    }*/
+    }
 
-    public void fieldAction(int position, int player){
+    public boolean fieldAction(int position, int player){
         FieldInstruction instructions = fieldController.fieldAction(position);
 
         switch(instructions.getFieldType()) {
@@ -133,7 +141,45 @@ public class Game {
             case "Brewery":
             case "Street":
             case "Shipping":
-                break;
+
+                //Check if the field is owned by the player
+                if(player == instructions.getOwner()){
+                    guiController.showMessage(stringHandler.getString("ownField"));
+                    return true;
+                }
+
+                //Check if the field is owned by the bank
+                else if(instructions.getOwner() == -1){
+
+                    //If field is owned by the bank, ask player if they want to buy it
+                    if(guiController.getUserButton(stringHandler.getString("buyField"), "Ja", "Nej") == "Ja"){
+
+                        //If they want to buy it, check if they have money for it
+                        if(playerController.makeTransaction(-instructions.getCost(), player)){
+                            buyProperty(player, position, instructions.getRent());
+                            guiController.setBalance(playerController.getPlayerBalance(player), player);
+                        }
+                        else{
+                            guiController.showMessage(stringHandler.getString("noMoney"));
+                        }
+                    }
+                    return true;
+                }
+
+                //Field is owned by another player, so they have to pay rent
+                else{
+                    guiController.showMessage(stringHandler.getString("payRent"));
+                    int owner = instructions.getOwner();
+
+                    //Make transaction from the current player to the owner of the field
+                    boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
+
+                    //Set the balance of both players in the GUI
+                    guiController.setBalance(playerController.getPlayerBalance(player), player);
+                    guiController.setBalance(playerController.getPlayerBalance(owner), owner);
+
+                    return successfulRent;
+                }
 
             case "Chance":
                 break;
@@ -179,8 +225,9 @@ public class Game {
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
-        }
 
+        }
+        return true;
     }
 
     public int getNextPlayerTurn(){
