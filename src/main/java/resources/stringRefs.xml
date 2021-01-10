@@ -45,6 +45,10 @@
         <outputString>Du skal sgu i fængsel!</outputString>
     </stringRef>
     <stringRef>
+        <reference>isInJail</reference>
+        <outputString>Du er i fængsel og skal ud før du kan spille igen</outputString>
+    </stringRef>
+    <stringRef>
         <reference>statsSkat</reference>
         <outputString>Du er landet på statsskat, og skal dermed af med 2000 kr.</outputString>
     </stringRef>
@@ -57,7 +61,8 @@
         <outputString>vil du:
             1: Betale 4000 kr.
             Eller
-            2: Betale 10% af din værdi</outputString>
+            2: Betale 10% af din værdi
+        </outputString>
     </stringRef>
     <stringRef>
         <reference>ownField</reference>

@@ -6,9 +6,16 @@ public class FieldController {
 
     private final String XML_FILEPATH = "src/main/java/resources/fieldList.xml";
     private final Field[] fields;
+    private Jail jail;
 
     public FieldController() {
         fields = Utility.fieldGenerator(XML_FILEPATH);
+
+        for (Field field : fields) {
+            if (field instanceof Jail)
+                jail = (Jail) field;
+                break;
+        }
     }
 
     public FieldInstruction fieldAction(int position) {
@@ -104,22 +111,20 @@ public class FieldController {
         return count;
     }
 
-    public void incarcerate(int player) {
-        for (Field field : fields) {
-            if (!(field instanceof Jail)) continue;
+    public int getJailPosition() {
+        return jail.getPosition();
+    }
 
-            ((Jail) field).incarcerate(player);
-            break;
-        }
+    public boolean isInJail(int player) {
+        return jail.isInJail(player);
+    }
+
+    public void incarcerate(int player) {
+        jail.incarcerate(player);
     }
 
     public void free(int player) {
-        for (Field field : fields) {
-            if (!(field instanceof Jail)) continue;
-
-            ((Jail) field).free(player);
-            break;
-        }
+        jail.free(player);
     }
 
     /**

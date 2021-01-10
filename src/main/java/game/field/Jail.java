@@ -19,11 +19,6 @@ public class Jail extends Field{
 
     public void incarcerate(int player) {
 
-        // For testing: Ensure player isn't already in prison
-        for (int prisoner : prisoners) {
-            assert prisoner != player;
-        }
-
         // Copy existing prisoner array into temporary array
         int[] temp = prisoners;
 
@@ -60,6 +55,13 @@ public class Jail extends Field{
         // Copy temporary array into new array, leaving out the prisoner at specified playerPlacement
         System.arraycopy(temp, 0, prisoners, 0, playerPlacement);
         System.arraycopy(temp, playerPlacement + 1, prisoners, playerPlacement, prisoners.length - playerPlacement);
+    }
+
+    public boolean isInJail(int player) {
+        for (int prisoner : prisoners) {
+            if (prisoner == player) return true;
+        }
+        return false;
     }
 
     public String toString() {

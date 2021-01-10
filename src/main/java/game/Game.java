@@ -38,6 +38,20 @@ public class Game {
         while(!stop){
             playerTurn = getNextPlayerTurn();
             guiController.showMessage("Player "+ playerController.getName(playerTurn) + " turn to roll the dice" );
+
+            // Check if player is on jail field
+            if (playerController.getPlayerPosition(playerTurn) == fieldController.getJailPosition()) {
+
+                // Check if player is actually in prison or just visiting
+                if (fieldController.isInJail(playerTurn)) {
+
+                    guiController.showMessage(stringHandler.getString("isInJail"));
+                    // TODO: Implement whatever needs to be done to get out of jail
+
+                    fieldController.free(playerTurn);
+                }
+            }
+
             // cast dice from dice controller
             guiController.getUserButton("Roll the dice", "Roll");
             diceController.roll();
