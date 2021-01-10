@@ -503,7 +503,7 @@
         <subText/>
         <description/>
         <color>0x0000cd</color>
-        <jailPosition>11</jailPosition>
+        <jailPosition>10</jailPosition>
     </field>
     <field>
         <fieldType>Property</fieldType>
