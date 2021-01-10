@@ -4,7 +4,6 @@ import game.field.Field;
 import game.field.FieldInstruction;
 import game.field.TaxField;
 
-import java.io.FileInputStream;
 import java.util.Arrays;
 
 public class Game {
