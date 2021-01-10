@@ -12,9 +12,10 @@ public class FieldController {
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
         for (Field field : fields) {
-            if (field instanceof Jail)
+            if (field instanceof Jail) {
                 jail = (Jail) field;
                 break;
+            }
         }
     }
 
@@ -155,7 +156,7 @@ public class FieldController {
         return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
-    public int getPlayerValueSum(int player, int[] playerProperties){
+    public int getPlayerValueSum(int player, int[] playerProperties) {
         int propertyValues = 0;
         for (Field field : fields) {
             if (field instanceof Property) {
@@ -167,6 +168,7 @@ public class FieldController {
 
         return propertyValues;
     }
+
     // Relevant getters
     public Field[] getFields() {
         return fields;
