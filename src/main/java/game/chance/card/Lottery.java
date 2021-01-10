@@ -7,9 +7,9 @@ public class Lottery extends ChanceCard {
 
 
     /**
-     * @param CARD_TEXT
-     * @param amount
-     * @param threshold
+     * @param CARD_TEXT The card text for the card. For output in the GUI.
+     * @param amount The amount the player must receive from the bank, if they meet the condition.
+     * @param threshold The maximum threshold of values (cash, properties and buildings) the player must have.
      */
 
     public Lottery(String CARD_TEXT, int amount, int threshold){

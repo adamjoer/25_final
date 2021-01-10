@@ -6,8 +6,8 @@ public class BankTransaction extends ChanceCard {
 
 
     /**
-     * @param CARD_TEXT
-     * @param amount
+     * @param CARD_TEXT The card text for the card. For output in the GUI.
+     * @param amount The amount the player must pay to (negative values)/receive from (positive values) the bank.
      */
 
     public BankTransaction(String CARD_TEXT, int amount){

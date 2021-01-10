@@ -6,8 +6,8 @@ public class MovePlayer extends ChanceCard {
 
 
     /**
-     * @param CARD_TEXT
-     * @param increment
+     * @param CARD_TEXT The card text for the card. For output in the GUI.
+     * @param increment The number of tiles the player has to be moved.
      */
 
     public MovePlayer(String CARD_TEXT, int increment){

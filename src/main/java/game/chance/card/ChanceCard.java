@@ -4,13 +4,9 @@ public abstract class ChanceCard {
 
     protected final String CARD_TEXT;
 
-    public ChanceCard(String CARD_TEXT) {
-        this.CARD_TEXT = CARD_TEXT;
-    }
+    public ChanceCard(String CARD_TEXT) { this.CARD_TEXT = CARD_TEXT; }
 
-    public String getCardText() {
-        return CARD_TEXT;
-    }
+    public String getCardText() { return CARD_TEXT; }
 
     public abstract int getAmount();
     public abstract int getHouseTax();

@@ -6,8 +6,8 @@ public class MovePlayerToTile extends ChanceCard {
 
 
     /**
-     * @param CARD_TEXT
-     * @param destination
+     * @param CARD_TEXT The card text for the card. For output in the GUI.
+     * @param destination The destination field to move the player to.
      */
 
     public MovePlayerToTile(String CARD_TEXT, int destination){

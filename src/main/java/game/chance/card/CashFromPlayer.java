@@ -6,8 +6,8 @@ public class CashFromPlayer extends ChanceCard {
 
 
     /**
-     * @param CARD_TEXT
-     * @param amount
+     * @param CARD_TEXT The card text for the card. For output in the GUI.
+     * @param amount The amount the player must receive from the remaining players.
      */
 
     public CashFromPlayer(String CARD_TEXT, int amount){

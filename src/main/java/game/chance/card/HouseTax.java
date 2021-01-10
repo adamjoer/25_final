@@ -7,9 +7,9 @@ public class HouseTax extends ChanceCard {
 
 
     /**
-     * @param CARD_TEXT
-     * @param houseTax
-     * @param hotelTax
+     * @param CARD_TEXT The card text for the card. For output in the GUI.
+     * @param houseTax The penalty for each house the player owns.
+     * @param hotelTax The penalty for each hotel the player owns.
      */
 
     public HouseTax(String CARD_TEXT, int houseTax, int hotelTax){
