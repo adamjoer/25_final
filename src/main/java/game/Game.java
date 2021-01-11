@@ -1,5 +1,6 @@
 package game;
 
+import game.controllers.ChanceCardController;
 import game.field.Field;
 import org.apache.commons.lang.ArrayUtils;
 
@@ -11,7 +12,7 @@ public class Game {
     private GUIController guiController;
     private DiceController diceController;
     private FieldController fieldController;
-    //private ChanceCardController chanceCardController;
+    private ChanceCardController chanceCardController;
     private Player[] players;
     private int playerTurn;
 
@@ -25,6 +26,7 @@ public class Game {
         guiController = new GUIController(fields);
         diceController = new DiceController(2,6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
+        chanceCardController = new ChanceCardController();
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
     }
@@ -73,6 +75,73 @@ public class Game {
         if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player)){
             setGuiBalance(player, playerController.getPlayerBalance(player));
         }
+    }
+
+    public void drawCard(){
+
+        guiController.displayChanceCard(chanceCardController.drawCard());
+
+        switch (chanceCardController.getCurrentCardType()){
+            case "BankTransaction":
+
+                // TODO: Make use of Game.java's makeTransaction instead of the playerController's - bankruptcy + GUI update.
+
+                playerController.makeTransaction(chanceCardController.getAmount(),playerTurn);
+                break;
+
+            case "CashFromPlayer":
+
+                /* TODO: Re-write giftPlayer (so that all players make a transaction to target player - including the
+                    target player.) Return a boolean array corresponding to the Player[] to check if transactions failed.
+                  */
+
+                playerController.giftPlayer(playerTurn,chanceCardController.getAmount());
+                break;
+            /*
+            case "HouseTax":
+
+                // TODO: Make use of Game.java's makeTransaction - bankruptcy + GUI update.
+                int houses = fieldController.getPlayerHouses(playerTurn);
+                int hotels = fieldController.getPlayerHotels(playerTurn);
+                int fine = houses * chanceCardController.getHouseTax() + hotels * chanceCardController.getHotelTax();
+                playerController.makeTransaction(-fine, playerTurn);
+
+                break;
+            */
+            /*
+            case "Lottery":
+                // TODO: getPlayerTotalValue.
+                int threshold = chanceCardController.getThreshold();
+                if (getPlayerTotalValue(playerTurn)<threshold){
+                    playerController.makeTransaction(chanceCardController.getAmount(),playerTurn);
+                    guiController.showMessage(chanceCardController.getSuccessText());
+                } else { guiController.showMessage(chanceCardController.getFailText()); }
+                break;
+            */
+            /*
+            case "MovePlayer":
+                int increment = chanceCardController.getIncrement();
+                if (increment < 0){
+                    moveBackwards(playerTurn,increment);
+                } else {
+                    movePlayer(playerTurn,increment);
+                }
+                break;
+            */
+            case "MovePlayerToTile":
+                int delta = chanceCardController.getDestination() - playerController.getPlayerPosition(playerTurn);
+                if (delta < 0){ delta += fieldController.getFields().length; }
+                movePlayer(playerTurn,delta);
+
+                break;
+
+            /*
+             *  case "GetOutOfJailCard":
+             *  case "GoToJailCard":
+             *  case "MoveShipping":
+             */
+        }
+
     }
 
     /*public void setPlayerPosition(int player, int position){

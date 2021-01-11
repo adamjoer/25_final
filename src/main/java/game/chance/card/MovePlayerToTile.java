@@ -15,6 +15,8 @@ public class MovePlayerToTile extends ChanceCard {
         DESTINATION = destination;
     }
 
+    public String getSuccessText(){ return ""; }
+    public String getFailText(){ return ""; }
     public int getAmount(){ return 0; }
     public int getHouseTax(){ return 0; }
     public int getHotelTax(){ return 0; }

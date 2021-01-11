@@ -15,6 +15,8 @@ public class BankTransaction extends ChanceCard {
         AMOUNT = amount;
     }
 
+    public String getSuccessText(){ return ""; }
+    public String getFailText(){ return ""; }
     public int getAmount(){ return AMOUNT; }
     public int getHouseTax(){ return 0; }
     public int getHotelTax(){ return 0; }

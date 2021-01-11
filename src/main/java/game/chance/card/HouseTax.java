@@ -18,6 +18,8 @@ public class HouseTax extends ChanceCard {
         HOTEL_TAX = hotelTax;
     }
 
+    public String getSuccessText(){ return ""; }
+    public String getFailText(){ return ""; }
     public int getAmount(){ return 0; }
     public int getHouseTax(){ return HOUSE_TAX; }
     public int getHotelTax(){ return HOTEL_TAX; }

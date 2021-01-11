@@ -176,33 +176,35 @@ public class Utility {
                             case "HouseTax":
                                 int houseTax = getInt(ele, "houseTax");
                                 int hotelTax = getInt(ele, "hotelTax");
-                                chanceCards[i+j] = new HouseTax(cardText,houseTax,hotelTax);
+                                chanceCards[i+j] = new HouseTax(cardText, houseTax, hotelTax);
                                 break;
 
                             case "BankTransaction":
                                 amount = getInt(ele,"amount");
-                                chanceCards[i+j] = new BankTransaction(cardText,amount);
+                                chanceCards[i+j] = new BankTransaction(cardText, amount);
                                 break;
 
                             case "CashFromPlayer":
                                 amount = getInt(ele,"amount");
-                                chanceCards[i+j] = new CashFromPlayer(cardText,amount);
+                                chanceCards[i+j] = new CashFromPlayer(cardText, amount);
                                 break;
 
                             case "MovePlayer":
                                 int increment = getInt(ele, "increment");
-                                chanceCards[i+j] = new MovePlayer(cardText,increment);
+                                chanceCards[i+j] = new MovePlayer(cardText, increment);
                                 break;
 
                             case "Lottery":
                                 int threshold = getInt(ele,"threshold");
                                 amount = getInt(ele,"amount");
-                                chanceCards[i+j] = new Lottery(cardText,amount,threshold);
+                                String successText = getString(ele, "successText");
+                                String failText = getString(ele,"failText");
+                                chanceCards[i+j] = new Lottery(cardText, amount, threshold, successText, failText);
                                 break;
 
                             case "MovePlayerToTile":
                                 int destination = getInt(ele, "destination");
-                                chanceCards[i+j] = new MovePlayerToTile(cardText,destination);
+                                chanceCards[i+j] = new MovePlayerToTile(cardText, destination);
                                 break;
                         }
                     }

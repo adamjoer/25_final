@@ -1,6 +1,8 @@
-package game.chance.card;
+package game.controllers;
 
 import game.*;
+import game.chance.card.ChanceCard;
+
 import java.lang.Math;
 
 public class ChanceCardController {
@@ -97,13 +99,15 @@ public class ChanceCardController {
     public String drawCard(){
         if (pilePosition == BASE_DECK_LENGTH - 1){ shuffleDeck(); }
         pilePosition = (pilePosition + 1) % BASE_DECK_LENGTH;
-        return getCurrentCardType();
+        return getCardText();
     }
 
     // Relevant getters.
 
     public String getCurrentCardType(){ return this.drawPile[pilePosition].getClass().getSimpleName(); }
     public String getCardText(){ return this.drawPile[this.pilePosition].getCardText(); }
+    public String getFailText(){ return this.drawPile[this.pilePosition].getFailText(); }
+    public String getSuccessText(){ return this.drawPile[this.pilePosition].getSuccessText(); }
     public int getAmount(){ return this.drawPile[this.pilePosition].getAmount(); }
     public int getHouseTax(){ return this.drawPile[this.pilePosition].getHouseTax(); }
     public int getHotelTax(){ return this.drawPile[this.pilePosition].getHotelTax(); }

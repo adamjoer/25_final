@@ -14,5 +14,7 @@ public abstract class ChanceCard {
     public abstract int getThreshold();
     public abstract int getIncrement();
     public abstract int getDestination();
+    public abstract String getFailText();
+    public abstract String getSuccessText();
 
 }
