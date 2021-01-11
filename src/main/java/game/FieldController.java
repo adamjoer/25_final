@@ -6,17 +6,82 @@ public class FieldController {
 
     private final String XML_FILEPATH = "src/main/java/resources/fieldList.xml";
     private final Field[] fields;
+    private final Property[][] properties;
     private Jail jail;
 
     public FieldController() {
+
+        // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
+        // Array for keeping track of groups
+        Property[] groups = new Property[0];
+
+        // Go over each field in fields array
         for (Field field : fields) {
-            if (field instanceof Jail) {
-                jail = (Jail) field;
-                break;
+
+            // Check if field is a property
+            if (!(field instanceof Property)){
+
+                // If field is jail, assign it to jail attribute
+                if (field instanceof Jail) {
+                    jail = (Jail) field;
+                }
+
+                // Don't do anything else with this field
+                continue;
+            }
+
+            // Check if we've already registered this group
+            boolean groupIsFound = false;
+            for (Property property : groups) {
+
+                // If they have the same color they are in the same group;
+                // this property is part of a group we've already registered
+                if (property.getColor().hashCode() == field.getColor().hashCode()) {
+                    groupIsFound = true;
+                    break;
+                }
+            }
+
+            // If this is a new group, add property to array
+            if (!groupIsFound)
+                groups = Utility.addToArray(groups, (Property) field);
+        }
+
+        // properties acts as an array of groups (subarrays)
+        // Each subarray contains the properties in that group
+        properties = new Property[groups.length][];
+
+        // Go over each group
+        for (int i = 0; i < properties.length; i++) {
+
+            // give subarray right length (Number of properties in group is shown in relatedProperties)
+            properties[i] = new Property[groups[i].getRelatedProperties()];
+
+            // Temporary property for going over each property in group
+            Property property = groups[i];
+
+            // Go over each property in group
+            for (int j = 0; j < properties[i].length; j++) {
+
+                // Put property into group
+                properties[i][j] = property;
+
+                // Get next property in group
+                property = (Property) fields[property.getNextRelatedProperty()];
             }
         }
+
+/*
+        for (Property[] group : properties) {
+            System.out.println("\nNew Group:");
+
+            for (Property property : group) {
+                System.out.printf("%s\n", property.toString());
+            }
+        }
+*/
     }
 
     public FieldInstruction fieldAction(int position) {
