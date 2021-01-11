@@ -96,8 +96,19 @@ public class FieldController {
             case "Street":
 
                 // If the player owns all the properties in the group, change propertyLevel to 1
-                if (ownsAllPropertiesInGroup(player, propertyPosition)) property.setPropertyLevel(1);
+                if (ownsAllPropertiesInGroup(player, propertyPosition)) {
+                    int group = -1;
+                    for (int i = 0; i < properties.length; i++) {
+                        if (properties[i][0].getColor().hashCode() == fields[propertyPosition].getColor().hashCode()) {
+                            group = i;
+                            break;
+                        }
+                    }
+                    for (int i = 0; i < properties[group].length; i++) properties[group][i].setPropertyLevel(1);
+                }
+
                 break;
+
 
             case "Shipping":
 
@@ -107,8 +118,11 @@ public class FieldController {
 
             case "Brewery":
 
-                // Set propertyLevel to 1 if both breweries is owned, otherwise 0
-                property.setPropertyLevel(ownsAllPropertiesInGroup(player, propertyPosition) ? 1 : 0);
+                // Set propertyLevel to 1 if both breweries is owned
+                if (ownsAllPropertiesInGroup(player, propertyPosition)) {
+                    property.setPropertyLevel(1);
+                    ((Property) fields[property.getNextRelatedProperty()]).setPropertyLevel(1);
+                }
                 break;
         }
     }
