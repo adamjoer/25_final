@@ -38,21 +38,18 @@ public class FieldController {
         switch (property.getField()) {
 
             case "Street":
+            case "Brewery":
 
                 // If the player owns all the properties in the group, change propertyLevel to 1
-                if (ownsAllPropertiesInGroup(player, propertyPosition)) property.setPropertyLevel(1);
+                if (ownsAllPropertiesInGroup(player, propertyPosition)){
+                    setPropertylevelForGroup(propertyPosition, 1);
+                }
                 break;
 
             case "Shipping":
 
                 // Set propertyLevel to the number of properties owned in the group minus one
                 property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
-                break;
-
-            case "Brewery":
-
-                // Set propertyLevel to 1 if both breweries is owned, otherwise 0
-                property.setPropertyLevel(ownsAllPropertiesInGroup(player, propertyPosition) ? 1 : 0);
                 break;
         }
     }
@@ -110,6 +107,27 @@ public class FieldController {
         assert property == fields[propertyPosition];
 
         return count;
+    }
+
+    public void setPropertylevelForGroup(int propertyPosition, int level) {
+
+        // Find the specified property
+        Property property = (Property) fields[propertyPosition];
+
+        property.setPropertyLevel(level);
+
+        // Go over each property in the group
+        // (the number of properties in the group is represented with the relatedProperties attribute)
+        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
+
+            // Find the next property in the group
+            property = (Property) fields[property.getNextRelatedProperty()];
+
+            property.setPropertyLevel(level);
+        }
+
+        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
+        assert property == fields[propertyPosition];
     }
 
     public int getJailPosition() {
