@@ -276,7 +276,6 @@ public class FieldController {
         return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
-    public int getPlayerValueSum(int player, int[] playerProperties) {
     public int getPlayerValueSum(int player){
         int propertyValues = 0;
         for (Field field : fields) {
