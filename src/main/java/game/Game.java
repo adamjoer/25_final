@@ -15,10 +15,10 @@ public class Game {
     private final DiceController diceController;
     private final FieldController fieldController;
     private final ChanceCardController chanceCardController;
-    private final Player[] players;
+    private Player[] players;
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
-    private int[] getOutOfJailTries;
+    private final int[] getOutOfJailTries;
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
 
     public Game(){
@@ -262,7 +262,7 @@ public class Game {
                 break;
 
             case "TaxField":
-                return taxFieldAction();
+                return taxFieldAction(position, player);
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
@@ -298,8 +298,8 @@ public class Game {
 
         //Field is owned by another player, so they have to pay rent
         else {
-            guiController.showMessage(stringHandler.getString("payRent"));
             int owner = instructions.getOwner();
+            guiController.showMessage(stringHandler.getString("payRent") + playerController.getName(owner));
 
             //Make transaction from the current player to the owner of the field
             boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
@@ -321,25 +321,28 @@ public class Game {
         return true;
     }
 
-    private boolean taxFieldAction() {
-        TaxField currentField = (TaxField) fields[playerController.getPlayerPosition(playerTurn)];
+    private boolean taxFieldAction(int position, int player) {
+        TaxField currentField = (TaxField) fieldController.getFields()[position];
         int fine = currentField.getFine();
-        int playerValue = fieldController.getPlayerValueSum(playerTurn, playerController.getProperties(playerTurn));
+        int playerValue = fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player);
         if (currentField.getTitle().equals("Statsskat")) {
-            guiController.showMessage(stringHandler.getString("statsSkat"));
-            playerController.makeTransaction(-currentField.getFine(), playerTurn);
-            guiController.makeTransaction(-currentField.getFine(), playerTurn);
+            guiController.showMessage(stringHandler.getString("stateTax"));
+            playerController.makeTransaction(-currentField.getFine(), player);
+            guiController.makeTransaction(-currentField.getFine(), player);
         } else {
-            guiController.showMessage(stringHandler.getString("skat"));
-            String playerChoiceOne = "1";
-            String playerChoice = guiController.getUserButton(stringHandler.getString("skatOptions"),
-                    playerChoiceOne, "2");
-            if (playerChoice.equals(playerChoiceOne)) {
-                playerController.makeTransaction(-fine, playerTurn);
-                guiController.makeTransaction(-fine, playerTurn);
+            guiController.showMessage(stringHandler.getString("tax"));
+            String playerChoice = guiController.getUserButton(stringHandler.getString("taxOptions"),
+                    "1", "2");
+            if (playerChoice.equals("1")) {
+                playerController.makeTransaction(-fine, player);
+                guiController.makeTransaction(-fine, player);
             } else {
-                playerController.makeTransaction(-playerValue, playerTurn);
-                guiController.makeTransaction(-playerValue, playerTurn);
+
+                int subtract = (int) (playerValue * 0.10);
+                guiController.showMessage(stringHandler.getString("playerValue") + subtract);
+
+                playerController.makeTransaction(-subtract, player);
+                guiController.makeTransaction(-subtract, player);
             }
         }
         return true;
