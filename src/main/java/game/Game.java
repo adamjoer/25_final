@@ -45,7 +45,6 @@ public class Game {
             //Check if a player can buy houses
             if (fieldController.canPlayerBuyHouses(playerTurn)) {
 
-
                 //Get the streets which the player can buy houses on
                 Street[] streets = affordableHouses(playerTurn);
 
@@ -82,12 +81,6 @@ public class Game {
                                         guiController.setHouseOrHotelStreet(s.getPosition(), s.getPropertyLevel() - 1, false);
                                     }
                                 }
-
-                                //If player can't afford a house, show it to them in the gui
-                                else {
-                                    guiController.showMessage(stringHandler.getString("noMoney"));
-                                }
-                                break;
                             }
                         }
                     }
