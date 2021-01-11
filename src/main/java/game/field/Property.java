@@ -12,7 +12,7 @@ public abstract class Property extends Field {
     protected int propertyLevel = 1;
     protected final int relatedProperties;
     protected final int nextRelatedProperty;
-    protected int owner = -1; // -1 means the property is owned by the bank
+    protected int owner = 0; // -1 means the property is owned by the bank
 
     // The array rentLevels represents the cost of rent at different levels:
     //      0: Base rent

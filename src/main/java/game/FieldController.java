@@ -12,6 +12,8 @@ public class FieldController {
 
     public FieldController() {
 
+        whoCanBuyHouses[0] = true;
+
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
@@ -234,12 +236,14 @@ public class FieldController {
         }
     }
 
-    public Street[] allOwnedStreetsByPlayer(int player){
+    public Street[] allOwnedStreetsByPlayer(int player, int playerBalance){
         Street[] houseProperties = new Street[0];
         for(int i = 0; i < properties.length; i++){
             for(int j = 0; j < properties[i].length; j++){
                 if(ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street){
-                    houseProperties = Utility.addToArray(houseProperties, (Street) properties[i][j]);
+                    if(((Street) properties[i][j]).getBuildingCost() <= playerBalance && properties[i][j].getPropertyLevel() < 6){
+                        houseProperties = Utility.addToArray(houseProperties, (Street) properties[i][j]);
+                    }
                 }
             }
         }
