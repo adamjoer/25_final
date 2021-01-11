@@ -3,26 +3,25 @@ package game;
 import game.field.Field;
 import game.field.FieldInstruction;
 import game.field.TaxField;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.io.FileInputStream;
 import java.util.Arrays;
 
 public class Game {
 
-    private PlayerController playerController;
-    private GUIController guiController;
-    private DiceController diceController;
-    private FieldController fieldController;
+    private final PlayerController playerController;
+    private final GUIController guiController;
+    private final DiceController diceController;
+    private final FieldController fieldController;
     //private ChanceCardController chanceCardController;
     private Player[] players;
     private int playerTurn;
-    private Field[] fields;
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");;
 
     public Game(){
-        fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
         fieldController = new FieldController();
-        guiController = new GUIController(fields);
+        guiController = new GUIController(fieldController.getFields());
         diceController = new DiceController(2,6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         players = playerController.getPlayers();
@@ -51,6 +50,7 @@ public class Game {
 
             fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
             fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
+            //Start next part of the game
 
             while(isDieIdentical){
                 guiController.showMessage("You got identical dies, roll the dice again!");
@@ -64,9 +64,8 @@ public class Game {
                 fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
                 fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
             }
-            String userBtn = guiController.getUserButton("Continue or close game?",
-                    "Close game", "Continuegame");
-            if (userBtn.equals("Close game")) {
+
+            if (players.length <= 1) {
                 stop = true;
             }
         }
@@ -98,14 +97,14 @@ public class Game {
             return true;
         }
         return false;
-    }
+    }*/
 
     public void removePlayer(int player){
         // When a player becomes broke, the player needs to be removed from the game
-        guiController.showMessage("%s has been removed from the game", players[player].getName());
-        players = ArrayUtils.removeElement(players, players[player]);
-        guiController.setCar(player, false);
-    }*/
+        guiController.showMessage(players[player].getName() + " has been removed from the game");
+        players = (Player[]) ArrayUtils.removeElement(players, players[player]);
+        guiController.removeGuiPlayer(player, playerController.getPlayerPosition(player));
+    }
 
     public boolean sellProperty(int player, int place){
         // TODO : make a check for if the property exists
@@ -144,7 +143,7 @@ public class Game {
 
                 //Check if the field is owned by the player
                 if(player == instructions.getOwner()){
-                    guiController.showMessage(stringHandler.getString("ownField"));
+                    guiController.showMessage(stringHandler.getString("ownField" +" " + fieldController.getFields()[position].getTitle()));
                     return true;
                 }
 
@@ -152,7 +151,8 @@ public class Game {
                 else if(instructions.getOwner() == -1){
 
                     //If field is owned by the bank, ask player if they want to buy it
-                    if(guiController.getUserButton(stringHandler.getString("buyField"), "Ja", "Nej") == "Ja"){
+                    if(guiController.getUserButton(fieldController.getFields()[position].getTitle() + " " + stringHandler.getString("buyField")
+                            , "Ja", "Nej") == "Ja"){
 
                         //If they want to buy it, check if they have money for it
                         if(playerController.makeTransaction(-instructions.getCost(), player)){
@@ -201,9 +201,9 @@ public class Game {
                 break;
 
             case "TaxField":
-                TaxField currentField = (TaxField) fields[playerController.getPlayerPosition(playerTurn)];
+                TaxField currentField = (TaxField) fieldController.getFields()[playerController.getPlayerPosition(playerTurn)];
                 int fine = currentField.getFine();
-                int playerValue = fieldController.getPlayerValueSum(playerTurn, playerController.getProperties(playerTurn));
+                int playerValue = fieldController.getCombinedPropertyWorth(playerTurn);
                 if (currentField.getTitle().equals("Statsskat")) {
                     guiController.showMessage(stringHandler.getString("statsSkat"));
                     playerController.makeTransaction(-currentField.getFine(), playerTurn);
