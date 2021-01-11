@@ -21,7 +21,7 @@ public class FieldController {
         for (Field field : fields) {
 
             // Check if field is a property
-            if (!(field instanceof Property)){
+            if (!(field instanceof Property)) {
 
                 // If field is jail, assign it to jail attribute
                 if (field instanceof Jail) {
@@ -133,46 +133,73 @@ public class FieldController {
      */
     public boolean ownsAllPropertiesInGroup(int player, int propertyPosition) {
 
-        // Find the specified property
+        // Get the specified property
         Property property = (Property) fields[propertyPosition];
 
-        // Go over each property in the group
-        // (the number of properties in the group is represented with the relatedProperties attribute)
-        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
+        // Variables for finding the group this property belongs to
+        int color = property.getColor().hashCode(),
+            group = -1;
 
-            // Find the next property in the group
-            property = (Property) fields[property.getNextRelatedProperty()];
+        // Go over each property group
+        for (int i = 0; i < properties.length; i++) {
 
-            // If the property isn't owned by the player, return false
-            if (property.getOwner() != player) return false;
+            // Check if the property has the same color as the first property in the group
+            if (properties[i][0].getColor().hashCode() == color) {
+
+                // If they do, we've found the group this property belongs to
+                group = i;
+                break;
+            }
         }
 
-        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
-        assert property == fields[propertyPosition];
+        // Go over each property in the group
+        for (int i = 0; i < properties[group].length; i++) {
 
-        // If we've gone through all the properties and all of them are owned by the player, return true
+            // If the property isn't owned by the player, return false
+            if (properties[group][i].getOwner() != player) return false;
+        }
+
+        // If we've gone through all the properties in the group and all of them are owned by the player, return true
         return true;
     }
 
+    /**
+     * Method for telling how many properties a certain player owns in a certain group.
+     * The method goes over each property in the group,
+     * and counts how many are owned by the specified player.
+     *
+     * @param player
+     * @param propertyPosition
+     * @return
+     */
     public int getNumberOfPropertiesOwnedInGroup(int player, int propertyPosition) {
 
-        // Find the specified property
+        // Get the specified property
         Property property = (Property) fields[propertyPosition];
-        int count = 0;
 
-        // Go over each property in the group
-        // (the number of properties in the group is represented with the relatedProperties attribute)
-        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
+        // Variables for finding the group this property belongs to and counting owned properties
+        int color = property.getColor().hashCode(),
+            count = 0,
+            group = -1;
 
-            // Find the next property in the group
-            property = (Property) fields[property.getNextRelatedProperty()];
+        // Go over each property group
+        for (int i = 0; i < properties.length; i++) {
 
-            // If the property is owned by the player, increment the count
-            if (property.getOwner() == player) count++;
+            // Check if the property has the same color as the first property in the group
+            if (properties[i][0].getColor().hashCode() == color) {
+
+                // If they do, we've found the group this property belongs to
+                group = i;
+                break;
+            }
         }
 
-        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
-        assert property == fields[propertyPosition];
+        // Go over each property in the group
+        for (int i = 0; i < properties[group].length; i++) {
+
+            // If the property isn't owned by the player, return false
+            if (properties[group][i].getOwner() == player) count++;
+        }
 
         return count;
     }
@@ -191,23 +218,6 @@ public class FieldController {
 
     public void free(int player) {
         jail.free(player);
-    }
-
-    /**
-     * Method for checking whether a player has passed the Go field,
-     * and is therefore eligible for the 'pass go' reward.
-     * This is based entirely upon the assumption that the Go field's position is zero
-     * on the board. It won't work otherwise.
-     *
-     * @param previousPosition The player's previous position
-     * @param currentPosition  The player's current position
-     * @return True if player has passed, or is on the 'Go' field, false otherwise
-     */
-    public boolean hasPassedStart(int previousPosition, int currentPosition) {
-
-        // If start field position is zero, player will have passed start if their position has overflowed to a smaller value,
-        // i.e. their previous position is larger than their current position
-        return previousPosition > currentPosition;
     }
 
     /**
