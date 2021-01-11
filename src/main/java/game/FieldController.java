@@ -8,9 +8,10 @@ public class FieldController {
     private final Field[] fields;
     private final Property[][] properties;
     private Jail jail;
-    private boolean[] whoCanBuyHouses = new boolean[4];
+    private boolean[] whoCanBuyHouses = new boolean[6];
 
     public FieldController() {
+        whoCanBuyHouses[0] = true;
 
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
@@ -238,8 +239,8 @@ public class FieldController {
         Street[] houseProperties = new Street[0];
         for(int i = 0; i < properties.length; i++){
             for(int j = 0; j < properties[i].length; j++){
-                if(ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j].getField() == "Street"){
-                    Utility.addToArray(houseProperties, properties[i][j]);
+                if(ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street){
+                    houseProperties = Utility.addToArray(houseProperties, (Street) properties[i][j]);
                 }
             }
         }

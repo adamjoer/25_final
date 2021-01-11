@@ -51,9 +51,10 @@ public class Game {
 
                     String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
 
+
                     //Find the street that the user wants to buy a house on
                     for(Street s : streets){
-                        if(s.getTitle() + "\n" + s.getBuildingCost() == streetToBuyHouse){
+                        if(s.getTitle() + ": " + s.getBuildingCost() + " kr." == streetToBuyHouse){
 
                             //Check if they have money for it
                             if(playerController.makeTransaction(s.getBuildingCost(), playerTurn)){
@@ -290,7 +291,7 @@ public class Game {
     public String[] getHouseCostButtons(Street[] properties){
         String[] houseCostButtons = new String[properties.length];
         for(int i = 0; i < properties.length; i++){
-            houseCostButtons[i] = properties[i].getTitle() + "\n" + properties[i].getBuildingCost();
+            houseCostButtons[i] = properties[i].getTitle() + ": " + properties[i].getBuildingCost() + " kr.";
         }
 
         return houseCostButtons;
