@@ -249,7 +249,7 @@ public class Utility {
         System.arraycopy(temp, 0, array, 0, index);
         System.arraycopy(temp, index + 1, array, index, array.length - index);
 
-        // Return new, smaller array
+        // Return new, shorter array
         return array;
     }
 
@@ -265,7 +265,23 @@ public class Utility {
         System.arraycopy(temp, 0, array, 0, index);
         System.arraycopy(temp, index + 1, array, index, array.length - index);
 
-        // Return new, smaller array
+        // Return new, shorter array
+        return array;
+    }
+
+    public static String[] removeFromArray(String[] array, int index) {
+
+        // Copy existing array into temporary array
+        String[] temp = array;
+
+        // Change array length
+        array = new String[array.length - 1];
+
+        // Copy temporary array into new array, leaving out the element at specified index
+        System.arraycopy(temp, 0, array, 0, index);
+        System.arraycopy(temp, index + 1, array, index, array.length - index);
+
+        // Return new, shorter array
         return array;
     }
 
@@ -288,6 +304,7 @@ public class Utility {
     }
 
     public static Property[] addToArray(Property[] array, Property insert) {
+
         // Copy existing array into temporary array
         Property[] temp = array;
 
@@ -305,6 +322,7 @@ public class Utility {
     }
 
     public static String[] addToArray(String[] array, String insert) {
+
         // Copy existing array into temporary array
         String[] temp = array;
 
