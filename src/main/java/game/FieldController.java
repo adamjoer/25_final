@@ -7,6 +7,7 @@ public class FieldController {
     private final String XML_FILEPATH = "src/main/java/resources/fieldList.xml";
     private final Field[] fields;
     private Jail jail;
+    private boolean[] whoCanBuyHouses = new boolean[4];
 
     public FieldController() {
         fields = Utility.fieldGenerator(XML_FILEPATH);
@@ -42,14 +43,19 @@ public class FieldController {
 
                 // If the player owns all the properties in the group, change propertyLevel to 1
                 if (ownsAllPropertiesInGroup(player, propertyPosition)){
+                    whoCanBuyHouses[player] = true;
                     setPropertylevelForGroup(propertyPosition, 1);
                 }
                 break;
 
             case "Shipping":
-
                 // Set propertyLevel to the number of properties owned in the group minus one
                 property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                for(int i = 1; i < getNumberOfPropertiesOwnedInGroup(player, propertyPosition); i++){
+                    property = property = (Property) fields[property.getNextRelatedProperty()];
+                    if(property.getOwner() == player) i++;
+                    property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                }
                 break;
         }
     }
