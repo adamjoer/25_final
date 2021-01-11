@@ -1,5 +1,6 @@
 package game;
 
+import game.controllers.ChanceCardController;
 import game.field.Field;
 import game.field.FieldInstruction;
 import game.field.TaxField;
@@ -12,7 +13,7 @@ public class Game {
     private GUIController guiController;
     private DiceController diceController;
     private FieldController fieldController;
-    //private ChanceCardController chanceCardController;
+    private ChanceCardController chanceCardController;
     private Player[] players;
     private int playerTurn;
     private Field[] fields;
@@ -24,6 +25,7 @@ public class Game {
         guiController = new GUIController(fields);
         diceController = new DiceController(2, 6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
+        chanceCardController = new ChanceCardController();
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
     }
@@ -89,9 +91,67 @@ public class Game {
     public void movePlayer(int player, int increment) {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
-        if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player)) {
-            setGuiBalance(player, playerController.getPlayerBalance(player));
+
+        if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player) && increment > 0){
+            setGuiBalance(playerController.getPlayerBalance(player),player);
         }
+    }
+
+    public boolean drawCard(){
+
+        guiController.displayChanceCard(chanceCardController.drawCard());
+        boolean success = true;
+        switch (chanceCardController.getCurrentCardType()){
+            case "BankTransaction":
+
+                success = makeTransaction(chanceCardController.getAmount(), playerTurn);
+                break;
+
+            case "CashFromPlayer":
+
+                success = giftPlayer(chanceCardController.getAmount(), playerTurn);
+                break;
+            /*
+            case "HouseTax":
+
+                // TODO: getPlayerHouses and getPlayer
+                int houses = fieldController.getPlayerHouses(playerTurn);
+                int hotels = fieldController.getPlayerHotels(playerTurn);
+                int fine = houses * chanceCardController.getHouseTax() + hotels * chanceCardController.getHotelTax();
+                success = makeTransaction(-fine, playerTurn);
+
+                break;
+            */
+            /*
+            case "Lottery":
+                // TODO: getPlayerTotalValue.
+                int threshold = chanceCardController.getThreshold();
+                if (getPlayerTotalValue(playerTurn)<threshold){
+                    makeTransaction(chanceCardController.getAmount(),playerTurn);
+                    guiController.showMessage(chanceCardController.getSuccessText());
+                } else { guiController.showMessage(chanceCardController.getFailText()); }
+                break;
+            */
+
+            case "MovePlayer":
+                movePlayer(playerTurn,chanceCardController.getIncrement());
+
+                break;
+
+            case "MovePlayerToTile":
+                int delta = chanceCardController.getDestination() - playerController.getPlayerPosition(playerTurn);
+                if (delta < 0){ delta += fieldController.getFields().length; }
+                movePlayer(playerTurn,delta);
+
+                break;
+
+            /*
+             *  case "GetOutOfJailCard":
+             *  case "GoToJailCard":
+             *  case "MoveShipping":
+             */
+        }
+        return success;
     }
 
     /*public void setPlayerPosition(int player, int position){
@@ -268,11 +328,32 @@ public class Game {
         return false;
     }*/
 
-    public void makeTransaction(int receiver, int sender, int amount) {
-        playerController.makeTransaction(receiver, sender, amount);
+    public boolean giftPlayer(int amount, int targetPlayer){
+        boolean transactionSuccess = playerController.giftPlayer(amount,targetPlayer);
+        for (int i = 0; i < players.length; i++) {
+            updateGuiBalance(i);
+        }
+        return transactionSuccess;
     }
 
-    public void setGuiBalance(int player, int amount) {
+    public boolean makeTransaction(int amount, int player){
+        boolean transactionSuccess = playerController.makeTransaction(amount, player);
+        updateGuiBalance(player);
+        return transactionSuccess;
+    }
+
+    public boolean makeTransaction(int amount, int sender, int receiver){
+        boolean transactionSuccess = makeTransaction(-amount,sender);
+        makeTransaction(amount,receiver);
+        return transactionSuccess;
+    }
+
+    // TODO: Might be redundant later.
+    public void updateGuiBalance(int player){
+        setGuiBalance(players[player].getBalance(), player);
+    }
+
+    public void setGuiBalance(int amount, int player){
         guiController.setBalance(amount, player);
     }
 }

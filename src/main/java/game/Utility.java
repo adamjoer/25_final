@@ -4,8 +4,8 @@ package game;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
+import game.chance.card.*;
 import game.field.*;
-import chance.card.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -24,18 +24,20 @@ public class Utility {
      */
     public static Field[] fieldGenerator(String filePath) {
 
-        // Load XML-file and get a list of field data.
+        // Load XML-file and get a NodeList of field data.
         NodeList fieldList = getXmlContent(filePath, "field");
         Field[] fieldArr = new Field[fieldList.getLength()];
         try {
 
             // Extract data from each fieldList element and create Field objects for the Field[].
+
             for (int i = 0; i < fieldList.getLength(); i++) {
 
                 Node field = fieldList.item(i);
 
                 if (field.getNodeType() == Node.ELEMENT_NODE) {
 
+                    // After ensuring that the field Node is an Element Node, it gets attributes shared by all field data.
                     Element ele = (Element) field;
                     Color color = new Color(getInt(ele, "color"));
                     String fieldType = getString(ele, "fieldType");
@@ -44,10 +46,13 @@ public class Utility {
                     String description = getString(ele, "description");
 
 
-                    switch (fieldType) {
-                        case "Property":
-                            // int cost, buildingCost, pawnValue, relatedProperties,nextRelatedProperty;
+                    /*
+                     Switch on fieldType to get particular values for the specific fieldType.
+                     The Field[] is then updated with a new instance of the specific fieldType determined by the switch.
+                     */
 
+                    switch (fieldType){
+                        case "Property":
                             int cost = getInt(ele, "cost");
                             int pawnValue = getInt(ele, "pawnValue");
                             int relatedProperties = getInt(ele, "relatedProperties");
@@ -125,9 +130,13 @@ public class Utility {
      * @param filePath Filepath of the XML-file.
      * @return An array of objects inherited from ChanceCard with data from specified XML-file.
      */
+
     public static ChanceCard[] chanceCardGenerator(String filePath) {
-        // Load XML-file and get a list of field data.
+
+        // Load XML-file and get a NodeList of chanceCard data.
         NodeList chanceCardList = getXmlContent(filePath, "chanceCard");
+
+        // Get the number of elements in the array by counting chanceCard duplicates specified by the duplicate tag.
         int arrayLength = 0;
         try {
             for (int i = 0; i < chanceCardList.getLength(); i++) {
@@ -141,22 +150,31 @@ public class Utility {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        //Create a ChanceCard[] to add ChanceCards to.
         ChanceCard[] chanceCards = new ChanceCard[arrayLength];
         try {
 
-            // Extract data from each fieldList element and create Field objects for the Field[].
+            // Extract data from each chanceCardList element and create ChanceCard objects for the ChanceCard[].
             for (int i = 0; i < chanceCardList.getLength(); i++) {
 
                 Node chanceCard = chanceCardList.item(i);
 
                 if (chanceCard.getNodeType() == Node.ELEMENT_NODE) {
 
-                    Element ele = (Element) chanceCard;
+
+                    // After ensuring that the chanceCard Node is an Element Node, it gets attributes shared by all ChanceCard data.
+                    Element ele  = (Element) chanceCard;
                     String cardText = getString(ele, "cardText");
                     String cardType = getString(ele, "cardType");
                     int duplicates = getInt(ele, "duplicates");
                     int amount;
 
+                    /*
+                     Switch on cardType to get particular values for the specific cardType.
+                     The ChanceCard[] is then updated with a new instance of the specific cardType determined by the switch.
+                     If the specific card is meant to have duplicates, the process is repeated for the number of duplicates.
+                     */
                     for (int j = 0; j < duplicates; j++) {
                         switch (cardType) {
                             case "HouseTax":
@@ -183,7 +201,9 @@ public class Utility {
                             case "Lottery":
                                 int threshold = getInt(ele, "threshold");
                                 amount = getInt(ele, "amount");
-                                chanceCards[i + j] = new Lottery(cardText, amount, threshold);
+                                String successText = getString(ele, "successText");
+                                String failText = getString(ele, "failText");
+                                chanceCards[i + j] = new Lottery(cardText, amount, threshold, successText, failText);
                                 break;
 
                             case "MovePlayerToTile":
@@ -402,9 +422,14 @@ public class Utility {
         return n;
     }
 
-    // Variation of getInt without the use of index (for unique tags in the element).
-    private static int getInt(Element ele, String tag) {
-        return getInt(ele, tag, 0);
+    /**
+     * Variation of getInt without the use of index (for unique tags in the element).
+     * @param ele An XML element extracted from a document
+     * @param tag The XML tag to extract an integer value from
+     * @return The integer requested
+     */
+    private static int getInt(Element ele, String tag){
+        return getInt(ele,tag,0);
     }
 
     /**
@@ -431,7 +456,8 @@ public class Utility {
      * @return A NodeList with each element in the XML file
      */
     private static NodeList getXmlContent(String filePath, String mainTag) {
-        // TODO: This method needs some comments so we can explain what it does
+
+        // Create an empty NodeList to contain XML data in.
 
         NodeList nodeList = new NodeList() {
             @Override
@@ -444,10 +470,25 @@ public class Utility {
                 return 0;
             }
         };
+
+        // try-catch for loading the given file and creating the environment to extract data for the NodeList.
+
         try {
+
+            // Import the file specified by the filePath as an abstract file.
+
             File file = new File(filePath);
+
+            // Create a DocumentBuilderFactory and make a new instance of DocumentBuilder.
+
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newDefaultInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+
+            /*
+             DocumentBuilder parses the abstract file to the Document type, and prepares the document so that
+             the NodeList can be extracted (in document order).
+             */
+
             Document document = dBuilder.parse(file);
             document.getDocumentElement().normalize();
             nodeList = document.getElementsByTagName(mainTag);
