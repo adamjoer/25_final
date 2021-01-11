@@ -72,16 +72,6 @@ public class FieldController {
                 property = (Property) fields[property.getNextRelatedProperty()];
             }
         }
-
-/*
-        for (Property[] group : properties) {
-            System.out.println("\nNew Group:");
-
-            for (Property property : group) {
-                System.out.printf("%s\n", property.toString());
-            }
-        }
-*/
     }
 
     public FieldInstruction fieldAction(int position) {
@@ -168,9 +158,9 @@ public class FieldController {
      * The method goes over each property in the group,
      * and counts how many are owned by the specified player.
      *
-     * @param player
-     * @param propertyPosition
-     * @return
+     * @param player           Value representing a specific player
+     * @param propertyPosition Value representing the position of a property which belongs to a specific group
+     * @return The number of properties owned by the specific player in the property's group
      */
     public int getNumberOfPropertiesOwnedInGroup(int player, int propertyPosition) {
 
