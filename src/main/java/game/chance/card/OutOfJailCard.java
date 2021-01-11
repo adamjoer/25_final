@@ -1,18 +1,8 @@
 package game.chance.card;
 
-public class MovePlayer extends ChanceCard {
-
-    private final int INCREMENT;
-
-
-    /**
-     * @param CARD_TEXT The card text for the card. For output in the GUI.
-     * @param increment The number of tiles the player has to be moved.
-     */
-
-    public MovePlayer(String CARD_TEXT, int increment){
+public class OutOfJailCard extends ChanceCard {
+    public OutOfJailCard(String CARD_TEXT){
         super(CARD_TEXT);
-        INCREMENT = increment;
     }
 
     public String getSuccessText(){ return ""; }
@@ -22,11 +12,9 @@ public class MovePlayer extends ChanceCard {
     public int getHouseTax(){ return 0; }
     public int getHotelTax(){ return 0; }
     public int getThreshold(){ return 0; }
-    public int getIncrement(){ return INCREMENT; }
+    public int getIncrement(){ return 0; }
     public int getDestination(){ return 0; }
     public int getJailPosition() { return 0; }
     public boolean getDoubleRent() { return false; }
     public boolean getForward() { return false; }
 }
-
-

@@ -206,6 +206,22 @@ public class Utility {
                                 int destination = getInt(ele, "destination");
                                 chanceCards[i+j] = new MovePlayerToTile(cardText, destination);
                                 break;
+
+                            case "MoveToNearestShipping":
+                                int[] shippingLocations = getIntArray(ele, "shippingLocations","location");
+                                boolean forward = getBool(ele, "forward");
+                                boolean doubleRent = getBool(ele, "doubleRent");
+
+                                chanceCards[i+j] = new MoveToNearestShipping(cardText, shippingLocations, forward, doubleRent);
+                                break;
+
+                            case "GoToJailCard":
+                                int jailPosition = getInt(ele, "jailPosition");
+                                chanceCards[i+j] = new GoToJailCard(cardText, jailPosition);
+                                break;
+
+                            case "OutOfJailCard":
+                                chanceCards[i+j] = new OutOfJailCard(cardText);
                         }
                     }
                     // Correcting the index for number of duplicates created in the array.
@@ -254,12 +270,12 @@ public class Utility {
     }
 
 
-    /*
+    /**
      * Extracts a boolean from an XML element
      * @param ele An XML element extracted from a document
      * @param tag The XML tag to extract a boolean value from
      * @return The boolean value in that tag
-
+     */
     private static boolean getBool (Element ele, String tag){
         boolean bool = false;
         try{
@@ -269,7 +285,7 @@ public class Utility {
         }
         return bool;
     }
-    */
+
 
     /**
      * Extracts a String from an XML element.
