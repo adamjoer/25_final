@@ -3,6 +3,7 @@ package game;
 import game.field.Field;
 import game.field.FieldInstruction;
 import game.field.TaxField;
+import game.field.Street;
 
 import java.util.Arrays;
 
@@ -42,6 +43,41 @@ public class Game {
                 //Ask if the player want to buy houses
                 if(guiController.getUserButton(playerController.getName(playerTurn) + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja"){
 
+                    //Get the streets which the player can buy houses on
+                    Street[] streets = fieldController.allOwnedStreetsByPlayer(playerTurn);
+
+                    //Get an array of strings, which shows the name of the street and the price to put a house on it
+                    String[] houseCostButtons = getHouseCostButtons(streets);
+
+                    String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
+
+                    //Find the street that the user wants to buy a house on
+                    for(Street s : streets){
+                        if(s.getTitle() + "\n" + s.getBuildingCost() == streetToBuyHouse){
+
+                            //Check if they have money for it
+                            if(playerController.makeTransaction(s.getBuildingCost(), playerTurn)){
+
+                                //Increase the streets propertyLevel and update the gui with the new player balance, and the house
+                                s.setPropertyLevel(s.getPropertyLevel() + 1);
+                                setGuiBalance(playerTurn, playerController.getPlayerBalance(playerTurn));
+
+                                //Check if the street is going to have a hotel
+                                if(s.getPropertyLevel() == 6){
+                                    guiController.setHouseOrHotelStreet(s.getPosition(), 0, true);
+                                }
+                                else{
+                                    guiController.setHouseOrHotelStreet(s.getPosition(), s.getPropertyLevel() - 1, false);
+                                }
+
+                            }
+
+                            //If player can't afford a house, show it to them in the gui
+                            else{
+                                guiController.showMessage(stringHandler.getString("noMoney"));
+                            }
+                        }
+                    }
                 }
             }
 
@@ -249,6 +285,15 @@ public class Game {
 
         }
         return true;
+    }
+
+    public String[] getHouseCostButtons(Street[] properties){
+        String[] houseCostButtons = new String[properties.length];
+        for(int i = 0; i < properties.length; i++){
+            houseCostButtons[i] = properties[i].getTitle() + "\n" + properties[i].getBuildingCost();
+        }
+
+        return houseCostButtons;
     }
 
     public int getNextPlayerTurn() {

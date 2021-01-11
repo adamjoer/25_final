@@ -84,6 +84,10 @@
         <reference>askBuyHouse</reference>
         <outputString>Vil du købe huse?</outputString>
     </stringRef>
+    <stringRef>
+        <reference>whereToBuyHouse</reference>
+        <outputString>Hvor vil du købe et hus?</outputString>
+    </stringRef>
 
 
 </stringRefs>

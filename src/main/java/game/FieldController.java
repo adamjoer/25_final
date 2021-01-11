@@ -234,16 +234,16 @@ public class FieldController {
         }
     }
 
-    public String[] allOwnedPropertiesByPlayer(int player){
-        String[] houseProperties = new String[20];
-        int count = 0;
+    public Street[] allOwnedStreetsByPlayer(int player){
+        Street[] houseProperties = new Street[0];
         for(int i = 0; i < properties.length; i++){
             for(int j = 0; j < properties[i].length; j++){
-                if(ownsAllPropertiesInGroup(player, properties[i][j].getPosition())){
-                    houseProperties[count++] = properties[i][j].getTitle();
+                if(ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j].getField() == "Street"){
+                    Utility.addToArray(houseProperties, properties[i][j]);
                 }
             }
         }
+        return houseProperties;
     }
 
 
