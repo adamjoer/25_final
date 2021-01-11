@@ -51,7 +51,7 @@ public class Utility {
                      The Field[] is then updated with a new instance of the specific fieldType determined by the switch.
                      */
 
-                    switch (fieldType){
+                    switch (fieldType) {
                         case "Property":
                             int cost = getInt(ele, "cost");
                             int pawnValue = getInt(ele, "pawnValue");
@@ -164,7 +164,7 @@ public class Utility {
 
 
                     // After ensuring that the chanceCard Node is an Element Node, it gets attributes shared by all ChanceCard data.
-                    Element ele  = (Element) chanceCard;
+                    Element ele = (Element) chanceCard;
                     String cardText = getString(ele, "cardText");
                     String cardType = getString(ele, "cardType");
                     int duplicates = getInt(ele, "duplicates");
@@ -424,12 +424,13 @@ public class Utility {
 
     /**
      * Variation of getInt without the use of index (for unique tags in the element).
+     *
      * @param ele An XML element extracted from a document
      * @param tag The XML tag to extract an integer value from
      * @return The integer requested
      */
-    private static int getInt(Element ele, String tag){
-        return getInt(ele,tag,0);
+    private static int getInt(Element ele, String tag) {
+        return getInt(ele, tag, 0);
     }
 
     /**
