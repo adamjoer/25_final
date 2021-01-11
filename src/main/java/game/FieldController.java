@@ -240,16 +240,18 @@ public class FieldController {
 
         int worth = 0;
 
-        for (Field field : fields) {
+        // Go over every property
+        for (Property[] group : properties) {
+            for (Property property : group) {
 
-            if (!(field instanceof Property)) continue;
+                // If property is not owned by player, continue to next property
+                if (property.getOwner() != player) continue;
 
-            if (((Property) field).getOwner() != player) continue;
-
-            worth += ((Property) field).getCost();
-
-            if (field instanceof Street)
-                worth += (((Street) field).getBuildingCost() / 2) * ((Street) field).getNumberOfBuildings();
+                // Add cost of property, of potential buildings on it to worth
+                worth += property.getCost();
+                if (property instanceof Street)
+                    worth += (((Street) property).getBuildingCost() / 2) * ((Street) property).getNumberOfBuildings();
+            }
         }
 
         return worth;
