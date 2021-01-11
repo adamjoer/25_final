@@ -41,7 +41,7 @@ public class Game {
             //Check if a player can buy houses
             if(fieldController.canPlayerBuyHouses(playerTurn)){
                 //Ask if the player want to buy houses
-                if(guiController.getUserButton(playerController.getName(playerTurn) + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja"){
+                while(guiController.getUserButton(playerController.getName(playerTurn) + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja"){
 
                     //Get the streets which the player can buy houses on
                     Street[] streets = fieldController.allOwnedStreetsByPlayer(playerTurn);
@@ -54,10 +54,11 @@ public class Game {
 
                     //Find the street that the user wants to buy a house on
                     for(Street s : streets){
-                        if(s.getTitle() + ": " + s.getBuildingCost() + " kr." == streetToBuyHouse){
+                        String temp = s.getTitle() + ": " + s.getBuildingCost() + " kr.";
+                        if(temp.equals(streetToBuyHouse)){
 
                             //Check if they have money for it
-                            if(playerController.makeTransaction(s.getBuildingCost(), playerTurn)){
+                            if(playerController.makeTransaction(-s.getBuildingCost(), playerTurn)){
 
                                 //Increase the streets propertyLevel and update the gui with the new player balance, and the house
                                 s.setPropertyLevel(s.getPropertyLevel() + 1);
@@ -77,6 +78,7 @@ public class Game {
                             else{
                                 guiController.showMessage(stringHandler.getString("noMoney"));
                             }
+                            break;
                         }
                     }
                 }
