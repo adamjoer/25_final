@@ -135,7 +135,7 @@ public class Game {
 
                 break;
 
-            case "MoveShipping":
+            case "MoveToNearestShipping":
                 int[] shippingPositions = chanceCardController.getShippingLocations();
                 boolean forward = chanceCardController.getForward();
                 boolean doubleRent = chanceCardController.getDoubleRent();
