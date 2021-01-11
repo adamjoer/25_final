@@ -102,16 +102,15 @@ public class Game {
 
                 break;
             */
-            /*
+
             case "Lottery":
-                // TODO: getPlayerTotalValue.
                 int threshold = chanceCardController.getThreshold();
-                if (getPlayerTotalValue(playerTurn)<threshold){
+                if (getPlayerTotalValue(playerTurn) <= threshold){
                     makeTransaction(chanceCardController.getAmount(),playerTurn);
                     guiController.showMessage(chanceCardController.getSuccessText());
                 } else { guiController.showMessage(chanceCardController.getFailText()); }
                 break;
-            */
+
 
             case "MovePlayer":
                 movePlayer(playerTurn,chanceCardController.getIncrement());
@@ -199,6 +198,10 @@ public class Game {
     public boolean hasWinner(){
         return false;
     }*/
+
+    public int getPlayerTotalValue(int player){
+        return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
+    }
 
     public boolean giftPlayer(int amount, int targetPlayer){
         boolean transactionSuccess = playerController.giftPlayer(amount,targetPlayer);
