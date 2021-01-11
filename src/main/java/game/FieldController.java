@@ -36,9 +36,10 @@ public class FieldController {
             boolean groupIsFound = false;
             for (Property property : groups) {
 
-                // If they have the same color they are in the same group;
-                // this property is part of a group we've already registered
+                // If they have the same color they are in the same group
                 if (property.getColor().hashCode() == field.getColor().hashCode()) {
+
+                    // this property is part of a group we've already registered
                     groupIsFound = true;
                     break;
                 }
