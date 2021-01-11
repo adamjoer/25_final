@@ -39,7 +39,6 @@ public class FieldController {
         switch (property.getField()) {
 
             case "Street":
-            case "Brewery":
 
                 // If the player owns all the properties in the group, change propertyLevel to 1
                 if (ownsAllPropertiesInGroup(player, propertyPosition)){
@@ -55,6 +54,13 @@ public class FieldController {
                     property = property = (Property) fields[property.getNextRelatedProperty()];
                     if(property.getOwner() == player) i++;
                     property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                }
+                break;
+
+            case "Brewery":
+                // If the player owns all the properties in the group, change propertyLevel to 1
+                if (ownsAllPropertiesInGroup(player, propertyPosition)){
+                    setPropertylevelForGroup(propertyPosition, 1);
                 }
                 break;
         }
@@ -150,6 +156,12 @@ public class FieldController {
 
     public void free(int player) {
         jail.free(player);
+    }
+
+    public void setPropertyLevel(int fieldPosition, int level) {
+        if(fields[fieldPosition].getField() == "Street"){
+            ((Property) fields[fieldPosition]).setPropertyLevel(level);
+        }
     }
 
     /**
