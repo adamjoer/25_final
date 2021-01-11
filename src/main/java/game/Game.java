@@ -72,7 +72,7 @@ public class Game {
     public void movePlayer(int player, int increment){
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
-        if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player)){
+        if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player) && increment > 0){
             setGuiBalance(player, playerController.getPlayerBalance(player));
         }
     }
@@ -118,16 +118,12 @@ public class Game {
                 } else { guiController.showMessage(chanceCardController.getFailText()); }
                 break;
             */
-            /*
+
             case "MovePlayer":
-                int increment = chanceCardController.getIncrement();
-                if (increment < 0){
-                    moveBackwards(playerTurn,increment);
-                } else {
-                    movePlayer(playerTurn,increment);
-                }
+                movePlayer(playerTurn,chanceCardController.getIncrement());
+
                 break;
-            */
+
             case "MovePlayerToTile":
                 int delta = chanceCardController.getDestination() - playerController.getPlayerPosition(playerTurn);
                 if (delta < 0){ delta += fieldController.getFields().length; }

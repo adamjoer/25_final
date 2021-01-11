@@ -58,7 +58,7 @@ public class PlayerController {
      */
     public void movePlayer(int player, int increment) {
         players[player].movePlayer(increment);
-        if(players[player].getCurrentPosition() < players[player].getPreviousPosition()){
+        if(players[player].getCurrentPosition() < players[player].getPreviousPosition() && increment > 0){
             players[player].makeTransaction(4000);
         }
     }
