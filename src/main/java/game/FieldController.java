@@ -154,6 +154,29 @@ public class FieldController {
         return true;
     }
 
+    public int getNumberOfPropertiesOwnedInGroup(int player, int propertyPosition) {
+
+        // Find the specified property
+        Property property = (Property) fields[propertyPosition];
+        int count = 0;
+
+        // Go over each property in the group
+        // (the number of properties in the group is represented with the relatedProperties attribute)
+        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
+
+            // Find the next property in the group
+            property = (Property) fields[property.getNextRelatedProperty()];
+
+            // If the property is owned by the player, increment the count
+            if (property.getOwner() == player) count++;
+        }
+
+        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
+        assert property == fields[propertyPosition];
+
+        return count;
+    }
+
     /**
      * Method for telling how many properties a certain player owns in a certain group.
      * The method goes over each property in the group,
