@@ -13,17 +13,13 @@ public class Street extends Property {
     }
 
     // Relevant getters
-    public int getNumberOfHouses() {
+    public int getNumberOfBuildings() {
         return switch (propertyLevel) {
-            case 0, 1, 6 -> 0;
+            case 0, 1 -> 0;
             case 2, 3, 4, 5 -> propertyLevel - 1;
+            case 6 -> 1;
             default -> throw new IllegalArgumentException("propertyLevel has invalid value: " + propertyLevel);
         };
-    }
-
-    public int getNumberOfHotels() {
-        if (propertyLevel == 6) return 1;
-        return 0;
     }
 
     public int getBuildingCost() {

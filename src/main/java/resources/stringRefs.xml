@@ -40,4 +40,46 @@
         <reference>test</reference>
         <outputString>Test did not fail!</outputString>
     </stringRef>
+    <stringRef>
+        <reference>goToJail</reference>
+        <outputString>Du skal sgu i fængsel!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>isInJail</reference>
+        <outputString>Du er i fængsel og skal ud før du kan spille igen</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>statsSkat</reference>
+        <outputString>Du er landet på statsskat, og skal dermed af med 2000 kr.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>skat</reference>
+        <outputString>Du er landet på skat.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>skatOptions</reference>
+        <outputString>vil du:
+            1: Betale 4000 kr.
+            Eller
+            2: Betale 10% af din værdi
+        </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>ownField</reference>
+        <outputString>Du er landet på dit eget felt</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>buyField</reference>
+        <outputString>Ingen spillere ejer dette felt, vil du købe det?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>noMoney</reference>
+        <outputString>Du har ikke nok penge</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>payRent</reference>
+        <outputString>Feltet er eget af en anden spiller, du skal betale husleje</outputString>
+    </stringRef>
+
+
 </stringRefs>
