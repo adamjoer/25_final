@@ -16,7 +16,7 @@ public class GUIController {
     private final int MIN_PLAYER_AMOUNT = 2;
     private final int playerAmount; // The actual number of players in the game
     private GUI_Player[] guiPlayerList;
-    private final String[] playerNames;
+    private String[] playerNames;
     private final GUI_Car[] guiCars;
     private Color[] colorsAvailable = new Color[]{Color.MAGENTA, Color.GRAY, Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN}; //Color.decode("#3E0D0C")
     private String[] colorChoices = new String[]{"magenta", "grå", "rød", "gul", "grøn", "turkis"};
@@ -27,46 +27,36 @@ public class GUIController {
         for(int i = 0; i<fields.length; i++){
             Field field = fields[i];
 
-            switch (field.getField()){
-                case "Start":
-                    guiFields[i] = new GUI_Start(field.getTitle(), field.getSubText(), field.getDescription(), Color.red, Color.BLACK);
-                    break;
-                case "Street":
+            // Error: Field name not recognised
+            switch (field.getField()) {
+                case "Start" -> guiFields[i] = new GUI_Start(field.getTitle(), field.getSubText(), field.getDescription(), Color.red, Color.BLACK);
+                case "Street" -> {
                     Property property = (Property) fields[i];
                     guiFields[i] = new GUI_Street(property.getTitle(), property.getSubText(), property.getDescription(),
                             String.valueOf(property.getCost()), property.getColor(), Color.BLACK);
-                    break;
-                case "Shipping":
+                }
+                case "Shipping" -> {
                     Shipping shipping = (Shipping) fields[i];
-                    guiFields[i] = new GUI_Shipping("default",shipping.getTitle(), shipping.getSubText(), shipping.getDescription(),
+                    guiFields[i] = new GUI_Shipping("default", shipping.getTitle(), shipping.getSubText(), shipping.getDescription(),
                             String.valueOf(shipping.getCurrentRent()), Color.WHITE, Color.BLACK);
-                    break;
-                case "TaxField":
+                }
+                case "TaxField" -> {
                     TaxField tax = (TaxField) fields[i];
-                    guiFields[i] = new GUI_Tax(tax.getTitle(), tax.getSubText(), tax.getDescription(),Color.GRAY, Color.BLACK);
-                    break;
-                case "Brewery":
+                    guiFields[i] = new GUI_Tax(tax.getTitle(), tax.getSubText(), tax.getDescription(), Color.GRAY, Color.BLACK);
+                }
+                case "Brewery" -> {
                     Brewery brewery = (Brewery) fields[i];
                     String title = brewery.getTitle();
-                    guiFields[i] = new GUI_Brewery("default", brewery.getTitle(),brewery.getSubText(),brewery.getDescription(),
+                    guiFields[i] = new GUI_Brewery("default", brewery.getTitle(), brewery.getSubText(), brewery.getDescription(),
                             String.valueOf(brewery.getCurrentRent()), Color.WHITE, Color.BLACK);
-                    break;
-                case "GoToJail":
-                case "Jail":
-                    guiFields[i] = new GUI_Jail("default",field.getTitle(), field.getTitle(), field.getTitle(),
-                            new Color(125, 125, 125), Color.BLACK);
-                    break;
-                case "Parking":
-                    guiFields[i] = new GUI_Refuge("default", field.getTitle(), field.getSubText(), field.getDescription(),
-                            Color.white, Color.black);
-                    break;
-                case "Chance":
-                    guiFields[i] = new GUI_Chance(field.getTitle(), field.getSubText(), field.getDescription(),
-                            Color.white, Color.black);
-                    break;
-                // Error: Field name not recognised
-                default:
-                    throw new IllegalArgumentException();
+                }
+                case "GoToJail", "Jail" -> guiFields[i] = new GUI_Jail("default", field.getTitle(), field.getTitle(), field.getTitle(),
+                        new Color(125, 125, 125), Color.BLACK);
+                case "Parking" -> guiFields[i] = new GUI_Refuge("default", field.getTitle(), field.getSubText(), field.getDescription(),
+                        Color.white, Color.black);
+                case "Chance" -> guiFields[i] = new GUI_Chance(field.getTitle(), field.getSubText(), field.getDescription(),
+                        Color.white, Color.black);
+                default -> throw new IllegalArgumentException();
             }
         }
         gui = new GUI(guiFields, Color.PINK);
@@ -161,7 +151,6 @@ public class GUIController {
                     for (int j=0; j<colorChoices.length;j++){
                         if(colorChoices[j].equals(vehicleColor)){
                             tempColorIndex = j;
-                            System.out.print(j);
                             break;
                         }
                     }
@@ -260,13 +249,23 @@ public class GUIController {
 
     public void removeGuiPlayer(int player, int fieldPlacement){
         // TODO: finish this
-        gui.getFields()[fieldPlacement].drawCar(getGuiPlayer(player), false);
+        if(guiPlayerList.length == 1){
+            showMessage("You are the winner" + Objects.requireNonNull(getGuiPlayer(player)).getName());
+        }else {
+            setCar(player, false, fieldPlacement);
 
-        GUI_Player[] tempArr = guiPlayerList;
-        guiPlayerList = new GUI_Player[guiPlayerList.length-1];
+            GUI_Player[] tempArr = guiPlayerList;
+            guiPlayerList = new GUI_Player[guiPlayerList.length - 1];
 
-        System.arraycopy(tempArr,0,guiPlayerList,0,player);
-        System.arraycopy(tempArr,player+1,guiPlayerList,player,guiPlayerList.length-player);
+            System.arraycopy(tempArr, 0, guiPlayerList, 0, player);
+            System.arraycopy(tempArr, player + 1, guiPlayerList, player, guiPlayerList.length - player);
+
+            String[] tempNameArr = playerNames;
+            playerNames = new String[playerNames.length-1];
+
+            System.arraycopy(tempNameArr, 0, playerNames, 0, player);
+            System.arraycopy(tempNameArr, player + 1, playerNames, player, playerNames.length - player);
+        }
     }
 
     /**
@@ -387,7 +386,9 @@ public class GUIController {
             houseAmount = 4;
         }
         street.setHouses(houseAmount);
-        street.setHotel(setHotel);
+        if(setHotel) {
+            street.setHotel(true);
+        }
     }
 
     /**

@@ -17,7 +17,8 @@ public class Game {
     //private ChanceCardController chanceCardController;
     private Player[] players;
     private int playerTurn;
-    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");;
+    private int playerTurnIndex; // look at setPlayerTurn for info
+    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
 
     public Game(){
         fieldController = new FieldController();
@@ -26,6 +27,7 @@ public class Game {
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
+        playerTurnIndex = playerTurn;
     }
 
     public void gameLoop(){
@@ -36,7 +38,7 @@ public class Game {
 
         while(!stop){
             playerTurn = getNextPlayerTurn();
-            guiController.showMessage("Player "+ playerController.getName(playerTurn) + " turn to roll the dice" );
+            guiController.showMessage("Player "+ playerController.getName(playerTurnIndex) + " turn to roll the dice" );
             // cast dice from dice controller
             guiController.getUserButton("Roll the dice", "Roll");
             diceController.roll();
@@ -46,11 +48,10 @@ public class Game {
 
             guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
 
-            movePlayer(playerTurn, diceController.getSum());
+            movePlayer(playerTurnIndex, diceController.getSum());
 
-            fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
-            fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
-            //Start next part of the game
+            fieldController.fieldAction(playerController.getPlayerPosition(playerTurnIndex));
+            fieldAction(playerController.getPlayerPosition(playerTurnIndex), playerTurnIndex);
 
             while(isDieIdentical){
                 guiController.showMessage("You got identical dies, roll the dice again!");
@@ -60,9 +61,9 @@ public class Game {
                 dice1 = diceController.getFaceValue(0);
                 dice2 = diceController.getFaceValue(1);
                 guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
-                movePlayer(playerTurn, diceController.getSum());
-                fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
-                fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
+                movePlayer(playerTurnIndex, diceController.getSum());
+                fieldController.fieldAction(playerController.getPlayerPosition(playerTurnIndex));
+                fieldAction(playerController.getPlayerPosition(playerTurnIndex), playerTurnIndex);
             }
 
             if (players.length <= 1) {
@@ -80,30 +81,11 @@ public class Game {
         }
     }
 
-    /*public void setPlayerPosition(int player, int position){
-        playerController.setPlayerPosition(player, position);
-        guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
-    }
+    public void removePlayer(int player, int fieldPlacement){
+        players = playerController.removePlayer(player);
 
-    public void checkStartPass(int player, int increment){
-        if (playerController.getPlayerPosition(player) > playerController.getCurrentPosition(player) + increment){
-            giveStartPassReward(player);
-        }
-    }
-
-    public boolean giveStartPassReward(int player){
-        if (fieldController.hasPassedGo(playerController.getOldPlayerPosition(player), playerController.getPlayerPosition(player))){
-            playerController.setPlayerBalance(player, playerController.makeTransaction(player, 4000));
-            return true;
-        }
-        return false;
-    }*/
-
-    public void removePlayer(int player){
-        // When a player becomes broke, the player needs to be removed from the game
-        guiController.showMessage(players[player].getName() + " has been removed from the game");
-        players = (Player[]) ArrayUtils.removeElement(players, players[player]);
-        guiController.removeGuiPlayer(player, playerController.getPlayerPosition(player));
+        guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
+        playerTurn = playerTurn-1;
     }
 
     public boolean sellProperty(int player, int place){
@@ -201,24 +183,24 @@ public class Game {
                 break;
 
             case "TaxField":
-                TaxField currentField = (TaxField) fieldController.getFields()[playerController.getPlayerPosition(playerTurn)];
+                TaxField currentField = (TaxField) fieldController.getFields()[playerController.getPlayerPosition(playerTurnIndex)];
                 int fine = currentField.getFine();
-                int playerValue = fieldController.getCombinedPropertyWorth(playerTurn);
+                int playerValue = fieldController.getCombinedPropertyWorth(playerTurnIndex);
                 if (currentField.getTitle().equals("Statsskat")) {
                     guiController.showMessage(stringHandler.getString("statsSkat"));
-                    playerController.makeTransaction(-currentField.getFine(), playerTurn);
-                    guiController.makeTransaction(-currentField.getFine(), playerTurn);
+                    playerController.makeTransaction(-currentField.getFine(), playerTurnIndex);
+                    guiController.makeTransaction(-currentField.getFine(), playerTurnIndex);
                 } else{
                     guiController.showMessage(stringHandler.getString("skat"));
                     String playerChoiceOne = "1";
                     String playerChoice = guiController.getUserButton(stringHandler.getString("skatOptions"),
                                                 playerChoiceOne, "2");
                     if(playerChoice.equals(playerChoiceOne)){
-                        playerController.makeTransaction(-fine, playerTurn);
-                        guiController.makeTransaction(-fine, playerTurn);
+                        playerController.makeTransaction(-fine, playerTurnIndex);
+                        guiController.makeTransaction(-fine, playerTurnIndex);
                     } else{
-                        playerController.makeTransaction(-playerValue, playerTurn);
-                        guiController.makeTransaction(-playerValue, playerTurn);
+                        playerController.makeTransaction(-playerValue, playerTurnIndex);
+                        guiController.makeTransaction(-playerValue, playerTurnIndex);
                     }
                 }
                 break;
@@ -232,14 +214,11 @@ public class Game {
 
     public int getNextPlayerTurn(){
         playerTurn = (playerTurn + 1) % players.length;
+        setPlayerTurn();
         return playerTurn;
     }
 
-    /*public int getPlayerTurn(){
-        return 0;
-    }
-
-    public boolean hasWinner(){
+    /*public boolean hasWinner(){
         return false;
     }*/
 
@@ -249,5 +228,16 @@ public class Game {
 
     public void setGuiBalance(int player, int amount){
         guiController.setBalance(amount, player);
+    }
+
+    /**
+     * This method is used, to get the players index after removal of players in the original array
+     */
+    private void setPlayerTurn(){
+        for(int i=0;i<players.length;i++){
+            if(players[i].getId() == playerTurn){
+                playerTurnIndex = i;
+            }
+        }
     }
 }
