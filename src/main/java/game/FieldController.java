@@ -50,7 +50,7 @@ public class FieldController {
                 groups = Utility.addToArray(groups, (Property) field);
         }
 
-        // properties acts as an array of groups (subarrays)
+        // The properties attribute acts as an array of groups (subarrays)
         // Each subarray contains the properties in that group
         properties = new Property[groups.length][];
 
