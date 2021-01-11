@@ -92,7 +92,7 @@ public class Game {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
 
-        if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player) && increment > 0){
+        if(playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player) && increment > 0){
             setGuiBalance(playerController.getPlayerBalance(player),player);
         }
     }
