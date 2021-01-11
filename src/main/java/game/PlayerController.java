@@ -44,13 +44,9 @@ public class PlayerController {
      * @return True if the transaction was a success, false if the sender doesn't have enough money
      */
     public boolean makeTransaction(int amount, int sender, int receiver) {
-        if (players[sender].makeTransaction(-amount)) {
-            players[receiver].makeTransaction(amount);
-            return true;
-        } else {
-            players[sender].setBalance(0);
-            return false;
-        }
+        boolean success = players[sender].makeTransaction(-amount);
+        players[receiver].makeTransaction(amount);
+        return success;
     }
 
 

@@ -24,16 +24,12 @@ public class Player {
 
     /**
      * @param amount : Amount to transfer
-     * @return : Return true if transfer was sucessfull, return false if player doesn't have anough money
+     * @return : Return true if there was coverage. Return false, if balance is negative.
      */
     public boolean makeTransaction(int amount) {
-        if (getBalance() >= -amount) {
-            setBalance(getBalance() + amount);
-            return true;
-        } else {
-            setBalance(0);
-            return false;
-        }
+        setBalance(getBalance() + amount);
+
+        return account.getBalance() >= 0;
     }
 
     /**

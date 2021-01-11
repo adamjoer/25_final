@@ -49,10 +49,6 @@ public abstract class Field {
         return color;
     }
 
-    public String getField() {
-        return getClass().getSimpleName();
-    }
-
     public String toString() {
         return getClass().getSimpleName() +
                "\n\t[title=\"" + title +
