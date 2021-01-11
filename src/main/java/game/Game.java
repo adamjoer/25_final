@@ -45,17 +45,14 @@ public class Game {
             //Check if a player can buy houses
             if (fieldController.canPlayerBuyHouses(playerTurn)) {
 
-                int playerBalance = playerController.getPlayerBalance(playerTurn);
 
                 //Get the streets which the player can buy houses on
-                Street[] streets = fieldController.allOwnedStreetsByPlayer(playerTurn, playerBalance);
+                Street[] streets = affordableHouses(playerTurn);
 
                 while (streets.length > 0) {
 
-                    playerBalance = playerController.getPlayerBalance(playerTurn);
-
                     //Get the streets which the player can buy houses on
-                    streets = fieldController.allOwnedStreetsByPlayer(playerTurn, playerBalance);
+                    streets = affordableHouses(playerTurn);
 
                     //Ask if the player want to buy houses
                     if (guiController.getUserButton(playerController.getName(playerTurn) + " " + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja") {
@@ -300,6 +297,11 @@ public class Game {
         playerTurn = (playerTurn + 1) % players.length;
         setPlayerTurn();
         return playerTurn;
+    }
+
+    private Street[] affordableHouses(int player){
+        int playerBalance = playerController.getPlayerBalance(player);
+        return fieldController.allOwnedStreetsByPlayer(player, playerBalance);
     }
 
     /*public boolean hasWinner(){
