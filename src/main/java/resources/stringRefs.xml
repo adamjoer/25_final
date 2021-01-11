@@ -70,7 +70,7 @@
     </stringRef>
     <stringRef>
         <reference>buyField</reference>
-        <outputString>Er ikke get af nogen, vil du købe det?</outputString>
+        <outputString>er ikke eget af nogen, vil du købe det?</outputString>
     </stringRef>
     <stringRef>
         <reference>noMoney</reference>
@@ -90,7 +90,7 @@
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
-        <outputString>Vil du købe huse?</outputString>
+        <outputString>vil du købe huse?</outputString>
     </stringRef>
     <stringRef>
         <reference>whereToBuyHouse</reference>

@@ -22,14 +22,12 @@ public class Game {
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
     private Field[] fields;
 
-    public Game() {
-        fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
+
     public Game(){
+        fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
         fieldController = new FieldController();
         guiController = new GUIController(fields);
         diceController = new DiceController(2, 6);
-        guiController = new GUIController(fieldController.getFields());
-        diceController = new DiceController(2,6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
@@ -47,7 +45,7 @@ public class Game {
             //Check if a player can buy houses
             if (fieldController.canPlayerBuyHouses(playerTurn)) {
                 //Ask if the player want to buy houses
-                while (guiController.getUserButton(playerController.getName(playerTurn) + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja") {
+                while (guiController.getUserButton(playerController.getName(playerTurn) + " " + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja") {
 
                     //Get the streets which the player can buy houses on
                     Street[] streets = fieldController.allOwnedStreetsByPlayer(playerTurn);
@@ -189,7 +187,7 @@ public class Game {
 
                 //Check if the field is owned by the player
                 if(player == instructions.getOwner()){
-                    guiController.showMessage(stringHandler.getString("ownField" +" " + fieldController.getFields()[position].getTitle()));
+                    guiController.showMessage(stringHandler.getString("ownField") + " " + fieldController.getFields()[position].getTitle());
                     return true;
                 }
 
