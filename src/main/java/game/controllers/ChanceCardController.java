@@ -3,6 +3,7 @@ package game.controllers;
 import game.*;
 import game.chance.card.ChanceCard;
 
+import java.util.Arrays;
 import java.lang.Math;
 
 public class ChanceCardController {
@@ -12,6 +13,7 @@ public class ChanceCardController {
     private final int BASE_DECK_LENGTH;
     private ChanceCard[] drawPile;
     private int pilePosition = -1;
+    private int outOfJailCardsDrawn = 0;
 
     /**
      * Constructor. Executes chanceCardGenerator in game.Utility to create a base deck.
@@ -21,7 +23,6 @@ public class ChanceCardController {
     public ChanceCardController(){
         BASE_DECK = Utility.chanceCardGenerator(XML_FILEPATH);
         BASE_DECK_LENGTH = BASE_DECK.length;
-        this.drawPile = new ChanceCard[BASE_DECK.length];
         shuffleDeck();
     }
 
@@ -82,10 +83,11 @@ public class ChanceCardController {
      */
 
     private void shuffleDeck(){
-        int[] orderedArray = new int[BASE_DECK_LENGTH];
-        for (int i = 0; i < BASE_DECK_LENGTH; i++) { orderedArray[i] = i; }
+        drawPile = new ChanceCard[BASE_DECK_LENGTH - outOfJailCardsDrawn];
+        int[] orderedArray = new int[BASE_DECK_LENGTH - outOfJailCardsDrawn];
+        for (int i = 0; i < BASE_DECK_LENGTH - outOfJailCardsDrawn; i++) { orderedArray[i] = i; }
         int[] shuffleReference = shuffleIntArray(orderedArray);
-        for (int i = 0; i < BASE_DECK_LENGTH; i++) {
+        for (int i = 0; i < BASE_DECK_LENGTH - outOfJailCardsDrawn; i++) {
             drawPile[i] = BASE_DECK[shuffleReference[i]];
         }
     }
@@ -100,19 +102,25 @@ public class ChanceCardController {
     public String drawCard(){
         if (pilePosition == BASE_DECK_LENGTH - 1){ shuffleDeck(); }
         pilePosition = (pilePosition + 1) % BASE_DECK_LENGTH;
+        if (getCurrentCardType().equals("OutOfJail")){ outOfJailCardsDrawn += 1;}
         return getCardText();
     }
 
-    // Relevant getters.
+    public void returnOutOfJailCard(){ outOfJailCardsDrawn -= 1; }
 
+    // Relevant getters.
     public String getCurrentCardType(){ return this.drawPile[pilePosition].getClass().getSimpleName(); }
     public String getCardText(){ return this.drawPile[this.pilePosition].getCardText(); }
     public String getFailText(){ return this.drawPile[this.pilePosition].getFailText(); }
     public String getSuccessText(){ return this.drawPile[this.pilePosition].getSuccessText(); }
+    public int[] getShippingLocations(){ return this.drawPile[this.pilePosition].getShippingLocations(); }
     public int getAmount(){ return this.drawPile[this.pilePosition].getAmount(); }
     public int getHouseTax(){ return this.drawPile[this.pilePosition].getHouseTax(); }
     public int getHotelTax(){ return this.drawPile[this.pilePosition].getHotelTax(); }
     public int getThreshold(){ return this.drawPile[this.pilePosition].getThreshold(); }
     public int getIncrement(){ return this.drawPile[this.pilePosition].getIncrement(); }
     public int getDestination(){ return this.drawPile[this.pilePosition].getDestination(); }
+    public int getJailPosition(){ return this.drawPile[this.pilePosition].getJailPosition(); }
+    public boolean getDoubleRent(){ return this.drawPile[this.pilePosition].getDoubleRent(); }
+    public boolean getForward(){ return this.drawPile[this.pilePosition].getForward(); }
 }
