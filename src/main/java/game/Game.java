@@ -21,7 +21,6 @@ public class Game {
     private int playerTurnIndex; // look at setPlayerTurn for info
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
     private Field[] fields;
-    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
 
     public Game() {
         fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
