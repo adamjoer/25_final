@@ -55,11 +55,7 @@ public class Game {
             }
 
             // Cast dice from dice controller
-            guiController.getUserButton(stringHandler.getString("rollDice"), "OK");
-            diceController.roll();
-
-            guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
-
+            rollDice();
             movePlayer(playerTurnIndex, diceController.getSum());
 
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
@@ -89,10 +85,7 @@ public class Game {
         String returnBtn = guiController.getUserButton(stringHandler.getString("inJailOptions"), "1", "2");
         if (returnBtn.equals("1")) {
 
-            guiController.getUserButton(stringHandler.getString("rollDice"), "OK");
-            diceController.roll();
-
-            guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
+                rollDice();
 
             if (diceController.isIdentical()) {
                 guiController.showMessage(stringHandler.getString("jailIdenticalDice"));
@@ -111,6 +104,13 @@ public class Game {
         }
     }
 
+    private void rollDice() {
+        guiController.showMessage(stringHandler.getString("rollDice"));
+        diceController.roll();
+
+        guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
+    }
+
     private void movePlayer(int player, int increment) {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
@@ -120,7 +120,7 @@ public class Game {
         }
     }
 
-    public void removePlayer(int player, int fieldPlacement){
+    private void removePlayer(int player, int fieldPlacement){
         players = playerController.removePlayer(player);
 
         guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
