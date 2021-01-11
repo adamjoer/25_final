@@ -1,5 +1,7 @@
 package game.field;
 
+import game.Utility;
+
 import java.awt.Color;
 import java.util.Arrays;
 
@@ -20,17 +22,7 @@ public class Jail extends Field {
 
     public void incarcerate(int player) {
 
-        // Copy existing prisoner array into temporary array
-        int[] temp = prisoners;
-
-        // Increase
-        prisoners = new int[prisoners.length + 1];
-
-        // Copy temporary array into new array
-        System.arraycopy(temp, 0, prisoners, 0, temp.length);
-
-        // Add specified player to end of new array
-        prisoners[prisoners.length - 1] = player;
+        prisoners = Utility.addToArray(prisoners, player);
     }
 
     public void free(int player) {
@@ -47,15 +39,7 @@ public class Jail extends Field {
         // If player wasn't found, do nothing
 //        if (playerPlacement == -1) return;
 
-        // Copy existing array into temporary array
-        int[] temp = prisoners;
-
-        // Change array length
-        prisoners = new int[prisoners.length - 1];
-
-        // Copy temporary array into new array, leaving out the prisoner at specified playerPlacement
-        System.arraycopy(temp, 0, prisoners, 0, playerPlacement);
-        System.arraycopy(temp, playerPlacement + 1, prisoners, playerPlacement, prisoners.length - playerPlacement);
+        prisoners = Utility.removeFromArray(prisoners, playerPlacement);
     }
 
     public boolean isInJail(int player) {
