@@ -2,11 +2,11 @@
 <stringRefs>
     <stringRef>
         <reference>playerTurn</reference>
-        <outputString>Det der din tur til at spille, </outputString>
+        <outputString>Det er din tur til at spille, </outputString>
     </stringRef>
     <stringRef>
         <reference>rollDice</reference>
-        <outputString>Tryk OK for at rulle terningerne</outputString>
+        <outputString>Tryk OK for at kaste terningerne</outputString>
     </stringRef>
     <stringRef>
         <reference>createPlayer</reference>
