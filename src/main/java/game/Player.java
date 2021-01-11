@@ -10,15 +10,17 @@ public class Player {
     private int[] properties = new int[0];
     private final String NAME;
     private final int BOARD_LENGTH = 40;
+    private int id;
 
 
     /**
      * @param NAME         : Name of the player
      * @param startBalance : The amount of money they start off with
      */
-    public Player(String NAME, int startBalance) {
+    public Player(String NAME, int startBalance, int id) {
         account = new Account(startBalance);
         this.NAME = NAME;
+        this.id = id;
     }
 
 
@@ -83,6 +85,9 @@ public class Player {
         currentPosition = (currentPosition + increment) % BOARD_LENGTH;
     }
 
+    public int getId(){
+        return this.id;
+    }
     public String getName(){
         return this.NAME;
     }

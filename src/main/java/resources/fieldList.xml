@@ -154,7 +154,7 @@
     </field>
     <field>
         <fieldType>Jail</fieldType>
-        <title>Jail</title>
+        <title>Fængsel</title>
         <subText/>
         <description/>
         <color>0x000000</color>

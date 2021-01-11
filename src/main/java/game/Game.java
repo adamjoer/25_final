@@ -4,6 +4,7 @@ import game.controllers.ChanceCardController;
 import game.field.Field;
 import game.field.FieldInstruction;
 import game.field.TaxField;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.util.Arrays;
 
@@ -16,19 +17,19 @@ public class Game {
     private final ChanceCardController chanceCardController;
     private final Player[] players;
     private int playerTurn;
+    private int playerTurnIndex; // look at setPlayerTurn for info
     private int[] getOutOfJailTries;
-    private Field[] fields;
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
 
-    public Game() {
-        fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
+    public Game(){
         fieldController = new FieldController();
-        guiController = new GUIController(fields);
-        diceController = new DiceController(2, 6);
+        guiController = new GUIController(fieldController.getFields());
+        diceController = new DiceController(2,6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         chanceCardController = new ChanceCardController();
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
+        playerTurnIndex = playerTurn;
         getOutOfJailTries = new int[players.length];
     }
 
@@ -58,9 +59,8 @@ public class Game {
 
             guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
 
-            movePlayer(playerTurn, diceController.getSum());
+            movePlayer(playerTurnIndex, diceController.getSum());
 
-            fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
             if (!diceController.isIdentical()) {
@@ -117,6 +117,13 @@ public class Game {
         if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player) && increment > 0) {
             setGuiBalance(playerController.getPlayerBalance(player), player);
         }
+    }
+
+    public void removePlayer(int player, int fieldPlacement){
+        players = playerController.removePlayer(player);
+
+        guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
+        playerTurn = playerTurn-1;
     }
 
     private boolean drawCard() {
@@ -340,6 +347,7 @@ public class Game {
 
     private int getNextPlayerTurn() {
         playerTurn = (playerTurn + 1) % players.length;
+        setPlayerTurn();
         return playerTurn;
     }
 
@@ -378,5 +386,16 @@ public class Game {
 
     private void setGuiBalance(int amount, int player) {
         guiController.setBalance(amount, player);
+    }
+
+    /**
+     * This method is used, to get the players index after removal of players in the original array
+     */
+    private void setPlayerTurn(){
+        for(int i=0;i<players.length;i++){
+            if(players[i].getId() == playerTurn){
+                playerTurnIndex = i;
+            }
+        }
     }
 }

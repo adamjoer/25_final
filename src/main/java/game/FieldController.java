@@ -222,20 +222,26 @@ public class FieldController {
         return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
-    public int getPlayerValueSum(int player, int[] playerProperties) {
-        int propertyValues = 0;
+    public int getCombinedPropertyWorth(int player) {
+
+        int worth = 0;
+
         for (Field field : fields) {
-            if (field instanceof Property) {
-                if (((Property) field).getOwner() == player) {
-                    propertyValues += ((Property) field).getCurrentRent();
-                }
-            }
+
+            if (!(field instanceof Property)) continue;
+
+            if (((Property) field).getOwner() != player) continue;
+
+            worth += ((Property) field).getCost();
+
+            if (field instanceof Street)
+                worth += (((Street) field).getBuildingCost() / 2) * ((Street) field).getNumberOfBuildings();
         }
 
-        return propertyValues;
+        return worth;
     }
 
-    // Relevant getters
+  // Relevant getters
     public Field[] getFields() {
         return fields;
     }
