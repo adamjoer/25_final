@@ -31,7 +31,7 @@ public class Game {
         playerTurn = (int) (Math.random() * (players.length - 1));
     }
 
-    public void gameLoop(){
+    private void gameLoop(){
         boolean stop = false;
         boolean isDieIdentical;
 
@@ -69,7 +69,7 @@ public class Game {
         guiController.close();
     }
 
-    public void movePlayer(int player, int increment){
+    private void movePlayer(int player, int increment){
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
         if(playerController.getPlayerPosition(player) < playerController.getOldPlayerPosition(player) && increment > 0){
@@ -124,14 +124,58 @@ public class Game {
 
                 break;
 
-            /*
-             *  case "GetOutOfJailCard":
-             *  case "GoToJailCard":
-             *  case "MoveShipping":
-             */
+            case "OutOfJailCard":
+                players[playerTurn].setOutOfJailCards(1);
+
+                break;
+
+            case "GoToJailCard":
+                // TODO: Update with correct method name after merge to Dev.
+                goToJail(playerTurn,chanceCardController.getJailPosition());
+
+                break;
+
+            case "MoveShipping":
+                int[] shippingPositions = chanceCardController.getShippingLocations();
+                boolean forward = chanceCardController.getForward();
+                boolean doubleRent = chanceCardController.getDoubleRent();
+                moveToNearestShipping(shippingPositions, forward, doubleRent);
+
+                break;
         }
         return success;
     }
+
+    private void moveToNearestShipping(int[] shippingLocations, boolean forward, boolean doubleRent){
+        int currentPosition = players[playerTurn].getCurrentPosition();
+        if (forward) {
+            if (currentPosition > shippingLocations[3]){
+                movePlayer(playerTurn, (5 - currentPosition) % fieldController.getFields().length);
+            } else {
+                for (int i = 0; i < 4; i++) {
+                    if (shippingLocations[i] > currentPosition) {
+                        movePlayer(playerTurn, shippingLocations[i] - currentPosition);
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            int relativePositionToShipping = (currentPosition + 5) % 10;
+            if (relativePositionToShipping < 5){
+                movePlayer(playerTurn, -relativePositionToShipping);
+            } else {
+                movePlayer(playerTurn, 10 - relativePositionToShipping);
+            }
+        }
+        currentPosition = players[playerTurn].getCurrentPosition();
+        fieldAction(currentPosition);
+        // TODO: Add second condition on this - if field is owned.
+        if(doubleRent){
+            fieldAction(currentPosition);
+        }
+    }
+
 
     /*public void setPlayerPosition(int player, int position){
         playerController.setPlayerPosition(player, position);
@@ -183,10 +227,10 @@ public class Game {
         return guiController.returnPlayerNames();
     }*/
 
-    public void fieldAction(int position){
+    private void fieldAction(int position){
     }
 
-    public int getNextPlayerTurn(){
+    private int getNextPlayerTurn(){
         playerTurn = (playerTurn + 1) % players.length;
         return playerTurn;
     }
@@ -199,11 +243,11 @@ public class Game {
         return false;
     }*/
 
-    public int getPlayerTotalValue(int player){
+    private int getPlayerTotalValue(int player){
         return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
     }
 
-    public boolean giftPlayer(int amount, int targetPlayer){
+    private boolean giftPlayer(int amount, int targetPlayer){
         boolean transactionSuccess = playerController.giftPlayer(amount,targetPlayer);
         for (int i = 0; i < players.length; i++) {
             updateGuiBalance(i);
@@ -211,24 +255,24 @@ public class Game {
         return transactionSuccess;
     }
 
-    public boolean makeTransaction(int amount, int player){
+    private boolean makeTransaction(int amount, int player){
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
         return transactionSuccess;
     }
 
-    public boolean makeTransaction(int amount, int sender, int receiver){
+    private boolean makeTransaction(int amount, int sender, int receiver){
         boolean transactionSuccess = makeTransaction(-amount,sender);
         makeTransaction(amount,receiver);
         return transactionSuccess;
     }
 
     // TODO: Might be redundant later.
-    public void updateGuiBalance(int player){
+    private void updateGuiBalance(int player){
         setGuiBalance(players[player].getBalance(), player);
     }
 
-    public void setGuiBalance(int amount, int player){
+    private void setGuiBalance(int amount, int player){
         guiController.setBalance(amount, player);
     }
 }

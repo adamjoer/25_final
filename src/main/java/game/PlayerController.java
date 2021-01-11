@@ -98,6 +98,7 @@ public class PlayerController {
 
 
     //Relevant getters
+    public boolean hasOutOfJailCard(int player){ return players[player].hasOutOfJailCard(); }
     public String getName(int player){ return players[player].getName(); }
     public Player[] getPlayers(){ return players; }
     public int[] getProperties(int player) { return players[player].getProperties(); }
@@ -106,6 +107,7 @@ public class PlayerController {
     public int getPlayerBalance(int player) { return players[player].getBalance(); }
 
     //Relevant setters
+    public void setPlayerOutOfJailCards(int player, int cards){ players[player].setOutOfJailCards(cards); }
     public void setPlayerPosition(int player, int position) { players[player].setCurrentPosition(position); }
     public void setPlayerBalance(int player, int balance) { players[player].setBalance(balance); }
 }

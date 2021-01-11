@@ -1,5 +1,6 @@
 package game;
 
+import game.chance.card.OutOfJailCard;
 import org.apache.commons.lang.ArrayUtils;
 
 public class Player {
@@ -7,6 +8,7 @@ public class Player {
     private Account account;
     private int previousPosition;
     private int currentPosition;
+    private int outOfJailCards = 0;
     private int[] properties = new int[0];
     private final String NAME;
     private final int BOARD_LENGTH = 40;
@@ -78,31 +80,27 @@ public class Player {
         previousPosition = currentPosition;
         currentPosition = (currentPosition + increment) % BOARD_LENGTH;
     }
-
+    public boolean hasOutOfJailCard(){ return outOfJailCards > 0; }
     public String getName(){
         return this.NAME;
     }
-
     public int getBalance() {
         return account.getBalance();
     }
-
     public int[] getProperties() {
         return properties;
     }
-
     public int getCurrentPosition() {
         return currentPosition;
     }
-
     public int getPreviousPosition() {
         return previousPosition;
     }
 
+    public void setOutOfJailCards(int cards){ outOfJailCards += cards; }
     public void setBalance(int amount) {
         account.setBalance(amount);
     }
-
     public void setCurrentPosition(int currentPosition) {
         this.previousPosition = this.currentPosition;
         this.currentPosition = currentPosition;
