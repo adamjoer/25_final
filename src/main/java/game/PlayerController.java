@@ -102,37 +102,14 @@ public class PlayerController {
 
 
     //Relevant getters
-    public String getName(int player){
-        return players[player].getName();
-    }
-
-    public Player[] getPlayers(){
-        return players;
-    }
-
-    public int[] getProperties(int player) {
-        return players[player].getProperties();
-    }
-
-    public int getPlayerPosition(int player) {
-        return players[player].getCurrentPosition();
-    }
-
-    public int getOldPlayerPosition(int player) {
-        return players[player].getPreviousPosition();
-    }
-
-    public int getPlayerBalance(int player) {
-        return players[player].getBalance();
-    }
+    public String getName(int player){ return players[player].getName(); }
+    public Player[] getPlayers(){ return players; }
+    public int[] getProperties(int player) { return players[player].getProperties(); }
+    public int getPlayerPosition(int player) { return players[player].getCurrentPosition(); }
+    public int getOldPlayerPosition(int player) { return players[player].getPreviousPosition(); }
+    public int getPlayerBalance(int player) { return players[player].getBalance(); }
 
     //Relevant setters
-    public void setPlayerPosition(int player, int position) {
-        players[player].setCurrentPosition(position);
-    }
-
-    public void setPlayerBalance(int player, int balance) {
-        players[player].setBalance(balance);
-    }
-
+    public void setPlayerPosition(int player, int position) { players[player].setCurrentPosition(position); }
+    public void setPlayerBalance(int player, int balance) { players[player].setBalance(balance); }
 }
