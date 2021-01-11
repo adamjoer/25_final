@@ -31,7 +31,7 @@ public class ChanceCardController {
      * @param n The value to assign to the created place.
      * @return The array with the appended int place (placed at the last index).
      */
-
+    // TODO: Might be redundant and replaced with corresponding method in Utility!
     private int[] appendIntArray(int[] array, int n){
         int[] result = new int[array.length + 1];
         for (int i = 0; i < array.length; i++) { result[i] = array[i]; }
@@ -45,6 +45,7 @@ public class ChanceCardController {
      * @param index The index of the place to be removed.
      * @return An int array with one less place - the specified index removed.
      */
+    // TODO: Might be redundant and replaced with corresponding method in Utility!
     private int[] removeIntArrayByIndex(int[] array, int index){
         int[] result = new int[array.length - 1];
         for (int i = 0; i < index; i++) { result[i] = array[i]; }
@@ -62,7 +63,7 @@ public class ChanceCardController {
      * @param array The int array to shuffle
      * @return A shuffled int array with the same elements as the argument given, in a random order.
      */
-
+    // TODO: Might be redundant and replaced with corresponding method in Utility!
     private int[] shuffleIntArray(int[] array){
         if (array.length == 1){
             return array;

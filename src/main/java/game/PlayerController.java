@@ -3,12 +3,14 @@ package game;
 public class PlayerController {
 
     Player[] players;
+    private boolean[] giftPlayerCheck;
 
 
     /**
      * Make a list of players, with their given names and set their bank account balance
      *
-     * @param playerNames : A list of playernames, also used to determine how many players are in the game
+     * @param playerNames  : A list of playerNames, also used to determine how many players are in the game
+     * @param startBalance : The starting balance for the account of each player
      */
     public PlayerController(String[] playerNames, int startBalance) {
         players = new Player[playerNames.length];
@@ -16,15 +18,17 @@ public class PlayerController {
         for (int i = 0; i < playerNames.length; i++) {
             players[i] = new Player(playerNames[i], startBalance);
         }
+
+        giftPlayerCheck = new boolean[playerNames.length];
     }
 
 
     /**
-     * Make a transaktion from a player to the bank or vise versa
+     * Make a transaction from a player to the bank or vise versa
      *
      * @param player : Which player to make the transaction with
      * @param amount : The amount to transfer/withdraw
-     * @return True if successfull transaction, otherwise false
+     * @return True if successful transaction, otherwise false
      */
     public boolean makeTransaction(int amount, int player) {
         return players[player].makeTransaction(amount);
@@ -37,7 +41,7 @@ public class PlayerController {
      * @param sender   : The player who sends money
      * @param receiver : The player who receives money
      * @param amount   : The amount to transfer
-     * @return True if the transaction was a success, false if the sender doens't have enough money
+     * @return True if the transaction was a success, false if the sender doesn't have enough money
      */
     public boolean makeTransaction(int amount, int sender, int receiver) {
         if (players[sender].makeTransaction(-amount)) {
@@ -86,23 +90,13 @@ public class PlayerController {
     /**
      * Give a player a gift from all other players
      *
-     * @param player           : Which player to recieve gifts from other players
-     * @param amountFromOthers : Amount each player have to gift
-     * @return Return true if succesfull, otherwise return false
+     * @param targetPlayer : Which player to receive gifts from other players
+     * @param amount       : Amount each player have to gift
+     * @return Return true if successful, otherwise return false
      */
-    public boolean giftPlayer(int player, int amountFromOthers) {
-        for (int i = 0; i < players.length; i++) {
-            if (i == player) {
-                players[player].makeTransaction(amountFromOthers * (players.length - 1));
-            } else {
-                if (players[i].makeTransaction(-amountFromOthers)) {
-                    //do nothing
-                } else {
-                    players[i].setBalance(0);
-                    return false;
-                }
-            }
-        }
+    public boolean giftPlayer(int amount,int targetPlayer) {
+        for (int i = 0; i < players.length; i++) { giftPlayerCheck[i] = makeTransaction(amount, i, targetPlayer); }
+        for (int i = 0; i < players.length; i++) { if (!giftPlayerCheck[i]) { return false; } }
         return true;
     }
 
