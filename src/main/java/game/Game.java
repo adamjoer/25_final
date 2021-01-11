@@ -9,12 +9,12 @@ import java.util.Arrays;
 
 public class Game {
 
-    private PlayerController playerController;
-    private GUIController guiController;
-    private DiceController diceController;
-    private FieldController fieldController;
-    private ChanceCardController chanceCardController;
-    private Player[] players;
+    private final PlayerController playerController;
+    private final GUIController guiController;
+    private final DiceController diceController;
+    private final FieldController fieldController;
+    private final ChanceCardController chanceCardController;
+    private final Player[] players;
     private int playerTurn;
     private Field[] fields;
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
@@ -31,19 +31,17 @@ public class Game {
     }
 
     public void gameLoop() {
-        boolean stop = false;
-        boolean isDieIdentical;
+        boolean stop;
 
         guiController.addPlayers(players);
 
-        while (!stop) {
-            playerTurn = getNextPlayerTurn();
-            guiController.showMessage("Player " + playerController.getName(playerTurn) + " turn to roll the dice");
+        do {
+            guiController.showMessage(stringHandler.getString("playerTurn") + playerController.getName(playerTurn));
 
             // Check if player is on jail field
             if (playerController.getPlayerPosition(playerTurn) == fieldController.getJailPosition()) {
 
-                // Check if player is actually in prison or just visiting
+                // Check whether player is actually in prison or just visiting
                 if (fieldController.isInJail(playerTurn)) {
 
                     guiController.showMessage(stringHandler.getString("isInJail"));
@@ -53,38 +51,25 @@ public class Game {
                 }
             }
 
-            // cast dice from dice controller
-            guiController.getUserButton("Roll the dice", "Roll");
+            // Cast dice from dice controller
+            guiController.getUserButton(stringHandler.getString("rollDice"), "OK");
             diceController.roll();
-            isDieIdentical = diceController.isIdentical();
-            int dice1 = diceController.getFaceValue(0);
-            int dice2 = diceController.getFaceValue(1);
 
-            guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
+            guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
 
             movePlayer(playerTurn, diceController.getSum());
 
             fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
-            fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
+            stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
-            while (isDieIdentical) {
-                guiController.showMessage("You got identical dies, roll the dice again!");
-                guiController.getUserButton("Roll the dice", "Roll");
-                diceController.roll();
-                isDieIdentical = diceController.isIdentical();
-                dice1 = diceController.getFaceValue(0);
-                dice2 = diceController.getFaceValue(1);
-                guiController.setDiceGui(dice1, (int) (Math.random() * 360), dice2, ((int) (Math.random() * 360)));
-                movePlayer(playerTurn, diceController.getSum());
-                fieldController.fieldAction(playerController.getPlayerPosition(playerTurn));
-                fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
+            if (!diceController.isIdentical()) {
+                playerTurn = getNextPlayerTurn();
+
+            } else {
+                guiController.showMessage(stringHandler.getString("extraTurnIdenticalDice"));
             }
-            String userBtn = guiController.getUserButton("Continue or close game?",
-                    "Close game", "Continuegame");
-            if (userBtn.equals("Close game")) {
-                stop = true;
-            }
-        }
+
+        } while (!stop);
         guiController.close();
     }
 
@@ -92,16 +77,16 @@ public class Game {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
 
-        if(playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player) && increment > 0){
-            setGuiBalance(playerController.getPlayerBalance(player),player);
+        if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player) && increment > 0) {
+            setGuiBalance(playerController.getPlayerBalance(player), player);
         }
     }
 
-    public boolean drawCard(){
+    public boolean drawCard() {
 
         guiController.displayChanceCard(chanceCardController.drawCard());
         boolean success = true;
-        switch (chanceCardController.getCurrentCardType()){
+        switch (chanceCardController.getCurrentCardType()) {
             case "BankTransaction":
 
                 success = makeTransaction(chanceCardController.getAmount(), playerTurn);
@@ -134,14 +119,14 @@ public class Game {
             */
 
             case "MovePlayer":
-                movePlayer(playerTurn,chanceCardController.getIncrement());
+                movePlayer(playerTurn, chanceCardController.getIncrement());
 
                 break;
 
             case "MovePlayerToTile":
                 int delta = chanceCardController.getDestination() - playerController.getPlayerPosition(playerTurn);
-                if (delta < 0){ delta += fieldController.getFields().length; }
-                movePlayer(playerTurn,delta);
+                if (delta < 0) delta += fieldController.getFields().length;
+                movePlayer(playerTurn, delta);
 
                 break;
 
@@ -328,32 +313,32 @@ public class Game {
         return false;
     }*/
 
-    public boolean giftPlayer(int amount, int targetPlayer){
-        boolean transactionSuccess = playerController.giftPlayer(amount,targetPlayer);
+    public boolean giftPlayer(int amount, int targetPlayer) {
+        boolean transactionSuccess = playerController.giftPlayer(amount, targetPlayer);
         for (int i = 0; i < players.length; i++) {
             updateGuiBalance(i);
         }
         return transactionSuccess;
     }
 
-    public boolean makeTransaction(int amount, int player){
+    public boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
         return transactionSuccess;
     }
 
-    public boolean makeTransaction(int amount, int sender, int receiver){
-        boolean transactionSuccess = makeTransaction(-amount,sender);
-        makeTransaction(amount,receiver);
+    public boolean makeTransaction(int amount, int sender, int receiver) {
+        boolean transactionSuccess = makeTransaction(-amount, sender);
+        makeTransaction(amount, receiver);
         return transactionSuccess;
     }
 
     // TODO: Might be redundant later.
-    public void updateGuiBalance(int player){
+    public void updateGuiBalance(int player) {
         setGuiBalance(players[player].getBalance(), player);
     }
 
-    public void setGuiBalance(int amount, int player){
+    public void setGuiBalance(int amount, int player) {
         guiController.setBalance(amount, player);
     }
 }

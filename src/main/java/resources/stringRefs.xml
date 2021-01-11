@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <stringRefs>
     <stringRef>
+        <reference>playerTurn</reference>
+        <outputString>Det der din tur til at spille, </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>rollDice</reference>
+        <outputString>Tryk OK for at rulle terningerne</outputString>
+    </stringRef>
+    <stringRef>
         <reference>createPlayer</reference>
         <outputString>Opret ny spiller?</outputString>
     </stringRef>
@@ -37,6 +45,10 @@
         <outputString>Der skal mindst to spillere til for at fortsætte.</outputString>
     </stringRef>
     <stringRef>
+        <reference>extraTurnIdenticalDice</reference>
+        <outputString>Du har slået to ens og får derfor en ekstra tur!</outputString>
+    </stringRef>
+    <stringRef>
         <reference>test</reference>
         <outputString>Test did not fail!</outputString>
     </stringRef>
@@ -46,7 +58,7 @@
     </stringRef>
     <stringRef>
         <reference>isInJail</reference>
-        <outputString>Du er i fængsel og skal ud før du kan spille igen</outputString>
+        <outputString>Du er i fængsel og skal ud før du kan rykke dig</outputString>
     </stringRef>
     <stringRef>
         <reference>statsSkat</reference>
