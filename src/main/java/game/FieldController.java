@@ -277,6 +277,7 @@ public class FieldController {
     }
 
     public int getPlayerValueSum(int player, int[] playerProperties) {
+    public int getPlayerValueSum(int player){
         int propertyValues = 0;
         for (Field field : fields) {
             if (field instanceof Property) {
@@ -287,6 +288,25 @@ public class FieldController {
         }
 
         return propertyValues;
+    }
+
+    public int getCombinedPropertyWorth(int player) {
+
+        int worth = 0;
+
+        for (Field field : fields) {
+
+            if (!(field instanceof Property)) continue;
+
+            if (((Property) field).getOwner() != player) continue;
+
+            worth += ((Property) field).getCost();
+
+            if (field instanceof Street)
+                worth += (((Street) field).getBuildingCost() / 2) * ((Street) field).getNumberOfBuildings();
+        }
+
+        return worth;
     }
 
     // Relevant getters

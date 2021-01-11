@@ -14,10 +14,18 @@ public class PlayerController {
         players = new Player[playerNames.length];
 
         for (int i = 0; i < playerNames.length; i++) {
-            players[i] = new Player(playerNames[i], startBalance);
+            players[i] = new Player(playerNames[i], startBalance, i);
         }
     }
 
+    public Player[] removePlayer(int player){
+        Player[] tempArr = players;
+        players = new Player[players.length-1];
+
+        System.arraycopy(tempArr, 0, players, 0, player);
+        System.arraycopy(tempArr, player + 1, players, player, players.length - player);
+        return players;
+    }
 
     /**
      * Make a transaktion from a player to the bank or vise versa
@@ -108,6 +116,11 @@ public class PlayerController {
 
 
     //Relevant getters
+
+    public int getId(int player){
+        return players[player].getId();
+    }
+
     public String getName(int player){
         return players[player].getName();
     }

@@ -70,7 +70,7 @@
     </stringRef>
     <stringRef>
         <reference>buyField</reference>
-        <outputString>Ingen spillere ejer dette felt, vil du købe det?</outputString>
+        <outputString>Er ikke get af nogen, vil du købe det?</outputString>
     </stringRef>
     <stringRef>
         <reference>noMoney</reference>
@@ -79,6 +79,14 @@
     <stringRef>
         <reference>payRent</reference>
         <outputString>Feltet er eget af en anden spiller, du skal betale husleje</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>goToJail</reference>
+        <outputString>Du er blevet smidt i fængsel!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jail</reference>
+        <outputString>Du er på besøg i fængsel</outputString>
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
