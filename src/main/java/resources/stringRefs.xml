@@ -53,12 +53,36 @@
         <outputString>Test did not fail!</outputString>
     </stringRef>
     <stringRef>
+        <reference>justVisitingJail</reference>
+        <outputString>Du er lige på besøg i fængsel</outputString>
+    </stringRef>
+    <stringRef>
         <reference>goToJail</reference>
         <outputString>Du skal sgu i fængsel!</outputString>
     </stringRef>
     <stringRef>
         <reference>isInJail</reference>
-        <outputString>Du er i fængsel og skal ud før du kan rykke dig</outputString>
+        <outputString>Du er i fængsel og skal ud før du kan rykke dig.
+        </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>inJailOptions</reference>
+        <outputString>Du har to muligheder:
+            1: Prøv at slå to ens (Du har maks 3 forsøg)
+            2: Betal bøden på 1.000 kr.
+        </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailTriesUsed</reference>
+        <outputString>Du har brugt alle dine forsøg og skal nu betale bøden</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailIdenticalDice</reference>
+        <outputString>Du slog to ens og er nu fri!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailNotIdenticalDice</reference>
+        <outputString>Du slog desværre ikke to ens og skal blive i fængsel</outputString>
     </stringRef>
     <stringRef>
         <reference>statsSkat</reference>

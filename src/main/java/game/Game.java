@@ -16,6 +16,7 @@ public class Game {
     private final ChanceCardController chanceCardController;
     private final Player[] players;
     private int playerTurn;
+    private int[] getOutOfJailTries;
     private Field[] fields;
     private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
 
@@ -28,10 +29,11 @@ public class Game {
         chanceCardController = new ChanceCardController();
         players = playerController.getPlayers();
         playerTurn = (int) (Math.random() * (players.length - 1));
+        getOutOfJailTries = new int[players.length];
     }
 
     public void gameLoop() {
-        boolean stop;
+        boolean stop = false;
 
         guiController.addPlayers(players);
 
@@ -43,11 +45,10 @@ public class Game {
 
                 // Check whether player is actually in prison or just visiting
                 if (fieldController.isInJail(playerTurn)) {
-
-                    guiController.showMessage(stringHandler.getString("isInJail"));
-                    // TODO: Implement whatever needs to be done to get out of jail
-
-                    fieldController.free(playerTurn);
+                    if (!getOutOfJail()) {
+                        playerTurn = getNextPlayerTurn();
+                        continue;
+                    }
                 }
             }
 
@@ -73,7 +74,43 @@ public class Game {
         guiController.close();
     }
 
-    public void movePlayer(int player, int increment) {
+    private boolean getOutOfJail() {
+        //TODO: Take into account 'get out of jail free' card when it's implemented
+
+        guiController.showMessage(stringHandler.getString("isInJail"));
+
+        if (getOutOfJailTries[playerTurn] == 3) {
+            getOutOfJailTries[playerTurn] = 0;
+            guiController.showMessage(stringHandler.getString("jailTriesUsed"));
+            return makeTransaction(-1000, playerTurn);
+        }
+
+        String returnBtn = guiController.getUserButton(stringHandler.getString("inJailOptions"), "1", "2");
+        if (returnBtn.equals("1")) {
+
+            guiController.getUserButton(stringHandler.getString("rollDice"), "OK");
+            diceController.roll();
+
+            guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
+
+            if (diceController.isIdentical()) {
+                guiController.showMessage(stringHandler.getString("jailIdenticalDice"));
+                fieldController.free(playerTurn);
+                getOutOfJailTries[playerTurn] = 0;
+                return true;
+
+            } else {
+                guiController.showMessage(stringHandler.getString("jailNotIdenticalDice"));
+                getOutOfJailTries[playerTurn]++;
+                return false;
+            }
+
+        } else {
+            return makeTransaction(-1000, playerTurn);
+        }
+    }
+
+    private void movePlayer(int player, int increment) {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
 
@@ -82,7 +119,7 @@ public class Game {
         }
     }
 
-    public boolean drawCard() {
+    private boolean drawCard() {
 
         guiController.displayChanceCard(chanceCardController.drawCard());
         boolean success = true;
@@ -139,18 +176,18 @@ public class Game {
         return success;
     }
 
-    /*public void setPlayerPosition(int player, int position){
+    /*private void setPlayerPosition(int player, int position){
         playerController.setPlayerPosition(player, position);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
     }
 
-    public void checkStartPass(int player, int increment){
+    private void checkStartPass(int player, int increment){
         if (playerController.getPlayerPosition(player) > playerController.getCurrentPosition(player) + increment){
             giveStartPassReward(player);
         }
     }
 
-    public boolean giveStartPassReward(int player){
+    private boolean giveStartPassReward(int player){
         if (fieldController.hasPassedGo(playerController.getOldPlayerPosition(player), playerController.getPlayerPosition(player))){
             playerController.setPlayerBalance(player, playerController.makeTransaction(player, 4000));
             return true;
@@ -158,14 +195,14 @@ public class Game {
         return false;
     }
 
-    public void removePlayer(int player){
+    private void removePlayer(int player){
         // When a player becomes broke, the player needs to be removed from the game
         guiController.showMessage("%s has been removed from the game", players[player].getName());
         players = ArrayUtils.removeElement(players, players[player]);
         guiController.setCar(player, false);
     }*/
 
-    public boolean sellProperty(int player, int place) {
+    private boolean sellProperty(int player, int place) {
         // TODO : make a check for if the property exists
         int[] properties = playerController.getProperties(player);
         if (Arrays.stream(properties).anyMatch(i -> i == place)) {
@@ -175,7 +212,7 @@ public class Game {
         return false;
     }
 
-    public boolean buyProperty(int player, int place, int rent) {
+    private boolean buyProperty(int player, int place, int rent) {
         // TODO : make a check for if the property is not owned
         //int[] properties = playerController.getProperties(player);
         //if(Arrays.stream(properties).anyMatch(i -> i == place )){
@@ -187,11 +224,11 @@ public class Game {
         //return false;
     }
 
-    public String[] getPlayerNames() {
+    private String[] getPlayerNames() {
         return guiController.returnPlayerNames();
     }
 
-    public boolean fieldAction(int position, int player) {
+    private boolean fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
 
         switch (instructions.getFieldType()) {
@@ -205,9 +242,10 @@ public class Game {
                 break;
 
             case "GoToJail":
-                return goToJailFieldAction(player, instructions);
+                 return goToJailFieldAction(player, instructions);
 
             case "Jail":
+                guiController.showMessage(stringHandler.getString("justVisitingJail"));
                 break;
 
             case "Parking":
@@ -300,20 +338,20 @@ public class Game {
         return true;
     }
 
-    public int getNextPlayerTurn() {
+    private int getNextPlayerTurn() {
         playerTurn = (playerTurn + 1) % players.length;
         return playerTurn;
     }
 
-    /*public int getPlayerTurn(){
+    /*private int getPlayerTurn(){
         return 0;
     }
 
-    public boolean hasWinner(){
+    private boolean hasWinner(){
         return false;
     }*/
 
-    public boolean giftPlayer(int amount, int targetPlayer) {
+    private boolean giftPlayer(int amount, int targetPlayer) {
         boolean transactionSuccess = playerController.giftPlayer(amount, targetPlayer);
         for (int i = 0; i < players.length; i++) {
             updateGuiBalance(i);
@@ -321,24 +359,24 @@ public class Game {
         return transactionSuccess;
     }
 
-    public boolean makeTransaction(int amount, int player) {
+    private boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
         return transactionSuccess;
     }
 
-    public boolean makeTransaction(int amount, int sender, int receiver) {
+    private boolean makeTransaction(int amount, int sender, int receiver) {
         boolean transactionSuccess = makeTransaction(-amount, sender);
         makeTransaction(amount, receiver);
         return transactionSuccess;
     }
 
     // TODO: Might be redundant later.
-    public void updateGuiBalance(int player) {
+    private void updateGuiBalance(int player) {
         setGuiBalance(players[player].getBalance(), player);
     }
 
-    public void setGuiBalance(int amount, int player) {
+    private void setGuiBalance(int amount, int player) {
         guiController.setBalance(amount, player);
     }
 }
