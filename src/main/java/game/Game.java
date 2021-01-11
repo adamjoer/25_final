@@ -19,7 +19,7 @@ public class Game {
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
     private final int[] getOutOfJailTries;
-    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
+    private final StringHandler stringHandler;
 
     public Game(){
         fieldController = new FieldController();
@@ -31,6 +31,7 @@ public class Game {
         playerTurn = (int) (Math.random() * (players.length - 1));
         playerTurnIndex = playerTurn;
         getOutOfJailTries = new int[players.length];
+        stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
 
     public void gameLoop() {
