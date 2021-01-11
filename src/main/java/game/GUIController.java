@@ -27,36 +27,46 @@ public class GUIController {
         for(int i = 0; i<fields.length; i++){
             Field field = fields[i];
 
-            // Error: Field name not recognised
-            switch (field.getField()) {
-                case "Start" -> guiFields[i] = new GUI_Start(field.getTitle(), field.getSubText(), field.getDescription(), Color.red, Color.BLACK);
-                case "Street" -> {
+            switch (field.getField()){
+                case "Start":
+                    guiFields[i] = new GUI_Start(field.getTitle(), field.getSubText(), field.getDescription(), Color.red, Color.BLACK);
+                    break;
+                case "Street":
                     Property property = (Property) fields[i];
                     guiFields[i] = new GUI_Street(property.getTitle(), property.getSubText(), property.getDescription(),
                             String.valueOf(property.getCost()), property.getColor(), Color.BLACK);
-                }
-                case "Shipping" -> {
+                    break;
+                case "Shipping":
                     Shipping shipping = (Shipping) fields[i];
-                    guiFields[i] = new GUI_Shipping("default", shipping.getTitle(), shipping.getSubText(), shipping.getDescription(),
+                    guiFields[i] = new GUI_Shipping("default",shipping.getTitle(), shipping.getSubText(), shipping.getDescription(),
                             String.valueOf(shipping.getCurrentRent()), Color.WHITE, Color.BLACK);
-                }
-                case "TaxField" -> {
+                    break;
+                case "TaxField":
                     TaxField tax = (TaxField) fields[i];
-                    guiFields[i] = new GUI_Tax(tax.getTitle(), tax.getSubText(), tax.getDescription(), Color.GRAY, Color.BLACK);
-                }
-                case "Brewery" -> {
+                    guiFields[i] = new GUI_Tax(tax.getTitle(), tax.getSubText(), tax.getDescription(),Color.GRAY, Color.BLACK);
+                    break;
+                case "Brewery":
                     Brewery brewery = (Brewery) fields[i];
                     String title = brewery.getTitle();
-                    guiFields[i] = new GUI_Brewery("default", brewery.getTitle(), brewery.getSubText(), brewery.getDescription(),
+                    guiFields[i] = new GUI_Brewery("default", brewery.getTitle(),brewery.getSubText(),brewery.getDescription(),
                             String.valueOf(brewery.getCurrentRent()), Color.WHITE, Color.BLACK);
-                }
-                case "GoToJail", "Jail" -> guiFields[i] = new GUI_Jail("default", field.getTitle(), field.getTitle(), field.getTitle(),
-                        new Color(125, 125, 125), Color.BLACK);
-                case "Parking" -> guiFields[i] = new GUI_Refuge("default", field.getTitle(), field.getSubText(), field.getDescription(),
-                        Color.white, Color.black);
-                case "Chance" -> guiFields[i] = new GUI_Chance(field.getTitle(), field.getSubText(), field.getDescription(),
-                        Color.white, Color.black);
-                default -> throw new IllegalArgumentException();
+                    break;
+                case "GoToJail":
+                case "Jail":
+                    guiFields[i] = new GUI_Jail("default",field.getTitle(), field.getTitle(), field.getTitle(),
+                            new Color(125, 125, 125), Color.BLACK);
+                    break;
+                case "Parking":
+                    guiFields[i] = new GUI_Refuge("default", field.getTitle(), field.getSubText(), field.getDescription(),
+                            Color.white, Color.black);
+                    break;
+                case "Chance":
+                    guiFields[i] = new GUI_Chance(field.getTitle(), field.getSubText(), field.getDescription(),
+                            Color.white, Color.black);
+                    break;
+                // Error: Field name not recognised
+                default:
+                    throw new IllegalArgumentException();
             }
         }
         gui = new GUI(guiFields, Color.PINK);
@@ -138,39 +148,39 @@ public class GUIController {
                 } else {
                     userInputName = getUserString(getString("inputNamePrompt")).toLowerCase();
                     userInputName = userInputName.substring(0, 1).toUpperCase() + userInputName.substring(1);
-                    String vehicleType = gui.getUserSelection("Vælg type af dit køretøj","Bil", "Traktor", "Racerbil", "UFO");
-                    switch (vehicleType) {
-                        case "Bil" -> carType = GUI_Car.Type.CAR;
-                        case "Traktor" -> carType = GUI_Car.Type.TRACTOR;
-                        case "Racerbil" -> carType = GUI_Car.Type.RACECAR;
-                        case "UFO" -> carType = GUI_Car.Type.UFO;
-                    }
-                    String vehicleColor = gui.getUserSelection("Vælg farven til dit køretøj", colorChoices);
-
-                    int tempColorIndex = -1;
-                    for (int j=0; j<colorChoices.length;j++){
-                        if(colorChoices[j].equals(vehicleColor)){
-                            tempColorIndex = j;
-                            break;
-                        }
-                    }
-                    guiCars[i] = new GUI_Car(colorsAvailable[tempColorIndex], null, carType, GUI_Car.Pattern.FILL);
-
-                    String[] tempArr = colorChoices;
-                    Color[] tempColorArr = colorsAvailable;
-                    colorsAvailable = new Color[colorsAvailable.length-1];
-                    colorChoices = new String[colorChoices.length - 1];
-
-                    System.arraycopy(tempArr,0,colorChoices,0,tempColorIndex);
-                    System.arraycopy(tempArr,tempColorIndex+1,colorChoices,tempColorIndex,colorChoices.length-tempColorIndex);
-
-                    System.arraycopy(tempColorArr,0,colorsAvailable,0,tempColorIndex);
-                    System.arraycopy(tempColorArr,tempColorIndex+1,colorsAvailable,tempColorIndex,colorsAvailable.length-tempColorIndex);
 
                     if (Arrays.asList(names).contains(userInputName)) {
                         showMessage(getString("nameNotUniqueError"));
                     } else {
                         names[i] = (userInputName);
+                        String vehicleType = gui.getUserSelection("Vælg type af dit køretøj","Bil", "Traktor", "Racerbil", "UFO");
+                        switch (vehicleType) {
+                            case "Bil" -> carType = GUI_Car.Type.CAR;
+                            case "Traktor" -> carType = GUI_Car.Type.TRACTOR;
+                            case "Racerbil" -> carType = GUI_Car.Type.RACECAR;
+                            case "UFO" -> carType = GUI_Car.Type.UFO;
+                        }
+                        String vehicleColor = gui.getUserSelection("Vælg farven til dit køretøj", colorChoices);
+
+                        int tempColorIndex = -1;
+                        for (int j=0; j<colorChoices.length;j++){
+                            if(colorChoices[j].equals(vehicleColor)){
+                                tempColorIndex = j;
+                                break;
+                            }
+                        }
+                        guiCars[i] = new GUI_Car(colorsAvailable[tempColorIndex], null, carType, GUI_Car.Pattern.FILL);
+
+                        String[] tempArr = colorChoices;
+                        Color[] tempColorArr = colorsAvailable;
+                        colorsAvailable = new Color[colorsAvailable.length-1];
+                        colorChoices = new String[colorChoices.length - 1];
+
+                        System.arraycopy(tempArr,0,colorChoices,0,tempColorIndex);
+                        System.arraycopy(tempArr,tempColorIndex+1,colorChoices,tempColorIndex,colorChoices.length-tempColorIndex);
+
+                        System.arraycopy(tempColorArr,0,colorsAvailable,0,tempColorIndex);
+                        System.arraycopy(tempColorArr,tempColorIndex+1,colorsAvailable,tempColorIndex,colorsAvailable.length-tempColorIndex);
                         i++;
                     }
                 }
@@ -250,7 +260,7 @@ public class GUIController {
     public void removeGuiPlayer(int player, int fieldPlacement){
         // TODO: finish this
         if(guiPlayerList.length == 1){
-            showMessage("You are the winner" + Objects.requireNonNull(getGuiPlayer(player)).getName());
+            showMessage("You are the winner" + getGuiPlayer(player).getName());
         }else {
             setCar(player, false, fieldPlacement);
 
