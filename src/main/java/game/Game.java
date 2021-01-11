@@ -36,6 +36,15 @@ public class Game {
 
         while (!stop) {
             playerTurn = getNextPlayerTurn();
+
+            //Check if a player can buy houses
+            if(fieldController.canPlayerBuyHouses(playerTurn)){
+                //Ask if the player want to buy houses
+                if(guiController.getUserButton(playerController.getName(playerTurn) + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja"){
+
+                }
+            }
+
             guiController.showMessage("Player " + playerController.getName(playerTurn) + " turn to roll the dice");
 
             // Check if player is on jail field

@@ -80,6 +80,10 @@
         <reference>payRent</reference>
         <outputString>Feltet er eget af en anden spiller, du skal betale husleje</outputString>
     </stringRef>
+    <stringRef>
+        <reference>askBuyHouse</reference>
+        <outputString>Vil du købe huse?</outputString>
+    </stringRef>
 
 
 </stringRefs>

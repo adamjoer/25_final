@@ -223,11 +223,29 @@ public class FieldController {
         jail.free(player);
     }
 
+
+    public boolean canPlayerBuyHouses(int player){
+        return whoCanBuyHouses[player];
+    }
+
     public void setPropertyLevel(int fieldPosition, int level) {
         if(fields[fieldPosition].getField() == "Street"){
             ((Property) fields[fieldPosition]).setPropertyLevel(level);
         }
     }
+
+    public String[] allOwnedPropertiesByPlayer(int player){
+        String[] houseProperties = new String[20];
+        int count = 0;
+        for(int i = 0; i < properties.length; i++){
+            for(int j = 0; j < properties[i].length; j++){
+                if(ownsAllPropertiesInGroup(player, properties[i][j].getPosition())){
+                    houseProperties[count++] = properties[i][j].getTitle();
+                }
+            }
+        }
+    }
+
 
     /**
      * Method for checking whether a player has passed the Go field,
