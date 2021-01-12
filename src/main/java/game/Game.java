@@ -77,7 +77,7 @@ public class Game {
 
                                     //Increase the streets propertyLevel and update the gui with the new player balance, and the house
                                     s.setPropertyLevel(s.getPropertyLevel() + 1);
-                                    setGuiBalance(playerTurn, playerController.getPlayerBalance(playerTurn));
+                                    setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
 
                                     //Check if the street is going to have a hotel
                                     if (s.getPropertyLevel() == 6) {
