@@ -43,6 +43,8 @@ public class Game {
             // Check if a player can buy houses
             if (fieldController.canPlayerBuyHouses(playerTurn)) {
 
+                // TODO: Put this in a separate method
+
                 for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
 
                     // Ask if the player want to buy houses
