@@ -80,7 +80,7 @@ public class FieldController {
         return fields[position].fieldAction();
     }
 
-    public void buyProperty(int player, int propertyPosition) {
+    public boolean buyProperty(int player, int propertyPosition) {
 
         // Get the property
         Property property = (Property) fields[propertyPosition];
@@ -98,8 +98,10 @@ public class FieldController {
 
                     setPropertyLevelForGroup(propertyPosition, 1);
                     whoCanBuyHouses[player] = true;
+
+                    return true;
                 }
-                break;
+                return false;
 
 
             case "Shipping":
@@ -111,15 +113,19 @@ public class FieldController {
                     if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
                 }
 
-                break;
+                return true;
 
             case "Brewery":
                 // If the player owns all the properties in the group, change propertyLevel to 1
                 if (ownsAllPropertiesInGroup(player, propertyPosition)) {
                     setPropertyLevelForGroup(propertyPosition, 1);
+
+                    return true;
                 }
-                break;
+                return false;
         }
+
+        return false;
     }
 
     /**
@@ -179,17 +185,15 @@ public class FieldController {
 
     public int getPropertyGroupIndex(int propertyPosition) {
 
-        int group = -1;
         for (int i = 0; i < properties.length; i++) {
-            if (properties[i][0].getColor().hashCode() == fields[propertyPosition].getColor().hashCode()) {
-                group = i;
-                break;
-            }
+            if (properties[i][0].getColor().hashCode() == fields[propertyPosition].getColor().hashCode())
+                return i;
         }
 
-        return group;
+        throw new IllegalArgumentException("Cannot recognise group belonging to property with position " + propertyPosition);
     }
 
+    // Methods related to jail
     public int getJailPosition() {
         return jail.getPosition();
     }
@@ -209,12 +213,6 @@ public class FieldController {
 
     public boolean canPlayerBuyHouses(int player) {
         return whoCanBuyHouses[player];
-    }
-
-    public void setPropertyLevel(int fieldPosition, int level) {
-        if (fields[fieldPosition].getField() == "Street") {
-            ((Property) fields[fieldPosition]).setPropertyLevel(level);
-        }
     }
 
     public Street[] allOwnedStreetsByPlayer(int player, int playerBalance) {
@@ -242,35 +240,6 @@ public class FieldController {
         return houseProperties;
     }
 
-
-    /**
-     * Method for checking whether a player has passed the Go field,
-     * and is therefore eligible for the 'pass go' reward.
-     * This is based entirely upon the assumption that the Go field's position is zero
-     * on the board. It won't work otherwise.
-     *
-     * @param previousPosition The player's previous position
-     * @param currentPosition  The player's current position
-     * @return True if player has passed, or is on the 'Go' field, false otherwise
-     */
-    public boolean hasPassedStart(int previousPosition, int currentPosition) {
-
-        // If start field position is zero, player will have passed start if their position has overflowed to a smaller value,
-        // i.e. their previous position is larger than their current position
-        return previousPosition > currentPosition;
-    }
-
-    /**
-     * Method for getting the cost of rent on a specific property
-     * The cost of rent can fluctuate depending on different factors
-     *
-     * @param propertyPosition The position on board of specific property
-     * @return The current cost of rent on the specified property
-     */
-    public int getCurrentRent(int propertyPosition) {
-        return ((Property) fields[propertyPosition]).getCurrentRent();
-    }
-
     public int getCombinedPropertyWorth(int player) {
 
         int worth = 0;
@@ -295,6 +264,10 @@ public class FieldController {
     // Relevant getters
     public Field[] getFields() {
         return fields;
+    }
+
+    public Property[] getPropertyGroup(int groupIndex) {
+        return properties[groupIndex];
     }
 
 }

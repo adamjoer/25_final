@@ -130,7 +130,7 @@
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
-        <outputString>vil du købe huse?</outputString>
+        <outputString>Vil du købe huse?</outputString>
     </stringRef>
     <stringRef>
         <reference>whereToBuyHouse</reference>
