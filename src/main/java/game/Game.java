@@ -238,6 +238,7 @@ public class Game {
 
     private void buildOnStreets() {
 
+        // Get properties on which the player can build, and keep doing it until they don't have any left, or say no
         for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
 
             // Ask if the player want to buy houses
@@ -280,6 +281,9 @@ public class Game {
                         guiController.setHouseOrHotelStreet(street.getPosition(), street.getPropertyLevel() - 1, false);
                     }
                 }
+
+                // Stop loop
+                break;
             }
         }
     }
@@ -294,7 +298,7 @@ public class Game {
     }
 
     private Street[] getBuildableStreets(int player) {
-      
+
         int playerBalance = playerController.getPlayerBalance(player);
         return fieldController.getBuildableStreets(player, playerBalance);
     }
