@@ -22,14 +22,11 @@ public class Game {
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
     private final int[] getOutOfJailTries;
-    private final StringHandler stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
-    private Field[] fields;
+    private final StringHandler stringHandler;
 
-
-    public Game(){
-        fields = Utility.fieldGenerator("src/main/resources/fieldList.xml");
+    public Game() {
         fieldController = new FieldController();
-        guiController = new GUIController(fields);
+        guiController = new GUIController(fieldController.getFields());
         diceController = new DiceController(2, 6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         chanceCardController = new ChanceCardController();
@@ -37,15 +34,15 @@ public class Game {
         playerTurn = (int) (Math.random() * (players.length - 1));
         playerTurnIndex = playerTurn;
         getOutOfJailTries = new int[players.length];
+        stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
 
     public void gameLoop() {
         boolean stop = false;
-        boolean isDieIdentical;
 
         guiController.addPlayers(players);
 
-        while (!stop) {
+        do {
 
             //Check if a player can buy houses
             if (fieldController.canPlayerBuyHouses(playerTurn)) {
@@ -121,7 +118,7 @@ public class Game {
                 guiController.showMessage(stringHandler.getString("extraTurnIdenticalDice"));
             }
 
-        }
+        } while (!stop);
         guiController.close();
     }
 
@@ -363,9 +360,9 @@ public class Game {
         //Check if the field is owned by the bank
         else if (instructions.getOwner() == -1) {
 
-                    //If field is owned by the bank, ask player if they want to buy it
-                    if (guiController.getUserButton(fieldController.getFields()[position].getTitle() + " " + stringHandler.getString("buyField")
-                            , "Ja", "Nej") == "Ja") {
+            //If field is owned by the bank, ask player if they want to buy it
+            if (guiController.getUserButton(fieldController.getFields()[position].getTitle() + " " + stringHandler.getString("buyField")
+                    , "Ja", "Nej") == "Ja") {
 
                 //If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
