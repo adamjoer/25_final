@@ -55,30 +55,33 @@ public class Game {
 
                     String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
 
-
                     // Find the street that the user wants to build a building on
                     for (Street street : streets) {
-                        String temp = street.getTitle() + ": " + street.getBuildingCost() + " kr.";
-                        if (temp.equals(streetToBuyHouse)) {
 
-                            //Check if they have money for it
-                            if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
+                        // Extract street name from button text by stripping text from from end
+                        // i.e. Rødovrevej: 1000 kr. -> Rødovrevej
+                        String temp = streetToBuyHouse.substring(0, streetToBuyHouse.length() - (String.valueOf(street.getBuildingCost()).length() + 6));
 
-                                //Increase the streets propertyLevel
-                                street.setPropertyLevel(street.getPropertyLevel() + 1);
+                        // If it isn't the street that player wants to build on, continue to next street
+                        if (!street.getTitle().equals(temp)) continue;
 
-                                // Update the GUI with the new rent
-                                guiController.setRent(street.getPosition(), street.getCurrentRent());
+                        //Check if they have money for it
+                        if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
 
-                                // Update the players balance in GUI
-                                setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
+                            //Increase the streets propertyLevel
+                            street.setPropertyLevel(street.getPropertyLevel() + 1);
 
-                                // Update the property with new buildings in GUI
-                                if (street.getPropertyLevel() == 6) {
-                                    guiController.setHouseOrHotelStreet(street.getPosition(), 0, true);
-                                } else {
-                                    guiController.setHouseOrHotelStreet(street.getPosition(), street.getPropertyLevel() - 1, false);
-                                }
+                            // Update the GUI with the new rent
+                            guiController.setRent(street.getPosition(), street.getCurrentRent());
+
+                            // Update the players balance in GUI
+                            setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
+
+                            // Update the property with new buildings in GUI
+                            if (street.getPropertyLevel() == 6) {
+                                guiController.setHouseOrHotelStreet(street.getPosition(), 0, true);
+                            } else {
+                                guiController.setHouseOrHotelStreet(street.getPosition(), street.getPropertyLevel() - 1, false);
                             }
                         }
                     }
@@ -99,7 +102,7 @@ public class Game {
 
             // Cast dice from dice controller
             rollDice();
-            movePlayer(playerTurnIndex, 1);
+            movePlayer(playerTurnIndex, diceController.getSum());
 
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
