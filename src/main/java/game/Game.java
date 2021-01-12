@@ -242,8 +242,9 @@ public class Game {
         for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
 
             // Ask if the player want to buy houses
-            if (guiController.getUserButton(stringHandler.getString("askBuyHouse"), stringHandler.getString("yes"), stringHandler.getString("no")).
-                    equals(stringHandler.getString("no")))
+            if (guiController.getUserButton(stringHandler.getString("askBuyHouse"),
+                    stringHandler.getString("yes"), stringHandler.getString("no"))
+                    .equals(stringHandler.getString("no")))
                 break;
 
             // Get an array of strings, which shows the name of the street and the price to put a house on it
