@@ -89,8 +89,7 @@ public class Game {
                                 }
                             }
                         }
-                    }
-                    else{
+                    } else {
                         break;
                     }
                 }
@@ -365,8 +364,9 @@ public class Game {
         //Check if the field is owned by the bank
         else if (instructions.getOwner() == -1) {
 
-            //If field is owned by the bank, ask player if they want to buy it
-            if (guiController.getUserButton(stringHandler.getString("buyField"), "Ja", "Nej").equals("Ja")) {
+                    //If field is owned by the bank, ask player if they want to buy it
+                    if (guiController.getUserButton(fieldController.getFields()[position].getTitle() + " " + stringHandler.getString("buyField")
+                            , "Ja", "Nej") == "Ja") {
 
                 //If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
@@ -419,7 +419,7 @@ public class Game {
         return playerTurn;
     }
 
-    private Street[] affordableHouses(int player){
+    private Street[] affordableHouses(int player) {
         int playerBalance = playerController.getPlayerBalance(player);
         return fieldController.allOwnedStreetsByPlayer(player, playerBalance);
     }
