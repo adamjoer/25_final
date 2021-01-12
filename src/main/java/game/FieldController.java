@@ -12,8 +12,6 @@ public class FieldController {
 
     public FieldController() {
 
-        whoCanBuyHouses[0] = true;
-
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
