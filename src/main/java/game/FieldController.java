@@ -12,8 +12,6 @@ public class FieldController {
 
     public FieldController() {
 
-        whoCanBuyHouses[0] = true;
-
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
@@ -275,9 +273,9 @@ public class FieldController {
                     boolean equalHouses = true;
                     for (int y = 0; y < properties[i][j].getRelatedProperties() - 1; y++) {
                         if (properties[i][y].getPropertyLevel() == properties[i][y + 1].getPropertyLevel()) {
-                            maxHouses = properties[i][y].getPropertyLevel();
+                            maxHouses = properties[i][y].getPropertyLevel() + 1;
                         } else {
-                            maxHouses = Math.max(properties[i][y].getPropertyLevel() - 1, properties[i][y + 1].getPropertyLevel() - 1);
+                            maxHouses = Math.max(properties[i][y].getPropertyLevel(), properties[i][y + 1].getPropertyLevel());
                             break;
                         }
                     }
