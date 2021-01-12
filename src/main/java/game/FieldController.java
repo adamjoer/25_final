@@ -394,6 +394,7 @@ public class FieldController {
         int nextRelatedProperty = property.getNextRelatedProperty();
         int propertyLevel;
 
+        // Adjust property rentLevels
         switch (property.getField()) {
             case "Street":
                 if (ownsAllPropertiesInGroup(player, position)) {
@@ -428,8 +429,49 @@ public class FieldController {
         }
     }
 
-    public void reclaimProperty(int position) {
+    public void reclaimProperty(int player, int position) {
+        Property property = (Property) fields[position];
 
+        property.setPawned(false);
+
+        int relatedProperties = property.getRelatedProperties();
+        int nextRelatedProperty = property.getNextRelatedProperty();
+        int propertyLevel;
+        int ownedNotPawnedPropertiesInGroup = 1;
+        Property nextProperty = (Property) fields[nextRelatedProperty];
+        for (int i = 0; i < relatedProperties - 1; i++) {
+            if (!nextProperty.getPawned() && (nextProperty.getOwner() == player)) ownedNotPawnedPropertiesInGroup += 1;
+            nextRelatedProperty = property.getNextRelatedProperty();
+            nextProperty = (Property) fields[nextRelatedProperty];
+        }
+
+        // Adjust property rentLevels
+        switch (property.getField()) {
+            case "Street":
+                if (ownedNotPawnedPropertiesInGroup == relatedProperties) {
+                    for (int i = 0; i < relatedProperties; i++) {
+                        Street nextStreet = (Street) fields[nextRelatedProperty];
+                        nextStreet.setPropertyLevel(1);
+                        nextRelatedProperty = nextStreet.getNextRelatedProperty();
+                    }
+                }
+                break;
+
+            case "Shipping":
+                for (int i = 0; i < relatedProperties; i++) {
+                    Shipping nextShipping = (Shipping) fields[nextRelatedProperty];
+                    nextShipping.setPropertyLevel(ownedNotPawnedPropertiesInGroup - 1);
+                    nextRelatedProperty = nextShipping.getNextRelatedProperty();
+                }
+                break;
+
+            case "Brewery":
+                for (int i = 0; i < relatedProperties; i++) {
+                    Brewery nextBrewery = (Brewery) fields[nextRelatedProperty];
+                    nextBrewery.setPropertyLevel(ownedNotPawnedPropertiesInGroup - 1);
+                    nextRelatedProperty = nextBrewery.getNextRelatedProperty();
+                }
+        }
     }
 
     // Relevant getters
