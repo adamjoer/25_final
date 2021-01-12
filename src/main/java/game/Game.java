@@ -2,13 +2,7 @@ package game;
 
 import game.controllers.*;
 import game.field.*;
-import game.field.Field;
-import game.field.FieldInstruction;
-import game.field.TaxField;
-import game.field.Street;
-import org.apache.commons.lang.ArrayUtils;
 
-import java.io.FileInputStream;
 import java.util.Arrays;
 
 public class Game {
@@ -91,7 +85,7 @@ public class Game {
                 }
             }
 
-            guiController.showMessage("Player " + playerController.getName(playerTurn) + " turn to roll the dice");
+            guiController.showMessage(stringHandler.getString("playerTurn") + playerController.getName(playerTurn));
 
             // Check if player is on jail field
             if (playerController.getPlayerPosition(playerTurn) == fieldController.getJailPosition()) {
@@ -99,7 +93,7 @@ public class Game {
                 // Check whether player is actually in prison or just visiting
                 if (fieldController.isInJail(playerTurn)) {
                     if (!getOutOfJail()) {
-                        playerTurn = getNextPlayerTurn();
+                        getNextPlayerTurn();
                         continue;
                     }
                 }
@@ -112,7 +106,7 @@ public class Game {
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
             if (!diceController.isIdentical()) {
-                playerTurn = getNextPlayerTurn();
+                getNextPlayerTurn();
 
             } else {
                 guiController.showMessage(stringHandler.getString("extraTurnIdenticalDice"));
@@ -460,10 +454,9 @@ public class Game {
 
 
 
-    private int getNextPlayerTurn() {
+    private void getNextPlayerTurn() {
         playerTurn = (playerTurn + 1) % players;
         setPlayerTurn();
-        return playerTurn;
     }
 
     /**
