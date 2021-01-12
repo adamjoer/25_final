@@ -40,54 +40,47 @@ public class Game {
 
             guiController.showMessage(stringHandler.getString("playerTurn") + playerController.getName(playerTurn));
 
-            //Check if a player can buy houses
+            // Check if a player can buy houses
             if (fieldController.canPlayerBuyHouses(playerTurn)) {
 
-                //Get the streets which the player can buy houses on
-                Street[] streets = affordableHouses(playerTurn);
+                for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
 
-                while (streets.length > 0) {
+                    // Ask if the player want to buy houses
+                    if (guiController.getUserButton(stringHandler.getString("askBuyHouse"), stringHandler.getString("yes"), stringHandler.getString("no")).
+                            equals(stringHandler.getString("no")))
+                        break;
 
-                    //Get the streets which the player can buy houses on
-                    streets = affordableHouses(playerTurn);
+                    // Get an array of strings, which shows the name of the street and the price to put a house on it
+                    String[] houseCostButtons = getHouseCostButtons(streets);
 
-                    //Ask if the player want to buy houses
-                    if (guiController.getUserButton(stringHandler.getString("askBuyHouse"), "Ja", "Nej").equals("Ja")) {
-
-                        //Get an array of strings, which shows the name of the street and the price to put a house on it
-                        String[] houseCostButtons = getHouseCostButtons(streets);
-
-                        String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
+                    String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
 
 
-                        //Find the street that the user wants to buy a house on
-                        for (Street street : streets) {
-                            String temp = street.getTitle() + ": " + street.getBuildingCost() + " kr.";
-                            if (temp.equals(streetToBuyHouse)) {
+                    // Find the street that the user wants to build a building on
+                    for (Street street : streets) {
+                        String temp = street.getTitle() + ": " + street.getBuildingCost() + " kr.";
+                        if (temp.equals(streetToBuyHouse)) {
 
-                                //Check if they have money for it
-                                if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
+                            //Check if they have money for it
+                            if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
 
-                                    //Increase the streets propertyLevel
-                                    street.setPropertyLevel(street.getPropertyLevel() + 1);
+                                //Increase the streets propertyLevel
+                                street.setPropertyLevel(street.getPropertyLevel() + 1);
 
-                                    // Update the GUI with the new rent
-                                    guiController.setRent(street.getPosition(), street.getCurrentRent());
+                                // Update the GUI with the new rent
+                                guiController.setRent(street.getPosition(), street.getCurrentRent());
 
-                                    // Update the players balance in GUI
-                                    setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
+                                // Update the players balance in GUI
+                                setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
 
-                                    // Update the property with new buildings in GUI
-                                    if (street.getPropertyLevel() == 6) {
-                                        guiController.setHouseOrHotelStreet(street.getPosition(), 0, true);
-                                    } else {
-                                        guiController.setHouseOrHotelStreet(street.getPosition(), street.getPropertyLevel() - 1, false);
-                                    }
+                                // Update the property with new buildings in GUI
+                                if (street.getPropertyLevel() == 6) {
+                                    guiController.setHouseOrHotelStreet(street.getPosition(), 0, true);
+                                } else {
+                                    guiController.setHouseOrHotelStreet(street.getPosition(), street.getPropertyLevel() - 1, false);
                                 }
                             }
                         }
-                    } else {
-                        break;
                     }
                 }
             }
@@ -106,7 +99,7 @@ public class Game {
 
             // Cast dice from dice controller
             rollDice();
-            movePlayer(playerTurnIndex, diceController.getSum());
+            movePlayer(playerTurnIndex, 1);
 
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
@@ -263,8 +256,8 @@ public class Game {
                 guiController.makeTransaction(-fine, player);
             } else {
 
-                int subtract = (int) (playerValue * 0.10);
-                guiController.showMessage(stringHandler.getString("playerValue") + subtract);
+                int subtract = (playerValue / 10);
+                guiController.showMessage(stringHandler.getString("playerValue") + subtract + " kr.");
 
                 playerController.makeTransaction(-subtract, player);
                 guiController.makeTransaction(-subtract, player);
@@ -282,9 +275,9 @@ public class Game {
         return houseCostButtons;
     }
 
-    private Street[] affordableHouses(int player) {
+    private Street[] getBuildableStreets(int player) {
         int playerBalance = playerController.getPlayerBalance(player);
-        return fieldController.allOwnedStreetsByPlayer(player, playerBalance);
+        return fieldController.getBuildableStreets(player, playerBalance);
     }
 
     private boolean getOutOfJail() {
