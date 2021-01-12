@@ -99,7 +99,7 @@
         <level>8000</level>
         <level>11000</level>
         <pawnValue>1000</pawnValue>
-        <color>0xb41f0f</color>
+        <color>0x800000</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>8</nextRelatedProperty>
     </field>
@@ -127,7 +127,7 @@
         <level>8000</level>
         <level>11000</level>
         <pawnValue>1000</pawnValue>
-        <color>0xb41f0f</color>
+        <color>0x800000</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>9</nextRelatedProperty>
     </field>
@@ -148,13 +148,13 @@
         <level>9000</level>
         <level>12000</level>
         <pawnValue>1200</pawnValue>
-        <color>0xb41f0f</color>
+        <color>0x800000</color>
         <relatedProperties>3</relatedProperties>
         <nextRelatedProperty>6</nextRelatedProperty>
     </field>
     <field>
         <fieldType>Jail</fieldType>
-        <title>Jail</title>
+        <title>Fængsel</title>
         <subText/>
         <description/>
         <color>0x000000</color>
@@ -192,7 +192,7 @@
         <level>100</level>
         <level>200</level>
         <pawnValue>1500</pawnValue>
-        <color>0xcd0000</color>
+        <color>0xff9900</color>
         <relatedProperties>2</relatedProperties>
         <nextRelatedProperty>28</nextRelatedProperty>
     </field>
@@ -251,7 +251,7 @@
         <level>2000</level>
         <level>4000</level>
         <pawnValue>2000</pawnValue>
-        <color>0xcd0000</color>
+        <color>0x0000cd</color>
         <relatedProperties>4</relatedProperties>
         <nextRelatedProperty>25</nextRelatedProperty>
     </field>
@@ -472,7 +472,7 @@
         <level>100</level>
         <level>200</level>
         <pawnValue>1500</pawnValue>
-        <color>0xcd0000</color>
+        <color>0xff9900</color>
         <relatedProperties>2</relatedProperties>
         <nextRelatedProperty>12</nextRelatedProperty>
     </field>
@@ -503,7 +503,7 @@
         <subText/>
         <description/>
         <color>0x0000cd</color>
-        <jailPosition>11</jailPosition>
+        <jailPosition>10</jailPosition>
     </field>
     <field>
         <fieldType>Property</fieldType>
@@ -588,7 +588,7 @@
         <level>2000</level>
         <level>4000</level>
         <pawnValue>2000</pawnValue>
-        <color>0xcd0000</color>
+        <color>0x0000cd</color>
         <relatedProperties>4</relatedProperties>
         <nextRelatedProperty>5</nextRelatedProperty>
     </field>
