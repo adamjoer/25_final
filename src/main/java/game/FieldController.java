@@ -119,7 +119,7 @@ public class FieldController {
                 // Set propertyLevel to the number of properties owned in the group minus one
                 property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
                 for (int i = 1; i < getNumberOfPropertiesOwnedInGroup(player, propertyPosition); i++) {
-                    property = property = (Property) fields[property.getNextRelatedProperty()];
+                    property = (Property) fields[property.getNextRelatedProperty()];
                     if (property.getOwner() == player) i++;
                     property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
                 }
@@ -259,7 +259,7 @@ public class FieldController {
     }
 
     public void setPropertyLevel(int fieldPosition, int level) {
-        if (fields[fieldPosition].getField() == "Street") {
+        if (fields[fieldPosition].getField().equals("Street")) {
             ((Property) fields[fieldPosition]).setPropertyLevel(level);
         }
     }
@@ -436,7 +436,6 @@ public class FieldController {
 
         int relatedProperties = property.getRelatedProperties();
         int nextRelatedProperty = property.getNextRelatedProperty();
-        int propertyLevel;
         int ownedNotPawnedPropertiesInGroup = 1;
         Property nextProperty = (Property) fields[nextRelatedProperty];
         for (int i = 0; i < relatedProperties - 1; i++) {
