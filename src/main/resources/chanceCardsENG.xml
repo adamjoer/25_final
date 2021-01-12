@@ -118,10 +118,10 @@
     </chanceCard>
     <chanceCard>
         <cardType>Lottery</cardType>
-        <cardText>You receive the "Matador-scholarship" of 40.000 kr. however only if your valuables don't exceed
+        <cardText>You receive the "Matador-scholarship" of 40.000 kr. however only if your net worth don't exceed
             15.000 kr.</cardText>
-        <failText>Your valuables exceed 15.000 kr. and you can therefore not receive the "Matador-scholarship".</failText>
-        <successText>Your valuables doesn't exceed 15.000 kr. and you therefore receive the "Matador-sholarship.</successText>
+        <failText>Your net worth exceed 15.000 kr. and you can therefore not receive the "Matador-scholarship".</failText>
+        <successText>Your net worth doesn't exceed 15.000 kr. and you therefore receive the "Matador-sholarship.</successText>
         <amount>40000</amount>
         <threshold>15000</threshold>
         <duplicates>1</duplicates>
