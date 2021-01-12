@@ -8,6 +8,7 @@ public abstract class ChanceCard {
 
     public String getCardText() { return CARD_TEXT; }
 
+    public String getChanceCard() { return getClass().getSimpleName(); }
     public abstract boolean getDoubleRent();
     public abstract boolean getForward();
     public abstract int getJailPosition();

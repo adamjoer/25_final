@@ -1,10 +1,11 @@
 package game.controllers;
 
 import game.*;
-import game.chance.card.ChanceCard;
+import game.chance.card.*;
 
 import java.util.Arrays;
 import java.lang.Math;
+import java.util.Random;
 
 public class ChanceCardController {
 
@@ -27,68 +28,18 @@ public class ChanceCardController {
     }
 
     /**
-     * appendIntArray creates a new int array with one more place and fills in that place with a given integer.
-     * @param array The array to add a place to.
-     * @param n The value to assign to the created place.
-     * @return The array with the appended int place (placed at the last index).
-     */
-    // TODO: Might be redundant and replaced with corresponding method in Utility!
-    private int[] appendIntArray(int[] array, int n){
-        int[] result = new int[array.length + 1];
-        for (int i = 0; i < array.length; i++) { result[i] = array[i]; }
-        result[array.length] = n;
-        return result;
-    }
-
-    /**
-     * removeIntArrayByIndex creates a new array with one less place than the input array. Specified index is removed.
-     * @param array The int array from which a place is to be removed.
-     * @param index The index of the place to be removed.
-     * @return An int array with one less place - the specified index removed.
-     */
-    // TODO: Might be redundant and replaced with corresponding method in Utility!
-    private int[] removeIntArrayByIndex(int[] array, int index){
-        int[] result = new int[array.length - 1];
-        for (int i = 0; i < index; i++) { result[i] = array[i]; }
-        for (int i = index + 1; i < array.length; i++) { result[i-1] = array[i]; }
-        return result;
-    }
-
-    /**
-     * shuffleIntArray utilizes removeIntArrayByIndex to remove a random element from the int array given and
-     * appendIntArray to apply the same random element to the end of the array.
-     * The method is recursive, such that it keeps on removing elements in a random order, until there is only one
-     * element left in the initial array. It then appends the single element arrays in the random order they were
-     * extracted. This guarantees a shuffled array. As the method picks out by index rather than by value, it ensures
-     * that the recursion is well defined.
-     * @param array The int array to shuffle
-     * @return A shuffled int array with the same elements as the argument given, in a random order.
-     */
-    // TODO: Might be redundant and replaced with corresponding method in Utility!
-    private int[] shuffleIntArray(int[] array){
-        if (array.length == 1){
-            return array;
-        } else {
-            int index = (int) (Math.random() * (array.length - 1));
-            int[] arrayWithoutIndex = removeIntArrayByIndex(array,index);
-            return appendIntArray(shuffleIntArray(arrayWithoutIndex),array[index]);
-        }
-    }
-
-    /**
      * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
      * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
      * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
      * BASE_DECK.
      */
 
-    private void shuffleDeck(){
+    private void shuffleDeck() {
+        Random rand = new Random();
         drawPile = new ChanceCard[BASE_DECK_LENGTH - outOfJailCardsDrawn];
-        int[] orderedArray = new int[BASE_DECK_LENGTH - outOfJailCardsDrawn];
-        for (int i = 0; i < BASE_DECK_LENGTH - outOfJailCardsDrawn; i++) { orderedArray[i] = i; }
-        int[] shuffleReference = shuffleIntArray(orderedArray);
         for (int i = 0; i < BASE_DECK_LENGTH - outOfJailCardsDrawn; i++) {
-            drawPile[i] = BASE_DECK[shuffleReference[i]];
+            int randomIndexToSwap = rand.nextInt(BASE_DECK_LENGTH - outOfJailCardsDrawn);
+            drawPile[i] = BASE_DECK[randomIndexToSwap];
         }
     }
 
@@ -102,14 +53,14 @@ public class ChanceCardController {
     public String drawCard(){
         if (pilePosition == BASE_DECK_LENGTH - 1){ shuffleDeck(); }
         pilePosition = (pilePosition + 1) % BASE_DECK_LENGTH;
-        if (getCurrentCardType().equals("OutOfJail")){ outOfJailCardsDrawn += 1;}
+        if (getCurrentCardType().equals("OutOfJailCard")){ outOfJailCardsDrawn += 1;}
         return getCardText();
     }
 
     public void returnOutOfJailCard(){ outOfJailCardsDrawn -= 1; }
 
     // Relevant getters.
-    public String getCurrentCardType(){ return this.drawPile[pilePosition].getClass().getSimpleName(); }
+    public String getCurrentCardType(){ return this.drawPile[pilePosition].getChanceCard(); }
     public String getCardText(){ return this.drawPile[this.pilePosition].getCardText(); }
     public String getFailText(){ return this.drawPile[this.pilePosition].getFailText(); }
     public String getSuccessText(){ return this.drawPile[this.pilePosition].getSuccessText(); }
