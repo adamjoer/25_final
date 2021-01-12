@@ -4,6 +4,7 @@ public class PlayerController {
 
     Player[] players;
     private boolean[] giftPlayerCheck;
+    private int[] getOutOfJailTries;
 
 
     /**
@@ -20,6 +21,7 @@ public class PlayerController {
         }
 
         giftPlayerCheck = new boolean[playerNames.length];
+        getOutOfJailTries = new int[players.length];
     }
 
     public Player[] removePlayer(int player){
@@ -114,9 +116,12 @@ public class PlayerController {
     public int getPlayerPosition(int player) { return players[player].getCurrentPosition(); }
     public int getPreviousPlayerPosition(int player) { return players[player].getPreviousPosition(); }
     public int getPlayerBalance(int player) { return players[player].getBalance(); }
+    public int getGetOutOfJailTries(int player) { return getOutOfJailTries[player]; }
 
     //Relevant setters
     public void setPlayerOutOfJailCards(int player, int cards){ players[player].setOutOfJailCards(cards); }
     public void setPlayerPosition(int player, int position) { players[player].setCurrentPosition(position); }
     public void setPlayerBalance(int player, int balance) { players[player].setBalance(balance); }
+    public void setGetOutOfJailTries(int player, int tries) { getOutOfJailTries[player] = tries; }
+    public void incrementGetOutOfJailTries(int player) { getOutOfJailTries[player]++; }
 }

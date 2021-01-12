@@ -15,7 +15,6 @@ public class Game {
     private final int players;
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
-    private final int[] getOutOfJailTries;
     private final StringHandler stringHandler;
 
     public Game() {
@@ -27,7 +26,6 @@ public class Game {
         players = playerController.getPlayers().length;
         playerTurn = (int) (Math.random() * (players - 1));
         playerTurnIndex = playerTurn;
-        getOutOfJailTries = new int[players];
         stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
 
@@ -66,7 +64,7 @@ public class Game {
 
             // Cast dice from dice controller
             rollDice();
-            movePlayer(playerTurnIndex, diceController.getSum());
+            movePlayer(playerTurnIndex, 30);
 
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
@@ -307,34 +305,40 @@ public class Game {
     private boolean getOutOfJail() {
         //TODO: Take into account 'get out of jail free' card when it's implemented
 
+        // Announce that player is in prison
         guiController.showMessage(stringHandler.getString("isInJail"));
 
+        // Get bail
         int bail = ((Jail) fieldController.getFields()[playerController.getPlayerPosition(playerTurn)]).getBail();
 
-        if (getOutOfJailTries[playerTurn] == 3) {
-            getOutOfJailTries[playerTurn] = 0;
+        // If the player has used all their tries, they have to pay the bail
+        if (playerController.getGetOutOfJailTries(playerTurn) == 3) {
+            playerController.setGetOutOfJailTries(playerTurn, 0);
             guiController.showMessage(stringHandler.getString("jailTriesUsed"));
             return makeTransaction(-bail, playerTurn);
         }
 
-        String returnBtn = guiController.getUserButton(stringHandler.getString("inJailOptions"), "1", "2");
-        if (returnBtn.equals("1")) {
+        // Ask player if they want to pay bail, or try to roll two identical
+        if (guiController.getUserButton(stringHandler.getString("inJailOptions"), "1", "2").equals("1")) {
 
+            // Roll the dice
             rollDice();
 
+            // If dice are identical, free player
             if (diceController.isIdentical()) {
                 guiController.showMessage(stringHandler.getString("jailIdenticalDice"));
                 fieldController.free(playerTurn);
-                getOutOfJailTries[playerTurn] = 0;
+                playerController.setGetOutOfJailTries(playerTurn, 0);
                 return true;
 
-            } else {
+
+            } else { // If they didn't, they have to stay in jail for the round
                 guiController.showMessage(stringHandler.getString("jailNotIdenticalDice"));
-                getOutOfJailTries[playerTurn]++;
+                playerController.incrementGetOutOfJailTries(playerTurn);
                 return false;
             }
 
-        } else {
+        } else { // Player wants to bay bail
             return makeTransaction(-bail, playerTurn);
         }
     }
