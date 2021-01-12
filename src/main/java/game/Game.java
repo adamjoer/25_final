@@ -12,7 +12,7 @@ public class Game {
     private final DiceController diceController;
     private final FieldController fieldController;
     private final ChanceCardController chanceCardController;
-    private final int players;
+    private final int playerCount;
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
     private final StringHandler stringHandler;
@@ -23,8 +23,8 @@ public class Game {
         diceController = new DiceController(2, 6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         chanceCardController = new ChanceCardController();
-        players = playerController.getPlayers().length;
-        playerTurn = (int) (Math.random() * (players - 1));
+        playerCount = playerController.getPlayers().length;
+        playerTurn = (int) (Math.random() * (playerCount - 1));
         playerTurnIndex = playerTurn;
         stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
@@ -451,7 +451,7 @@ public class Game {
 
     private boolean giftPlayer(int amount, int targetPlayer) {
         boolean transactionSuccess = playerController.giftPlayer(amount, targetPlayer);
-        for (int i = 0; i < players; i++) {
+        for (int i = 0; i < playerCount; i++) {
             updateGuiBalance(i);
         }
         return transactionSuccess;
@@ -498,7 +498,7 @@ public class Game {
 
 
     private void getNextPlayerTurn() {
-        playerTurn = (playerTurn + 1) % players;
+        playerTurn = (playerTurn + 1) % playerCount;
         setPlayerTurn();
     }
 
@@ -506,7 +506,7 @@ public class Game {
      * This method is used, to get the players index after removal of players in the original array
      */
     private void setPlayerTurn() {
-        for (int i = 0; i < players; i++) {
+        for (int i = 0; i < playerCount; i++) {
             if (playerController.players[i].getId() == playerTurn) {
                 playerTurnIndex = i;
             }
