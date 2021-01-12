@@ -23,7 +23,7 @@ public class Game {
     private Field[] fields;
 
 
-    public Game(){
+    public Game() {
         fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
         fieldController = new FieldController();
         guiController = new GUIController(fields);
@@ -83,8 +83,7 @@ public class Game {
                                 }
                             }
                         }
-                    }
-                    else{
+                    } else {
                         break;
                     }
                 }
@@ -147,11 +146,11 @@ public class Game {
         }
     }
 
-    private void removePlayer(int player, int fieldPlacement){
+    private void removePlayer(int player, int fieldPlacement) {
         players = playerController.removePlayer(player);
 
         guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
-        playerTurn = playerTurn-1;
+        playerTurn = playerTurn - 1;
     }
 
     private boolean sellProperty(int player, int place) {
@@ -190,7 +189,7 @@ public class Game {
             case "Shipping":
 
                 //Check if the field is owned by the player
-                if(player == instructions.getOwner()){
+                if (player == instructions.getOwner()) {
                     guiController.showMessage(stringHandler.getString("ownField") + " " + fieldController.getFields()[position].getTitle());
                     return true;
                 }
@@ -199,8 +198,8 @@ public class Game {
                 else if (instructions.getOwner() == -1) {
 
                     //If field is owned by the bank, ask player if they want to buy it
-                    if(guiController.getUserButton(fieldController.getFields()[position].getTitle() + " " + stringHandler.getString("buyField")
-                            , "Ja", "Nej") == "Ja"){
+                    if (guiController.getUserButton(fieldController.getFields()[position].getTitle() + " " + stringHandler.getString("buyField")
+                            , "Ja", "Nej") == "Ja") {
 
                         //If they want to buy it, check if they have money for it
                         if (playerController.makeTransaction(-instructions.getCost(), player)) {
@@ -255,15 +254,15 @@ public class Game {
                     guiController.showMessage(stringHandler.getString("statsSkat"));
                     playerController.makeTransaction(-currentField.getFine(), playerTurnIndex);
                     guiController.makeTransaction(-currentField.getFine(), playerTurnIndex);
-                } else{
+                } else {
                     guiController.showMessage(stringHandler.getString("skat"));
                     String playerChoiceOne = "1";
                     String playerChoice = guiController.getUserButton(stringHandler.getString("skatOptions"),
-                                                playerChoiceOne, "2");
-                    if(playerChoice.equals(playerChoiceOne)){
+                            playerChoiceOne, "2");
+                    if (playerChoice.equals(playerChoiceOne)) {
                         playerController.makeTransaction(-fine, playerTurnIndex);
                         guiController.makeTransaction(-fine, playerTurnIndex);
-                    } else{
+                    } else {
                         playerController.makeTransaction(-playerValue, playerTurnIndex);
                         guiController.makeTransaction(-playerValue, playerTurnIndex);
                     }
@@ -292,7 +291,7 @@ public class Game {
         return playerTurn;
     }
 
-    private Street[] affordableHouses(int player){
+    private Street[] affordableHouses(int player) {
         int playerBalance = playerController.getPlayerBalance(player);
         return fieldController.allOwnedStreetsByPlayer(player, playerBalance);
     }
@@ -312,9 +311,9 @@ public class Game {
     /**
      * This method is used, to get the players index after removal of players in the original array
      */
-    private void setPlayerTurn(){
-        for(int i=0;i<players.length;i++){
-            if(players[i].getId() == playerTurn){
+    private void setPlayerTurn() {
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getId() == playerTurn) {
                 playerTurnIndex = i;
             }
         }

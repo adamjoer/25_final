@@ -81,12 +81,12 @@ public abstract class Property extends Field {
 
     public String toString() {
         return super.toString() +
-               "\n\t[cost=" + cost +
-               "]\n\t[pawnValue=" + pawnValue +
-               "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
-               "]\n\t[propertyLevel=" + propertyLevel +
-               "]\n\t[relatedProperties=" + relatedProperties +
-               "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
-               "]\n\t[owner=" + owner + ']';
+                "\n\t[cost=" + cost +
+                "]\n\t[pawnValue=" + pawnValue +
+                "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
+                "]\n\t[propertyLevel=" + propertyLevel +
+                "]\n\t[relatedProperties=" + relatedProperties +
+                "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
+                "]\n\t[owner=" + owner + ']';
     }
 }

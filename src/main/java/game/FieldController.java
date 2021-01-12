@@ -22,7 +22,7 @@ public class FieldController {
         for (Field field : fields) {
 
             // Check if field is a property
-            if (!(field instanceof Property)){
+            if (!(field instanceof Property)) {
 
                 // If field is jail, assign it to jail attribute
                 if (field instanceof Jail) {
@@ -106,7 +106,7 @@ public class FieldController {
             case "Street":
 
                 // If the player owns all the properties in the group, change propertyLevel to 1
-                if (ownsAllPropertiesInGroup(player, propertyPosition)){
+                if (ownsAllPropertiesInGroup(player, propertyPosition)) {
                     whoCanBuyHouses[player] = true;
                     setPropertylevelForGroup(propertyPosition, 1);
                 }
@@ -115,16 +115,16 @@ public class FieldController {
             case "Shipping":
                 // Set propertyLevel to the number of properties owned in the group minus one
                 property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
-                for(int i = 1; i < getNumberOfPropertiesOwnedInGroup(player, propertyPosition); i++){
+                for (int i = 1; i < getNumberOfPropertiesOwnedInGroup(player, propertyPosition); i++) {
                     property = property = (Property) fields[property.getNextRelatedProperty()];
-                    if(property.getOwner() == player) i++;
+                    if (property.getOwner() == player) i++;
                     property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
                 }
                 break;
 
             case "Brewery":
                 // If the player owns all the properties in the group, change propertyLevel to 1
-                if (ownsAllPropertiesInGroup(player, propertyPosition)){
+                if (ownsAllPropertiesInGroup(player, propertyPosition)) {
                     setPropertylevelForGroup(propertyPosition, 1);
                 }
                 break;
@@ -224,22 +224,22 @@ public class FieldController {
     }
 
 
-    public boolean canPlayerBuyHouses(int player){
+    public boolean canPlayerBuyHouses(int player) {
         return whoCanBuyHouses[player];
     }
 
     public void setPropertyLevel(int fieldPosition, int level) {
-        if(fields[fieldPosition].getField() == "Street"){
+        if (fields[fieldPosition].getField() == "Street") {
             ((Property) fields[fieldPosition]).setPropertyLevel(level);
         }
     }
 
-    public Street[] allOwnedStreetsByPlayer(int player, int playerBalance){
+    public Street[] allOwnedStreetsByPlayer(int player, int playerBalance) {
         Street[] houseProperties = new Street[0];
-        for(int i = 0; i < properties.length; i++){
-            for(int j = 0; j < properties[i].length; j++){
-                if(ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street){
-                    if(((Street) properties[i][j]).getBuildingCost() <= playerBalance && properties[i][j].getPropertyLevel() < 6){
+        for (int i = 0; i < properties.length; i++) {
+            for (int j = 0; j < properties[i].length; j++) {
+                if (ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street) {
+                    if (((Street) properties[i][j]).getBuildingCost() <= playerBalance && properties[i][j].getPropertyLevel() < 6) {
                         houseProperties = Utility.addToArray(houseProperties, (Street) properties[i][j]);
                     }
                 }
@@ -277,7 +277,7 @@ public class FieldController {
         return ((Property) fields[propertyPosition]).getCurrentRent();
     }
 
-    public int getPlayerValueSum(int player){
+    public int getPlayerValueSum(int player) {
         int propertyValues = 0;
         for (Field field : fields) {
             if (field instanceof Property) {
