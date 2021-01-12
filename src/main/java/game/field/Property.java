@@ -13,6 +13,7 @@ public abstract class Property extends Field {
     protected final int relatedProperties;
     protected final int nextRelatedProperty;
     protected int owner = -1; // -1 means the property is owned by the bank
+    protected boolean pawned = false;
 
     // The array rentLevels represents the cost of rent at different levels:
     //      0: Base rent
@@ -70,6 +71,8 @@ public abstract class Property extends Field {
         return owner;
     }
 
+    public boolean getPawned() { return pawned; }
+
     // Relevant setters
     public void setPropertyLevel(int propertyLevel) {
         this.propertyLevel = propertyLevel;
@@ -79,6 +82,8 @@ public abstract class Property extends Field {
         this.owner = owner;
     }
 
+    public void setPawned(boolean pawned) { this.pawned = pawned; }
+
     public String toString() {
         return super.toString() +
                 "\n\t[cost=" + cost +
@@ -87,6 +92,7 @@ public abstract class Property extends Field {
                 "]\n\t[propertyLevel=" + propertyLevel +
                 "]\n\t[relatedProperties=" + relatedProperties +
                 "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
-                "]\n\t[owner=" + owner + ']';
+                "]\n\t[owner=" + owner +
+                "]\n\t[pawned=" + pawned + ']';
     }
 }
