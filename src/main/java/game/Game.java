@@ -22,12 +22,12 @@ public class Game {
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
     private final int[] getOutOfJailTries;
-    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
+    private final StringHandler stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     private Field[] fields;
 
 
     public Game(){
-        fields = Utility.fieldGenerator("src/main/java/resources/fieldList.xml");
+        fields = Utility.fieldGenerator("src/main/resources/fieldList.xml");
         fieldController = new FieldController();
         guiController = new GUIController(fields);
         diceController = new DiceController(2, 6);
@@ -185,7 +185,6 @@ public class Game {
         playerTurn = playerTurn - 1;
     }
 
-    private boolean sellProperty(int player, int place) {
     private boolean drawCard() {
 
         guiController.displayChanceCard(chanceCardController.drawCard());
@@ -242,7 +241,7 @@ public class Game {
 
             case "GoToJailCard":
                 // TODO: Update with correct method name after merge to Dev.
-                goToJailFieldAction(playerTurn, chanceCardController.getJailPosition());
+                //goToJailFieldAction(playerTurn, chanceCardController.getJailPosition());
 
                 break;
 
