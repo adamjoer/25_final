@@ -122,7 +122,7 @@ public class Game {
                 guiController.showMessage(stringHandler.getString("extraTurnIdenticalDice"));
             }
 
-        } while (!stop);
+        }
         guiController.close();
     }
 
