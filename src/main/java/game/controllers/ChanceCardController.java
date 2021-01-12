@@ -35,6 +35,7 @@ public class ChanceCardController {
      */
 
     private void shuffleDeck() {
+        // TODO: Test with new values of outOfJailCardsDrawn.
         Random rand = new Random();
         drawPile = new ChanceCard[BASE_DECK_LENGTH - outOfJailCardsDrawn];
         for (int i = 0; i < BASE_DECK_LENGTH - outOfJailCardsDrawn; i++) {
