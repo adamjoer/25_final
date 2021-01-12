@@ -8,6 +8,7 @@ public class FieldController {
     private final Field[] fields;
     private final Property[][] properties;
     private Jail jail;
+    private boolean[] whoCanBuyHouses = new boolean[6];
 
     public FieldController() {
 
@@ -107,21 +108,27 @@ public class FieldController {
                     for (int i = 0; i < properties[group].length; i++) properties[group][i].setPropertyLevel(1);
                 }
 
+                if (ownsAllPropertiesInGroup(player, propertyPosition)){
+                    whoCanBuyHouses[player] = true;
+                    setPropertylevelForGroup(propertyPosition, 1);
+                }
                 break;
 
 
             case "Shipping":
-
                 // Set propertyLevel to the number of properties owned in the group minus one
                 property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                for (int i = 1; i < getNumberOfPropertiesOwnedInGroup(player, propertyPosition); i++) {
+                    property = property = (Property) fields[property.getNextRelatedProperty()];
+                    if (property.getOwner() == player) i++;
+                    property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                }
                 break;
 
             case "Brewery":
-
-                // Set propertyLevel to 1 if both breweries is owned
+                // If the player owns all the properties in the group, change propertyLevel to 1
                 if (ownsAllPropertiesInGroup(player, propertyPosition)) {
-                    property.setPropertyLevel(1);
-                    ((Property) fields[property.getNextRelatedProperty()]).setPropertyLevel(1);
+                    setPropertylevelForGroup(propertyPosition, 1);
                 }
                 break;
         }
@@ -209,6 +216,27 @@ public class FieldController {
         return count;
     }
 
+    public void setPropertylevelForGroup(int propertyPosition, int level) {
+
+        // Find the specified property
+        Property property = (Property) fields[propertyPosition];
+
+        property.setPropertyLevel(level);
+
+        // Go over each property in the group
+        // (the number of properties in the group is represented with the relatedProperties attribute)
+        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
+
+            // Find the next property in the group
+            property = (Property) fields[property.getNextRelatedProperty()];
+
+            property.setPropertyLevel(level);
+        }
+
+        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
+        assert property == fields[propertyPosition];
+    }
+
     public int getJailPosition() {
         return jail.getPosition();
     }
@@ -223,6 +251,49 @@ public class FieldController {
 
     public void free(int player) {
         jail.free(player);
+    }
+
+
+    public boolean canPlayerBuyHouses(int player) {
+        return whoCanBuyHouses[player];
+    }
+
+    public void setPropertyLevel(int fieldPosition, int level) {
+        if (fields[fieldPosition].getField() == "Street") {
+            ((Property) fields[fieldPosition]).setPropertyLevel(level);
+        }
+    }
+
+    public Street[] allOwnedStreetsByPlayer(int player, int playerBalance) {
+        Street[] houseProperties = new Street[0];
+        for (int i = 0; i < properties.length; i++) {
+            for (int j = 0; j < properties[i].length; j++) {
+                if (ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street) {
+                    if (((Street) properties[i][j]).getBuildingCost() <= playerBalance && properties[i][j].getPropertyLevel() < 6) {
+                        houseProperties = Utility.addToArray(houseProperties, (Street) properties[i][j]);
+                    }
+                }
+            }
+        }
+        return houseProperties;
+    }
+
+
+    /**
+     * Method for checking whether a player has passed the Go field,
+     * and is therefore eligible for the 'pass go' reward.
+     * This is based entirely upon the assumption that the Go field's position is zero
+     * on the board. It won't work otherwise.
+     *
+     * @param previousPosition The player's previous position
+     * @param currentPosition  The player's current position
+     * @return True if player has passed, or is on the 'Go' field, false otherwise
+     */
+    public boolean hasPassedStart(int previousPosition, int currentPosition) {
+
+        // If start field position is zero, player will have passed start if their position has overflowed to a smaller value,
+        // i.e. their previous position is larger than their current position
+        return previousPosition > currentPosition;
     }
 
     /**
@@ -257,7 +328,7 @@ public class FieldController {
         return worth;
     }
 
-  // Relevant getters
+    // Relevant getters
     public Field[] getFields() {
         return fields;
     }

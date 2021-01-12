@@ -2,7 +2,13 @@ package game;
 
 import game.controllers.*;
 import game.field.*;
+import game.field.Field;
+import game.field.FieldInstruction;
+import game.field.TaxField;
+import game.field.Street;
+import org.apache.commons.lang.ArrayUtils;
 
+import java.io.FileInputStream;
 import java.util.Arrays;
 
 public class Game {
@@ -33,12 +39,59 @@ public class Game {
 
     public void gameLoop() {
         boolean stop = false;
-        boolean isDieIdentical;
 
         guiController.addPlayers(playerController.getPlayers());
 
         do {
-            guiController.showMessage(stringHandler.getString("playerTurn") + playerController.getName(playerTurn));
+
+            //Check if a player can buy houses
+            if (fieldController.canPlayerBuyHouses(playerTurn)) {
+
+                //Get the streets which the player can buy houses on
+                Street[] streets = affordableHouses(playerTurn);
+
+                while (streets.length > 0) {
+
+                    //Get the streets which the player can buy houses on
+                    streets = affordableHouses(playerTurn);
+
+                    //Ask if the player want to buy houses
+                    if (guiController.getUserButton(playerController.getName(playerTurn) + " " + stringHandler.getString("askBuyHouse"), "Ja", "Nej") == "Ja") {
+
+                        //Get an array of strings, which shows the name of the street and the price to put a house on it
+                        String[] houseCostButtons = getHouseCostButtons(streets);
+
+                        String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
+
+
+                        //Find the street that the user wants to buy a house on
+                        for (Street s : streets) {
+                            String temp = s.getTitle() + ": " + s.getBuildingCost() + " kr.";
+                            if (temp.equals(streetToBuyHouse)) {
+
+                                //Check if they have money for it
+                                if (playerController.makeTransaction(-s.getBuildingCost(), playerTurn)) {
+
+                                    //Increase the streets propertyLevel and update the gui with the new player balance, and the house
+                                    s.setPropertyLevel(s.getPropertyLevel() + 1);
+                                    setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
+
+                                    //Check if the street is going to have a hotel
+                                    if (s.getPropertyLevel() == 6) {
+                                        guiController.setHouseOrHotelStreet(s.getPosition(), 0, true);
+                                    } else {
+                                        guiController.setHouseOrHotelStreet(s.getPosition(), s.getPropertyLevel() - 1, false);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            guiController.showMessage("Player " + playerController.getName(playerTurn) + " turn to roll the dice");
 
             // Check if player is on jail field
             if (playerController.getPlayerPosition(playerTurn) == fieldController.getJailPosition()) {
@@ -205,6 +258,20 @@ public class Game {
         }
         return true;
     }
+  
+    private String[] getHouseCostButtons(Street[] properties) {
+        String[] houseCostButtons = new String[properties.length];
+        for (int i = 0; i < properties.length; i++) {
+            houseCostButtons[i] = properties[i].getTitle() + ": " + properties[i].getBuildingCost() + " kr.";
+        }
+
+        return houseCostButtons;
+    }  
+  
+    private Street[] affordableHouses(int player) {
+        int playerBalance = playerController.getPlayerBalance(player);
+        return fieldController.allOwnedStreetsByPlayer(player, playerBalance);
+    }
 
     private boolean getOutOfJail() {
         //TODO: Take into account 'get out of jail free' card when it's implemented
@@ -299,7 +366,7 @@ public class Game {
 
             case "GoToJailCard":
                 // TODO: Update with correct method name after merge to Dev.
-                goToJailFieldAction(playerTurn, chanceCardController.getJailPosition());
+                //goToJailFieldAction(playerTurn, chanceCardController.getJailPosition());
 
                 break;
 
@@ -351,7 +418,12 @@ public class Game {
         return transactionSuccess;
     }
 
+
     // Methods related to players.
+
+    private String[] getPlayerNames() {
+        return guiController.returnPlayerNames();
+    }
 
     private boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
@@ -368,7 +440,6 @@ public class Game {
     private void movePlayer(int player, int increment) {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
-
         if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player) && increment > 0) {
             setGuiBalance(playerController.getPlayerBalance(player), player);
         }
@@ -386,8 +457,11 @@ public class Game {
         return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
     }
 
-    public int getNextPlayerTurn() {
-        playerTurn = (playerTurn + 1) % players;
+
+
+
+    private int getNextPlayerTurn() {
+        playerTurn = (playerTurn + 1) % players.length;
         setPlayerTurn();
         return playerTurn;
     }
@@ -399,8 +473,6 @@ public class Game {
         for (int i = 0; i < players; i++) {
             if (playerController.players[i].getId() == playerTurn) {
                 playerTurnIndex = i;
-            }
-        }
     }
 
     /*
