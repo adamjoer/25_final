@@ -32,70 +32,32 @@ public class Game {
     }
 
     public void gameLoop() {
+
+        // Variable for keeping track of whether a winner has been found
         boolean stop = false;
 
+        // Ask users for player info
         guiController.addPlayers(playerController.getPlayers());
 
+        // Keep playing until a winner is found
         do {
 
+            // Announce whose turn it is
             guiController.showMessage(stringHandler.getString("playerTurn") + playerController.getName(playerTurn));
 
-            // Check if a player can buy houses
-            if (fieldController.canPlayerBuyHouses(playerTurn)) {
-
-                // TODO: Put this in a separate method
-
-                for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
-
-                    // Ask if the player want to buy houses
-                    if (guiController.getUserButton(stringHandler.getString("askBuyHouse"), stringHandler.getString("yes"), stringHandler.getString("no")).
-                            equals(stringHandler.getString("no")))
-                        break;
-
-                    // Get an array of strings, which shows the name of the street and the price to put a house on it
-                    String[] houseCostButtons = getHouseCostButtons(streets);
-
-                    String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
-
-                    // Find the street that the user wants to build a building on
-                    for (Street street : streets) {
-
-                        // Extract street name from button text by stripping text from the end
-                        // e.g. Rødovrevej: 1000 kr. -> Rødovrevej
-                        String temp = streetToBuyHouse.substring(0, streetToBuyHouse.length() - 10);
-
-                        // If it isn't the street that player wants to build on, continue to next street
-                        if (!street.getTitle().equals(temp)) continue;
-
-                        //Check if they have money for it
-                        if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
-
-                            //Increase the streets propertyLevel
-                            street.setPropertyLevel(street.getPropertyLevel() + 1);
-
-                            // Update the GUI with the new rent
-                            guiController.setRent(street.getPosition(), street.getCurrentRent());
-
-                            // Update the players balance in GUI
-                            setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
-
-                            // Update the property with new buildings in GUI
-                            if (street.getPropertyLevel() == 6) {
-                                guiController.setHouseOrHotelStreet(street.getPosition(), 0, true);
-                            } else {
-                                guiController.setHouseOrHotelStreet(street.getPosition(), street.getPropertyLevel() - 1, false);
-                            }
-                        }
-                    }
-                }
-            }
+            // If the player has permission to build on their properties, give them the opportunity
+            if (fieldController.canPlayerBuyHouses(playerTurn)) buildOnStreets();
 
             // Check if player is on jail field
             if (playerController.getPlayerPosition(playerTurn) == fieldController.getJailPosition()) {
 
                 // Check whether player is actually in prison or just visiting
                 if (fieldController.isInJail(playerTurn)) {
+
+                    // Give them the opportunity to get out of jail
                     if (!getOutOfJail()) {
+
+                        // If they didn't succeed, continue to the next player
                         getNextPlayerTurn();
                         continue;
                     }
@@ -128,7 +90,6 @@ public class Game {
     }
 
     // Methods related to fields.
-
     private boolean fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
 
@@ -273,6 +234,54 @@ public class Game {
             }
         }
         return true;
+    }
+
+    private void buildOnStreets() {
+
+        for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
+
+            // Ask if the player want to buy houses
+            if (guiController.getUserButton(stringHandler.getString("askBuyHouse"), stringHandler.getString("yes"), stringHandler.getString("no")).
+                    equals(stringHandler.getString("no")))
+                break;
+
+            // Get an array of strings, which shows the name of the street and the price to put a house on it
+            String[] houseCostButtons = getHouseCostButtons(streets);
+
+            // Ask the player which street they want to build on
+            String streetToBuyHouse = guiController.getUserButton(stringHandler.getString("whereToBuyHouse"), houseCostButtons);
+
+            // Extract street name from button text by stripping text from the end
+            // e.g. 'Rødovrevej: 1000 kr.' -> 'Rødovrevej'
+            streetToBuyHouse = streetToBuyHouse.substring(0, streetToBuyHouse.length() - 10);
+
+            // Find the street that the user wants to build a building on
+            for (Street street : streets) {
+
+                // If it isn't the street that player wants to build on, continue to next street
+                if (!street.getTitle().equals(streetToBuyHouse)) continue;
+
+                //Check if they have money for it
+                if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
+
+                    //Increase the streets propertyLevel
+                    street.setPropertyLevel(street.getPropertyLevel() + 1);
+
+                    // Update the GUI with the new rent
+                    guiController.setRent(street.getPosition(), street.getCurrentRent());
+
+                    // Update the players balance in GUI
+                    setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
+
+                    // Update the property with new buildings in GUI
+                    if (street.getPropertyLevel() == 6) {
+                        guiController.setHouseOrHotelStreet(street.getPosition(), 0, true);
+                    } else {
+                        guiController.setHouseOrHotelStreet(street.getPosition(), street.getPropertyLevel() - 1, false);
+                    }
+                }
+            }
+        }
     }
 
     private String[] getHouseCostButtons(Street[] properties) {
