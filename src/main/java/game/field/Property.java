@@ -9,7 +9,7 @@ public abstract class Property extends Field {
     protected final int cost;
     protected final int pawnValue;
     protected final int[] rentLevels;
-    protected int propertyLevel = 1;
+    protected int propertyLevel = 0;
     protected final int relatedProperties;
     protected final int nextRelatedProperty;
     protected int owner = -1; // -1 means the property is owned by the bank
