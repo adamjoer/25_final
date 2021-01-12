@@ -16,8 +16,6 @@ class PlayerControllerTest {
 
         assertFalse(pc.makeTransaction(-30001, 2));
 
-        assertTrue(pc.makeTransaction(-30000, 2));
-
         assertFalse(pc.makeTransaction(-3000, 2));
 
         assertTrue(pc.makeTransaction(1000, 0, 3));
@@ -84,14 +82,20 @@ class PlayerControllerTest {
         }
 
 
-        assertTrue(pc.giftPlayer(1, 100));
+        assertTrue(pc.giftPlayer(100, 1));
 
         assertEquals(30500, pc.getPlayerBalance(1));
         assertEquals(29900, pc.getPlayerBalance(0));
         assertEquals(29900, pc.getPlayerBalance(2));
         assertEquals(29900, pc.getPlayerBalance(3));
 
-        assertFalse(pc.giftPlayer(1, 30000));
+        assertFalse(pc.giftPlayer(30000, 1));
 
+    }
+
+    @Test
+    void removePlayer(){
+
+        assertEquals(5, pc.removePlayer(0).length);
     }
 }
