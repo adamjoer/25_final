@@ -108,7 +108,7 @@ public class FieldController {
                     for (int i = 0; i < properties[group].length; i++) properties[group][i].setPropertyLevel(1);
                 }
 
-                if (ownsAllPropertiesInGroup(player, propertyPosition)){
+                if (ownsAllPropertiesInGroup(player, propertyPosition)) {
                     whoCanBuyHouses[player] = true;
                     setPropertylevelForGroup(propertyPosition, 1);
                 }
@@ -150,7 +150,7 @@ public class FieldController {
 
         // Variables for finding the group this property belongs to
         int color = property.getColor().hashCode(),
-            group = -1;
+                group = -1;
 
         // Go over each property group
         for (int i = 0; i < properties.length; i++) {
@@ -191,8 +191,8 @@ public class FieldController {
 
         // Variables for finding the group this property belongs to and counting owned properties
         int color = property.getColor().hashCode(),
-            count = 0,
-            group = -1;
+                count = 0,
+                group = -1;
 
         // Go over each property group
         for (int i = 0; i < properties.length; i++) {
@@ -269,7 +269,17 @@ public class FieldController {
         for (int i = 0; i < properties.length; i++) {
             for (int j = 0; j < properties[i].length; j++) {
                 if (ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street) {
-                    if (((Street) properties[i][j]).getBuildingCost() <= playerBalance && properties[i][j].getPropertyLevel() < 6) {
+                    int maxHouses = 0;
+                    boolean equalHouses = true;
+                    for (int y = 0; y < properties[i][j].getRelatedProperties() - 1; y++) {
+                        if (properties[i][y].getPropertyLevel() == properties[i][y + 1].getPropertyLevel()) {
+                            maxHouses = properties[i][y].getPropertyLevel() + 1;
+                        } else {
+                            maxHouses = Math.max(properties[i][y].getPropertyLevel(), properties[i][y + 1].getPropertyLevel());
+                            break;
+                        }
+                    }
+                    if (((Street) properties[i][j]).getBuildingCost() <= playerBalance && properties[i][j].getPropertyLevel() < 6 && properties[i][j].getPropertyLevel() < maxHouses) {
                         houseProperties = Utility.addToArray(houseProperties, (Street) properties[i][j]);
                     }
                 }
