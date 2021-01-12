@@ -64,7 +64,7 @@ public class Game {
 
             // Cast dice from dice controller
             rollDice();
-            movePlayer(playerTurnIndex, 30);
+            movePlayer(playerTurnIndex, diceController.getSum());
 
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
@@ -332,7 +332,7 @@ public class Game {
                 return true;
 
 
-            } else { // If they didn't, they have to stay in jail for the round
+            } else { // If they aren't, the player has to stay in jail for the round
                 guiController.showMessage(stringHandler.getString("jailNotIdenticalDice"));
                 playerController.incrementGetOutOfJailTries(playerTurn);
                 return false;
