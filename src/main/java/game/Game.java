@@ -139,7 +139,7 @@ public class Game {
         guiController.close();
     }
 
-    public void movePlayer(int player, int increment) {
+    private void movePlayer(int player, int increment) {
         playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
         if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player)) {
@@ -147,14 +147,14 @@ public class Game {
         }
     }
 
-    public void removePlayer(int player, int fieldPlacement){
+    private void removePlayer(int player, int fieldPlacement){
         players = playerController.removePlayer(player);
 
         guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
         playerTurn = playerTurn-1;
     }
 
-    public boolean sellProperty(int player, int place) {
+    private boolean sellProperty(int player, int place) {
         // TODO : make a check for if the property exists
         int[] properties = playerController.getProperties(player);
         if (Arrays.stream(properties).anyMatch(i -> i == place)) {
@@ -164,7 +164,7 @@ public class Game {
         return false;
     }
 
-    public boolean buyProperty(int player, int place, int rent) {
+    private boolean buyProperty(int player, int place, int rent) {
         // TODO : make a check for if the property is not owned
         //int[] properties = playerController.getProperties(player);
         //if(Arrays.stream(properties).anyMatch(i -> i == place )){
@@ -176,11 +176,11 @@ public class Game {
         //return false;
     }
 
-    public String[] getPlayerNames() {
+    private String[] getPlayerNames() {
         return guiController.returnPlayerNames();
     }
 
-    public boolean fieldAction(int position, int player) {
+    private boolean fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
 
         switch (instructions.getFieldType()) {
@@ -277,7 +277,7 @@ public class Game {
         return true;
     }
 
-    public String[] getHouseCostButtons(Street[] properties) {
+    private String[] getHouseCostButtons(Street[] properties) {
         String[] houseCostButtons = new String[properties.length];
         for (int i = 0; i < properties.length; i++) {
             houseCostButtons[i] = properties[i].getTitle() + ": " + properties[i].getBuildingCost() + " kr.";
@@ -286,7 +286,7 @@ public class Game {
         return houseCostButtons;
     }
 
-    public int getNextPlayerTurn() {
+    private int getNextPlayerTurn() {
         playerTurn = (playerTurn + 1) % players.length;
         setPlayerTurn();
         return playerTurn;
@@ -301,11 +301,11 @@ public class Game {
         return false;
     }*/
 
-    public void makeTransaction(int receiver, int sender, int amount) {
+    private void makeTransaction(int receiver, int sender, int amount) {
         playerController.makeTransaction(receiver, sender, amount);
     }
 
-    public void setGuiBalance(int player, int amount) {
+    private void setGuiBalance(int player, int amount) {
         guiController.setBalance(amount, player);
     }
 
