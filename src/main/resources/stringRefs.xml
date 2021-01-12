@@ -49,10 +49,6 @@
         <outputString>Du har slået to ens og får derfor en ekstra tur!</outputString>
     </stringRef>
     <stringRef>
-        <reference>test</reference>
-        <outputString>Test did not fail!</outputString>
-    </stringRef>
-    <stringRef>
         <reference>justVisitingJail</reference>
         <outputString>Du er lige på besøg i fængsel</outputString>
     </stringRef>
@@ -136,6 +132,12 @@
         <reference>whereToBuyHouse</reference>
         <outputString>Hvor vil du købe et hus?</outputString>
     </stringRef>
-
-
+    <stringRef>
+        <reference>winnerFound</reference>
+        <outputString>Tillykke! Du har vundet spillet, </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>test</reference>
+        <outputString>Test did not fail!</outputString>
+    </stringRef>
 </stringRefs>

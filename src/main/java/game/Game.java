@@ -117,6 +117,8 @@ public class Game {
 
         } while (!stop);
 
+        // Show message announcing winner
+        guiController.showMessage(stringHandler.getString("winnerFound") + playerController.getName(0));
 
         // Close the window when the game is over
         guiController.close();
