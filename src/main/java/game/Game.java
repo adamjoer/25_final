@@ -461,7 +461,7 @@ public class Game {
 
 
     private int getNextPlayerTurn() {
-        playerTurn = (playerTurn + 1) % players.length;
+        playerTurn = (playerTurn + 1) % players;
         setPlayerTurn();
         return playerTurn;
     }
@@ -473,6 +473,8 @@ public class Game {
         for (int i = 0; i < players; i++) {
             if (playerController.players[i].getId() == playerTurn) {
                 playerTurnIndex = i;
+            }
+        }
     }
 
     /*
