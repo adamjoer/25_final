@@ -46,7 +46,6 @@ public class Game {
         guiController.addPlayers(players);
 
         while (!stop) {
-            playerTurn = getNextPlayerTurn();
 
             //Check if a player can buy houses
             if (fieldController.canPlayerBuyHouses(playerTurn)) {
