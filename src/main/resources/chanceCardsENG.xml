@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<chanceCards>
+    <chanceCard>
+        <cardType>HouseTax</cardType>
+        <cardText>Oil prices has been raised. Pay 500 kr. pr. house and 2.000 kr. pr. hotel.</cardText>
+        <houseTax>500</houseTax>
+        <hotelTax>2000</hotelTax>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>HouseTax</cardType>
+        <cardText>Property tax has been raised. As an additional fee, pay 800 kr. pr. house and 2.300 kr. pr. hotel</cardText>
+        <houseTax>800</houseTax>
+        <hotelTax>2300</hotelTax>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>You have run a red light, pay a fine of 1.000kr.</cardText>
+        <amount>-1000</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>Pay for a carwash and a brake inspection. The price is 300 kr.</cardText>
+        <amount>-300</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>Pay 200 kr. for delivery of 2 cases of beer.</cardText>
+        <amount>-200</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>Pay 3.000 kr. for reparation of your car.</cardText>
+        <amount>-3000</amount>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>You have bought 4 new tires for your car. Pay 1.000 kr.</cardText>
+        <amount>-1000</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>You have received a parking fine. Pay 200 kr.</cardText>
+        <amount>-200</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>Pay for your car Insurance of 1.000 kr.</cardText>
+        <amount>-200</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>You have been abroad and bought too many cigarettes. Pay a fine of 200 kr. to customs.</cardText>
+        <amount>-200</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>Pay your dentist bill of 2.000 kr.</cardText>
+        <amount>-2000</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>You have won a small prize in the lottery. receive 500 kr.</cardText>
+        <amount>500</amount>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>You receive your equity dividend. Receive 1.000 kr. from the bank.</cardText>
+        <amount>1000</amount>
+        <duplicates>3</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>The municipality has remitted a quarter of taxes. Pull out 3.000 kr. from the bank.</cardText>
+        <amount>3000</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>You had a row of eleven correct numbers in betting. receive 1.000 kr.</cardText>
+        <amount>1000</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>Due to inflation, you have received a raise. receive 1.000 kr.</cardText>
+        <amount>1000</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>Your bonds has been sold. Receive 1.000 kr. from the bank.</cardText>
+        <amount>1000</amount>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>De har solgt nogle gamle møbler på auktion. Modtag kr. 1.000 af banken.</cardText>
+        <amount>1000</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>BankTransaction</cardType>
+        <cardText>The value of the produce from your own garden comes out to 200 kr. Receive it from the bank.</cardText>
+        <amount>200</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>Lottery</cardType>
+        <cardText>You receive the "Matador-scholarship" of 40.000 kr. however only if your valuables don't exceed
+            15.000 kr.</cardText>
+        <failText>Your valuables exceed 15.000 kr. and you can therefore not receive the "Matador-scholarship".</failText>
+        <successText>Your valuables doesn't exceed 15.000 kr. and you therefore receive the "Matador-sholarship.</successText>
+        <amount>40000</amount>
+        <threshold>15000</threshold>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>CashFromPlayer</cardType>
+        <cardText>It's your birthday. Receive 200 kr. from each of the other players.</cardText>
+        <amount>200</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>CashFromPlayer</cardType>
+        <cardText>You have temporarily paid for a common party. At once receive 500 kr. from each of the other players.</cardText>
+        <amount>500</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>CashFromPlayer</cardType>
+        <cardText>You host a family party, and thus receive a grant from each of the other players. Receive 500 kr.</cardText>
+        <amount>500</amount>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayer</cardType>
+        <cardText>Move 3 fields forward.</cardText>
+        <increment>3</increment>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayer</cardType>
+        <cardText>Move 3 fields back.</cardText>
+        <increment>-3</increment>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayerToTile</cardType>
+        <cardText>Move to START and receive 4.000 kr.</cardText>
+        <destination>0</destination>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayerToTile</cardType>
+        <cardText>Move forwards until you land on Frederiksberg Allé, if you pass START, receive 4.000 kr.</cardText>
+        <destination>11</destination>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayerToTile</cardType>
+        <cardText>Travel with the Mols-Linien. Move your character forward, and if you pass START, receive 4.000 kr.</cardText>
+        <destination>15</destination>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayerToTile</cardType>
+        <cardText>Move forward to Grønningen, if you pass START, receive 4.000 kr.</cardText>
+        <destination>24</destination>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayerToTile</cardType>
+        <cardText>Move forward to Vimmelskaftet, if you pass START, receive 4.000 kr.</cardText>
+        <destination>32</destination>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayerToTile</cardType>
+        <cardText>Move forward to Strandvejen, if you pass START, receive 4.000 kr. </cardText>
+        <destination>19</destination>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MovePlayerToTile</cardType>
+        <cardText>Move to Rådhuspladsen.</cardText>
+        <destination>39</destination>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MoveToNearestShipping</cardType>
+        <cardText>Move forward to the nearest shipping company and pay the owner twice the rent he/she otherwise would be owed. If the company isn't owned, yo may buy it form the bank. </cardText>
+        <shippingLocations>4</shippingLocations>
+        <location>5</location>
+        <location>15</location>
+        <location>25</location>
+        <location>35</location>
+        <forward>true</forward>
+        <doubleRent>true</doubleRent>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MoveToNearestShipping</cardType>
+        <cardText>Travel with the nearest ferry. If you pass START, receive 4.000 kr.</cardText>
+        <shippingLocations>4</shippingLocations>
+        <location>5</location>
+        <location>15</location>
+        <location>25</location>
+        <location>35</location>
+        <forward>false</forward>
+        <doubleRent>false</doubleRent>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>GoToJailCard</cardType>
+        <cardText>Go to jail, if you pass START, you do not receive 4.000 kr.</cardText>
+        <jailPosition>11</jailPosition>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>OutOfJailCard</cardType>
+        <cardText>In honor of the kings birthday, you are hereby pardoned and may leave jail. This card may be kept until needed</cardText>
+        <duplicates>2</duplicates>
+    </chanceCard>
+</chanceCards>
