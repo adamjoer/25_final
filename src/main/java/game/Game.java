@@ -12,7 +12,7 @@ public class Game {
     private final DiceController diceController;
     private final FieldController fieldController;
     private final ChanceCardController chanceCardController;
-    private Player[] players;
+    private final int players;
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
     private final int[] getOutOfJailTries;
@@ -24,10 +24,10 @@ public class Game {
         diceController = new DiceController(2, 6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         chanceCardController = new ChanceCardController();
-        players = playerController.getPlayers();
-        playerTurn = (int) (Math.random() * (players.length - 1));
+        players = playerController.getPlayers().length;
+        playerTurn = (int) (Math.random() * (players - 1));
         playerTurnIndex = playerTurn;
-        getOutOfJailTries = new int[players.length];
+        getOutOfJailTries = new int[players];
         stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
 
@@ -35,7 +35,7 @@ public class Game {
         boolean stop = false;
         boolean isDieIdentical;
 
-        guiController.addPlayers(players);
+        guiController.addPlayers(playerController.getPlayers());
 
         do {
             guiController.showMessage(stringHandler.getString("playerTurn") + playerController.getName(playerTurn));
@@ -113,7 +113,7 @@ public class Game {
 
     private void movePlayer(int player, int increment) {
         playerController.movePlayer(player, increment);
-        guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
+        guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
 
         if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player) && increment > 0) {
             setGuiBalance(playerController.getPlayerBalance(player), player);
@@ -121,7 +121,8 @@ public class Game {
     }
 
     private void removePlayer(int player, int fieldPlacement) {
-        players = playerController.removePlayer(player);
+        // TODO: Add setPlayers() in PlayerController
+        // playerController.setPlayers(playerController.removePlayer(player));
 
         guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
         playerTurn = playerTurn - 1;
@@ -177,7 +178,7 @@ public class Game {
                 break;
 
             case "OutOfJailCard":
-                players[playerTurn].setOutOfJailCards(1);
+                playerController.players[playerTurn].setOutOfJailCards(1);
 
                 break;
 
@@ -199,7 +200,7 @@ public class Game {
     }
 
     private void moveToNearestShipping(int[] shippingLocations, boolean forward, boolean doubleRent) {
-        int currentPosition = players[playerTurn].getCurrentPosition();
+        int currentPosition = playerController.players[playerTurn].getCurrentPosition();
         if (forward) {
             if (currentPosition > shippingLocations[3]) {
                 movePlayer(playerTurn, (5 - currentPosition) % fieldController.getFields().length);
@@ -219,7 +220,7 @@ public class Game {
                 movePlayer(playerTurn, 10 - relativePositionToShipping);
             }
         }
-        currentPosition = players[playerTurn].getCurrentPosition();
+        currentPosition = playerController.players[playerTurn].getCurrentPosition();
         fieldAction(currentPosition, playerTurn);
         // TODO: Add second condition on this - if field is owned.
         if (doubleRent) {
@@ -343,7 +344,7 @@ public class Game {
     }
 
     public int getNextPlayerTurn() {
-        playerTurn = (playerTurn + 1) % players.length;
+        playerTurn = (playerTurn + 1) % players;
         setPlayerTurn();
         return playerTurn;
     }
@@ -381,7 +382,7 @@ public class Game {
 
     private boolean giftPlayer(int amount, int targetPlayer) {
         boolean transactionSuccess = playerController.giftPlayer(amount, targetPlayer);
-        for (int i = 0; i < players.length; i++) {
+        for (int i = 0; i < players; i++) {
             updateGuiBalance(i);
         }
         return transactionSuccess;
@@ -401,7 +402,7 @@ public class Game {
 
     // TODO: Might be redundant later.
     private void updateGuiBalance(int player) {
-        setGuiBalance(players[player].getBalance(), player);
+        setGuiBalance(playerController.players[player].getBalance(), player);
     }
 
     private void setGuiBalance(int amount, int player) {
@@ -412,8 +413,8 @@ public class Game {
      * This method is used, to get the players index after removal of players in the original array
      */
     private void setPlayerTurn() {
-        for (int i = 0; i < players.length; i++) {
-            if (players[i].getId() == playerTurn) {
+        for (int i = 0; i < players; i++) {
+            if (playerController.players[i].getId() == playerTurn) {
                 playerTurnIndex = i;
             }
         }
