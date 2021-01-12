@@ -60,9 +60,9 @@ public class Game {
                     // Find the street that the user wants to build a building on
                     for (Street street : streets) {
 
-                        // Extract street name from button text by stripping text from from end
-                        // i.e. Rødovrevej: 1000 kr. -> Rødovrevej
-                        String temp = streetToBuyHouse.substring(0, streetToBuyHouse.length() - (String.valueOf(street.getBuildingCost()).length() + 6));
+                        // Extract street name from button text by stripping text from the end
+                        // e.g. Rødovrevej: 1000 kr. -> Rødovrevej
+                        String temp = streetToBuyHouse.substring(0, streetToBuyHouse.length() - 10);
 
                         // If it isn't the street that player wants to build on, continue to next street
                         if (!street.getTitle().equals(temp)) continue;
@@ -116,6 +116,7 @@ public class Game {
             }
 
         } while (!stop);
+
 
         // Close the window when the game is over
         guiController.close();
