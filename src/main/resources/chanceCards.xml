@@ -201,12 +201,11 @@
     <chanceCard>
         <cardType>MoveToNearestShipping</cardType>
         <cardText>Ryk frem til det nærmeste rederi og betal ejeren to gange den leje han ellers er berettiget til, hvis selskabet ikke ejes af nogen kan De købe det af banken.</cardText>
-        <shippingLocations>
-            <location>5</location>
-            <location>15</location>
-            <location>25</location>
-            <location>35</location>
-        </shippingLocations>
+        <shippingLocations>4</shippingLocations>
+        <location>5</location>
+        <location>15</location>
+        <location>25</location>
+        <location>35</location>
         <forward>true</forward>
         <doubleRent>true</doubleRent>
         <duplicates>2</duplicates>
@@ -214,12 +213,11 @@
     <chanceCard>
         <cardType>MoveToNearestShipping</cardType>
         <cardText>Tag med den nærmeste færge. Hvis De passerer START, indkassér da kr. 4.000.</cardText>
-        <shippingLocations>
-            <location>5</location>
-            <location>15</location>
-            <location>25</location>
-            <location>35</location>
-        </shippingLocations>
+        <shippingLocations>4</shippingLocations>
+        <location>5</location>
+        <location>15</location>
+        <location>25</location>
+        <location>35</location>
         <forward>false</forward>
         <doubleRent>false</doubleRent>
         <duplicates>1</duplicates>
