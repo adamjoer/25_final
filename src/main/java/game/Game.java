@@ -1,10 +1,7 @@
 package game;
 
-import game.controllers.ChanceCardController;
-import game.field.Field;
-import game.field.FieldInstruction;
-import game.field.TaxField;
-import org.apache.commons.lang.ArrayUtils;
+import game.controllers.*;
+import game.field.*;
 
 import java.util.Arrays;
 
@@ -21,10 +18,10 @@ public class Game {
     private final int[] getOutOfJailTries;
     private final StringHandler stringHandler;
 
-    public Game(){
+    public Game() {
         fieldController = new FieldController();
         guiController = new GUIController(fieldController.getFields());
-        diceController = new DiceController(2,6);
+        diceController = new DiceController(2, 6);
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         chanceCardController = new ChanceCardController();
         players = playerController.getPlayers();
@@ -34,7 +31,7 @@ public class Game {
         stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
 
-    private void gameLoop(){
+    public void gameLoop() {
         boolean stop = false;
         boolean isDieIdentical;
 
@@ -77,10 +74,12 @@ public class Game {
 
         guiController.showMessage(stringHandler.getString("isInJail"));
 
+        int bail = ((Jail) fieldController.getFields()[playerController.getPlayerPosition(playerTurn)]).getBail();
+
         if (getOutOfJailTries[playerTurn] == 3) {
             getOutOfJailTries[playerTurn] = 0;
             guiController.showMessage(stringHandler.getString("jailTriesUsed"));
-            return makeTransaction(-1000, playerTurn);
+            return makeTransaction(-bail, playerTurn);
         }
 
         String returnBtn = guiController.getUserButton(stringHandler.getString("inJailOptions"), "1", "2");
@@ -101,7 +100,7 @@ public class Game {
             }
 
         } else {
-            return makeTransaction(-1000, playerTurn);
+            return makeTransaction(-bail, playerTurn);
         }
     }
 
@@ -121,11 +120,11 @@ public class Game {
         }
     }
 
-    private void removePlayer(int player, int fieldPlacement){
+    private void removePlayer(int player, int fieldPlacement) {
         players = playerController.removePlayer(player);
 
         guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
-        playerTurn = playerTurn-1;
+        playerTurn = playerTurn - 1;
     }
 
     private boolean drawCard() {
@@ -156,10 +155,12 @@ public class Game {
 
             case "Lottery":
                 int threshold = chanceCardController.getThreshold();
-                if (getPlayerTotalValue(playerTurn) <= threshold){
-                    makeTransaction(chanceCardController.getAmount(),playerTurn);
+                if (getPlayerTotalValue(playerTurn) <= threshold) {
+                    makeTransaction(chanceCardController.getAmount(), playerTurn);
                     guiController.showMessage(chanceCardController.getSuccessText());
-                } else { guiController.showMessage(chanceCardController.getFailText()); }
+                } else {
+                    guiController.showMessage(chanceCardController.getFailText());
+                }
                 break;
 
 
@@ -182,7 +183,7 @@ public class Game {
 
             case "GoToJailCard":
                 // TODO: Update with correct method name after merge to Dev.
-                goToJail(playerTurn,chanceCardController.getJailPosition());
+                goToJailFieldAction(playerTurn, chanceCardController.getJailPosition());
 
                 break;
 
@@ -197,10 +198,10 @@ public class Game {
         return success;
     }
 
-    private void moveToNearestShipping(int[] shippingLocations, boolean forward, boolean doubleRent){
+    private void moveToNearestShipping(int[] shippingLocations, boolean forward, boolean doubleRent) {
         int currentPosition = players[playerTurn].getCurrentPosition();
         if (forward) {
-            if (currentPosition > shippingLocations[3]){
+            if (currentPosition > shippingLocations[3]) {
                 movePlayer(playerTurn, (5 - currentPosition) % fieldController.getFields().length);
             } else {
                 for (int i = 0; i < 4; i++) {
@@ -210,20 +211,19 @@ public class Game {
                     }
                 }
             }
-        }
-        else {
+        } else {
             int relativePositionToShipping = (currentPosition + 5) % 10;
-            if (relativePositionToShipping < 5){
+            if (relativePositionToShipping < 5) {
                 movePlayer(playerTurn, -relativePositionToShipping);
             } else {
                 movePlayer(playerTurn, 10 - relativePositionToShipping);
             }
         }
         currentPosition = players[playerTurn].getCurrentPosition();
-        fieldAction(currentPosition);
+        fieldAction(currentPosition, playerTurn);
         // TODO: Add second condition on this - if field is owned.
-        if(doubleRent){
-            fieldAction(currentPosition);
+        if (doubleRent) {
+            fieldAction(currentPosition, playerTurn);
         }
     }
 
@@ -233,27 +233,6 @@ public class Game {
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
     }
      */
-
-    private void checkStartPass(int player, int increment){
-        if (playerController.getPlayerPosition(player) > playerController.getCurrentPosition(player) + increment){
-            giveStartPassReward(player);
-        }
-    }
-
-    private boolean giveStartPassReward(int player){
-        if (fieldController.hasPassedGo(playerController.getOldPlayerPosition(player), playerController.getPlayerPosition(player))){
-            playerController.setPlayerBalance(player, playerController.makeTransaction(player, 4000));
-            return true;
-        }
-        return false;
-    }
-
-    private void removePlayer(int player){
-        // When a player becomes broke, the player needs to be removed from the game
-        guiController.showMessage("%s has been removed from the game", players[player].getName());
-        players = ArrayUtils.removeElement(players, players[player]);
-        guiController.setCar(player, false);
-    }
 
     private boolean sellProperty(int player, int place) {
         // TODO : make a check for if the property exists
@@ -277,10 +256,6 @@ public class Game {
         //return false;
     }
 
-    private String[] getPlayerNames() {
-        return guiController.returnPlayerNames();
-    }
-
     private boolean fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
 
@@ -295,7 +270,7 @@ public class Game {
                 break;
 
             case "GoToJail":
-                 return goToJailFieldAction(player, instructions);
+                return goToJailFieldAction(player, instructions);
 
             case "Jail":
                 guiController.showMessage(stringHandler.getString("justVisitingJail"));
@@ -358,9 +333,6 @@ public class Game {
         }
     }
 
-    public void fieldAction(int position){
-    }
-
     private boolean goToJailFieldAction(int player, FieldInstruction instructions) {
 
         guiController.showMessage(stringHandler.getString("goToJail"));
@@ -370,7 +342,7 @@ public class Game {
         return true;
     }
 
-    public int getNextPlayerTurn(){
+    public int getNextPlayerTurn() {
         playerTurn = (playerTurn + 1) % players.length;
         setPlayerTurn();
         return playerTurn;
@@ -403,14 +375,7 @@ public class Game {
         return true;
     }
 
-    private int getPlayerTurn(){
-        return 0;
-    }
-
-    private boolean hasWinner(){
-        return false;
-    }
-    private int getPlayerTotalValue(int player){
+    private int getPlayerTotalValue(int player) {
         return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
     }
 
@@ -446,9 +411,9 @@ public class Game {
     /**
      * This method is used, to get the players index after removal of players in the original array
      */
-    private void setPlayerTurn(){
-        for(int i=0;i<players.length;i++){
-            if(players[i].getId() == playerTurn){
+    private void setPlayerTurn() {
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getId() == playerTurn) {
                 playerTurnIndex = i;
             }
         }

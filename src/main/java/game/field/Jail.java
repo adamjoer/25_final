@@ -45,6 +45,15 @@ public class Jail extends Field {
         return Utility.isInArray(prisoners, player);
     }
 
+    // Relevant getters
+    public int getBail() {
+        return bail;
+    }
+
+    public int[] getPrisoners() {
+        return prisoners;
+    }
+
     public String toString() {
         return super.toString() +
                "\n\t[bail=" + bail +

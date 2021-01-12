@@ -112,7 +112,7 @@ public class PlayerController {
     public Player[] getPlayers(){ return players; }
     public int[] getProperties(int player) { return players[player].getProperties(); }
     public int getPlayerPosition(int player) { return players[player].getCurrentPosition(); }
-    public int getOldPlayerPosition(int player) { return players[player].getPreviousPosition(); }
+    public int getPreviousPlayerPosition(int player) { return players[player].getPreviousPosition(); }
     public int getPlayerBalance(int player) { return players[player].getBalance(); }
 
     //Relevant setters
