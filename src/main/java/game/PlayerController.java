@@ -52,13 +52,9 @@ public class PlayerController {
      * @return True if the transaction was a success, false if the sender doesn't have enough money
      */
     public boolean makeTransaction(int amount, int sender, int receiver) {
-        if (players[sender].makeTransaction(-amount)) {
-            players[receiver].makeTransaction(amount);
-            return true;
-        } else {
-            players[sender].setBalance(0);
-            return false;
-        }
+        boolean success = players[sender].makeTransaction(-amount);
+        players[receiver].makeTransaction(amount);
+        return success;
     }
 
 
@@ -110,41 +106,17 @@ public class PlayerController {
 
 
     //Relevant getters
-
-    public int getId(int player){
-        return players[player].getId();
-    }
-
-    public String getName(int player){
-        return players[player].getName();
-    }
-
-    public Player[] getPlayers(){
-        return players;
-    }
-
-    public int[] getProperties(int player) {
-        return players[player].getProperties();
-    }
-
-    public int getPlayerPosition(int player) {
-        return players[player].getCurrentPosition();
-    }
-
-    public int getPreviousPlayerPosition(int player) {
-        return players[player].getPreviousPosition();
-    }
-
-    public int getPlayerBalance(int player) {
-        return players[player].getBalance();
-    }
+    public int getId(int player) { return players[player].getId(); }
+    public boolean hasOutOfJailCard(int player){ return players[player].hasOutOfJailCard(); }
+    public String getName(int player){ return players[player].getName(); }
+    public Player[] getPlayers(){ return players; }
+    public int[] getProperties(int player) { return players[player].getProperties(); }
+    public int getPlayerPosition(int player) { return players[player].getCurrentPosition(); }
+    public int getOldPlayerPosition(int player) { return players[player].getPreviousPosition(); }
+    public int getPlayerBalance(int player) { return players[player].getBalance(); }
 
     //Relevant setters
-    public void setPlayerPosition(int player, int position) {
-        players[player].setCurrentPosition(position);
-    }
-
-    public void setPlayerBalance(int player, int balance) {
-        players[player].setBalance(balance);
-    }
+    public void setPlayerOutOfJailCards(int player, int cards){ players[player].setOutOfJailCards(cards); }
+    public void setPlayerPosition(int player, int position) { players[player].setCurrentPosition(position); }
+    public void setPlayerBalance(int player, int balance) { players[player].setBalance(balance); }
 }

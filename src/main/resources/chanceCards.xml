@@ -182,13 +182,13 @@
     </chanceCard>
     <chanceCard>
         <cardType>MovePlayerToTile</cardType>
-        <cardText>Ryk frem til Vimmelskaftet, hvis De passerer start indkassér da kr. 4.000.</cardText>
+        <cardText>Ryk frem til Vimmelskaftet, hvis De passerer START indkassér da kr. 4.000.</cardText>
         <destination>32</destination>
         <duplicates>1</duplicates>
     </chanceCard>
     <chanceCard>
         <cardType>MovePlayerToTile</cardType>
-        <cardText>Ryk frem til Strandvejen. Hvis De passere START, indkasser da kr. 4.000.</cardText>
+        <cardText>Ryk frem til Strandvejen. Hvis De passere START, indkassér da kr. 4.000.</cardText>
         <destination>19</destination>
         <duplicates>1</duplicates>
     </chanceCard>
@@ -197,5 +197,42 @@
         <cardText>Tag til Rådhuspladsen.</cardText>
         <destination>39</destination>
         <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MoveToNearestShipping</cardType>
+        <cardText>Ryk frem til det nærmeste rederi og betal ejeren to gange den leje han ellers er berettiget til, hvis selskabet ikke ejes af nogen kan De købe det af banken.</cardText>
+        <shippingLocations>
+            <location>5</location>
+            <location>15</location>
+            <location>25</location>
+            <location>35</location>
+        </shippingLocations>
+        <forward>true</forward>
+        <doubleRent>true</doubleRent>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>MoveToNearestShipping</cardType>
+        <cardText>Tag med den nærmeste færge. Hvis De passerer START, indkassér da kr. 4.000.</cardText>
+        <shippingLocations>
+            <location>5</location>
+            <location>15</location>
+            <location>25</location>
+            <location>35</location>
+        </shippingLocations>
+        <forward>false</forward>
+        <doubleRent>false</doubleRent>
+        <duplicates>1</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>GoToJailCard</cardType>
+        <cardText>Gå i fængsel, De indkasserer ikke kr. 4.000 for at passere START</cardText>
+        <jailPosition>11</jailPosition>
+        <duplicates>2</duplicates>
+    </chanceCard>
+    <chanceCard>
+        <cardType>OutOfJailCard</cardType>
+        <cardText>I anledning af Kongens fødselsdag benådes De herved for fængsel. Dette kort opbevares indtil De får brug for det.</cardText>
+        <duplicates>2</duplicates>
     </chanceCard>
 </chanceCards>

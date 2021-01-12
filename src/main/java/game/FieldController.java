@@ -261,4 +261,9 @@ public class FieldController {
     public Field[] getFields() {
         return fields;
     }
+
+    public int getCombinedPropertyWorth(int player) {
+        //placeholder
+        return 0;
+    }
 }

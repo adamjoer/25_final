@@ -34,8 +34,9 @@ public class Game {
         stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
 
-    public void gameLoop() {
+    private void gameLoop(){
         boolean stop = false;
+        boolean isDieIdentical;
 
         guiController.addPlayers(players);
 
@@ -85,7 +86,7 @@ public class Game {
         String returnBtn = guiController.getUserButton(stringHandler.getString("inJailOptions"), "1", "2");
         if (returnBtn.equals("1")) {
 
-                rollDice();
+            rollDice();
 
             if (diceController.isIdentical()) {
                 guiController.showMessage(stringHandler.getString("jailIdenticalDice"));
@@ -152,16 +153,15 @@ public class Game {
 
                 break;
             */
-            /*
+
             case "Lottery":
-                // TODO: getPlayerTotalValue.
                 int threshold = chanceCardController.getThreshold();
-                if (getPlayerTotalValue(playerTurn)<threshold){
+                if (getPlayerTotalValue(playerTurn) <= threshold){
                     makeTransaction(chanceCardController.getAmount(),playerTurn);
                     guiController.showMessage(chanceCardController.getSuccessText());
                 } else { guiController.showMessage(chanceCardController.getFailText()); }
                 break;
-            */
+
 
             case "MovePlayer":
                 movePlayer(playerTurn, chanceCardController.getIncrement());
@@ -175,19 +175,64 @@ public class Game {
 
                 break;
 
-            /*
-             *  case "GetOutOfJailCard":
-             *  case "GoToJailCard":
-             *  case "MoveShipping":
-             */
+            case "OutOfJailCard":
+                players[playerTurn].setOutOfJailCards(1);
+
+                break;
+
+            case "GoToJailCard":
+                // TODO: Update with correct method name after merge to Dev.
+                goToJail(playerTurn,chanceCardController.getJailPosition());
+
+                break;
+
+            case "MoveToNearestShipping":
+                int[] shippingPositions = chanceCardController.getShippingLocations();
+                boolean forward = chanceCardController.getForward();
+                boolean doubleRent = chanceCardController.getDoubleRent();
+                moveToNearestShipping(shippingPositions, forward, doubleRent);
+
+                break;
         }
         return success;
     }
 
-    /*private void setPlayerPosition(int player, int position){
+    private void moveToNearestShipping(int[] shippingLocations, boolean forward, boolean doubleRent){
+        int currentPosition = players[playerTurn].getCurrentPosition();
+        if (forward) {
+            if (currentPosition > shippingLocations[3]){
+                movePlayer(playerTurn, (5 - currentPosition) % fieldController.getFields().length);
+            } else {
+                for (int i = 0; i < 4; i++) {
+                    if (shippingLocations[i] > currentPosition) {
+                        movePlayer(playerTurn, shippingLocations[i] - currentPosition);
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            int relativePositionToShipping = (currentPosition + 5) % 10;
+            if (relativePositionToShipping < 5){
+                movePlayer(playerTurn, -relativePositionToShipping);
+            } else {
+                movePlayer(playerTurn, 10 - relativePositionToShipping);
+            }
+        }
+        currentPosition = players[playerTurn].getCurrentPosition();
+        fieldAction(currentPosition);
+        // TODO: Add second condition on this - if field is owned.
+        if(doubleRent){
+            fieldAction(currentPosition);
+        }
+    }
+
+    /*
+    public void setPlayerPosition(int player, int position){
         playerController.setPlayerPosition(player, position);
         guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
     }
+     */
 
     private void checkStartPass(int player, int increment){
         if (playerController.getPlayerPosition(player) > playerController.getCurrentPosition(player) + increment){
@@ -208,7 +253,7 @@ public class Game {
         guiController.showMessage("%s has been removed from the game", players[player].getName());
         players = ArrayUtils.removeElement(players, players[player]);
         guiController.setCar(player, false);
-    }*/
+    }
 
     private boolean sellProperty(int player, int place) {
         // TODO : make a check for if the property exists
@@ -313,6 +358,9 @@ public class Game {
         }
     }
 
+    public void fieldAction(int position){
+    }
+
     private boolean goToJailFieldAction(int player, FieldInstruction instructions) {
 
         guiController.showMessage(stringHandler.getString("goToJail"));
@@ -320,6 +368,12 @@ public class Game {
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
         fieldController.incarcerate(player);
         return true;
+    }
+
+    public int getNextPlayerTurn(){
+        playerTurn = (playerTurn + 1) % players.length;
+        setPlayerTurn();
+        return playerTurn;
     }
 
     private boolean taxFieldAction(int position, int player) {
@@ -349,19 +403,16 @@ public class Game {
         return true;
     }
 
-    private int getNextPlayerTurn() {
-        playerTurn = (playerTurn + 1) % players.length;
-        setPlayerTurn();
-        return playerTurn;
-    }
-
-    /*private int getPlayerTurn(){
+    private int getPlayerTurn(){
         return 0;
     }
 
     private boolean hasWinner(){
         return false;
-    }*/
+    }
+    private int getPlayerTotalValue(int player){
+        return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
+    }
 
     private boolean giftPlayer(int amount, int targetPlayer) {
         boolean transactionSuccess = playerController.giftPlayer(amount, targetPlayer);
