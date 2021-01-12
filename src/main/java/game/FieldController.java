@@ -8,7 +8,7 @@ public class FieldController {
     private final Field[] fields;
     private final Property[][] properties;
     private Jail jail;
-    private boolean[] whoCanBuyHouses = new boolean[6];
+    private final boolean[] whoCanBuyHouses = new boolean[6];
 
     public FieldController() {
 
@@ -85,9 +85,6 @@ public class FieldController {
         // Get the property
         Property property = (Property) fields[propertyPosition];
 
-        // It shouldn't be possible to call this method
-        assert property.getOwner() != player;
-
         // Change the owner to player
         property.setOwner(player);
 
@@ -98,37 +95,28 @@ public class FieldController {
 
                 // If the player owns all the properties in the group, change propertyLevel to 1
                 if (ownsAllPropertiesInGroup(player, propertyPosition)) {
-                    int group = -1;
-                    for (int i = 0; i < properties.length; i++) {
-                        if (properties[i][0].getColor().hashCode() == fields[propertyPosition].getColor().hashCode()) {
-                            group = i;
-                            break;
-                        }
-                    }
-                    for (int i = 0; i < properties[group].length; i++) properties[group][i].setPropertyLevel(1);
-                }
 
-                if (ownsAllPropertiesInGroup(player, propertyPosition)) {
+                    setPropertyLevelForGroup(propertyPosition, 1);
                     whoCanBuyHouses[player] = true;
-                    setPropertylevelForGroup(propertyPosition, 1);
                 }
                 break;
 
 
             case "Shipping":
                 // Set propertyLevel to the number of properties owned in the group minus one
-                property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
-                for (int i = 1; i < getNumberOfPropertiesOwnedInGroup(player, propertyPosition); i++) {
-                    property = property = (Property) fields[property.getNextRelatedProperty()];
-                    if (property.getOwner() == player) i++;
-                    property.setPropertyLevel(getNumberOfPropertiesOwnedInGroup(player, propertyPosition) - 1);
+                int group = getPropertyGroupIndex(propertyPosition),
+                        owned = getNumberOfPropertiesOwnedInGroup(player, propertyPosition);
+
+                for (int i = 0; i < properties[group].length; i++) {
+                    if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
                 }
+
                 break;
 
             case "Brewery":
                 // If the player owns all the properties in the group, change propertyLevel to 1
                 if (ownsAllPropertiesInGroup(player, propertyPosition)) {
-                    setPropertylevelForGroup(propertyPosition, 1);
+                    setPropertyLevelForGroup(propertyPosition, 1);
                 }
                 break;
         }
@@ -145,24 +133,8 @@ public class FieldController {
      */
     public boolean ownsAllPropertiesInGroup(int player, int propertyPosition) {
 
-        // Get the specified property
-        Property property = (Property) fields[propertyPosition];
-
-        // Variables for finding the group this property belongs to
-        int color = property.getColor().hashCode(),
-                group = -1;
-
-        // Go over each property group
-        for (int i = 0; i < properties.length; i++) {
-
-            // Check if the property has the same color as the first property in the group
-            if (properties[i][0].getColor().hashCode() == color) {
-
-                // If they do, we've found the group this property belongs to
-                group = i;
-                break;
-            }
-        }
+        // Get the index for the g
+        int group = getPropertyGroupIndex(propertyPosition);
 
         // Go over each property in the group
         for (int i = 0; i < properties[group].length; i++) {
@@ -186,25 +158,9 @@ public class FieldController {
      */
     public int getNumberOfPropertiesOwnedInGroup(int player, int propertyPosition) {
 
-        // Get the specified property
-        Property property = (Property) fields[propertyPosition];
-
         // Variables for finding the group this property belongs to and counting owned properties
-        int color = property.getColor().hashCode(),
-                count = 0,
-                group = -1;
-
-        // Go over each property group
-        for (int i = 0; i < properties.length; i++) {
-
-            // Check if the property has the same color as the first property in the group
-            if (properties[i][0].getColor().hashCode() == color) {
-
-                // If they do, we've found the group this property belongs to
-                group = i;
-                break;
-            }
-        }
+        int group = getPropertyGroupIndex(propertyPosition),
+                count = 0;
 
         // Go over each property in the group
         for (int i = 0; i < properties[group].length; i++) {
@@ -216,25 +172,22 @@ public class FieldController {
         return count;
     }
 
-    public void setPropertylevelForGroup(int propertyPosition, int level) {
+    public void setPropertyLevelForGroup(int propertyPosition, int level) {
+        int group = getPropertyGroupIndex(propertyPosition);
+        for (int i = 0; i < properties[group].length; i++) properties[group][i].setPropertyLevel(level);
+    }
 
-        // Find the specified property
-        Property property = (Property) fields[propertyPosition];
+    public int getPropertyGroupIndex(int propertyPosition) {
 
-        property.setPropertyLevel(level);
-
-        // Go over each property in the group
-        // (the number of properties in the group is represented with the relatedProperties attribute)
-        for (int i = 0, n = property.getRelatedProperties(); i < n; i++) {
-
-            // Find the next property in the group
-            property = (Property) fields[property.getNextRelatedProperty()];
-
-            property.setPropertyLevel(level);
+        int group = -1;
+        for (int i = 0; i < properties.length; i++) {
+            if (properties[i][0].getColor().hashCode() == fields[propertyPosition].getColor().hashCode()) {
+                group = i;
+                break;
+            }
         }
 
-        // Ensure that we've ended up at the same property again, if we haven't, something is wrong
-        assert property == fields[propertyPosition];
+        return group;
     }
 
     public int getJailPosition() {
@@ -265,12 +218,13 @@ public class FieldController {
     }
 
     public Street[] allOwnedStreetsByPlayer(int player, int playerBalance) {
+        // TODO: This method needs comments
+
         Street[] houseProperties = new Street[0];
         for (int i = 0; i < properties.length; i++) {
             for (int j = 0; j < properties[i].length; j++) {
                 if (ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street) {
                     int maxHouses = 0;
-                    boolean equalHouses = true;
                     for (int y = 0; y < properties[i][j].getRelatedProperties() - 1; y++) {
                         if (properties[i][y].getPropertyLevel() == properties[i][y + 1].getPropertyLevel()) {
                             maxHouses = properties[i][y].getPropertyLevel() + 1;
