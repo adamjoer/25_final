@@ -49,10 +49,6 @@
         <outputString>Du har slået to ens og får derfor en ekstra tur!</outputString>
     </stringRef>
     <stringRef>
-        <reference>test</reference>
-        <outputString>Test did not fail!</outputString>
-    </stringRef>
-    <stringRef>
         <reference>justVisitingJail</reference>
         <outputString>Du er lige på besøg i fængsel</outputString>
     </stringRef>
@@ -94,7 +90,7 @@
     </stringRef>
     <stringRef>
         <reference>playerValue</reference>
-        <outputString>10 % af din værdi er blevet udregnet til at være </outputString>
+        <outputString>10% af din værdi er blevet udregnet til at være </outputString>
     </stringRef>
 
     <stringRef>
@@ -130,12 +126,18 @@
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
-        <outputString>vil du købe huse?</outputString>
+        <outputString>Vil du købe huse?</outputString>
     </stringRef>
     <stringRef>
         <reference>whereToBuyHouse</reference>
         <outputString>Hvor vil du købe et hus?</outputString>
     </stringRef>
-
-
+    <stringRef>
+        <reference>winnerFound</reference>
+        <outputString>Tillykke! Du har vundet spillet, </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>test</reference>
+        <outputString>Test did not fail!</outputString>
+    </stringRef>
 </stringRefs>
