@@ -358,6 +358,80 @@ public class FieldController {
         return hotelCount;
     }
 
+    private boolean existsBuildingsOnStreetGroup(int position) {
+        Street referenceStreet = (Street) fields[position];
+        boolean hasBuildings = false;
+        int relatedProperties = referenceStreet.getRelatedProperties();
+        int nextRelatedProperty = referenceStreet.getNextRelatedProperty();
+        for (int i = 0; i < relatedProperties; i++) {
+            Street street = (Street) fields[nextRelatedProperty];
+            nextRelatedProperty = street.getNextRelatedProperty();
+            if (street.getNumberOfBuildings() > 0) {
+                hasBuildings = true;
+            }
+        }
+        return hasBuildings;
+    }
+
+    public boolean propertyCanBePawned(int position) {
+        if (!(fields[position] instanceof Property)) {
+            return false;
+        }
+        if (fields[position] instanceof Street) {
+            if (existsBuildingsOnStreetGroup(position)) {
+                return false;
+            }
+        }
+        return !((Property) fields[position]).getPawned();
+    }
+
+    public void pawnProperty(int player, int position) {
+        Property property = (Property) fields[position];
+        if (propertyCanBePawned(position)) {
+            property.setPawned(true);
+        }
+        int relatedProperties = property.getRelatedProperties();
+        int nextRelatedProperty = property.getNextRelatedProperty();
+        int propertyLevel;
+
+        switch (property.getField()) {
+            case "Street":
+                if (ownsAllPropertiesInGroup(player, position)) {
+                    for (int i = 0; i < relatedProperties; i++) {
+                        Street nextStreet = (Street) fields[nextRelatedProperty];
+                        setPropertyLevel(nextRelatedProperty, 0);
+                        nextRelatedProperty = nextStreet.getNextRelatedProperty();
+                    }
+                }
+                break;
+
+            case "Shipping":
+                for (int i = 0; i < relatedProperties; i++) {
+                    Shipping nextShipping = (Shipping) fields[nextRelatedProperty];
+                    propertyLevel = nextShipping.getPropertyLevel();
+                    if (nextShipping.getOwner() == player && propertyLevel > 0) {
+                        nextShipping.setPropertyLevel(propertyLevel - 1);
+                    }
+                    nextRelatedProperty = nextShipping.getNextRelatedProperty();
+                }
+                break;
+
+            case "Brewery":
+                for (int i = 0; i < relatedProperties; i++) {
+                    Brewery nextBrewery = (Brewery) fields[nextRelatedProperty];
+                    propertyLevel = nextBrewery.getPropertyLevel();
+                    if (nextBrewery.getOwner() == player && propertyLevel > 0) {
+                        nextBrewery.setPropertyLevel(propertyLevel - 1);
+                    }
+                    nextRelatedProperty = nextBrewery.getNextRelatedProperty();
+                }
+        }
+    }
+
+    public void reclaimProperty(int position) {
+
+    }
+
     // Relevant getters
     public Field[] getFields() {
         return fields;
