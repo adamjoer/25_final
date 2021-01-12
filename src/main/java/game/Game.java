@@ -68,13 +68,16 @@ public class Game {
                                 //Check if they have money for it
                                 if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
 
-                                    //Increase the streets propertyLevel and update the gui with the new player balance, the house, and new rent
+                                    //Increase the streets propertyLevel
                                     street.setPropertyLevel(street.getPropertyLevel() + 1);
+
+                                    // Update the GUI with the new rent
                                     guiController.setRent(street.getPosition(), street.getCurrentRent());
 
+                                    // Update the players balance in GUI
                                     setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
 
-                                    //Check if the street is going to have a hotel
+                                    // Update the property with new buildings in GUI
                                     if (street.getPropertyLevel() == 6) {
                                         guiController.setHouseOrHotelStreet(street.getPosition(), 0, true);
                                     } else {
@@ -115,7 +118,12 @@ public class Game {
             }
 
         } while (!stop);
+
+        // Close the window when the game is over
         guiController.close();
+
+        // Stop the program with exit code 0 (OK)
+        System.exit(0);
     }
 
     // Methods related to fields.
