@@ -338,6 +338,26 @@ public class FieldController {
         return worth;
     }
 
+    public int getHouses(int player) {
+        int houseCount = 0;
+        for (Field field : fields) {
+            if (field instanceof Street) {
+                if (((Property) field).getOwner() == player) houseCount += ((Street) field).getHouses();
+            }
+        }
+        return houseCount;
+    }
+
+    public int getHotels(int player) {
+        int hotelCount = 0;
+        for (Field field : fields) {
+            if (field instanceof Street) {
+                if (((Property) field).getOwner() == player) hotelCount += ((Street) field).getHotel();
+            }
+        }
+        return hotelCount;
+    }
+
     // Relevant getters
     public Field[] getFields() {
         return fields;

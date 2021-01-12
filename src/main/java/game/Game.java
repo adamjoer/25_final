@@ -252,7 +252,7 @@ public class Game {
         }
         return true;
     }
-  
+
     private String[] getHouseCostButtons(Street[] properties) {
         String[] houseCostButtons = new String[properties.length];
         for (int i = 0; i < properties.length; i++) {
@@ -260,8 +260,8 @@ public class Game {
         }
 
         return houseCostButtons;
-    }  
-  
+    }
+
     private Street[] affordableHouses(int player) {
         int playerBalance = playerController.getPlayerBalance(player);
         return fieldController.allOwnedStreetsByPlayer(player, playerBalance);
@@ -318,17 +318,17 @@ public class Game {
 
                 success = giftPlayer(chanceCardController.getAmount(), playerTurn);
                 break;
-            /*
+
             case "HouseTax":
 
                 // TODO: getPlayerHouses and getPlayer
-                int houses = fieldController.getPlayerHouses(playerTurn);
-                int hotels = fieldController.getPlayerHotels(playerTurn);
+                int houses = fieldController.getHouses(playerTurn);
+                int hotels = fieldController.getHotels(playerTurn);
                 int fine = houses * chanceCardController.getHouseTax() + hotels * chanceCardController.getHotelTax();
                 success = makeTransaction(-fine, playerTurn);
 
                 break;
-            */
+
 
             case "Lottery":
                 int threshold = chanceCardController.getThreshold();
@@ -450,8 +450,6 @@ public class Game {
     private int getPlayerTotalValue(int player) {
         return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
     }
-
-
 
 
     private void getNextPlayerTurn() {
