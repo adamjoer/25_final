@@ -375,6 +375,23 @@ public class Utility {
         return array;
     }
 
+    public static Street[] addToArray(Street[] array, Street insert) {
+        // Copy existing array into temporary array
+        Street[] temp = array;
+
+        // Change array length
+        array = new Street[array.length + 1];
+
+        // Copy temporary array into new array
+        System.arraycopy(temp, 0, array, 0, temp.length);
+
+        // Add specified element to end of new array
+        array[array.length - 1] = insert;
+
+        // Return new, longer array
+        return array;
+    }
+
     public static boolean isInArray(int[] array, int search) {
 
         for (int i : array) {

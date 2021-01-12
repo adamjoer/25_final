@@ -9,7 +9,7 @@ public abstract class Property extends Field {
     protected final int cost;
     protected final int pawnValue;
     protected final int[] rentLevels;
-    protected int propertyLevel = 0;
+    protected int propertyLevel = 1;
     protected final int relatedProperties;
     protected final int nextRelatedProperty;
     protected int owner = -1; // -1 means the property is owned by the bank
@@ -81,12 +81,12 @@ public abstract class Property extends Field {
 
     public String toString() {
         return super.toString() +
-               "\n\t[cost=" + cost +
-               "]\n\t[pawnValue=" + pawnValue +
-               "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
-               "]\n\t[propertyLevel=" + propertyLevel +
-               "]\n\t[relatedProperties=" + relatedProperties +
-               "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
-               "]\n\t[owner=" + owner + ']';
+                "\n\t[cost=" + cost +
+                "]\n\t[pawnValue=" + pawnValue +
+                "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
+                "]\n\t[propertyLevel=" + propertyLevel +
+                "]\n\t[relatedProperties=" + relatedProperties +
+                "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
+                "]\n\t[owner=" + owner + ']';
     }
 }
