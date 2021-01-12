@@ -137,6 +137,7 @@ public class Game {
                 return propertyFieldAction(position, player, instructions);
 
             case "Chance":
+                drawCard();
                 break;
 
             case "GoToJail":
@@ -281,6 +282,7 @@ public class Game {
     }
 
     private Street[] getBuildableStreets(int player) {
+      
         int playerBalance = playerController.getPlayerBalance(player);
         return fieldController.getBuildableStreets(player, playerBalance);
     }
@@ -336,19 +338,19 @@ public class Game {
 
                 success = giftPlayer(chanceCardController.getAmount(), playerTurn);
                 break;
-            /*
+
             case "HouseTax":
 
-                // TODO: getPlayerHouses and getPlayer
-                int houses = fieldController.getPlayerHouses(playerTurn);
-                int hotels = fieldController.getPlayerHotels(playerTurn);
+                int houses = fieldController.getHouses(playerTurn);
+                int hotels = fieldController.getHotels(playerTurn);
                 int fine = houses * chanceCardController.getHouseTax() + hotels * chanceCardController.getHotelTax();
                 success = makeTransaction(-fine, playerTurn);
 
                 break;
-            */
+
 
             case "Lottery":
+
                 int threshold = chanceCardController.getThreshold();
                 if (getPlayerTotalValue(playerTurn) <= threshold) {
                     makeTransaction(chanceCardController.getAmount(), playerTurn);
@@ -360,11 +362,13 @@ public class Game {
 
 
             case "MovePlayer":
+
                 movePlayer(playerTurn, chanceCardController.getIncrement());
 
                 break;
 
             case "MovePlayerToTile":
+
                 int delta = chanceCardController.getDestination() - playerController.getPlayerPosition(playerTurn);
                 if (delta < 0) delta += fieldController.getFields().length;
                 movePlayer(playerTurn, delta);
@@ -372,17 +376,19 @@ public class Game {
                 break;
 
             case "OutOfJailCard":
+
                 playerController.players[playerTurn].setOutOfJailCards(1);
 
                 break;
 
             case "GoToJailCard":
-                // TODO: Update with correct method name after merge to Dev.
-                //goToJailFieldAction(playerTurn, chanceCardController.getJailPosition());
+
+                goToJailFieldAction(playerTurn, fieldController.fieldAction(chanceCardController.getJailPosition()));
 
                 break;
 
             case "MoveToNearestShipping":
+
                 int[] shippingPositions = chanceCardController.getShippingLocations();
                 boolean forward = chanceCardController.getForward();
                 boolean doubleRent = chanceCardController.getDoubleRent();

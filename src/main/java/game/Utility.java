@@ -150,7 +150,7 @@ public class Utility {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        int cardCounter = 0;
         //Create a ChanceCard[] to add ChanceCards to.
         ChanceCard[] chanceCards = new ChanceCard[arrayLength];
         try {
@@ -180,22 +180,22 @@ public class Utility {
                             case "HouseTax":
                                 int houseTax = getInt(ele, "houseTax");
                                 int hotelTax = getInt(ele, "hotelTax");
-                                chanceCards[i + j] = new HouseTax(cardText, houseTax, hotelTax);
+                                chanceCards[cardCounter] = new HouseTax(cardText, houseTax, hotelTax);
                                 break;
 
                             case "BankTransaction":
                                 amount = getInt(ele, "amount");
-                                chanceCards[i + j] = new BankTransaction(cardText, amount);
+                                chanceCards[cardCounter] = new BankTransaction(cardText, amount);
                                 break;
 
                             case "CashFromPlayer":
                                 amount = getInt(ele, "amount");
-                                chanceCards[i + j] = new CashFromPlayer(cardText, amount);
+                                chanceCards[cardCounter] = new CashFromPlayer(cardText, amount);
                                 break;
 
                             case "MovePlayer":
                                 int increment = getInt(ele, "increment");
-                                chanceCards[i + j] = new MovePlayer(cardText, increment);
+                                chanceCards[cardCounter] = new MovePlayer(cardText, increment);
                                 break;
 
                             case "Lottery":
@@ -203,33 +203,33 @@ public class Utility {
                                 amount = getInt(ele, "amount");
                                 String successText = getString(ele, "successText");
                                 String failText = getString(ele, "failText");
-                                chanceCards[i + j] = new Lottery(cardText, amount, threshold, successText, failText);
+                                chanceCards[cardCounter] = new Lottery(cardText, amount, threshold, successText, failText);
                                 break;
 
                             case "MovePlayerToTile":
                                 int destination = getInt(ele, "destination");
-                                chanceCards[i + j] = new MovePlayerToTile(cardText, destination);
+                                chanceCards[cardCounter] = new MovePlayerToTile(cardText, destination);
                                 break;
 
                             case "MoveToNearestShipping":
-                                int[] shippingLocations = getIntArray(ele, "shippingLocations","location");
+                                int[] shippingLocations = getIntArray(ele, "shippingLocations", "location");
                                 boolean forward = getBool(ele, "forward");
                                 boolean doubleRent = getBool(ele, "doubleRent");
 
-                                chanceCards[i+j] = new MoveToNearestShipping(cardText, shippingLocations, forward, doubleRent);
+                                chanceCards[cardCounter] = new MoveToNearestShipping(cardText, shippingLocations, forward, doubleRent);
                                 break;
 
                             case "GoToJailCard":
                                 int jailPosition = getInt(ele, "jailPosition");
-                                chanceCards[i+j] = new GoToJailCard(cardText, jailPosition);
+                                chanceCards[cardCounter] = new GoToJailCard(cardText, jailPosition);
                                 break;
 
                             case "OutOfJailCard":
-                                chanceCards[i+j] = new OutOfJailCard(cardText);
+                                chanceCards[cardCounter] = new OutOfJailCard(cardText);
                         }
+                        cardCounter++;
                     }
                     // Correcting the index for number of duplicates created in the array.
-                    i += duplicates - 1;
                 }
             }
         } catch (Exception e) {
@@ -321,6 +321,14 @@ public class Utility {
         return array;
     }
 
+    /**
+     * addToArray creates a new int array with one more place and fills in that place with a given integer.
+     *
+     * @param array  The array to add a place to.
+     * @param insert The value to assign to the created place.
+     * @return The array with the appended int place (placed at the last index).
+     */
+
     public static int[] addToArray(int[] array, int insert) {
 
         // Copy existing array into temporary array
@@ -338,6 +346,55 @@ public class Utility {
         // Return new, longer array
         return array;
     }
+
+
+    /**
+     * removeIntArrayByIndex creates a new array with one less place than the input array. Specified index is removed.
+     *
+     * @param array The int array from which a place is to be removed.
+     * @param index The index of the place to be removed.
+     * @return An int array with one less place - the specified index removed.
+     */
+
+    public static int[] removeIntArrayByIndex(int[] array, int index) {
+        int[] result = new int[array.length - 1];
+        for (int i = 0; i < index; i++) {
+            result[i] = array[i];
+        }
+        for (int i = index + 1; i < array.length; i++) {
+            result[i - 1] = array[i];
+        }
+        return result;
+    }
+
+    /**
+     * shuffleIntArray utilizes removeIntArrayByIndex to remove a random element from the int array given and
+     * appendIntArray to apply the same random element to the end of the array.
+     * The method is recursive, such that it keeps on removing elements in a random order, until there is only one
+     * element left in the initial array. It then appends the single element arrays in the random order they were
+     * extracted. This guarantees a shuffled array. As the method picks out by index rather than by value, it ensures
+     * that the recursion is well defined.
+     *
+     * @param array The int array to shuffle
+     * @return A shuffled int array with the same elements as the argument given, in a random order.
+     */
+
+    public static int[] shuffleIntArray(int[] array) {
+        if (array.length == 1) {
+            return array;
+        } else {
+            int index = (int) (Math.random() * (array.length - 1));
+            int[] arrayWithoutIndex = removeIntArrayByIndex(array, index);
+            return addToArray(shuffleIntArray(arrayWithoutIndex), array[index]);
+        }
+    }
+
+    /**
+     * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
+     * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
+     * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
+     * BASE_DECK.
+     */
 
     public static Property[] addToArray(Property[] array, Property insert) {
 
@@ -403,15 +460,16 @@ public class Utility {
 
     /**
      * Extracts a boolean from an XML element
+     *
      * @param ele An XML element extracted from a document
      * @param tag The XML tag to extract a boolean value from
      * @return The boolean value in that tag
      */
-    private static boolean getBool (Element ele, String tag){
+    private static boolean getBool(Element ele, String tag) {
         boolean bool = false;
-        try{
+        try {
             bool = Boolean.parseBoolean(ele.getElementsByTagName(tag).item(0).getTextContent());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return bool;
