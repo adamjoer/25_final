@@ -80,6 +80,16 @@ public class FieldController {
         return fields[position].fieldAction();
     }
 
+    /**
+     * Method for assigning a specific property as owned by a specific player.
+     * The method also changes the propertyLevel attribute depending on the
+     * property type and whether the player owns any of the other properties
+     * in the specified property's group.
+     *
+     * @param player           Value representing a specific player
+     * @param propertyPosition The position of a specific property which the specified player will own
+     * @return True if the propertyLevel/rent in the specified property's group has changed (for updating GUI), false otherwise
+     */
     public boolean buyProperty(int player, int propertyPosition) {
 
         // Get the property
@@ -102,7 +112,6 @@ public class FieldController {
                     return true;
                 }
                 return false;
-
 
             case "Shipping":
                 // Set propertyLevel to the number of properties owned in the group minus one
@@ -178,19 +187,96 @@ public class FieldController {
         return count;
     }
 
+    /**
+     * Method for setting the propertyLevel for a specific group to a specific level.
+     * The method finds the group to which the specified property belongs, and assigns
+     * the propertyLevel attribute the specified value
+     *
+     * @param propertyPosition The position of a property in a specific group
+     * @param level            The level which every property in the group will be assigned
+     */
     public void setPropertyLevelForGroup(int propertyPosition, int level) {
+
+        // Get the index of the group to which the property belongs
         int group = getPropertyGroupIndex(propertyPosition);
+
+        // Go over each property in the group, and change their propertyLevel attribute to the specified value
         for (int i = 0; i < properties[group].length; i++) properties[group][i].setPropertyLevel(level);
     }
 
+    /**
+     * Method to get the index in the 2d Property array 'properties' that correspond
+     * with the group to which the specified property belongs.
+     *
+     * @param propertyPosition The position of a specific property
+     * @return The index in the properties attribute that correspond to this property's group
+     */
     public int getPropertyGroupIndex(int propertyPosition) {
 
+        // Go over each group in the array
         for (int i = 0; i < properties.length; i++) {
+
+            // If the color of the property matches with the color of the group, that is it's group
             if (properties[i][0].getColor().hashCode() == fields[propertyPosition].getColor().hashCode())
                 return i;
         }
 
+        // Error: the property doesn't match any group in the array, is either bad parameter, or bad data
         throw new IllegalArgumentException("Cannot recognise group belonging to property with position " + propertyPosition);
+    }
+
+    /**
+     * Method to get all the streets that a player is able to put buildings on.
+     * The method returns any streets that the player has permission and money
+     * to build something on. This method takes into account that the player has
+     * to spread their buildings evenly across the property group.
+     *
+     * @param player        Value representing a specific player
+     * @param playerBalance The amount of money the player has
+     * @return An array of pointers to Street objects that the specified player can put buildings on
+     */
+    public Street[] getBuildableStreets(int player, int playerBalance) {
+
+        // Initialize empty Street array
+        Street[] houseProperties = new Street[0];
+
+        // Go over every property group
+        for (Property[] group : properties) {
+
+            // If the group doesn't contain streets continue to the next group
+            if (!(group[0] instanceof Street)) continue;
+
+            // If all streets aren't owned by the player, continue to the next group
+            if (!ownsAllPropertiesInGroup(player, group[0].getPosition())) continue;
+
+            // Calculate what the max. building level in this group is
+            int maxLevel = 0;
+            for (int i = 0; i < group.length - 1; i++) {
+
+                // If there is a street with higher building level than the others, that is the max. number building level
+                if (group[i].getPropertyLevel() == group[i + 1].getPropertyLevel()) {
+                    maxLevel = group[i].getPropertyLevel() + 1;
+
+                } else {
+                    maxLevel = Math.max(group[i].getPropertyLevel(), group[i + 1].getPropertyLevel());
+                    break;
+                }
+            }
+
+            // Add streets that meets the criteria
+            for (Property property : group) {
+
+                // If the player can afford to build on it, and there isn't a hotel on it, and the building level is below the max, add it to the array
+                if (((Street) property).getBuildingCost() <= playerBalance && property.getPropertyLevel() < 6 && property.getPropertyLevel() < maxLevel) {
+                    houseProperties = Utility.addToArray(houseProperties, (Street) property);
+                }
+            }
+        }
+        return houseProperties;
+    }
+
+    public boolean canPlayerBuyHouses(int player) {
+        return whoCanBuyHouses[player];
     }
 
     // Methods related to jail
@@ -210,36 +296,14 @@ public class FieldController {
         jail.free(player);
     }
 
-
-    public boolean canPlayerBuyHouses(int player) {
-        return whoCanBuyHouses[player];
-    }
-
-    public Street[] allOwnedStreetsByPlayer(int player, int playerBalance) {
-        // TODO: This method needs comments
-
-        Street[] houseProperties = new Street[0];
-        for (int i = 0; i < properties.length; i++) {
-            for (int j = 0; j < properties[i].length; j++) {
-                if (ownsAllPropertiesInGroup(player, properties[i][j].getPosition()) && properties[i][j] instanceof Street) {
-                    int maxHouses = 0;
-                    for (int y = 0; y < properties[i][j].getRelatedProperties() - 1; y++) {
-                        if (properties[i][y].getPropertyLevel() == properties[i][y + 1].getPropertyLevel()) {
-                            maxHouses = properties[i][y].getPropertyLevel() + 1;
-                        } else {
-                            maxHouses = Math.max(properties[i][y].getPropertyLevel(), properties[i][y + 1].getPropertyLevel());
-                            break;
-                        }
-                    }
-                    if (((Street) properties[i][j]).getBuildingCost() <= playerBalance && properties[i][j].getPropertyLevel() < 6 && properties[i][j].getPropertyLevel() < maxHouses) {
-                        houseProperties = Utility.addToArray(houseProperties, (Street) properties[i][j]);
-                    }
-                }
-            }
-        }
-        return houseProperties;
-    }
-
+    /**
+     * Method for getting the combined worth of all the properties a specific player owns.
+     * The value of a property is the cost of it, and if it is a Street, the worth of
+     * the buildings on it. This is defined as the combined cost of each building on it.
+     *
+     * @param player Value representing a specific player
+     * @return The worth of all the properties the specified user owns, in kr.
+     */
     public int getCombinedPropertyWorth(int player) {
 
         int worth = 0;
@@ -251,7 +315,7 @@ public class FieldController {
                 // If property is not owned by player, continue to next property
                 if (property.getOwner() != player) continue;
 
-                // Add cost of property, of potential buildings on it to worth
+                // Add cost of property, and of potential buildings on it to worth
                 worth += property.getCost();
                 if (property instanceof Street)
                     worth += (((Street) property).getBuildingCost() / 2) * ((Street) property).getNumberOfBuildings();
