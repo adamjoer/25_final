@@ -82,6 +82,8 @@ public class FieldController {
 
     public void buyProperty(int player, int propertyPosition) {
 
+        // TODO: Needs to check if any other properties are pawned.
+
         // Get the property
         Property property = (Property) fields[propertyPosition];
 
