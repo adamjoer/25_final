@@ -21,7 +21,11 @@ public abstract class Field {
         this.color = color;
     }
 
-    public abstract void fieldAction();
+    public abstract FieldInstruction fieldAction();
+
+    public String getField() {
+        return getClass().getSimpleName();
+    }
 
     public String getTitle() {
         return title;
@@ -43,16 +47,12 @@ public abstract class Field {
         return color;
     }
 
-    public String getField() {
-        return getClass().getSimpleName();
-    }
-
     public String toString() {
-        return getClass().getSimpleName() +
+        return getField() +
                "\n\t[title=\"" + title +
                "\"]\n\t[subText=\"" + subText +
                "\"]\n\t[description=\"" + description +
-               "\"]\n\t[position=" + position + ']' +
-               "]\n\t[Color=\"" + color.toString() + "\"]";
+               "\"]\n\t[position=" + position +
+               "]\n\t[color=\"" + color.toString() + "\"]";
     }
 }

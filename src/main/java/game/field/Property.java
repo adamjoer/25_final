@@ -33,7 +33,9 @@ public abstract class Property extends Field {
         this.nextRelatedProperty = nextRelatedProperty;
     }
 
-    public abstract void fieldAction();
+    public FieldInstruction fieldAction() {
+        return new FieldInstruction(getField(), getOwner(), getCurrentRent(), getCost());
+    }
 
     // Relevant getters
     public int getCurrentRent() {

@@ -8,7 +8,7 @@ public class Start extends Field {
         super(title, subText, description, position, color);
     }
 
-    public void fieldAction() {
-        // Do nothing, 'pass go' reward will be handled in Board
+    public FieldInstruction fieldAction() {
+        return new FieldInstruction(getField());
     }
 }

@@ -11,8 +11,8 @@ public class TaxField extends Field {
         this.fine = fine;
     }
 
-    public void fieldAction() {
-        // TODO: Implement whatever happens on this field
+    public FieldInstruction fieldAction() {
+        return new FieldInstruction(getField(), fine);
     }
 
     //Relevant getters
