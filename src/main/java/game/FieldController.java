@@ -12,6 +12,8 @@ public class FieldController {
 
     public FieldController() {
 
+
+
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 

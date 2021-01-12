@@ -15,7 +15,7 @@ class DiceControllerTest {
 
 
     //test if the isIdentical returns the correct boolean
-    @org.junit.jupiter.api.Test
+    @Test
     void isIdentical() {
         for (int j = 0; j < tests; j++) {
             dc.roll();
@@ -33,7 +33,6 @@ class DiceControllerTest {
 
             assertEquals(identical, dc.isIdentical());
         }
-
     }
     
     @Test
