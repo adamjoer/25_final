@@ -20,7 +20,7 @@ public class GUIController {
     private final GUI_Car[] guiCars;
     private Color[] colorsAvailable = new Color[]{Color.MAGENTA, Color.GRAY, Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN}; //Color.decode("#3E0D0C")
     private String[] colorChoices = new String[]{"magenta", "grå", "rød", "gul", "grøn", "turkis"};
-    private final StringHandler stringHandler = new StringHandler("src/main/java/resources/stringRefs.xml");
+    private final StringHandler stringHandler;
 
     public GUIController(Field[] fields) {
         GUI_Field[] guiFields = new GUI_Field[fields.length];
@@ -62,6 +62,7 @@ public class GUIController {
         gui = new GUI(guiFields, Color.PINK);
 
         guiCars = new GUI_Car[MAX_PLAYER_AMOUNT];
+        stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
         playerNames = askForPlayerNames();
         playerAmount = playerNames.length;
         this.guiPlayerList = new GUI_Player[playerAmount];

@@ -21,7 +21,6 @@ public class Jail extends Field {
     }
 
     public void incarcerate(int player) {
-
         prisoners = Utility.addToArray(prisoners, player);
     }
 
@@ -43,15 +42,21 @@ public class Jail extends Field {
     }
 
     public boolean isInJail(int player) {
-        for (int prisoner : prisoners) {
-            if (prisoner == player) return true;
-        }
-        return false;
+        return Utility.isInArray(prisoners, player);
+    }
+
+    // Relevant getters
+    public int getBail() {
+        return bail;
+    }
+
+    public int[] getPrisoners() {
+        return prisoners;
     }
 
     public String toString() {
         return super.toString() +
                "\n\t[bail=" + bail +
-               "\n\t[prisoners=" + Arrays.toString(prisoners) + ']';
+               "]\n\t[prisoners=" + Arrays.toString(prisoners) + ']';
     }
 }

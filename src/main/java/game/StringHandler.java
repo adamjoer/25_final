@@ -5,7 +5,7 @@ package game;
  */
 public class StringHandler {
 
-    private final StringRef[] stringRefs;
+    private final StringRef[] STRING_REFS;
 
     /**
      * Creates and stores an array of stringRef objects,
@@ -14,7 +14,7 @@ public class StringHandler {
      * @param filePath Filepath to XML-file containing the strings used in GUI
      */
     public StringHandler(String filePath) {
-        stringRefs = Utility.stringRefGenerator(filePath);
+        STRING_REFS = Utility.stringRefGenerator(filePath);
     }
 
     /**
@@ -27,7 +27,7 @@ public class StringHandler {
     public String getString(String reference) {
 
         // Look over each stringRef and check if their reference matches the input reference
-        for (StringRef stringRef : stringRefs) {
+        for (StringRef stringRef : STRING_REFS) {
             if (stringRef.checkReference(reference)) {
 
                 // If found, return that StringRef object's output string
