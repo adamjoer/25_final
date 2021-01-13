@@ -305,7 +305,7 @@ public class Utility {
      * which is one element shorter than the specified array, and whose elements are in the same
      * order as specified array.
      * <p>
-     * The specified index needs to contain at least one element, otherwise the resulting array
+     * the specified array needs to contain at least one element, otherwise the resulting array
      * will have a negative length. The specified index also needs to be within bounds of the
      * specified array, otherwise data outside of array bounds will be accessed.
      *
@@ -347,7 +347,7 @@ public class Utility {
      * which is one element shorter than the specified array, and whose elements are in the same
      * order as specified array.
      * <p>
-     * The specified index needs to contain at least one element, otherwise the resulting array
+     * the specified array needs to contain at least one element, otherwise the resulting array
      * will have a negative length. The specified index also needs to be within bounds of the
      * specified array, otherwise data outside of array bounds will be accessed.
      *
@@ -389,7 +389,7 @@ public class Utility {
      * which is one element shorter than the specified array, and whose elements are in the same
      * order as specified array.
      * <p>
-     * The specified index needs to contain at least one element, otherwise the resulting array
+     * the specified array needs to contain at least one element, otherwise the resulting array
      * will have a negative length. The specified index also needs to be within bounds of the
      * specified array, otherwise data outside of array bounds will be accessed.
      *
@@ -431,7 +431,7 @@ public class Utility {
      * which is one element shorter than the specified array, and whose elements are in the same
      * order as specified array.
      * <p>
-     * The specified index needs to contain at least one element, otherwise the resulting array
+     * the specified array needs to contain at least one element, otherwise the resulting array
      * will have a negative length. The specified index also needs to be within bounds of the
      * specified array, otherwise data outside of array bounds will be accessed.
      *
