@@ -370,6 +370,13 @@ public class FieldController {
         return hasBuildings;
     }
 
+    public boolean propertyCanBeSold (int position) {
+        if (fields[position].getField().equals("Street")){
+            return existsBuildingsOnStreetGroup(position);
+        }
+        return true;
+    }
+
     public boolean propertyCanBePawned(int position) {
         if (!(fields[position] instanceof Property)) {
             return false;
