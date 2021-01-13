@@ -336,6 +336,7 @@ public class FieldController {
         jail.incarcerate(player);
     }
 
+
     public void free(int player) {
         jail.free(player);
     }
