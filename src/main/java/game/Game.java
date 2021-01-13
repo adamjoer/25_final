@@ -24,7 +24,7 @@ public class Game {
         playerController = new PlayerController(guiController.returnPlayerNames(), 30000);
         chanceCardController = new ChanceCardController();
         playerCount = playerController.getPlayers().length;
-        playerTurn = (int) (Math.random() * (playerCount - 1));
+        playerTurn = (int) Math.round((Math.random() * (playerCount - 1)));
         playerTurnIndex = playerTurn;
         stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
     }
