@@ -276,23 +276,28 @@ public class Utility {
     /**
      * shuffleIntArray utilizes removeFromArray to remove a random element from the int array given and
      * addToArray to apply the same random element to the end of the array.
+     *
      * The method is recursive, such that it keeps on removing elements in a random order, until there is only one
      * element left in the initial array. It then appends the single element arrays in the random order they were
      * extracted. This guarantees a shuffled array. As the method picks out by index rather than by value, it ensures
      * that the recursion is well defined.
+     *
+     * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
+     * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
+     * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
+     * BASE_DECK.
      *
      * @param array The int array to shuffle
      * @return A shuffled int array with the same elements as the argument given, in a random order.
      */
 
     public static int[] shuffleIntArray(int[] array) {
-        if (array.length == 1) {
-            return array;
-        } else {
-            int index = (int) Math.round((Math.random() * (array.length - 1)));
-            int[] arrayWithoutIndex = removeFromArray(array, index);
-            return addToArray(shuffleIntArray(arrayWithoutIndex), array[index]);
-        }
+
+        if (array.length == 1) return array;
+
+        int index = (int) Math.round((Math.random() * (array.length - 1)));
+        int[] arrayWithoutIndex = removeFromArray(array, index);
+        return addToArray(shuffleIntArray(arrayWithoutIndex), array[index]);
     }
 
     public static int[] removeFromArray(int[] array, int index) {
@@ -384,13 +389,6 @@ public class Utility {
         // Return new, longer array
         return array;
     }
-
-    /**
-     * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
-     * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
-     * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
-     * BASE_DECK.
-     */
 
     public static Property[] addToArray(Property[] array, Property insert) {
 
