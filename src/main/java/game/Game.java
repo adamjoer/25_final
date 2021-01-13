@@ -400,7 +400,7 @@ public class Game {
 
             case "OutOfJailCard":
 
-                playerController.players[playerTurn].setOutOfJailCards(1);
+                playerController.setPlayerOutOfJailCards(playerTurn, 1);
 
                 break;
 
@@ -423,7 +423,7 @@ public class Game {
     }
 
     private void moveToNearestShipping(int[] shippingLocations, boolean forward, boolean doubleRent) {
-        int currentPosition = playerController.players[playerTurn].getCurrentPosition();
+        int currentPosition = playerController.getPlayerPosition(playerTurn);
         if (forward) {
             if (currentPosition > shippingLocations[3]) {
                 movePlayer(playerTurn, (5 - currentPosition) % fieldController.getFields().length);
@@ -443,7 +443,7 @@ public class Game {
                 movePlayer(playerTurn, 10 - relativePositionToShipping);
             }
         }
-        currentPosition = playerController.players[playerTurn].getCurrentPosition();
+        currentPosition = playerController.getPlayerPosition(playerTurn);
         fieldAction(currentPosition, playerTurn);
         // TODO: Add second condition on this - if field is owned.
         if (doubleRent) {
@@ -509,8 +509,9 @@ public class Game {
      */
     private void setPlayerTurn() {
         for (int i = 0; i < playerCount; i++) {
-            if (playerController.players[i].getId() == playerTurn) {
+            if (playerController.getId(i) == playerTurn) {
                 playerTurnIndex = i;
+                break;
             }
         }
     }
@@ -533,7 +534,7 @@ public class Game {
 
     // TODO: Might be redundant later.
     private void updateGuiBalance(int player) {
-        setGuiBalance(playerController.players[player].getBalance(), player);
+        setGuiBalance(playerController.getPlayerBalance(player), player);
     }
 
     private void setGuiBalance(int amount, int player) {

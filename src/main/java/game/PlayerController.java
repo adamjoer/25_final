@@ -2,9 +2,9 @@ package game;
 
 public class PlayerController {
 
-    Player[] players;
-    private boolean[] giftPlayerCheck;
-    private int[] getOutOfJailTries;
+    private Player[] players;
+    private final boolean[] giftPlayerCheck;
+    private final int[] getOutOfJailTries;
 
 
     /**
