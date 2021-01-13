@@ -140,4 +140,36 @@
         <reference>test</reference>
         <outputString>Test did not fail!</outputString>
     </stringRef>
+    <stringRef>
+        <reference>vehicleType</reference>
+        <outputString>Vælg type af dit køretøj</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleColor</reference>
+        <outputString>Vælg farven til dit køretøj</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>gray</reference>
+        <outputString>Grå</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>red</reference>
+        <outputString>Rød</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>yellow</reference>
+        <outputString>Gul</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>green</reference>
+        <outputString>Grøn</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>cyan</reference>
+        <outputString>Turkis</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>winner</reference>
+        <outputString>Vinderen af spillet er:</outputString>
+    </stringRef>
 </stringRefs>
