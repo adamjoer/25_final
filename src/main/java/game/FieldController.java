@@ -155,7 +155,7 @@ public class FieldController {
                 if (property.getPropertyLevel() < 2) {
                     property.setOwner(-1);
                     setPropertyLevelForGroup(place, 0);
-                    return property.getCost();
+                    return (property.getPawned()) ? property.getCost() / 2: property.getCost();
                 } else {
                     return 0;
                 }
@@ -170,13 +170,13 @@ public class FieldController {
                 }
                 property.setOwner(-1);
 
-                return property.getCost();
+                return (property.getPawned()) ? property.getCost() / 2: property.getCost();
 
             case "Brewery":
                 //Since there's only 2 brewery fields, they are both going to be set to 0 if one is sold
                 setPropertyLevelForGroup(place, 0);
                 property.setOwner(-1);
-                return property.getCost();
+                return (property.getPawned()) ? property.getCost() / 2: property.getCost();
         }
 
         return 0;
