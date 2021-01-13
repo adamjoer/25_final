@@ -82,7 +82,7 @@ class PlayerControllerTest {
 
     @Test
     void giftPlayer() {
-        for (Player p : pc.players) {
+        for (Player p : pc.getPlayers()) {
             p.setBalance(30000);
         }
 
