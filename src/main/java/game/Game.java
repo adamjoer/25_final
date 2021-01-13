@@ -38,7 +38,7 @@ public class Game {
         do {
 
             // Announce whose turn it is
-            guiController.stringHandlerMessage("playerTurn", playerController.getName(playerTurn));
+            guiController.stringHandlerMessage("playerTurn", true, playerController.getName(playerTurn));
 
             // If the player has permission to build on their properties, give them the opportunity
             if (fieldController.canPlayerBuyHouses(playerTurn)) buildOnStreets();
@@ -68,7 +68,7 @@ public class Game {
 
             // If the player rolled two identical dice, they get an extra turn
             if (diceController.isIdentical()) {
-                guiController.stringHandlerMessage("extraTurnIdenticalDice");
+                guiController.stringHandlerMessage("extraTurnIdenticalDice", true);
 
             } else { // Otherwise move on to the next player
                 getNextPlayerTurn();
@@ -78,7 +78,7 @@ public class Game {
         } while (!stop);
 
         // Show message announcing winner
-        guiController.stringHandlerMessage("winnerFound", playerController.getName(0));
+        guiController.stringHandlerMessage("winnerFound", true, playerController.getName(0));
 
         // Close the window when the game is over
         guiController.close();
@@ -106,7 +106,7 @@ public class Game {
                 return goToJailFieldAction(player, instructions.getJailPosition());
 
             case "Jail":
-                guiController.stringHandlerMessage("justVisitingJail");
+                guiController.stringHandlerMessage("justVisitingJail",true );
                 break;
 
             case "Parking":
@@ -127,7 +127,7 @@ public class Game {
 
         //Check if the field is owned by the player
         if (player == instructions.getOwner()) {
-            guiController.stringHandlerMessage("ownField");
+            guiController.stringHandlerMessage("ownField",true);
             return true;
         }
 
@@ -135,14 +135,14 @@ public class Game {
         else if (instructions.getOwner() == -1) {
 
             //If field is owned by the bank, ask player if they want to buy it
-            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField"), "Ja", "Nej").equals("Ja")) {
+            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField",false), "Ja", "Nej").equals("Ja")) {
 
                 //If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
                     buyProperty(player, position, instructions.getRent());
                     guiController.setBalance(playerController.getPlayerBalance(player), player);
                 } else {
-                    guiController.stringHandlerMessage("noMoney");
+                    guiController.stringHandlerMessage("noMoney", true);
                 }
             }
             return true;
@@ -151,7 +151,7 @@ public class Game {
         //Field is owned by another player, so they have to pay rent
         else {
             int owner = instructions.getOwner();
-            guiController.stringHandlerMessage("payRent", playerController.getName(owner));
+            guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
 
             //Make transaction from the current player to the owner of the field
             boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
@@ -200,7 +200,7 @@ public class Game {
 
     private boolean goToJailFieldAction(int player, int jailPosition) {
 
-        guiController.stringHandlerMessage("goToJail");
+        guiController.stringHandlerMessage("goToJail", true);
         playerController.setPlayerPosition(player, jailPosition);
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
         fieldController.incarcerate(player);
@@ -213,19 +213,19 @@ public class Game {
         int playerValue = fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player);
         int subtract = (playerValue / 10);
         if (currentField.getTitle().equals("Statsskat")) {
-            guiController.stringHandlerMessage("stateTax");
+            guiController.stringHandlerMessage("stateTax",true);
             playerController.makeTransaction(-currentField.getFine(), player);
             guiController.makeTransaction(-currentField.getFine(), player);
         } else {
-            guiController.stringHandlerMessage("tax");
-            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", String.valueOf(subtract)),
+            guiController.stringHandlerMessage("tax", true);
+            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", false, String.valueOf(subtract)),
                     "1", "2");
             if (playerChoice.equals("1")) {
                 playerController.makeTransaction(-fine, player);
                 guiController.makeTransaction(-fine, player);
             } else {
 
-                guiController.stringHandlerMessage("playerValue", subtract + " kr.");
+                guiController.stringHandlerMessage("playerValue", true, subtract + " kr.");
 
                 playerController.makeTransaction(-subtract, player);
                 guiController.makeTransaction(-subtract, player);
@@ -240,16 +240,16 @@ public class Game {
         for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
 
             // Ask if the player want to buy houses
-            if (guiController.getUserButton(guiController.stringHandlerMessage("askBuyHouse"),
-                    guiController.stringHandlerMessage("yes"), guiController.stringHandlerMessage("no"))
-                    .equals(guiController.stringHandlerMessage("no")))
+            if (guiController.getUserButton(guiController.stringHandlerMessage("askBuyHouse", false),
+                    guiController.stringHandlerMessage("yes", false), guiController.stringHandlerMessage("no", false))
+                    .equals(guiController.stringHandlerMessage("no", false)))
                 break;
 
             // Get an array of strings, which shows the name of the street and the price to put a house on it
             String[] houseCostButtons = getHouseCostButtons(streets);
 
             // Ask the player which street they want to build on
-            String streetToBuyHouse = guiController.getUserButton(guiController.stringHandlerMessage("whereToBuyHouse"), houseCostButtons);
+            String streetToBuyHouse = guiController.getUserButton(guiController.stringHandlerMessage("whereToBuyHouse", false), houseCostButtons);
 
             // Extract street name from button text by stripping text from the end
             // e.g. 'Rødovrevej: 1000 kr.' -> 'Rødovrevej'
@@ -306,7 +306,7 @@ public class Game {
         //TODO: Take into account 'get out of jail free' card when it's implemented
 
         // Announce that player is in prison
-        guiController.stringHandlerMessage("isInJail");
+        guiController.stringHandlerMessage("isInJail", true);
 
         // Get bail
         int bail = ((Jail) fieldController.getFields()[playerController.getPlayerPosition(playerTurn)]).getBail();
@@ -314,26 +314,26 @@ public class Game {
         // If the player has used all their tries, they have to pay the bail
         if (playerController.getGetOutOfJailTries(playerTurn) == 3) {
             playerController.setGetOutOfJailTries(playerTurn, 0);
-            guiController.stringHandlerMessage("jailTriesUsed");
+            guiController.stringHandlerMessage("jailTriesUsed", true);
             return makeTransaction(-bail, playerTurn);
         }
 
         // Ask player if they want to pay bail, or try to roll two identical
-        if (guiController.getUserButton(guiController.stringHandlerMessage("inJailOptions"), "1", "2").equals("1")) {
+        if (guiController.getUserButton(guiController.stringHandlerMessage("inJailOptions", false), "1", "2").equals("1")) {
 
             // Roll the dice
             rollDice();
 
             // If dice are identical, free player
             if (diceController.isIdentical()) {
-                guiController.stringHandlerMessage("jailIdenticalDice");
+                guiController.stringHandlerMessage("jailIdenticalDice", true);
                 fieldController.free(playerTurn);
                 playerController.setGetOutOfJailTries(playerTurn, 0);
                 return true;
 
 
             } else { // If they aren't, the player has to stay in jail for the round
-                guiController.stringHandlerMessage("jailNotIdenticalDice");
+                guiController.stringHandlerMessage("jailNotIdenticalDice", true);
                 playerController.incrementGetOutOfJailTries(playerTurn);
                 return false;
             }
@@ -523,7 +523,7 @@ public class Game {
     // Miscellaneous.
 
     private void rollDice() {
-        guiController.stringHandlerMessage("rollDice");
+        guiController.stringHandlerMessage("rollDice", true);
         diceController.roll();
 
         guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));

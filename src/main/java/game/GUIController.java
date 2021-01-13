@@ -86,15 +86,19 @@ public class GUIController {
         getFields()[1].setForeGroundColor(Color.CYAN);
     }
 
-    public String stringHandlerMessage(String stringHandlerRef){
+    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg){
         String msg = stringHandler.getString(stringHandlerRef);
-        showMessage(msg);
+        if(showMsg) {
+            showMessage(msg);
+        }
         return msg;
     }
 
-    public String stringHandlerMessage(String stringHandlerRef, String msg){
+    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg, String msg){
         String stringHandlerMsg = stringHandler.getString(stringHandlerRef);
-        showMessage(stringHandlerMsg + msg);
+        if(showMsg) {
+            showMessage(stringHandlerMsg + msg);
+        }
         return stringHandlerMsg;
     }
 
