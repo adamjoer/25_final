@@ -142,7 +142,7 @@ public class Game {
                 //If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
                     buyProperty(player, position, instructions.getRent());
-                    guiController.setBalance(playerController.getPlayerBalance(player), player);
+                    updateGuiBalance(player);
                 } else {
                     guiController.showMessage(stringHandler.getString("noMoney"));
                 }
@@ -159,8 +159,8 @@ public class Game {
             boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
 
             //Set the balance of both players in the GUI
-            guiController.setBalance(playerController.getPlayerBalance(player), player);
-            guiController.setBalance(playerController.getPlayerBalance(owner), owner);
+            updateGuiBalance(player);
+            updateGuiBalance(owner);
 
             return successfulRent;
         }
@@ -185,14 +185,20 @@ public class Game {
     }
 
     private boolean sellProperty(int player, int place) {
-        // TODO : make a check for if the property exists
         int[] properties = playerController.getProperties(player);
         if (Arrays.stream(properties).anyMatch(i -> i == place)) {
-            playerController.removeProperty(player, place);
-            makeTransaction(((Street) fieldController.getFields()[place]).getCost(), player);
-            guiController.removeRentOwnership(place);
-            fieldController.sellPropety(place);
-            return true;
+            int propertyCost = fieldController.disOwnProperty(place);
+            if (propertyCost > 0) {
+                makeTransaction(propertyCost, player);
+                playerController.removeProperty(player, place);
+                updateGuiBalance(player);
+                guiController.removeRentOwnership(place);
+                return true;
+            } else {
+                guiController.showMessage(stringHandler.getString("stillHaveHouses"));
+                return false;
+            }
+
         }
         return false;
     }
@@ -270,7 +276,7 @@ public class Game {
                     guiController.setRent(street.getPosition(), street.getCurrentRent());
 
                     // Update the players balance in GUI
-                    setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
+                    updateGuiBalance(playerTurn);
 
                     // Update the property with new buildings in GUI
                     if (street.getPropertyLevel() == 6) {

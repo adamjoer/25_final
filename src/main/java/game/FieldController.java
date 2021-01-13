@@ -139,9 +139,15 @@ public class FieldController {
     }
 
 
-    public void sellProperty(int place) {
-        ((Street) fields[place]).setOwner(0);
-        setPropertyLevelForGroup(place, 0);
+    public int disOwnProperty(int place) {
+        if(((Street) fields[place]).getPropertyLevel() < 2){
+            ((Street) fields[place]).setOwner(0);
+            setPropertyLevelForGroup(place, 0);
+            return ((Street) fields[place]).getCost();
+        }
+        else{
+            return 0;
+        }
     }
 
 

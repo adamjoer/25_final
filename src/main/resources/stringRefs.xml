@@ -140,4 +140,8 @@
         <reference>test</reference>
         <outputString>Test did not fail!</outputString>
     </stringRef>
+    <stringRef>
+        <reference>stillHaveHouses</reference>
+        <outputString>Denne grund har stadig huse!</outputString>
+    </stringRef>
 </stringRefs>
