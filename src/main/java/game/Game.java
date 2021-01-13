@@ -135,7 +135,10 @@ public class Game {
         else if (instructions.getOwner() == -1) {
 
             //If field is owned by the bank, ask player if they want to buy it
-            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField",false), "Ja", "Nej").equals("Ja")) {
+            String yesButton = guiController.stringHandlerMessage("yes", false);
+            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField",false),
+                    yesButton, guiController.stringHandlerMessage("no", false))
+                    .equals(yesButton)) {
 
                 //If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
@@ -236,13 +239,16 @@ public class Game {
 
     private void buildOnStreets() {
 
+        String yesButton = guiController.stringHandlerMessage("yes", false),
+                noButton = guiController.stringHandlerMessage("no", false),
+                askText = guiController.stringHandlerMessage("askBuyHouse", false);
+
         // Get properties on which the player can build, and keep doing it until they don't have any left, or say no
         for (Street[] streets = getBuildableStreets(playerTurn); streets.length > 0; streets = getBuildableStreets(playerTurn)) {
 
             // Ask if the player want to buy houses
-            if (guiController.getUserButton(guiController.stringHandlerMessage("askBuyHouse", false),
-                    guiController.stringHandlerMessage("yes", false), guiController.stringHandlerMessage("no", false))
-                    .equals(guiController.stringHandlerMessage("no", false)))
+            if (guiController.getUserButton(askText, yesButton, noButton)
+                    .equals(noButton))
                 break;
 
             // Get an array of strings, which shows the name of the street and the price to put a house on it
@@ -354,6 +360,8 @@ public class Game {
     private boolean drawCard() {
 
         guiController.displayChanceCard(chanceCardController.drawCard());
+        guiController.stringHandlerMessage("chanceCard", true);
+
         boolean success = true;
         switch (chanceCardController.getCurrentCardType()) {
             case "BankTransaction":
@@ -483,9 +491,10 @@ public class Game {
     }
 
     private void movePlayer(int player, int increment) {
-        playerController.movePlayer(player, increment);
+        boolean hasGottenStartReward = playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
-        if (playerController.getPlayerPosition(player) < playerController.getPreviousPlayerPosition(player) && increment > 0) {
+        if (hasGottenStartReward) {
+            guiController.stringHandlerMessage("hasPassedStart", true);
             setGuiBalance(playerController.getPlayerBalance(player), player);
         }
     }

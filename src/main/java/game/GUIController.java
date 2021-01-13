@@ -20,8 +20,14 @@ public class GUIController {
     private final GUI_Car[] guiCars;
     private Color[] colorsAvailable = new Color[]{Color.MAGENTA, Color.GRAY, Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN}; //Color.decode("#3E0D0C")
     private final StringHandler stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
-    private String[] colorChoices = new String[]{"magenta", stringHandler.getString("gray"), stringHandler.getString("red"),
-                                                stringHandler.getString("yellow"), stringHandler.getString("green"), stringHandler.getString("cyan")};
+    private String[] colorChoices = new String[]{
+            "Magenta",
+            stringHandler.getString("gray"),
+            stringHandler.getString("red"),
+            stringHandler.getString("yellow"),
+            stringHandler.getString("green"),
+            stringHandler.getString("cyan")
+    };
 
     public GUIController(Field[] fields) {
         GUI_Field[] guiFields = new GUI_Field[fields.length];

@@ -66,11 +66,13 @@ public class PlayerController {
      * @param player    : Which player to move
      * @param increment : How much to move the player ahead
      */
-    public void movePlayer(int player, int increment) {
+    public boolean movePlayer(int player, int increment) {
         players[player].movePlayer(increment);
         if(players[player].getCurrentPosition() < players[player].getPreviousPosition() && increment > 0){
             players[player].makeTransaction(4000);
+            return true;
         }
+        return false;
     }
 
     /**
