@@ -97,7 +97,7 @@
         <reference>taxOptions</reference>
         <outputString>Du har to valgmuligheder:
             1: Betal 4.000 kr.
-            2: Betal 10% af din værdi
+            2: Betal 10% af din værdi:
         </outputString>
     </stringRef>
     <stringRef>

@@ -86,6 +86,18 @@ public class GUIController {
         getFields()[1].setForeGroundColor(Color.CYAN);
     }
 
+    public String stringHandlerMessage(String stringHandlerRef){
+        String msg = stringHandler.getString(stringHandlerRef);
+        showMessage(msg);
+        return msg;
+    }
+
+    public String stringHandlerMessage(String stringHandlerRef, String msg){
+        String stringHandlerMsg = stringHandler.getString(stringHandlerRef);
+        showMessage(stringHandlerMsg + msg);
+        return stringHandlerMsg;
+    }
+
     /**
      * Places buttons on the board with a message, and wait for the button pressed
      *
