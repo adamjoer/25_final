@@ -139,15 +139,44 @@ public class FieldController {
     }
 
 
-    public int disOwnProperty(int place) {
-        if(((Street) fields[place]).getPropertyLevel() < 2){
-            ((Street) fields[place]).setOwner(0);
-            setPropertyLevelForGroup(place, 0);
-            return ((Street) fields[place]).getCost();
+    public int disOwnProperty(int player, int place) {
+
+        //Get the property
+        Property property = (Property) fields[place];
+
+
+        switch (property.getField()) {
+
+            //If it's a street, check if there's any houses on it
+            case "Street":
+
+                //If there's no houses, set the owner to be the bank, chance propertyLevel of the entire group to 0, and return the cost of the property
+                if (property.getPropertyLevel() < 2) {
+                    property.setOwner(0);
+                    setPropertyLevelForGroup(place, 0);
+                    return property.getCost();
+                } else {
+                    return 0;
+                }
+
+            case "Shipping":
+                // Set propertyLevel to the number of properties owned in the group minus one
+                int group = getPropertyGroupIndex(place),
+                        owned = getNumberOfPropertiesOwnedInGroup(player, place);
+
+                for (int i = 0; i < properties[group].length; i++) {
+                    if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                }
+
+                return property.getCost();
+
+            case "Brewery":
+                //Since there's only 2 brewery fields, they are both going to be set to 0 if one is sold
+                setPropertyLevelForGroup(place, 0);
+                return property.getCost();
         }
-        else{
-            return 0;
-        }
+
+        return 0;
     }
 
 

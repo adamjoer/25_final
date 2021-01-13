@@ -187,7 +187,7 @@ public class Game {
     private boolean sellProperty(int player, int place) {
         int[] properties = playerController.getProperties(player);
         if (Arrays.stream(properties).anyMatch(i -> i == place)) {
-            int propertyCost = fieldController.disOwnProperty(place);
+            int propertyCost = fieldController.disOwnProperty(player, place);
             if (propertyCost > 0) {
                 makeTransaction(propertyCost, player);
                 playerController.removeProperty(player, place);
