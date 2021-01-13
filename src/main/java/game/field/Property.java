@@ -9,20 +9,11 @@ public abstract class Property extends Field {
     protected final int cost;
     protected final int pawnValue;
     protected final int[] rentLevels;
-    protected int propertyLevel = 1;
+    protected int propertyLevel = 0;
     protected final int relatedProperties;
     protected final int nextRelatedProperty;
     protected int owner = -1; // -1 means the property is owned by the bank
     protected boolean pawned = false;
-
-    // The array rentLevels represents the cost of rent at different levels:
-    //      0: Base rent
-    //      1: Double rent
-    //      2: With one house built on it
-    //      3: With two houses built on it
-    //      4: With three houses built on it
-    //      5: With four houses built on it
-    //      6: With a hotel built on it
 
     // Constructor
     public Property(String title, String subText, String description, int position, Color color, int cost, int pawnValue, int[] rentLevels, int relatedProperties, int nextRelatedProperty) {

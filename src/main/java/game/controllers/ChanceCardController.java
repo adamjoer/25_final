@@ -3,10 +3,6 @@ package game.controllers;
 import game.*;
 import game.chance.card.*;
 
-import java.util.Arrays;
-import java.lang.Math;
-import java.util.Random;
-
 public class ChanceCardController {
 
     private final String XML_FILEPATH = "src/main/resources/chanceCards.xml";
