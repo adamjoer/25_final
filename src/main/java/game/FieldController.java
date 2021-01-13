@@ -472,14 +472,14 @@ public class FieldController {
         Property[] ownedProperties = new Property[fields.length];
         int propertyCounter = -1;
         for (Property[] group : properties) {
-            for (Property property : group){
-                if (property.getOwner() == player){
+            for (Property property : group) {
+                if (property.getOwner() == player) {
                     propertyCounter++;
                     ownedProperties[propertyCounter] = property;
                 }
             }
         }
-        ownedProperties = Arrays.copyOfRange(ownedProperties,0, propertyCounter);
+        ownedProperties = Arrays.copyOfRange(ownedProperties, 0, propertyCounter);
         return ownedProperties;
     }
 
@@ -487,18 +487,21 @@ public class FieldController {
         Property[] playerProperties = getPlayerProperties(player);
         int[] pawnedPropertyPositions = new int[playerProperties.length];
         int pawnedPropertyCounter = -1;
-        for (Property property : playerProperties){
+        for (Property property : playerProperties) {
             if (property.getPawned()) {
                 pawnedPropertyCounter++;
                 pawnedPropertyPositions[pawnedPropertyCounter] = property.getPosition();
             }
         }
-        if (pawnedPropertyCounter == -1) { pawnedPropertyPositions = new int[0]; }
-        else { pawnedPropertyPositions = Arrays.copyOfRange(pawnedPropertyPositions,0,pawnedPropertyCounter); }
+        if (pawnedPropertyCounter == -1) {
+            pawnedPropertyPositions = new int[0];
+        } else {
+            pawnedPropertyPositions = Arrays.copyOfRange(pawnedPropertyPositions, 0, pawnedPropertyCounter);
+        }
         return pawnedPropertyPositions;
     }
 
-    public boolean playerHasPawnedProperties (int player) {
+    public boolean playerHasPawnedProperties(int player) {
         return getPlayerPawnedPropertyPositions(player).length != 0;
     }
 
