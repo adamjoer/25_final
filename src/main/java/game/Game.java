@@ -103,7 +103,7 @@ public class Game {
                 break;
 
             case "GoToJail":
-                return goToJailFieldAction(player, instructions);
+                return goToJailFieldAction(player, instructions.getJailPosition());
 
             case "Jail":
                 guiController.showMessage(stringHandler.getString("justVisitingJail"));
@@ -198,10 +198,10 @@ public class Game {
         return false;
     }
 
-    private boolean goToJailFieldAction(int player, FieldInstruction instructions) {
+    private boolean goToJailFieldAction(int player, int jailPosition) {
 
         guiController.showMessage(stringHandler.getString("goToJail"));
-        playerController.setPlayerPosition(player, instructions.getJailPosition());
+        playerController.setPlayerPosition(player, jailPosition);
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
         fieldController.incarcerate(player);
         return true;
@@ -404,7 +404,7 @@ public class Game {
 
             case "GoToJailCard":
 
-                goToJailFieldAction(playerTurn, fieldController.fieldAction(chanceCardController.getJailPosition()));
+                goToJailFieldAction(playerTurn, chanceCardController.getJailPosition());
 
                 break;
 
