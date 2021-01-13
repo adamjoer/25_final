@@ -19,8 +19,9 @@ public class GUIController {
     private String[] playerNames;
     private final GUI_Car[] guiCars;
     private Color[] colorsAvailable = new Color[]{Color.MAGENTA, Color.GRAY, Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN}; //Color.decode("#3E0D0C")
-    private String[] colorChoices = new String[]{"magenta", "grå", "rød", "gul", "grøn", "turkis"};
-    private final StringHandler stringHandler;
+    private final StringHandler stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
+    private String[] colorChoices = new String[]{"magenta", stringHandler.getString("gray"), stringHandler.getString("red"),
+                                                stringHandler.getString("yellow"), stringHandler.getString("green"), stringHandler.getString("cyan")};
 
     public GUIController(Field[] fields) {
         GUI_Field[] guiFields = new GUI_Field[fields.length];
@@ -72,7 +73,7 @@ public class GUIController {
         gui = new GUI(guiFields, Color.PINK);
 
         guiCars = new GUI_Car[MAX_PLAYER_AMOUNT];
-        stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
+        //stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
         playerNames = askForPlayerNames();
         playerAmount = playerNames.length;
         this.guiPlayerList = new GUI_Player[playerAmount];
@@ -170,14 +171,14 @@ public class GUIController {
                         showMessage(getString("nameNotUniqueError"));
                     } else {
                         names[i] = (userInputName);
-                        String vehicleType = gui.getUserSelection("Vælg type af dit køretøj","Bil", "Traktor", "Racerbil", "UFO");
+                        String vehicleType = gui.getUserSelection(stringHandlerMessage("vehicleType", false),"Bil", "Traktor", "Racerbil", "UFO");
                         switch (vehicleType) {
                             case "Bil" -> carType = GUI_Car.Type.CAR;
                             case "Traktor" -> carType = GUI_Car.Type.TRACTOR;
                             case "Racerbil" -> carType = GUI_Car.Type.RACECAR;
                             case "UFO" -> carType = GUI_Car.Type.UFO;
                         }
-                        String vehicleColor = gui.getUserSelection("Vælg farven til dit køretøj", colorChoices);
+                        String vehicleColor = gui.getUserSelection(stringHandlerMessage("vehicleColor", false), colorChoices);
 
                         int tempColorIndex = -1;
                         for (int j=0; j<colorChoices.length;j++){
@@ -187,17 +188,9 @@ public class GUIController {
                             }
                         }
                         guiCars[i] = new GUI_Car(colorsAvailable[tempColorIndex], null, carType, GUI_Car.Pattern.FILL);
+                        colorChoices = Utility.removeFromArray(colorChoices, tempColorIndex);
+                        colorsAvailable = Utility.removeFromArray(colorsAvailable, tempColorIndex);
 
-                        String[] tempArr = colorChoices;
-                        Color[] tempColorArr = colorsAvailable;
-                        colorsAvailable = new Color[colorsAvailable.length-1];
-                        colorChoices = new String[colorChoices.length - 1];
-
-                        System.arraycopy(tempArr,0,colorChoices,0,tempColorIndex);
-                        System.arraycopy(tempArr,tempColorIndex+1,colorChoices,tempColorIndex,colorChoices.length-tempColorIndex);
-
-                        System.arraycopy(tempColorArr,0,colorsAvailable,0,tempColorIndex);
-                        System.arraycopy(tempColorArr,tempColorIndex+1,colorsAvailable,tempColorIndex,colorsAvailable.length-tempColorIndex);
                         i++;
                     }
                 }
@@ -277,7 +270,7 @@ public class GUIController {
     public void removeGuiPlayer(int player, int fieldPlacement){
         // TODO: finish this
         if(guiPlayerList.length == 1){
-            showMessage("You are the winner" + getGuiPlayer(player).getName());
+            showMessage("" + getGuiPlayer(player).getName());
         }else {
             setCar(player, false, fieldPlacement);
 

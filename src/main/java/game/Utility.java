@@ -343,6 +343,22 @@ public class Utility {
         return array;
     }
 
+    public static Color[] removeFromArray(Color[] array, int index) {
+
+        // Copy existing array into temporary array
+        Color[] temp = array;
+
+        // Change array length
+        array = new Color[array.length - 1];
+
+        // Copy temporary array into new array, leaving out the element at specified index
+        System.arraycopy(temp, 0, array, 0, index);
+        System.arraycopy(temp, index + 1, array, index, array.length - index);
+
+        // Return new, shorter array
+        return array;
+    }
+
     /**
      * addToArray creates a new int array with one more place and fills in that place with a given integer.
      *
