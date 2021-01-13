@@ -324,7 +324,9 @@ public class FieldController {
                 if (property.getOwner() != player) continue;
 
                 // Add cost of property, and of potential buildings on it to worth
-                worth += property.getCost();
+
+                if (property.getPawned()) { worth += property.getCost()/2; }
+                else { worth += property.getCost(); }
                 if (property instanceof Street)
                     worth += (((Street) property).getBuildingCost() / 2) * ((Street) property).getNumberOfBuildings();
             }
