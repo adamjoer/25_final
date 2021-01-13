@@ -305,10 +305,16 @@ public class Game {
     }
 
     private boolean getOutOfJail() {
-        //TODO: Take into account 'get out of jail free' card when it's implemented
 
         // Announce that player is in prison
         guiController.showMessage(stringHandler.getString("isInJail"));
+
+        // If player has 'get out of jail free' card, take it from them and free player
+        if (playerController.hasOutOfJailCard(playerTurn)) {
+            guiController.showMessage(stringHandler.getString("hasOutOfJailCard"));
+            playerController.setPlayerOutOfJailCards(playerTurn, 0);
+            return true;
+        }
 
         // Get bail
         int bail = ((Jail) fieldController.getFields()[playerController.getPlayerPosition(playerTurn)]).getBail();
