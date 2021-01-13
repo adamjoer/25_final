@@ -153,7 +153,7 @@ public class FieldController {
 
                 //If there's no houses, set the owner to be the bank, chance propertyLevel of the entire group to 0, and return the cost of the property
                 if (property.getPropertyLevel() < 2) {
-                    property.setOwner(0);
+                    property.setOwner(-1);
                     setPropertyLevelForGroup(place, 0);
                     return property.getCost();
                 } else {
@@ -168,12 +168,14 @@ public class FieldController {
                 for (int i = 0; i < properties[group].length; i++) {
                     if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
                 }
+                property.setOwner(-1);
 
                 return property.getCost();
 
             case "Brewery":
                 //Since there's only 2 brewery fields, they are both going to be set to 0 if one is sold
                 setPropertyLevelForGroup(place, 0);
+                property.setOwner(-1);
                 return property.getCost();
         }
 
