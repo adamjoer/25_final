@@ -225,7 +225,7 @@
     <chanceCard>
         <cardType>GoToJailCard</cardType>
         <cardText>Go to jail, if you pass START, you do not receive 4.000 kr.</cardText>
-        <jailPosition>11</jailPosition>
+        <jailPosition>10</jailPosition>
         <duplicates>2</duplicates>
     </chanceCard>
     <chanceCard>
