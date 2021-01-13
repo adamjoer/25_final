@@ -1,20 +1,13 @@
 package game.chance.card;
 
-public class MovePlayer extends ChanceCard {
+public class GoToJailCard extends ChanceCard {
+    private final int JAIL_POSITION;
 
-    private final int INCREMENT;
-
-
-    /**
-     * @param CARD_TEXT The card text for the card. For output in the GUI.
-     * @param increment The number of tiles the player has to be moved.
-     */
-
-    public MovePlayer(String CARD_TEXT, int increment){
+    public GoToJailCard(String CARD_TEXT, int jailPosition){
         super(CARD_TEXT);
-        INCREMENT = increment;
-    }
+        JAIL_POSITION = jailPosition;
 
+    }
     public String getSuccessText(){ return ""; }
     public String getFailText(){ return ""; }
     public int[] getShippingLocations(){ return new int[]{}; }
@@ -22,11 +15,9 @@ public class MovePlayer extends ChanceCard {
     public int getHouseTax(){ return 0; }
     public int getHotelTax(){ return 0; }
     public int getThreshold(){ return 0; }
-    public int getIncrement(){ return INCREMENT; }
+    public int getIncrement(){ return 0; }
     public int getDestination(){ return 0; }
-    public int getJailPosition() { return 0; }
+    public int getJailPosition() { return JAIL_POSITION; }
     public boolean getDoubleRent() { return false; }
     public boolean getForward() { return false; }
 }
-
-

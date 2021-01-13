@@ -14,15 +14,6 @@ public abstract class Property extends Field {
     protected final int nextRelatedProperty;
     protected int owner = -1; // -1 means the property is owned by the bank
 
-    // The array rentLevels represents the cost of rent at different levels:
-    //      0: Base rent
-    //      1: Double rent
-    //      2: With one house built on it
-    //      3: With two houses built on it
-    //      4: With three houses built on it
-    //      5: With four houses built on it
-    //      6: With a hotel built on it
-
     // Constructor
     public Property(String title, String subText, String description, int position, Color color, int cost, int pawnValue, int[] rentLevels, int relatedProperties, int nextRelatedProperty) {
         super(title, subText, description, position, color);
@@ -81,12 +72,12 @@ public abstract class Property extends Field {
 
     public String toString() {
         return super.toString() +
-               "\n\t[cost=" + cost +
-               "]\n\t[pawnValue=" + pawnValue +
-               "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
-               "]\n\t[propertyLevel=" + propertyLevel +
-               "]\n\t[relatedProperties=" + relatedProperties +
-               "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
-               "]\n\t[owner=" + owner + ']';
+                "\n\t[cost=" + cost +
+                "]\n\t[pawnValue=" + pawnValue +
+                "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
+                "]\n\t[propertyLevel=" + propertyLevel +
+                "]\n\t[relatedProperties=" + relatedProperties +
+                "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
+                "]\n\t[owner=" + owner + ']';
     }
 }
