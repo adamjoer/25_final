@@ -2,8 +2,6 @@ package game;
 
 import game.field.*;
 
-import java.util.Arrays;
-
 public class FieldController {
 
     private final String XML_FILEPATH = "src/main/resources/fieldList.xml";
@@ -469,34 +467,24 @@ public class FieldController {
     }
 
     private Property[] getPlayerProperties(int player) {
-        Property[] ownedProperties = new Property[fields.length];
-        int propertyCounter = -1;
+        Property[] ownedProperties = new Property[0];
         for (Property[] group : properties) {
             for (Property property : group) {
                 if (property.getOwner() == player) {
-                    propertyCounter++;
-                    ownedProperties[propertyCounter] = property;
+                    ownedProperties = Utility.addToArray(ownedProperties, property);
                 }
             }
         }
-        ownedProperties = Arrays.copyOfRange(ownedProperties, 0, propertyCounter);
         return ownedProperties;
     }
 
     public int[] getPlayerPawnedPropertyPositions(int player) {
         Property[] playerProperties = getPlayerProperties(player);
-        int[] pawnedPropertyPositions = new int[playerProperties.length];
-        int pawnedPropertyCounter = -1;
+        int[] pawnedPropertyPositions = new int[0];
         for (Property property : playerProperties) {
             if (property.getPawned()) {
-                pawnedPropertyCounter++;
-                pawnedPropertyPositions[pawnedPropertyCounter] = property.getPosition();
+                pawnedPropertyPositions = Utility.addToArray(pawnedPropertyPositions, property.getPosition());
             }
-        }
-        if (pawnedPropertyCounter == -1) {
-            pawnedPropertyPositions = new int[0];
-        } else {
-            pawnedPropertyPositions = Arrays.copyOfRange(pawnedPropertyPositions, 0, pawnedPropertyCounter);
         }
         return pawnedPropertyPositions;
     }
