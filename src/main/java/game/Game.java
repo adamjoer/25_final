@@ -311,7 +311,7 @@ public class Game {
 
         // If player has 'get out of jail free' card, take it from them and free player
         if (playerController.hasOutOfJailCard(playerTurn)) {
-            guiController.showMessage(stringHandler.getString("hasOutOfJailCard"));
+            guiController.stringHandlerMessage("hasOutOfJailCard");
             playerController.setPlayerOutOfJailCards(playerTurn, 0);
             return true;
         }
