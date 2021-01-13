@@ -485,6 +485,15 @@ public class FieldController {
         return ownedProperties;
     }
 
+    public int[] getPlayerPropertyPositions(int player) {
+        Property[] playerProperties = getPlayerProperties(player);
+        int[] propertyPositions = new int[playerProperties.length];
+        for (int i = 0; i < playerProperties.length; i++) {
+            propertyPositions[i] = playerProperties[i].getPosition();
+        }
+        return propertyPositions;
+    }
+
     public int[] getPlayerPawnedPropertyPositions(int player) {
         Property[] playerProperties = getPlayerProperties(player);
         int[] pawnedPropertyPositions = new int[playerProperties.length];
