@@ -40,9 +40,6 @@ public class Game {
             // Announce whose turn it is
             guiController.stringHandlerMessage("playerTurn", true, playerController.getName(playerTurn));
 
-            // If the player has permission to build on their properties, give them the opportunity
-            if (fieldController.canPlayerBuyHouses(playerTurn)) buildOnStreets();
-
             // Check if player is on jail field
             if (playerController.getPlayerPosition(playerTurn) == fieldController.getJailPosition()) {
 
@@ -58,6 +55,9 @@ public class Game {
                     }
                 }
             }
+
+            // If the player has permission to build on their properties, give them the opportunity
+            if (fieldController.canPlayerBuyHouses(playerTurn)) buildOnStreets();
 
             // Roll the dice and move the resulting number of fields forward
             rollDice();
