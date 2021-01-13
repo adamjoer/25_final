@@ -37,7 +37,6 @@ public class Game {
         // Ask users for player info
         guiController.addPlayers(playerController.getPlayers());
 
-        // Keep playing until a winner is found
         do {
 
             // Announce whose turn it is
@@ -62,19 +61,22 @@ public class Game {
                 }
             }
 
-            // Cast dice from dice controller
+            // Roll the dice and move the resulting number of fields forward
             rollDice();
             movePlayer(playerTurnIndex, diceController.getSum());
 
+            // Execute the fieldAction of that field
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
-            if (!diceController.isIdentical()) {
-                getNextPlayerTurn();
-
-            } else {
+            // If the player rolled two identical dice, they get an extra turn
+            if (diceController.isIdentical()) {
                 guiController.showMessage(stringHandler.getString("extraTurnIdenticalDice"));
+
+            } else { // Otherwise move on to the next player
+                getNextPlayerTurn();
             }
 
+            // Keep playing until a winner is found
         } while (!stop);
 
         // Show message announcing winner
