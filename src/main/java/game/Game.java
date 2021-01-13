@@ -189,6 +189,9 @@ public class Game {
         int[] properties = playerController.getProperties(player);
         if (Arrays.stream(properties).anyMatch(i -> i == place)) {
             playerController.removeProperty(player, place);
+            makeTransaction(((Street) fieldController.getFields()[place]).getCost(), player);
+            guiController.removeRentOwnership(place);
+            fieldController.sellPropety(place);
             return true;
         }
         return false;

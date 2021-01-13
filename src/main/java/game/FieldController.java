@@ -13,7 +13,6 @@ public class FieldController {
     public FieldController() {
 
 
-
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
@@ -138,6 +137,13 @@ public class FieldController {
 
         return false;
     }
+
+
+    public void sellProperty(int place) {
+        ((Street) fields[place]).setOwner(0);
+        setPropertyLevelForGroup(place, 0);
+    }
+
 
     /**
      * Method for telling if a certain player owns all the properties in a certain group.
