@@ -167,10 +167,6 @@ public class Game {
     }
 
     private boolean buyProperty(int player, int place, int rent) {
-        // TODO : make a check for if the property is not owned
-        //int[] properties = playerController.getProperties(player);
-        //if(Arrays.stream(properties).anyMatch(i -> i == place )){
-
         boolean propertyLevelChanged = fieldController.buyProperty(player, place);
         playerController.addProperty(player, place);
         guiController.fieldOwnable(place, player, rent);
@@ -186,8 +182,6 @@ public class Game {
             }
         }
         return true;
-        //}
-        //return false;
     }
 
     private boolean sellProperty(int player, int place) {
