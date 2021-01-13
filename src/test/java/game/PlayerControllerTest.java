@@ -39,6 +39,11 @@ class PlayerControllerTest {
 
         assertEquals(38, pc.getPlayerPosition(3));
 
+        pc.movePlayer(4, 30);
+        pc.movePlayer(4, -25);
+
+        assertEquals(30000, pc.getPlayerBalance(4));
+
     }
 
     @Test
