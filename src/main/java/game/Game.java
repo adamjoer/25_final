@@ -219,7 +219,7 @@ public class Game {
         int playerValue = fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player);
         int subtract = (playerValue / 10);
         if (currentField.getTitle().equals("Statsskat")) {
-            guiController.stringHandlerMessage("stateTax",true);
+            guiController.stringHandlerMessage("stateTax", true);
             playerController.makeTransaction(-currentField.getFine(), player);
             guiController.makeTransaction(-currentField.getFine(), player);
         } else {
