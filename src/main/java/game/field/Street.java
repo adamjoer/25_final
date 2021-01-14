@@ -35,12 +35,12 @@ public class Street extends Property {
 
     public int getHouses() {
         if (propertyLevel < 6) return getNumberOfBuildings();
-        else return 0;
+        return 0;
     }
 
     public int getHotel() {
         if (propertyLevel == 6) return 1;
-        else return 0;
+        return 0;
     }
 
     public int getBuildingCost() {

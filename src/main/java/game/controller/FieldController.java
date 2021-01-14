@@ -380,10 +380,15 @@ public class FieldController {
     }
 
     public int getHouses(int player) {
+
         int houseCount = 0;
-        for (Field field : fields) {
-            if (field instanceof Street) {
-                if (((Property) field).getOwner() == player) houseCount += ((Street) field).getHouses();
+        for (Property[] group : properties) {
+
+            if (!(group[0] instanceof Street)) continue;
+
+            for (Property property : group) {
+                if (property.getOwner() == player)
+                    houseCount += ((Street) property).getHouses();
             }
         }
         return houseCount;
@@ -391,11 +396,16 @@ public class FieldController {
 
     public int getHotels(int player) {
         int hotelCount = 0;
-        for (Field field : fields) {
-            if (field instanceof Street) {
-                if (((Property) field).getOwner() == player) hotelCount += ((Street) field).getHotel();
+        for (Property[] group : properties) {
+
+            if (!(group[0] instanceof Street)) continue;
+
+            for (Property property : group) {
+                if (property.getOwner() == player)
+                    hotelCount += ((Street) property).getHotel();
             }
         }
+
         return hotelCount;
     }
 
