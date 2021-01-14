@@ -515,48 +515,52 @@ public class FieldController {
         return pawnablePropertyPositions;
     }
 
-    public void pawnProperty(int player, int position) {
+    public int pawnProperty(int player, int position) {
         Property property = (Property) fields[position];
+        int pawnValue = 0;
         if (propertyCanBePawned(position)) {
             property.setPawned(true);
-        }
-        int relatedProperties = property.getRelatedProperties();
-        int nextRelatedProperty = property.getNextRelatedProperty();
-        int propertyLevel;
 
-        // Adjust property rentLevels
-        switch (property.getField()) {
-            case "Street":
-                if (ownsAllPropertiesInGroup(player, position)) {
+            int relatedProperties = property.getRelatedProperties();
+            int nextRelatedProperty = property.getNextRelatedProperty();
+            int propertyLevel;
+            pawnValue = property.getCost()/2;
+
+            // Adjust property rentLevels
+            switch (property.getField()) {
+                case "Street":
+                    if (ownsAllPropertiesInGroup(player, position)) {
+                        for (int i = 0; i < relatedProperties; i++) {
+                            Street nextStreet = (Street) fields[nextRelatedProperty];
+                            nextStreet.setPropertyLevel(0);
+                            nextRelatedProperty = nextStreet.getNextRelatedProperty();
+                        }
+                    }
+                    break;
+
+                case "Shipping":
                     for (int i = 0; i < relatedProperties; i++) {
-                        Street nextStreet = (Street) fields[nextRelatedProperty];
-                        nextStreet.setPropertyLevel(0);
-                        nextRelatedProperty = nextStreet.getNextRelatedProperty();
+                        Shipping nextShipping = (Shipping) fields[nextRelatedProperty];
+                        propertyLevel = nextShipping.getPropertyLevel();
+                        if (nextShipping.getOwner() == player && propertyLevel > 0) {
+                            nextShipping.setPropertyLevel(propertyLevel - 1);
+                        }
+                        nextRelatedProperty = nextShipping.getNextRelatedProperty();
                     }
-                }
-                break;
+                    break;
 
-            case "Shipping":
-                for (int i = 0; i < relatedProperties; i++) {
-                    Shipping nextShipping = (Shipping) fields[nextRelatedProperty];
-                    propertyLevel = nextShipping.getPropertyLevel();
-                    if (nextShipping.getOwner() == player && propertyLevel > 0) {
-                        nextShipping.setPropertyLevel(propertyLevel - 1);
+                case "Brewery":
+                    for (int i = 0; i < relatedProperties; i++) {
+                        Brewery nextBrewery = (Brewery) fields[nextRelatedProperty];
+                        propertyLevel = nextBrewery.getPropertyLevel();
+                        if (nextBrewery.getOwner() == player && propertyLevel > 0) {
+                            nextBrewery.setPropertyLevel(propertyLevel - 1);
+                        }
+                        nextRelatedProperty = nextBrewery.getNextRelatedProperty();
                     }
-                    nextRelatedProperty = nextShipping.getNextRelatedProperty();
-                }
-                break;
-
-            case "Brewery":
-                for (int i = 0; i < relatedProperties; i++) {
-                    Brewery nextBrewery = (Brewery) fields[nextRelatedProperty];
-                    propertyLevel = nextBrewery.getPropertyLevel();
-                    if (nextBrewery.getOwner() == player && propertyLevel > 0) {
-                        nextBrewery.setPropertyLevel(propertyLevel - 1);
-                    }
-                    nextRelatedProperty = nextBrewery.getNextRelatedProperty();
-                }
+            }
         }
+        return pawnValue;
     }
 
     public void reclaimProperty(int player, int position) {

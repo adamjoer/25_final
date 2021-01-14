@@ -204,9 +204,8 @@ public class Game {
     }
 
     private void pawnProperty(int player, int position) {
-        fieldController.pawnProperty(player, position);
+        int pawnValue = fieldController.pawnProperty(player, position);
         guiController.markPropertyPawned(position);
-        int pawnValue = fieldController.getPropertyPawnValue(position);
         playerController.makeTransaction(pawnValue, player);
         updateGuiBalance(player);
     }
