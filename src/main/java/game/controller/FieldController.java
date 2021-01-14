@@ -342,12 +342,6 @@ public class FieldController {
         jail.free(player);
     }
 
-    public void setPropertyLevel(int fieldPosition, int level) {
-        if (fields[fieldPosition].getField().equals("Street")) {
-            ((Property) fields[fieldPosition]).setPropertyLevel(level);
-        }
-    }
-
     /**
      * Method for getting the combined worth of all the properties a specific player owns.
      * The value of a property is the cost of it, and if it is a Street, the worth of
@@ -369,8 +363,11 @@ public class FieldController {
 
                 // Add cost of property, and of potential buildings on it to worth
 
-                if (property.getPawned()) { worth += property.getCost()/2; }
-                else { worth += property.getCost(); }
+                if (property.getPawned()) {
+                    worth += property.getCost() / 2;
+                } else {
+                    worth += property.getCost();
+                }
                 if (property instanceof Street)
                     worth += (((Street) property).getBuildingCost() / 2) * ((Street) property).getNumberOfBuildings();
             }
@@ -414,8 +411,8 @@ public class FieldController {
         return hasBuildings;
     }
 
-    public boolean propertyCanBeSold (int position) {
-        if (fields[position].getField().equals("Street")){
+    public boolean propertyCanBeSold(int position) {
+        if (fields[position].getField().equals("Street")) {
             return existsBuildingsOnStreetGroup(position);
         }
         return true;
@@ -448,7 +445,7 @@ public class FieldController {
                 if (ownsAllPropertiesInGroup(player, position)) {
                     for (int i = 0; i < relatedProperties; i++) {
                         Street nextStreet = (Street) fields[nextRelatedProperty];
-                        setPropertyLevel(nextRelatedProperty, 0);
+                        nextStreet.setPropertyLevel(0);
                         nextRelatedProperty = nextStreet.getNextRelatedProperty();
                     }
                 }
