@@ -119,7 +119,6 @@ public class PlayerController {
     public int getPlayerPosition(int player) { return players[player].getCurrentPosition(); }
     public int getPreviousPlayerPosition(int player) { return players[player].getPreviousPosition(); }
     public int getPlayerBalance(int player) { return players[player].getBalance(); }
-    public boolean hasOutOfJailCard(int player){ return players[player].hasOutOfJailCard(); }
     public int getGetOutOfJailTries(int player) { return getOutOfJailTries[player]; }
     public int getOutOfJailCards(int player){return players[player].getOutOfJailCards();}
 
