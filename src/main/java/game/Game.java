@@ -185,9 +185,9 @@ public class Game {
     }
 
     private void sellRealEstate(int player) {
-        int[] eligibleBuildings = fieldController.sellableBuildings(player);
-        int[] eligibleProperties = fieldController.sellableProperties(player);
-        int[] eligiblePawns = fieldController.pawnableProperties(player);
+        int[] eligibleBuildings = fieldController.sellableBuildingPositions(player);
+        int[] eligibleProperties = fieldController.sellablePropertyPositions(player);
+        int[] eligiblePawns = fieldController.pawnablePropertyPositions(player);
         int selectedCase = guiController.sellRealEstatePrompt((eligibleBuildings.length > 0),
                 (eligibleProperties.length > 0), (eligiblePawns.length > 0));
         switch (selectedCase) {
@@ -208,6 +208,7 @@ public class Game {
         guiController.markPropertyPawned(position);
         int pawnValue = fieldController.getPropertyPawnValue(position);
         playerController.makeTransaction(pawnValue, player);
+        updateGuiBalance(player);
     }
 
     private void sellBuilding(int player, int position) {
@@ -215,6 +216,7 @@ public class Game {
         guiController.setHouseOrHotelStreet(position, fieldController.getHouses(player), false);
         int buildingValue = fieldController.getBuildingValue(position);
         playerController.makeTransaction(buildingValue, player);
+        updateGuiBalance(player);
     }
 
     private boolean sellProperty(int player, int position) {
@@ -233,6 +235,12 @@ public class Game {
 
         }
         return false;
+    }
+
+    private void sellAllPlayerProperties(int player) {
+        int valueOfProperties = fieldController.sellAllPlayerProperties(player);
+        playerController.makeTransaction(valueOfProperties, player);
+        updateGuiBalance(player);
     }
 
     private boolean goToJailFieldAction(int player, int jailPosition) {
