@@ -515,7 +515,7 @@ public class Game {
 
 
     private void getNextPlayerTurn() {
-        playerTurn = (playerTurn + 1) % playerCount;
+        playerTurn = ++playerTurn % playerCount;
         setPlayerTurn();
     }
 
