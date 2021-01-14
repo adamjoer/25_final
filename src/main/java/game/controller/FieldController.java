@@ -395,6 +395,7 @@ public class FieldController {
     }
 
     public int getHotels(int player) {
+
         int hotelCount = 0;
         for (Property[] group : properties) {
 
@@ -410,18 +411,14 @@ public class FieldController {
     }
 
     private boolean existsBuildingsOnStreetGroup(int position) {
-        Street referenceStreet = (Street) fields[position];
-        boolean hasBuildings = false;
-        int relatedProperties = referenceStreet.getRelatedProperties();
-        int nextRelatedProperty = referenceStreet.getNextRelatedProperty();
-        for (int i = 0; i < relatedProperties; i++) {
-            Street street = (Street) fields[nextRelatedProperty];
-            nextRelatedProperty = street.getNextRelatedProperty();
-            if (street.getNumberOfBuildings() > 0) {
-                hasBuildings = true;
-            }
+
+        int groupIndex = getPropertyGroupIndex(position);
+
+        for (Property property : getPropertyGroup(groupIndex)) {
+            if (((Street) property).getNumberOfBuildings() > 0)
+                return true;
         }
-        return hasBuildings;
+        return false;
     }
 
     public boolean propertyCanBePawned(int position) {
