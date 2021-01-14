@@ -1,9 +1,10 @@
-package game;
+package game.controller;
 
+import game.Player;
+import game.Utility;
 import game.field.*;
 import gui_fields.*;
 import gui_main.GUI;
-import org.apache.commons.lang.ArrayUtils;
 
 import java.awt.*;
 import java.util.Arrays;

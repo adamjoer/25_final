@@ -1,5 +1,6 @@
-package game;
+package game.controller;
 
+import game.Utility;
 import game.field.*;
 
 public class FieldController {

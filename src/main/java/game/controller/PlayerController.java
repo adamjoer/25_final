@@ -1,4 +1,6 @@
-package game;
+package game.controller;
+
+import game.Player;
 
 public class PlayerController {
 

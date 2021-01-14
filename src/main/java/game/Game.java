@@ -1,6 +1,6 @@
 package game;
 
-import game.controllers.*;
+import game.controller.*;
 import game.field.*;
 
 import java.util.Arrays;
