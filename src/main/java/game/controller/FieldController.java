@@ -410,7 +410,7 @@ public class FieldController {
         return hotelCount;
     }
 
-    private boolean existsBuildingsOnStreetGroup(int position) {
+    private boolean groupHasBuildings(int position) {
 
         int groupIndex = getPropertyGroupIndex(position);
 
@@ -426,7 +426,7 @@ public class FieldController {
             return false;
         }
         if (fields[position] instanceof Street) {
-            if (existsBuildingsOnStreetGroup(position)) {
+            if (groupHasBuildings(position)) {
                 return false;
             }
         }
