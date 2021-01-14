@@ -49,23 +49,30 @@
         <outputString>Du har slået to ens og får derfor en ekstra tur!</outputString>
     </stringRef>
     <stringRef>
+        <reference>hasPassedStart</reference>
+        <outputString>Du har passeret START og modtager 4.000 kr.</outputString>
+    </stringRef>
+    <stringRef>
         <reference>justVisitingJail</reference>
-        <outputString>Du er lige på besøg i fængsel</outputString>
+        <outputString>Du er på besøg i fængsel</outputString>
     </stringRef>
     <stringRef>
         <reference>goToJail</reference>
-        <outputString>Du skal sgu i fængsel!</outputString>
+        <outputString>Du bliver smidt i fængsel!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>hasOutOfJailCard</reference>
+        <outputString>Du bruger din benådning fra kongen til at komme fri</outputString>
     </stringRef>
     <stringRef>
         <reference>isInJail</reference>
-        <outputString>Du er i fængsel og skal ud før du kan rykke dig.
-        </outputString>
+        <outputString>Du er i fængsel og skal ud før du kan rykke dig</outputString>
     </stringRef>
     <stringRef>
         <reference>inJailOptions</reference>
         <outputString>Du har to valgmuligheder:
             1: Prøv at slå to ens (Du har maks 3 forsøg)
-            2: Betal bøden på 1.000 kr.
+            2: Betal kautionen på 1.000 kr.
         </outputString>
     </stringRef>
     <stringRef>
@@ -79,6 +86,10 @@
     <stringRef>
         <reference>jailNotIdenticalDice</reference>
         <outputString>Du slog desværre ikke to ens og skal blive i fængsel</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>chanceCard</reference>
+        <outputString>Du har landet på et 'prøv lykken' felt og trækker et lykkekort. Tryk OK for at gøre hvad der står på det</outputString>
     </stringRef>
     <stringRef>
         <reference>stateTax</reference>
@@ -117,14 +128,6 @@
         <outputString>Feltet er eget af en anden spiller, du skal betale husleje til </outputString>
     </stringRef>
     <stringRef>
-        <reference>goToJail</reference>
-        <outputString>Du er blevet smidt i fængsel!</outputString>
-    </stringRef>
-    <stringRef>
-        <reference>jail</reference>
-        <outputString>Du er på besøg i fængsel</outputString>
-    </stringRef>
-    <stringRef>
         <reference>askBuyHouse</reference>
         <outputString>Vil du købe huse?</outputString>
     </stringRef>
@@ -139,5 +142,41 @@
     <stringRef>
         <reference>test</reference>
         <outputString>Test did not fail!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleType</reference>
+        <outputString>Vælg type af dit køretøj</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleColor</reference>
+        <outputString>Vælg farven til dit køretøj</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>gray</reference>
+        <outputString>Grå</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>red</reference>
+        <outputString>Rød</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>yellow</reference>
+        <outputString>Gul</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>green</reference>
+        <outputString>Grøn</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>cyan</reference>
+        <outputString>Turkis</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>winner</reference>
+        <outputString>Vinderen af spillet er:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>stillHaveHouses</reference>
+        <outputString>Denne grund har stadig huse!</outputString>
     </stringRef>
 </stringRefs>

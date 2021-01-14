@@ -1,10 +1,12 @@
-package game;
+package game.controller;
+
+import game.Player;
 
 public class PlayerController {
 
-    Player[] players;
-    private boolean[] giftPlayerCheck;
-    private int[] getOutOfJailTries;
+    private Player[] players;
+    private final boolean[] giftPlayerCheck;
+    private final int[] getOutOfJailTries;
 
 
     /**
@@ -66,11 +68,13 @@ public class PlayerController {
      * @param player    : Which player to move
      * @param increment : How much to move the player ahead
      */
-    public void movePlayer(int player, int increment) {
+    public boolean movePlayer(int player, int increment) {
         players[player].movePlayer(increment);
         if(players[player].getCurrentPosition() < players[player].getPreviousPosition() && increment > 0){
             players[player].makeTransaction(4000);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -109,19 +113,19 @@ public class PlayerController {
 
     //Relevant getters
     public int getId(int player) { return players[player].getId(); }
-    public boolean hasOutOfJailCard(int player){ return players[player].hasOutOfJailCard(); }
     public String getName(int player){ return players[player].getName(); }
     public Player[] getPlayers(){ return players; }
     public int[] getProperties(int player) { return players[player].getProperties(); }
     public int getPlayerPosition(int player) { return players[player].getCurrentPosition(); }
     public int getPreviousPlayerPosition(int player) { return players[player].getPreviousPosition(); }
     public int getPlayerBalance(int player) { return players[player].getBalance(); }
+    public boolean hasOutOfJailCard(int player){ return players[player].hasOutOfJailCard(); }
     public int getGetOutOfJailTries(int player) { return getOutOfJailTries[player]; }
 
     //Relevant setters
-    public void setPlayerOutOfJailCards(int player, int cards){ players[player].setOutOfJailCards(cards); }
     public void setPlayerPosition(int player, int position) { players[player].setCurrentPosition(position); }
     public void setPlayerBalance(int player, int balance) { players[player].setBalance(balance); }
+    public void setPlayerOutOfJailCards(int player, int cards){ players[player].setOutOfJailCards(cards); }
     public void setGetOutOfJailTries(int player, int tries) { getOutOfJailTries[player] = tries; }
     public void incrementGetOutOfJailTries(int player) { getOutOfJailTries[player]++; }
 }

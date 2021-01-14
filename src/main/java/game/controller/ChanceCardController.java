@@ -1,4 +1,4 @@
-package game.controllers;
+package game.controller;
 
 import game.*;
 import game.chance.card.*;

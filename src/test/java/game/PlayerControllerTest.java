@@ -1,5 +1,6 @@
 package game;
 
+import game.controller.PlayerController;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,6 +40,11 @@ class PlayerControllerTest {
 
         assertEquals(38, pc.getPlayerPosition(3));
 
+        pc.movePlayer(4, 30);
+        pc.movePlayer(4, -25);
+
+        assertEquals(30000, pc.getPlayerBalance(4));
+
     }
 
     @Test
@@ -77,7 +83,7 @@ class PlayerControllerTest {
 
     @Test
     void giftPlayer() {
-        for (Player p : pc.players) {
+        for (Player p : pc.getPlayers()) {
             p.setBalance(30000);
         }
 
