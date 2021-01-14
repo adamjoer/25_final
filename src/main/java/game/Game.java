@@ -4,7 +4,7 @@ import game.controller.*;
 import game.field.*;
 
 import java.util.Arrays;
-import java.util.Scanner;
+
 
 public class Game {
 
@@ -32,8 +32,6 @@ public class Game {
 
         // Variable for keeping track of whether a winner has been found
         boolean stop = false;
-
-        Scanner scan = new Scanner(System.in);
 
         // Ask users for player info
         guiController.addPlayers(playerController.getPlayers());
@@ -64,7 +62,7 @@ public class Game {
 
             // Roll the dice and move the resulting number of fields forward
             rollDice();
-            movePlayer(playerTurnIndex, scan.nextInt());
+            movePlayer(playerTurnIndex, diceController.getSum());
 
             // Execute the fieldAction of that field
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
