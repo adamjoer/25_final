@@ -32,10 +32,10 @@ public class GUIController {
 
     public GUIController(Field[] fields) {
         GUI_Field[] guiFields = new GUI_Field[fields.length];
-        for(int i = 0; i<fields.length; i++){
+        for (int i = 0; i < fields.length; i++) {
             Field field = fields[i];
 
-            switch (field.getField()){
+            switch (field.getField()) {
                 case "Start":
                     guiFields[i] = new GUI_Start(field.getTitle(), field.getSubText(), field.getDescription(), Color.red, Color.BLACK);
                     break;
@@ -46,22 +46,22 @@ public class GUIController {
                     break;
                 case "Shipping":
                     Shipping shipping = (Shipping) fields[i];
-                    guiFields[i] = new GUI_Shipping("default",shipping.getTitle(), shipping.getSubText(), shipping.getDescription(),
+                    guiFields[i] = new GUI_Shipping("default", shipping.getTitle(), shipping.getSubText(), shipping.getDescription(),
                             String.valueOf(shipping.getCurrentRent()), Color.WHITE, Color.BLACK);
                     break;
                 case "TaxField":
                     TaxField tax = (TaxField) fields[i];
-                    guiFields[i] = new GUI_Tax(tax.getTitle(), tax.getSubText(), tax.getDescription(),Color.GRAY, Color.BLACK);
+                    guiFields[i] = new GUI_Tax(tax.getTitle(), tax.getSubText(), tax.getDescription(), Color.GRAY, Color.BLACK);
                     break;
                 case "Brewery":
                     Brewery brewery = (Brewery) fields[i];
                     String title = brewery.getTitle();
-                    guiFields[i] = new GUI_Brewery("default", brewery.getTitle(),brewery.getSubText(),brewery.getDescription(),
+                    guiFields[i] = new GUI_Brewery("default", brewery.getTitle(), brewery.getSubText(), brewery.getDescription(),
                             String.valueOf(brewery.getCurrentRent()), Color.WHITE, Color.BLACK);
                     break;
                 case "GoToJail":
                 case "Jail":
-                    guiFields[i] = new GUI_Jail("default",field.getTitle(), field.getTitle(), field.getTitle(),
+                    guiFields[i] = new GUI_Jail("default", field.getTitle(), field.getTitle(), field.getTitle(),
                             new Color(125, 125, 125), Color.BLACK);
                     break;
                 case "Parking":
@@ -86,25 +86,25 @@ public class GUIController {
         this.guiPlayerList = new GUI_Player[playerAmount];
     }
 
-    public GUI_Field[] getFields(){
+    public GUI_Field[] getFields() {
         return gui.getFields();
     }
 
-    public void setColor(){
+    public void setColor() {
         getFields()[1].setForeGroundColor(Color.CYAN);
     }
 
-    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg){
+    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg) {
         String msg = stringHandler.getString(stringHandlerRef);
-        if(showMsg) {
+        if (showMsg) {
             showMessage(msg);
         }
         return msg;
     }
 
-    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg, String msg){
+    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg, String msg) {
         String stringHandlerMsg = stringHandler.getString(stringHandlerRef);
-        if(showMsg) {
+        if (showMsg) {
             showMessage(stringHandlerMsg + msg);
         }
         return stringHandlerMsg;
@@ -113,8 +113,8 @@ public class GUIController {
     /**
      * Places buttons on the board with a message, and wait for the button pressed
      *
-     * @param msg  : The message that the player will see
-     * @param btn  : multiple argumented buttons
+     * @param msg : The message that the player will see
+     * @param btn : multiple argumented buttons
      * @return returns a text string with the button pressed
      */
     public String getUserButton(String msg, String... btn) {
@@ -147,7 +147,6 @@ public class GUIController {
     }
 
 
-
     /**
      * Ask the players for their names on the board.
      * Checks for the max. and min. amount of players.
@@ -178,7 +177,7 @@ public class GUIController {
                         showMessage(getString("nameNotUniqueError"));
                     } else {
                         names[i] = (userInputName);
-                        String vehicleType = gui.getUserSelection(stringHandlerMessage("vehicleType", false),"Bil", "Traktor", "Racerbil", "UFO");
+                        String vehicleType = gui.getUserSelection(stringHandlerMessage("vehicleType", false), "Bil", "Traktor", "Racerbil", "UFO");
                         switch (vehicleType) {
                             case "Bil" -> carType = GUI_Car.Type.CAR;
                             case "Traktor" -> carType = GUI_Car.Type.TRACTOR;
@@ -188,8 +187,8 @@ public class GUIController {
                         String vehicleColor = gui.getUserSelection(stringHandlerMessage("vehicleColor", false), colorChoices);
 
                         int tempColorIndex = -1;
-                        for (int j=0; j<colorChoices.length;j++){
-                            if(colorChoices[j].equals(vehicleColor)){
+                        for (int j = 0; j < colorChoices.length; j++) {
+                            if (colorChoices[j].equals(vehicleColor)) {
                                 tempColorIndex = j;
                                 break;
                             }
@@ -216,18 +215,19 @@ public class GUIController {
     }
 
     /**
-     *  Adds all players to the board
+     * Adds all players to the board
+     *
      * @param players : players needs to be created before sending to GUI controller
      * @return true if the players are created otherwise false, can also return false if the player array size is over 4
      */
-    public boolean addPlayers(Player[] players){
+    public boolean addPlayers(Player[] players) {
         boolean playerCheck = false;
-        if (players.length > MAX_PLAYER_AMOUNT || players.length < MIN_PLAYER_AMOUNT){
+        if (players.length > MAX_PLAYER_AMOUNT || players.length < MIN_PLAYER_AMOUNT) {
             return false;
         }
 
-        for(int i = 0; i < playerAmount; i++){
-            GUI_Player player = new GUI_Player(players[i].getName(),players[i].getBalance(), guiCars[i]);
+        for (int i = 0; i < playerAmount; i++) {
+            GUI_Player player = new GUI_Player(players[i].getName(), players[i].getBalance(), guiCars[i]);
             playerCheck = gui.addPlayer(player);
             guiPlayerList[i] = player;
             setCar(i, true, 0);
@@ -255,30 +255,32 @@ public class GUIController {
 
     /**
      * Set the players balance on the gui
+     *
      * @param balance : balance to be set
-     * @param player : integer which correlates to the player
+     * @param player  : integer which correlates to the player
      */
-    public void setBalance(int balance, int player){
+    public void setBalance(int balance, int player) {
         //set balance
         Objects.requireNonNull(getGuiPlayer(player)).setBalance(balance);
     }
 
     /**
      * Makes a transaction on the player in the GUI
+     *
      * @param amount : the amount to be transferred
      * @param player : integer which correlates to the player
      */
-    public void makeTransaction(int amount, int player){
+    public void makeTransaction(int amount, int player) {
         GUI_Player guiPlayer = getGuiPlayer(player);
         assert guiPlayer != null;
         guiPlayer.setBalance(amount + guiPlayer.getBalance());
     }
 
-    public void removeGuiPlayer(int player, int fieldPlacement){
+    public void removeGuiPlayer(int player, int fieldPlacement) {
         // TODO: finish this
-        if(guiPlayerList.length == 1){
+        if (guiPlayerList.length == 1) {
             showMessage("" + getGuiPlayer(player).getName());
-        }else {
+        } else {
             setCar(player, false, fieldPlacement);
 
             GUI_Player[] tempArr = guiPlayerList;
@@ -288,7 +290,7 @@ public class GUIController {
             System.arraycopy(tempArr, player + 1, guiPlayerList, player, guiPlayerList.length - player);
 
             String[] tempNameArr = playerNames;
-            playerNames = new String[playerNames.length-1];
+            playerNames = new String[playerNames.length - 1];
 
             System.arraycopy(tempNameArr, 0, playerNames, 0, player);
             System.arraycopy(tempNameArr, player + 1, playerNames, player, playerNames.length - player);
@@ -297,21 +299,23 @@ public class GUIController {
 
     /**
      * Set the visibility of a players car
-     * @param player : A player from the game
+     *
+     * @param player     : A player from the game
      * @param visibility : Whether the car is shown on the board or not
      */
-    public void setCar(int player, boolean visibility, int fieldPlacement){
+    public void setCar(int player, boolean visibility, int fieldPlacement) {
         gui.getFields()[fieldPlacement].drawCar(getGuiPlayer(player), visibility);
     }
 
     /**
      * Moves a players car
-     * @param player : A player from the game
-     * @param fieldPlacement : Position of the player (array position) not actual position
+     *
+     * @param player            : A player from the game
+     * @param fieldPlacement    : Position of the player (array position) not actual position
      * @param newFieldPlacement : The position where the player should be moved to (array position)
      */
-    public void setCarPlacement(int player, int fieldPlacement, int newFieldPlacement){
-        gui.getFields()[fieldPlacement].drawCar(getGuiPlayer(player),false);
+    public void setCarPlacement(int player, int fieldPlacement, int newFieldPlacement) {
+        gui.getFields()[fieldPlacement].drawCar(getGuiPlayer(player), false);
         gui.getFields()[newFieldPlacement].drawCar(getGuiPlayer(player), true);
     }
 
@@ -382,19 +386,37 @@ public class GUIController {
      * Sets the ownership of a field
      *
      * @param fieldPosition : The position of the field (array position), not the actual position
-     * @param player : the number of the player
+     * @param player        : the number of the player
      */
     public void setOwnership(int fieldPosition, int player) {
         GUI_Ownable ownable = (GUI_Ownable) gui.getFields()[fieldPosition];
         ownable.setOwnerName(guiPlayerList[player].getName());
     }
 
+    public int choosePropertyPrompt(int[] propertyPositions, String reference) {
+
+        // TODO: Fill with something meaningful.
+        return 0;
+    }
+
+
+    public int sellRealEstatePrompt(boolean building, boolean property, boolean pawn) {
+
+        // TODO: Fill with something meaningful.
+        return 0;
+    }
+
+    public void markPropertyPawned(int position, boolean b) {
+        // TODO: Fill with something meaningful.
+    }
+
     /**
      * Sets the rent of a field
+     *
      * @param fieldPosition : The position of the field (array position), not the actual position
-     * @param rent : the rent that the field will get
+     * @param rent          : the rent that the field will get
      */
-    public void setRent(int fieldPosition, int rent){
+    public void setRent(int fieldPosition, int rent) {
         GUI_Ownable ownable = (GUI_Ownable) gui.getFields()[fieldPosition];
         ownable.setRent(Integer.toString(rent));
     }
@@ -413,7 +435,7 @@ public class GUIController {
             houseAmount = 4;
         }
         street.setHouses(houseAmount);
-        if(setHotel) {
+        if (setHotel) {
             street.setHotel(true);
         }
     }
@@ -458,13 +480,14 @@ public class GUIController {
 
     /**
      * Takes a player from the game and retrieves it from board
+     *
      * @param player : a player from the main game
      * @return a GUI_Player
      */
-    private GUI_Player getGuiPlayer(int player){
+    private GUI_Player getGuiPlayer(int player) {
 
-        for(GUI_Player p : guiPlayerList){
-            if (playerNames[player].equals(p.getName())){
+        for (GUI_Player p : guiPlayerList) {
+            if (playerNames[player].equals(p.getName())) {
                 return p;
             }
         }
