@@ -188,9 +188,8 @@ public class Game {
         int[] eligibleBuildings = fieldController.sellableBuildings(player);
         int[] eligibleProperties = fieldController.sellableProperties(player);
         int[] eligiblePawns = fieldController.pawnableProperties(player);
-        int selectedCase = guiController.sellRealEstatePrompt(!(eligibleBuildings.length == 0),
-                !(eligibleProperties.length == 0), !(eligiblePawns.length == 0);
-        int selectedProperty;
+        int selectedCase = guiController.sellRealEstatePrompt((eligibleBuildings.length > 0),
+                (eligibleProperties.length > 0), (eligiblePawns.length > 0));
         switch (selectedCase) {
             case 0:
                 sellBuilding(player, guiController.chooseProperty(eligibleBuildings));
@@ -202,6 +201,20 @@ public class Game {
                 pawnProperty(player, guiController.chooseProperty(eligiblePawns));
                 break;
         }
+    }
+
+    private void pawnProperty(int player, int position) {
+        fieldController.pawnProperty(player, position);
+        guiController.markPropertyPawned(position);
+        int pawnValue = fieldController.getPropertyPawnValue(position);
+        playerController.makeTransaction(pawnValue, player);
+    }
+
+    private void sellBuilding(int player, int position) {
+        fieldController.sellBuilding(position);
+        guiController.setHouseOrHotelStreet(position, fieldController.getHouses(player), false);
+        int buildingValue = fieldController.getBuildingValue(position);
+        playerController.makeTransaction(buildingValue, player);
     }
 
     private boolean sellProperty(int player, int position) {
