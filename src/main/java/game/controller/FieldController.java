@@ -420,11 +420,22 @@ public class FieldController {
         return true;
     }
 
+    public int[] sellablePropertyPositions(int player) {
+        int[] playerPropertyPositions = getPlayerPropertyPositions(player);
+        int[] sellablePropertyPositions = new int[0];
+        for (int position : playerPropertyPositions) {
+            if (propertyCanBeSold(position)) {
+                sellablePropertyPositions = Utility.addToArray(sellablePropertyPositions, position);
+            }
+        }
+        return sellablePropertyPositions;
+    }
+
     private boolean buildingCanBeSold(int position) {
         Property property = (Property) fields[position];
-        if (property instanceof Street) {
+        int propertyLevel = property.getPropertyLevel();
+        if (property instanceof Street && propertyLevel > 1) {
             Property nextProperty = (Property) fields[property.getNextRelatedProperty()];
-            int propertyLevel = property.getPropertyLevel();
             for (int i = 0; i < property.getRelatedProperties() - 1; i++) {
                 if (nextProperty.getPropertyLevel() > propertyLevel) {
                     return false;
@@ -448,7 +459,16 @@ public class FieldController {
             }
         }
         return sellableBuildingPositions;
+    }
 
+    public int sellBuilding (int position){
+        if (buildingCanBeSold(position)) {
+            Street street = (Street) fields[position];
+            street.setPropertyLevel(street.getPropertyLevel() - 1);
+            return street.getBuildingCost()/2;
+        } else {
+            return 0;
+        }
     }
 
     private boolean propertyCanBePawned(int position) {

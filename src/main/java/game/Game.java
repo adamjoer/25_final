@@ -212,9 +212,8 @@ public class Game {
     }
 
     private void sellBuilding(int player, int position) {
-        fieldController.sellBuilding(position);
+        int buildingValue = fieldController.sellBuilding(position);
         guiController.setHouseOrHotelStreet(position, fieldController.getHouses(player), false);
-        int buildingValue = fieldController.getBuildingValue(position);
         playerController.makeTransaction(buildingValue, player);
         updateGuiBalance(player);
     }
