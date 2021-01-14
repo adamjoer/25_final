@@ -119,11 +119,13 @@ public class FieldController {
                 int group = getPropertyGroupIndex(propertyPosition),
                         owned = getNumberOfPropertiesOwnedInGroup(player, propertyPosition);
 
-                for (int i = 0; i < properties[group].length; i++) {
-                    if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                if (owned != 1) {
+                    for (int i = 0; i < properties[group].length; i++) {
+                        if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                    }
                 }
 
-                return true;
+                return owned != 1;
 
             case "Brewery":
                 // If the player owns all the properties in the group, change propertyLevel to 1
@@ -548,6 +550,10 @@ public class FieldController {
     // Relevant getters
     public Field[] getFields() {
         return fields;
+    }
+
+    public Property[][] getProperties() {
+        return properties;
     }
 
     public Property[] getPropertyGroup(int groupIndex) {
