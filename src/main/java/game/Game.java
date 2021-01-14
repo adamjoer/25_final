@@ -5,7 +5,6 @@ import game.field.*;
 
 import java.util.Arrays;
 
-
 public class Game {
 
     private final PlayerController playerController;
@@ -131,7 +130,7 @@ public class Game {
         }
 
         // Check if the field is owned by the bank
-        else if (instructions.getOwner() == -1) {
+        if (instructions.getOwner() == -1) {
 
             // If field is owned by the bank, ask player if they want to buy it
             String yesButton = guiController.stringHandlerMessage("yes", false);
@@ -149,10 +148,9 @@ public class Game {
                 }
             }
             return true;
-        }
 
-        // Field is owned by another player, so they have to pay rent
-        else {
+        } else { // Field is owned by another player, so they have to pay rent
+
             int owner = instructions.getOwner();
             guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
 
@@ -179,7 +177,7 @@ public class Game {
         }
     }
 
-    private boolean buyProperty(int player, int place, int rent) {
+    private void buyProperty(int player, int place, int rent) {
         boolean propertyLevelChanged = fieldController.buyProperty(player, place);
         playerController.addProperty(player, place);
         guiController.fieldOwnable(place, player, rent);
@@ -194,7 +192,6 @@ public class Game {
                     guiController.setRent(property.getPosition(), property.getCurrentRent());
             }
         }
-        return true;
     }
 
     private boolean sellProperty(int player, int place) {
@@ -235,8 +232,7 @@ public class Game {
 
             // Give player options
             guiController.stringHandlerMessage("tax", true);
-            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", false),
-                    "1", "2");
+            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", false), "1", "2");
 
             // If player chose to pay 10% of their worth, calculate it, and show the player
             if (playerChoice.equals("2")) {
@@ -277,7 +273,7 @@ public class Game {
             String streetToBuyHouse = guiController.getUserButton(guiController.stringHandlerMessage("whereToBuyHouse", false), houseCostButtons);
 
             // Extract street name from button text by stripping text from the end
-            // e.g. 'Rødovrevej: 1000 kr.' -> 'Rødovrevej'
+            // e.g. 'Strandvej: 1000 kr.' -> 'Strandvej'
             streetToBuyHouse = streetToBuyHouse.substring(0, streetToBuyHouse.length() - 10);
 
             // Find the street that the user wants to build a building on
@@ -369,7 +365,7 @@ public class Game {
                 return false;
             }
 
-        } else { // Player wants to bay bail
+        } else { // Player wants to pay bail
             return makeTransaction(-bail, playerTurn);
         }
     }
@@ -493,10 +489,6 @@ public class Game {
 
     // Methods related to players.
 
-    private String[] getPlayerNames() {
-        return guiController.returnPlayerNames();
-    }
-
     private boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
@@ -547,13 +539,6 @@ public class Game {
             }
         }
     }
-
-    /*
-    public void setPlayerPosition(int player, int position){
-        playerController.setPlayerPosition(player, position);
-        guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
-    }
-     */
 
     // Miscellaneous.
 
