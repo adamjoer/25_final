@@ -80,9 +80,7 @@ public class Player {
         currentPosition = (currentPosition + increment) % BOARD_LENGTH;
     }
 
-    public boolean hasOutOfJailCard() {
-        return outOfJailCards > 0;
-    }
+    public int getOutOfJailCards(){return this.outOfJailCards;}
 
     public int getId() {
         return this.id;
