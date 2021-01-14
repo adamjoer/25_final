@@ -138,6 +138,50 @@ public class FieldController {
         return false;
     }
 
+
+    public int disOwnProperty(int player, int place) {
+
+        //Get the property
+        Property property = (Property) fields[place];
+
+
+        switch (property.getField()) {
+
+            //If it's a street, check if there's any houses on it
+            case "Street":
+
+                //If there's no houses, set the owner to be the bank, chance propertyLevel of the entire group to 0, and return the cost of the property
+                if (property.getPropertyLevel() < 2) {
+                    property.setOwner(-1);
+                    setPropertyLevelForGroup(place, 0);
+                    return (property.getPawned()) ? property.getCost() / 2 : property.getCost();
+                } else {
+                    return 0;
+                }
+
+            case "Shipping":
+                // Set propertyLevel to the number of properties owned in the group minus one
+                int group = getPropertyGroupIndex(place),
+                        owned = getNumberOfPropertiesOwnedInGroup(player, place);
+
+                for (int i = 0; i < properties[group].length; i++) {
+                    if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                }
+                property.setOwner(-1);
+
+                return (property.getPawned()) ? property.getCost() / 2 : property.getCost();
+
+            case "Brewery":
+                //Since there's only 2 brewery fields, they are both going to be set to 0 if one is sold
+                setPropertyLevelForGroup(place, 0);
+                property.setOwner(-1);
+                return (property.getPawned()) ? property.getCost() / 2 : property.getCost();
+        }
+
+        return 0;
+    }
+
+
     /**
      * Method for telling if a certain player owns all the properties in a certain group.
      * The method goes over each property in the group and checks who the owner of it is.
@@ -292,6 +336,7 @@ public class FieldController {
     public void incarcerate(int player) {
         jail.incarcerate(player);
     }
+
 
     public void free(int player) {
         jail.free(player);
