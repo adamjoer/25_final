@@ -480,6 +480,21 @@ public class Game {
         return guiController.returnPlayerNames();
     }
 
+    private boolean transactionFailed(int player) {
+        boolean bankrupt = getPlayerTotalValue(player) < 0;
+        if (bankrupt) {
+            // Sell all buildings and properties automatically
+            sellAllPlayerProperties(player);
+        } else {
+            // Let the player choose what real estate to sell and/or pawn to cover deficit.
+            int deficit = -playerController.getPlayerBalance(player);
+            while (deficit > 0) {
+                deficit -= sellRealEstate(player);
+            }
+        }
+        return bankrupt;
+    }
+
     private boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
