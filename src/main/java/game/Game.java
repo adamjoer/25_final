@@ -113,7 +113,7 @@ public class Game {
                 break;
 
             case "TaxField":
-                return taxFieldAction(position, player);
+                return taxFieldAction(player, instructions);
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
@@ -225,31 +225,35 @@ public class Game {
         return true;
     }
 
-    private boolean taxFieldAction(int position, int player) {
-        TaxField currentField = (TaxField) fieldController.getFields()[position];
-        int fine = currentField.getFine();
-        int playerValue = fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player);
-        int subtract = (playerValue / 10);
-        if (currentField.getTitle().equals("Statsskat")) {
-            guiController.stringHandlerMessage("stateTax", true);
-            playerController.makeTransaction(-currentField.getFine(), player);
-            guiController.makeTransaction(-currentField.getFine(), player);
-        } else {
+    private boolean taxFieldAction(int player, FieldInstruction instructions) {
+
+        // Get tax
+        int tax = instructions.getFine();
+
+        // Check what kind of taxField it is
+        if (instructions.getTitle().equals("Skat")) {
+
+            // Give player options
             guiController.stringHandlerMessage("tax", true);
-            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", false, String.valueOf(subtract)),
+            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", false),
                     "1", "2");
-            if (playerChoice.equals("1")) {
-                playerController.makeTransaction(-fine, player);
-                guiController.makeTransaction(-fine, player);
-            } else {
 
-                guiController.stringHandlerMessage("playerValue", true, subtract + " kr.");
-
-                playerController.makeTransaction(-subtract, player);
-                guiController.makeTransaction(-subtract, player);
+            // If player chose to pay 10% of their worth, calculate it, and show the player
+            if (playerChoice.equals("2")) {
+                tax = (fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player)) / 10;
+                guiController.stringHandlerMessage("playerValue", true, tax + " kr.");
             }
+
         }
-        return true;
+
+        // Player doesn't have any options
+        else guiController.stringHandlerMessage("stateTax", true);
+
+        // Subtract tax from player balance
+        boolean successfulFine = playerController.makeTransaction(-tax, player);
+        updateGuiBalance(player);
+
+        return successfulFine;
     }
 
     private void buildOnStreets() {
