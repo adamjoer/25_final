@@ -106,7 +106,7 @@ public class Game {
                 return goToJailFieldAction(player, instructions.getJailPosition());
 
             case "Jail":
-                guiController.stringHandlerMessage("justVisitingJail",true );
+                guiController.stringHandlerMessage("justVisitingJail", true);
                 break;
 
             case "Parking":
@@ -127,7 +127,7 @@ public class Game {
 
         //Check if the field is owned by the player
         if (player == instructions.getOwner()) {
-            guiController.stringHandlerMessage("ownField",true);
+            guiController.stringHandlerMessage("ownField", true);
             return true;
         }
 
@@ -136,7 +136,7 @@ public class Game {
 
             //If field is owned by the bank, ask player if they want to buy it
             String yesButton = guiController.stringHandlerMessage("yes", false);
-            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField",false),
+            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField", false),
                     yesButton, guiController.stringHandlerMessage("no", false))
                     .equals(yesButton)) {
 
