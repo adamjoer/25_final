@@ -184,6 +184,13 @@ public class Game {
         return true;
     }
 
+    private void reclaimProperty(int player) {
+        // TODO: Still some work left on this.
+        int[] pawnedPropertyPositions = fieldController.getPlayerPawnedPropertyPositions(player);
+        int propertyToReclaim = guiController.choosePropertyPrompt(pawnedPropertyPositions, "reclaimPropertyPrompt");
+        makeTransaction(-fieldController.reclaimProperty(player, propertyToReclaim), player);
+    }
+
     private void sellRealEstate(int player) {
         int[] eligibleBuildings = fieldController.sellableBuildingPositions(player);
         int[] eligibleProperties = fieldController.sellablePropertyPositions(player);
@@ -192,20 +199,21 @@ public class Game {
                 (eligibleProperties.length > 0), (eligiblePawns.length > 0));
         switch (selectedCase) {
             case 0:
-                sellBuilding(player, guiController.chooseProperty(eligibleBuildings));
+                sellBuilding(player, guiController.choosePropertyPrompt(eligibleBuildings, "sellBuildingPrompt"));
                 break;
             case 1:
-                sellProperty(player, guiController.chooseProperty(eligibleProperties));
+                sellProperty(player, guiController.choosePropertyPrompt(eligibleProperties, "sellPropertyPrompt"));
                 break;
             case 2:
-                pawnProperty(player, guiController.chooseProperty(eligiblePawns));
+                pawnProperty(player, guiController.choosePropertyPrompt(eligiblePawns, "pawnPropertyPrompt"));
                 break;
         }
     }
 
+
     private void pawnProperty(int player, int position) {
         int pawnValue = fieldController.pawnProperty(player, position);
-        guiController.markPropertyPawned(position);
+        guiController.markPropertyPawned(position, true);
         playerController.makeTransaction(pawnValue, player);
         updateGuiBalance(player);
     }
