@@ -461,14 +461,38 @@ public class FieldController {
         return sellableBuildingPositions;
     }
 
-    public int sellBuilding (int position){
+    public int sellBuilding(int position) {
         if (buildingCanBeSold(position)) {
             Street street = (Street) fields[position];
             street.setPropertyLevel(street.getPropertyLevel() - 1);
-            return street.getBuildingCost()/2;
+            return street.getBuildingCost() / 2;
         } else {
             return 0;
         }
+    }
+
+    public int sellAllPlayerProperties(int player) {
+        Property[] playerProperties = getPlayerProperties(player);
+        int totalValue = 0;
+        for (Property property : playerProperties) {
+            if (property.getField().equals("Street")) {
+
+                    int propertyLevel = property.getPropertyLevel();
+                    if(propertyLevel > 1) {
+                        Street street = (Street) property;
+                        totalValue += (street.getBuildingCost()/2)*(propertyLevel-1);
+                    }
+            }
+            int baseValue = property.getCost();
+            if (property.getPawned()) {
+                totalValue += baseValue/2;
+            } else {
+                totalValue += baseValue;
+            }
+            property.setPropertyLevel(0);
+            property.setOwner(-1);
+        }
+        return totalValue;
     }
 
     private boolean propertyCanBePawned(int position) {
@@ -478,6 +502,17 @@ public class FieldController {
             }
         }
         return !((Property) fields[position]).getPawned();
+    }
+
+    public int[] pawnablePropertyPositions(int player) {
+        int[] playerPropertyPositions = getPlayerPropertyPositions(player);
+        int[] pawnablePropertyPositions = new int[0];
+        for (int position : playerPropertyPositions) {
+            if (propertyCanBePawned(position)) {
+                pawnablePropertyPositions = Utility.addToArray(pawnablePropertyPositions, position);
+            }
+        }
+        return pawnablePropertyPositions;
     }
 
     public void pawnProperty(int player, int position) {
