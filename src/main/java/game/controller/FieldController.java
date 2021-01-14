@@ -419,9 +419,6 @@ public class FieldController {
     }
 
     public boolean propertyCanBePawned(int position) {
-        if (!(fields[position] instanceof Property)) {
-            return false;
-        }
         if (fields[position] instanceof Street) {
             if (existsBuildingsOnStreetGroup(position)) {
                 return false;
