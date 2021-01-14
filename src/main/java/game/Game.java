@@ -70,7 +70,7 @@ public class Game {
             if (diceController.isIdentical())
                 guiController.stringHandlerMessage("extraTurnIdenticalDice", true);
 
-            // Otherwise move on to the next player
+                // Otherwise move on to the next player
             else getNextPlayerTurn();
 
         } while (!stop); // Keep playing until a winner is found
@@ -184,15 +184,34 @@ public class Game {
         return true;
     }
 
-    private boolean sellProperty(int player, int place) {
-        int[] properties = playerController.getProperties(player);
-        if (Arrays.stream(properties).anyMatch(i -> i == place)) {
-            int propertyCost = fieldController.disOwnProperty(player, place);
+    private void sellRealEstate(int player) {
+        int[] eligibleBuildings = fieldController.sellableBuildings(player);
+        int[] eligibleProperties = fieldController.sellableProperties(player);
+        int[] eligiblePawns = fieldController.pawnableProperties(player);
+        int selectedCase = guiController.sellRealEstatePrompt(!(eligibleBuildings.length == 0),
+                !(eligibleProperties.length == 0), !(eligiblePawns.length == 0);
+        int selectedProperty;
+        switch (selectedCase) {
+            case 0:
+                sellBuilding(player, guiController.chooseProperty(eligibleBuildings));
+                break;
+            case 1:
+                sellProperty(player, guiController.chooseProperty(eligibleProperties));
+                break;
+            case 2:
+                pawnProperty(player, guiController.chooseProperty(eligiblePawns));
+                break;
+        }
+    }
+
+    private boolean sellProperty(int player, int position) {
+        int[] properties = fieldController.getPlayerPropertyPositions(player);
+        if (Arrays.stream(properties).anyMatch(i -> i == position)) {
+            int propertyCost = fieldController.disOwnProperty(player, position);
             if (propertyCost > 0) {
-                makeTransaction(propertyCost, player);
-                playerController.removeProperty(player, place);
+                playerController.makeTransaction(propertyCost, player);
                 updateGuiBalance(player);
-                guiController.removeRentOwnership(place);
+                guiController.removeRentOwnership(position);
                 return true;
             } else {
                 guiController.showMessage(guiController.getUserString("stillHaveHouses"));
@@ -373,7 +392,7 @@ public class Game {
 
             case "CashFromPlayer":
 
-                success = giftPlayer(chanceCardController.getAmount(), playerTurn);
+                giftPlayer(chanceCardController.getAmount(), playerTurn);
                 break;
 
             case "HouseTax":
@@ -465,12 +484,10 @@ public class Game {
         }
     }
 
-    private boolean giftPlayer(int amount, int targetPlayer) {
-        boolean transactionSuccess = playerController.giftPlayer(amount, targetPlayer);
+    private void giftPlayer(int amount, int targetPlayer) {
         for (int i = 0; i < playerCount; i++) {
-            updateGuiBalance(i);
+            makeTransaction(amount, i, targetPlayer);
         }
-        return transactionSuccess;
     }
 
 
@@ -489,7 +506,8 @@ public class Game {
             // Let the player choose what real estate to sell and/or pawn to cover deficit.
             int deficit = -playerController.getPlayerBalance(player);
             while (deficit > 0) {
-                deficit -= sellRealEstate(player);
+                sellRealEstate(player);
+                deficit = -playerController.getPlayerBalance(player);
             }
         }
         return bankrupt;
@@ -498,6 +516,9 @@ public class Game {
     private boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
+        if (!transactionSuccess) {
+            transactionSuccess = transactionFailed(player);
+        }
         return transactionSuccess;
     }
 
