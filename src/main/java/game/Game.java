@@ -4,6 +4,7 @@ import game.controller.*;
 import game.field.*;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Game {
 
@@ -31,6 +32,8 @@ public class Game {
 
         // Variable for keeping track of whether a winner has been found
         boolean stop = false;
+
+        Scanner scan = new Scanner(System.in);
 
         // Ask users for player info
         guiController.addPlayers(playerController.getPlayers());
@@ -61,7 +64,7 @@ public class Game {
 
             // Roll the dice and move the resulting number of fields forward
             rollDice();
-            movePlayer(playerTurnIndex, diceController.getSum());
+            movePlayer(playerTurnIndex, scan.nextInt());
 
             // Execute the fieldAction of that field
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
@@ -123,22 +126,22 @@ public class Game {
 
     private boolean propertyFieldAction(int position, int player, FieldInstruction instructions) {
 
-        //Check if the field is owned by the player
+        // Check if the field is owned by the player
         if (player == instructions.getOwner()) {
             guiController.stringHandlerMessage("ownField", true);
             return true;
         }
 
-        //Check if the field is owned by the bank
+        // Check if the field is owned by the bank
         else if (instructions.getOwner() == -1) {
 
-            //If field is owned by the bank, ask player if they want to buy it
+            // If field is owned by the bank, ask player if they want to buy it
             String yesButton = guiController.stringHandlerMessage("yes", false);
             if (guiController.getUserButton(guiController.stringHandlerMessage("buyField", false),
                     yesButton, guiController.stringHandlerMessage("no", false))
                     .equals(yesButton)) {
 
-                //If they want to buy it, check if they have money for it
+                // If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
                     buyProperty(player, position, instructions.getRent());
                     updateGuiBalance(player);
@@ -150,15 +153,27 @@ public class Game {
             return true;
         }
 
-        //Field is owned by another player, so they have to pay rent
+        // Field is owned by another player, so they have to pay rent
         else {
             int owner = instructions.getOwner();
             guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
 
-            //Make transaction from the current player to the owner of the field
-            boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
+            int rent = instructions.getRent();
 
-            //Set the balance of both players in the GUI
+            // If the property is a brewery, the rent needs to be multiplied by the sum of the dice
+            if (instructions.getFieldType().equals("Brewery")) {
+
+                // Calculate new rent
+                rent = rent * diceController.getSum();
+
+                // Announce new rent to player
+                guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
+            }
+
+            // Make transaction from the current player to the owner of the field
+            boolean successfulRent = playerController.makeTransaction(rent, player, owner);
+
+            // Set the balance of both players in the GUI
             updateGuiBalance(player);
             updateGuiBalance(owner);
 

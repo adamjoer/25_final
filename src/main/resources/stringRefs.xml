@@ -108,7 +108,7 @@
         <reference>taxOptions</reference>
         <outputString>Du har to valgmuligheder:
             1: Betal 4.000 kr.
-            2: Betal 10% af din værdi:
+            2: Betal 10% af din værdi
         </outputString>
     </stringRef>
     <stringRef>
@@ -126,6 +126,10 @@
     <stringRef>
         <reference>payRent</reference>
         <outputString>Feltet er eget af en anden spiller, du skal betale husleje til </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>breweryRent</reference>
+        <outputString>På bryggerier ganges lejen med det tal som terningerne viser. Din husleje er derfor </outputString>
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
