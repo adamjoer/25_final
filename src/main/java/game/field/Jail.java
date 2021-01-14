@@ -42,7 +42,11 @@ public class Jail extends Field {
     }
 
     public boolean isInJail(int player) {
-        return Utility.isInArray(prisoners, player);
+
+        for (int prisoner : prisoners)
+            if (prisoner == player) return true;
+
+        return false;
     }
 
     // Relevant getters

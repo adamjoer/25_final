@@ -62,7 +62,9 @@ public abstract class Property extends Field {
         return owner;
     }
 
-    public boolean getPawned() { return pawned; }
+    public boolean getPawned() {
+        return pawned;
+    }
 
     // Relevant setters
     public void setPropertyLevel(int propertyLevel) {
@@ -73,17 +75,19 @@ public abstract class Property extends Field {
         this.owner = owner;
     }
 
-    public void setPawned(boolean pawned) { this.pawned = pawned; }
+    public void setPawned(boolean pawned) {
+        this.pawned = pawned;
+    }
 
     public String toString() {
         return super.toString() +
-                "\n\t[cost=" + cost +
-                "]\n\t[pawnValue=" + pawnValue +
-                "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
-                "]\n\t[propertyLevel=" + propertyLevel +
-                "]\n\t[relatedProperties=" + relatedProperties +
-                "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
-                "]\n\t[owner=" + owner +
-                "]\n\t[pawned=" + pawned + ']';
+               "\n\t[cost=" + cost +
+               "]\n\t[pawnValue=" + pawnValue +
+               "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
+               "]\n\t[propertyLevel=" + propertyLevel +
+               "]\n\t[relatedProperties=" + relatedProperties +
+               "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
+               "]\n\t[owner=" + owner +
+               "]\n\t[pawned=" + pawned + ']';
     }
 }

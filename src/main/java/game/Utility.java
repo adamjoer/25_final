@@ -276,182 +276,307 @@ public class Utility {
     /**
      * shuffleIntArray utilizes removeFromArray to remove a random element from the int array given and
      * addToArray to apply the same random element to the end of the array.
+     * <p>
      * The method is recursive, such that it keeps on removing elements in a random order, until there is only one
      * element left in the initial array. It then appends the single element arrays in the random order they were
      * extracted. This guarantees a shuffled array. As the method picks out by index rather than by value, it ensures
      * that the recursion is well defined.
+     * <p>
+     * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
+     * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
+     * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
+     * BASE_DECK.
      *
      * @param array The int array to shuffle
      * @return A shuffled int array with the same elements as the argument given, in a random order.
      */
 
     public static int[] shuffleIntArray(int[] array) {
-        if (array.length == 1) {
-            return array;
-        } else {
-            int index = (int) Math.round((Math.random() * (array.length - 1)));
-            int[] arrayWithoutIndex = removeFromArray(array, index);
-            return addToArray(shuffleIntArray(arrayWithoutIndex), array[index]);
-        }
-    }
 
-    public static int[] removeFromArray(int[] array, int index) {
+        if (array.length == 1) return array;
 
-        // Copy existing array into temporary array
-        int[] temp = array;
-
-        // Change array length
-        array = new int[array.length - 1];
-
-        // Copy temporary array into new array, leaving out the element at specified index
-        System.arraycopy(temp, 0, array, 0, index);
-        System.arraycopy(temp, index + 1, array, index, array.length - index);
-
-        // Return new, shorter array
-        return array;
-    }
-
-    public static Property[] removeFromArray(Property[] array, int index) {
-
-        // Copy existing array into temporary array
-        Property[] temp = array;
-
-        // Change array length
-        array = new Property[array.length - 1];
-
-        // Copy temporary array into new array, leaving out the element at specified index
-        System.arraycopy(temp, 0, array, 0, index);
-        System.arraycopy(temp, index + 1, array, index, array.length - index);
-
-        // Return new, shorter array
-        return array;
-    }
-
-    public static String[] removeFromArray(String[] array, int index) {
-
-        // Copy existing array into temporary array
-        String[] temp = array;
-
-        // Change array length
-        array = new String[array.length - 1];
-
-        // Copy temporary array into new array, leaving out the element at specified index
-        System.arraycopy(temp, 0, array, 0, index);
-        System.arraycopy(temp, index + 1, array, index, array.length - index);
-
-        // Return new, shorter array
-        return array;
-    }
-
-    public static Color[] removeFromArray(Color[] array, int index) {
-
-        // Copy existing array into temporary array
-        Color[] temp = array;
-
-        // Change array length
-        array = new Color[array.length - 1];
-
-        // Copy temporary array into new array, leaving out the element at specified index
-        System.arraycopy(temp, 0, array, 0, index);
-        System.arraycopy(temp, index + 1, array, index, array.length - index);
-
-        // Return new, shorter array
-        return array;
+        int index = (int) Math.round((Math.random() * (array.length - 1)));
+        int[] arrayWithoutIndex = removeFromArray(array, index);
+        return addToArray(shuffleIntArray(arrayWithoutIndex), array[index]);
     }
 
     /**
-     * addToArray creates a new int array with one more place and fills in that place with a given integer.
+     * Removes element at specified index in specified array. The method will produce an array
+     * which is one element shorter than the specified array, and whose elements are in the same
+     * order as specified array.
+     * <p>
+     * the specified array needs to contain at least one element, otherwise the resulting array
+     * will have a negative length. The specified index also needs to be within bounds of the
+     * specified array, otherwise data outside of array bounds will be accessed.
      *
-     * @param array  The array to add a place to.
-     * @param insert The value to assign to the created place.
-     * @return The array with the appended int place (placed at the last index).
+     * @param array Array of length 1 or more
+     * @param index Index of specified array, at which an element will be removed
+     * @return An array which is one element shorter than the specified array,
+     * and which does not contain the element at the specified index
+     */
+
+    public static int[] removeFromArray(int[] array, int index) {
+
+        // Declare output array outside of try/catch, otherwise it would be unreachable for return statement
+        int[] output;
+
+        try {
+            // Allocate space for new array
+            output = new int[array.length - 1];
+
+            // Copy array into output array, leaving out the element at specified index
+            System.arraycopy(array, 0, output, 0, index);
+            System.arraycopy(array, index + 1, output, index, output.length - index);
+
+        } catch (NegativeArraySizeException | IndexOutOfBoundsException exception) { // Handle if input array doesn't have any elements or if specified index is invalid
+
+            // Print stack trace for debugging
+            exception.printStackTrace();
+
+            // Return unaltered array
+            return array;
+        }
+
+        // Return new, shorter array
+        return output;
+
+    }
+
+    /**
+     * Removes element at specified index in specified array. The method will produce an array
+     * which is one element shorter than the specified array, and whose elements are in the same
+     * order as specified array.
+     * <p>
+     * the specified array needs to contain at least one element, otherwise the resulting array
+     * will have a negative length. The specified index also needs to be within bounds of the
+     * specified array, otherwise data outside of array bounds will be accessed.
+     *
+     * @param array Array of length 1 or more
+     * @param index Index of specified array, at which an element will be removed
+     * @return An array which is one element shorter than the specified array,
+     * and which does not contain the element at the specified index
+     */
+
+    public static Property[] removeFromArray(Property[] array, int index) {
+
+        // Declare output array outside of try/catch, otherwise it would be unreachable for return statement
+        Property[] output;
+
+        try {
+            // Allocate space for new array
+            output = new Property[array.length - 1];
+
+            // Copy array into output array, leaving out the element at specified index
+            System.arraycopy(array, 0, output, 0, index);
+            System.arraycopy(array, index + 1, output, index, output.length - index);
+
+        } catch (NegativeArraySizeException | IndexOutOfBoundsException exception) { // Handle if input array doesn't have any elements or if specified index is invalid
+
+            // Print stack trace for debugging
+            exception.printStackTrace();
+
+            // Return unaltered array
+            return array;
+        }
+
+        // Return new, shorter array
+        return output;
+
+    }
+
+    /**
+     * Removes element at specified index in specified array. The method will produce an array
+     * which is one element shorter than the specified array, and whose elements are in the same
+     * order as specified array.
+     * <p>
+     * the specified array needs to contain at least one element, otherwise the resulting array
+     * will have a negative length. The specified index also needs to be within bounds of the
+     * specified array, otherwise data outside of array bounds will be accessed.
+     *
+     * @param array Array of length 1 or more
+     * @param index Index of specified array, at which an element will be removed
+     * @return An array which is one element shorter than the specified array,
+     * and which does not contain the element at the specified index
+     */
+
+    public static String[] removeFromArray(String[] array, int index) {
+
+        // Declare output array outside of try/catch, otherwise it would be unreachable for return statement
+        String[] output;
+
+        try {
+            // Allocate space for new array
+            output = new String[array.length - 1];
+
+            // Copy array into output array, leaving out the element at specified index
+            System.arraycopy(array, 0, output, 0, index);
+            System.arraycopy(array, index + 1, output, index, output.length - index);
+
+        } catch (NegativeArraySizeException | IndexOutOfBoundsException exception) { // Handle if input array doesn't have any elements or if specified index is invalid
+
+            // Print stack trace for debugging
+            exception.printStackTrace();
+
+            // Return unaltered array
+            return array;
+        }
+
+        // Return new, shorter array
+        return output;
+
+    }
+
+    /**
+     * Removes element at specified index in specified array. The method will produce an array
+     * which is one element shorter than the specified array, and whose elements are in the same
+     * order as specified array.
+     * <p>
+     * the specified array needs to contain at least one element, otherwise the resulting array
+     * will have a negative length. The specified index also needs to be within bounds of the
+     * specified array, otherwise data outside of array bounds will be accessed.
+     *
+     * @param array Array of length 1 or more
+     * @param index Index of specified array, at which an element will be removed
+     * @return An array which is one element shorter than the specified array,
+     * and which does not contain the element at the specified index
+     */
+
+    public static Color[] removeFromArray(Color[] array, int index) {
+
+        // Declare output array outside of try/catch, otherwise it would be unreachable for return statement
+        Color[] output;
+
+        try {
+            // Allocate space for new array
+            output = new Color[array.length - 1];
+
+            // Copy array into output array, leaving out the element at specified index
+            System.arraycopy(array, 0, output, 0, index);
+            System.arraycopy(array, index + 1, output, index, output.length - index);
+
+        } catch (NegativeArraySizeException | IndexOutOfBoundsException exception) { // Handle if input array doesn't have any elements or if specified index is invalid
+
+            // Print stack trace for debugging
+            exception.printStackTrace();
+
+            // Return unaltered array
+            return array;
+        }
+
+        // Return new, shorter array
+        return output;
+    }
+
+    /**
+     * Adds a specified element to the end of a specified array. The method copies the array
+     * into a new, longer array, which will have the element at the end of it. This new array
+     * will be one element longer than the specified array.
+     * <p>
+     * The length of the specified array can be any otherwise valid length for an
+     * array, i.e. nonnegative and within bounds of the integer datatype.
+     *
+     * @param array  Array of any length, which will be added to
+     * @param insert Element to be appended to specified array
+     * @return An array which is one element longer than the input array, and which has the specified element appended
      */
 
     public static int[] addToArray(int[] array, int insert) {
 
-        // Copy existing array into temporary array
-        int[] temp = array;
+        // Allocate space for new array
+        int[] output = new int[array.length + 1];
 
-        // Change array length
-        array = new int[array.length + 1];
+        // Copy array into output array
+        System.arraycopy(array, 0, output, 0, array.length);
 
-        // Copy temporary array into new array
-        System.arraycopy(temp, 0, array, 0, temp.length);
-
-        // Add specified element to end of new array
-        array[array.length - 1] = insert;
+        // Add specified element to end of output array
+        output[array.length] = insert;
 
         // Return new, longer array
-        return array;
+        return output;
     }
 
     /**
-     * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
-     * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
-     * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
-     * BASE_DECK.
+     * Adds a specified element to the end of a specified array. The method copies the array
+     * into a new, longer array, which will have the element at the end of it. This new array
+     * will be one element longer than the specified array.
+     * <p>
+     * The length of the specified array can be any otherwise valid length for an
+     * array, i.e. nonnegative and within bounds of the integer datatype.
+     *
+     * @param array  Array of any length, which will be added to
+     * @param insert Element to be appended to specified array
+     * @return An array which is one element longer than the input array, and which has the specified element appended
      */
 
     public static Property[] addToArray(Property[] array, Property insert) {
 
-        // Copy existing array into temporary array
-        Property[] temp = array;
+        // Allocate space for new array
+        Property[] output = new Property[array.length + 1];
 
-        // Change array length
-        array = new Property[array.length + 1];
+        // Copy array into output array
+        System.arraycopy(array, 0, output, 0, array.length);
 
-        // Copy temporary array into new array
-        System.arraycopy(temp, 0, array, 0, temp.length);
-
-        // Add specified element to end of new array
-        array[array.length - 1] = insert;
+        // Add specified element to end of output array
+        output[array.length] = insert;
 
         // Return new, longer array
-        return array;
+        return output;
     }
+
+    /**
+     * Adds a specified element to the end of a specified array. The method copies the array
+     * into a new, longer array, which will have the element at the end of it. This new array
+     * will be one element longer than the specified array.
+     * <p>
+     * The length of the specified array can be any otherwise valid length for an
+     * array, i.e. nonnegative and within bounds of the integer datatype.
+     *
+     * @param array  Array of any length, which will be added to
+     * @param insert Element to be appended to specified array
+     * @return An array which is one element longer than the input array, and which has the specified element appended
+     */
 
     public static String[] addToArray(String[] array, String insert) {
 
-        // Copy existing array into temporary array
-        String[] temp = array;
+        // Allocate space for new array
+        String[] output = new String[array.length + 1];
 
-        // Change array length
-        array = new String[array.length + 1];
+        // Copy array into output array
+        System.arraycopy(array, 0, output, 0, array.length);
 
-        // Copy temporary array into new array
-        System.arraycopy(temp, 0, array, 0, temp.length);
-
-        // Add specified element to end of new array
-        array[array.length - 1] = insert;
+        // Add specified element to end of output array
+        output[array.length] = insert;
 
         // Return new, longer array
-        return array;
+        return output;
     }
+
+    /**
+     * Adds a specified element to the end of a specified array. The method copies the array
+     * into a new, longer array, which will have the element at the end of it. This new array
+     * will be one element longer than the specified array.
+     * <p>
+     * The length of the specified array can be any otherwise valid length for an
+     * array, i.e. nonnegative and within bounds of the integer datatype.
+     *
+     * @param array  Array of any length, which will be added to
+     * @param insert Element to be appended to specified array
+     * @return An array which is one element longer than the input array, and which has the specified element appended
+     */
 
     public static Street[] addToArray(Street[] array, Street insert) {
-        // Copy existing array into temporary array
-        Street[] temp = array;
 
-        // Change array length
-        array = new Street[array.length + 1];
+        // Allocate space for new array
+        Street[] output = new Street[array.length + 1];
 
-        // Copy temporary array into new array
-        System.arraycopy(temp, 0, array, 0, temp.length);
+        // Copy array into output array
+        System.arraycopy(array, 0, output, 0, array.length);
 
-        // Add specified element to end of new array
-        array[array.length - 1] = insert;
+        // Add specified element to end of output array
+        output[array.length] = insert;
 
         // Return new, longer array
-        return array;
-    }
-
-    public static boolean isInArray(int[] array, int search) {
-
-        for (int i : array) {
-            if (i == search) return true;
-        }
-
-        return false;
+        return output;
     }
 
     /**

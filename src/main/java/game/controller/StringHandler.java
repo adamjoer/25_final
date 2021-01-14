@@ -1,4 +1,7 @@
-package game;
+package game.controller;
+
+import game.StringRef;
+import game.Utility;
 
 /**
  * StringHandler makes an array of StringRefs in the constructor, from a specified XML file.
