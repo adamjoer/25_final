@@ -16,6 +16,8 @@ public class FieldController {
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
+        // Organise properties into groups by putting them into the properties attribute
+
         // Array for keeping track of groups
         Property[] groups = new Property[0];
 
@@ -34,12 +36,17 @@ public class FieldController {
                 continue;
             }
 
-            // Check if we've already registered this group
+            // Check if this property belongs to a group we've already registered
+
+            // Go over each group already found, from back to front, for optimisation:
+            // Properties in the same group are mostly grouped together on board,
+            // and we go through the fields based on position.
+            // The properties recently appended to the end of the 'groups' array are therefore more likely to be a match
             boolean groupIsFound = false;
-            for (Property property : groups) {
+            for (int i = groups.length - 1; i >= 0; i--) {
 
                 // If they have the same color they are in the same group
-                if (property.getColor().hashCode() == field.getColor().hashCode()) {
+                if (groups[i].getColor().hashCode() == field.getColor().hashCode()) {
 
                     // this property is part of a group we've already registered
                     groupIsFound = true;
@@ -52,8 +59,8 @@ public class FieldController {
                 groups = Utility.addToArray(groups, (Property) field);
         }
 
-        // The properties attribute acts as an array of groups (subarrays)
-        // Each subarray contains the properties in that group
+        // The properties attribute acts as an array of groups (arrays)
+        // Each array contains properties that are in the same group
         properties = new Property[groups.length][];
 
         // Go over each group
