@@ -3,6 +3,8 @@ package game.controller;
 import game.Utility;
 import game.field.*;
 
+import java.util.Arrays;
+
 public class FieldController {
 
     private final String XML_FILEPATH = "src/main/resources/fieldList.xml";
@@ -411,14 +413,45 @@ public class FieldController {
         return hasBuildings;
     }
 
-    public boolean propertyCanBeSold(int position) {
+    private boolean propertyCanBeSold(int position) {
         if (fields[position].getField().equals("Street")) {
             return existsBuildingsOnStreetGroup(position);
         }
         return true;
     }
 
-    public boolean propertyCanBePawned(int position) {
+    private boolean buildingCanBeSold(int position) {
+        Property property = (Property) fields[position];
+        if (property instanceof Street) {
+            Property nextProperty = (Property) fields[property.getNextRelatedProperty()];
+            int propertyLevel = property.getPropertyLevel();
+            for (int i = 0; i < property.getRelatedProperties() - 1; i++) {
+                if (nextProperty.getPropertyLevel() > propertyLevel) {
+                    return false;
+                }
+                nextProperty = (Property) fields[nextProperty.getNextRelatedProperty()];
+            }
+
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    public int[] sellableBuildingPositions(int player) {
+        int[] playerPropertyPositions = getPlayerPropertyPositions(player);
+        int[] sellableBuildingPositions = new int[0];
+        for (int position : playerPropertyPositions) {
+            if (buildingCanBeSold(position)) {
+
+                sellableBuildingPositions = Utility.addToArray(sellableBuildingPositions, position);
+            }
+        }
+        return sellableBuildingPositions;
+
+    }
+
+    private boolean propertyCanBePawned(int position) {
         if (fields[position] instanceof Street) {
             if (existsBuildingsOnStreetGroup(position)) {
                 return false;
