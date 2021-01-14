@@ -360,11 +360,12 @@ public class Game {
 
         // Announce that player is in prison
         guiController.stringHandlerMessage("isInJail", true);
-
+        int getOutOfJailCards = playerController.getOutOfJailCards(playerTurn);
         // If player has 'get out of jail free' card, take it from them and free player
-        if (playerController.hasOutOfJailCard(playerTurn)) {
+        if (getOutOfJailCards > 0) {
             guiController.stringHandlerMessage("hasOutOfJailCard", true);
-            playerController.setPlayerOutOfJailCards(playerTurn, 0);
+            playerController.setPlayerOutOfJailCards(playerTurn, getOutOfJailCards-1);
+            chanceCardController.returnOutOfJailCard();
             return true;
         }
 
@@ -570,6 +571,14 @@ public class Game {
 
         guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
         playerTurn = playerTurn - 1;
+        //remove getOutOfJail chance cards
+        int outOfJailCards = playerController.getOutOfJailCards(playerTurn);
+        if (outOfJailCards >0){
+            for(int i=0; outOfJailCards > 0;i++){
+                chanceCardController.returnOutOfJailCard();
+                outOfJailCards = playerController.getOutOfJailCards(playerTurn);
+            }
+        }
     }
 
     private int getPlayerTotalValue(int player) {
