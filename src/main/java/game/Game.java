@@ -67,15 +67,13 @@ public class Game {
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
             // If the player rolled two identical dice, they get an extra turn
-            if (diceController.isIdentical()) {
+            if (diceController.isIdentical())
                 guiController.stringHandlerMessage("extraTurnIdenticalDice", true);
 
-            } else { // Otherwise move on to the next player
-                getNextPlayerTurn();
-            }
+            // Otherwise move on to the next player
+            else getNextPlayerTurn();
 
-            // Keep playing until a winner is found
-        } while (!stop);
+        } while (!stop); // Keep playing until a winner is found
 
         // Show message announcing winner
         guiController.stringHandlerMessage("winnerFound", true, playerController.getName(0));
