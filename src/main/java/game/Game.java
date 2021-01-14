@@ -193,7 +193,7 @@ public class Game {
                 guiController.removeRentOwnership(place);
                 return true;
             } else {
-                guiController.showMessage(stringHandler.getString("stillHaveHouses"));
+                guiController.showMessage(guiController.getUserString("stillHaveHouses"));
                 return false;
             }
 
