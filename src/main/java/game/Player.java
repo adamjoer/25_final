@@ -84,6 +84,8 @@ public class Player {
         return outOfJailCards > 0;
     }
 
+    public int getOutOfJailCards(){return this.outOfJailCards;}
+
     public int getId() {
         return this.id;
     }
