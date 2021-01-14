@@ -61,7 +61,7 @@ public class Game {
 
             // Roll the dice and move the resulting number of fields forward
             rollDice();
-            movePlayer(playerTurnIndex, diceController.getSum());
+            movePlayer(playerTurnIndex, 1);
 
             // Execute the fieldAction of that field
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
@@ -141,7 +141,8 @@ public class Game {
                 //If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
                     buyProperty(player, position, instructions.getRent());
-                    guiController.setBalance(playerController.getPlayerBalance(player), player);
+                    updateGuiBalance(player);
+
                 } else {
                     guiController.stringHandlerMessage("noMoney", true);
                 }
@@ -158,8 +159,8 @@ public class Game {
             boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
 
             //Set the balance of both players in the GUI
-            guiController.setBalance(playerController.getPlayerBalance(player), player);
-            guiController.setBalance(playerController.getPlayerBalance(owner), owner);
+            updateGuiBalance(player);
+            updateGuiBalance(owner);
 
             return successfulRent;
         }
@@ -275,7 +276,7 @@ public class Game {
                     guiController.setRent(street.getPosition(), street.getCurrentRent());
 
                     // Update the players balance in GUI
-                    setGuiBalance(playerController.getPlayerBalance(playerTurn), playerTurn);
+                    updateGuiBalance(playerTurn);
 
                     // Update the property with new buildings in GUI
                     if (street.getPropertyLevel() == 6) {
@@ -493,7 +494,7 @@ public class Game {
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
         if (hasGottenStartReward) {
             guiController.stringHandlerMessage("hasPassedStart", true);
-            setGuiBalance(playerController.getPlayerBalance(player), player);
+            updateGuiBalance(player);
         }
     }
 
@@ -543,12 +544,7 @@ public class Game {
         guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
     }
 
-    // TODO: Might be redundant later.
     private void updateGuiBalance(int player) {
-        setGuiBalance(playerController.getPlayerBalance(player), player);
-    }
-
-    private void setGuiBalance(int amount, int player) {
-        guiController.setBalance(amount, player);
+        guiController.setBalance(playerController.getPlayerBalance(player), player);
     }
 }
