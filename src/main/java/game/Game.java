@@ -61,7 +61,7 @@ public class Game {
 
             // Roll the dice and move the resulting number of fields forward
             rollDice();
-            movePlayer(playerTurnIndex, 1);
+            movePlayer(playerTurnIndex, diceController.getSum());
 
             // Execute the fieldAction of that field
             stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
@@ -104,7 +104,7 @@ public class Game {
                 return goToJailFieldAction(player, instructions.getJailPosition());
 
             case "Jail":
-                guiController.stringHandlerMessage("justVisitingJail",true );
+                guiController.stringHandlerMessage("justVisitingJail", true);
                 break;
 
             case "Parking":
@@ -125,7 +125,7 @@ public class Game {
 
         //Check if the field is owned by the player
         if (player == instructions.getOwner()) {
-            guiController.stringHandlerMessage("ownField",true);
+            guiController.stringHandlerMessage("ownField", true);
             return true;
         }
 
@@ -134,7 +134,7 @@ public class Game {
 
             //If field is owned by the bank, ask player if they want to buy it
             String yesButton = guiController.stringHandlerMessage("yes", false);
-            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField",false),
+            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField", false),
                     yesButton, guiController.stringHandlerMessage("no", false))
                     .equals(yesButton)) {
 
@@ -167,10 +167,6 @@ public class Game {
     }
 
     private boolean buyProperty(int player, int place, int rent) {
-        // TODO : make a check for if the property is not owned
-        //int[] properties = playerController.getProperties(player);
-        //if(Arrays.stream(properties).anyMatch(i -> i == place )){
-
         boolean propertyLevelChanged = fieldController.buyProperty(player, place);
         playerController.addProperty(player, place);
         guiController.fieldOwnable(place, player, rent);
@@ -186,16 +182,23 @@ public class Game {
             }
         }
         return true;
-        //}
-        //return false;
     }
 
     private boolean sellProperty(int player, int place) {
-        // TODO : make a check for if the property exists
         int[] properties = playerController.getProperties(player);
         if (Arrays.stream(properties).anyMatch(i -> i == place)) {
-            playerController.removeProperty(player, place);
-            return true;
+            int propertyCost = fieldController.disOwnProperty(player, place);
+            if (propertyCost > 0) {
+                makeTransaction(propertyCost, player);
+                playerController.removeProperty(player, place);
+                updateGuiBalance(player);
+                guiController.removeRentOwnership(place);
+                return true;
+            } else {
+                guiController.showMessage(guiController.getUserString("stillHaveHouses"));
+                return false;
+            }
+
         }
         return false;
     }
@@ -215,7 +218,7 @@ public class Game {
         int playerValue = fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player);
         int subtract = (playerValue / 10);
         if (currentField.getTitle().equals("Statsskat")) {
-            guiController.stringHandlerMessage("stateTax",true);
+            guiController.stringHandlerMessage("stateTax", true);
             playerController.makeTransaction(-currentField.getFine(), player);
             guiController.makeTransaction(-currentField.getFine(), player);
         } else {

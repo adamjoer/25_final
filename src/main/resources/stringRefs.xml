@@ -175,4 +175,8 @@
         <reference>winner</reference>
         <outputString>Vinderen af spillet er:</outputString>
     </stringRef>
+    <stringRef>
+        <reference>stillHaveHouses</reference>
+        <outputString>Denne grund har stadig huse!</outputString>
+    </stringRef>
 </stringRefs>
