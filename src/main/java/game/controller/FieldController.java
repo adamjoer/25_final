@@ -3,6 +3,8 @@ package game.controller;
 import game.Utility;
 import game.field.*;
 
+import java.util.Arrays;
+
 public class FieldController {
 
     private final String XML_FILEPATH = "src/main/resources/fieldList.xml";
@@ -152,7 +154,8 @@ public class FieldController {
 
         //Get the property
         Property property = (Property) fields[place];
-
+        boolean pawned = property.getPawned();
+        property.setPawned(false);
 
         switch (property.getField()) {
 
@@ -163,7 +166,7 @@ public class FieldController {
                 if (property.getPropertyLevel() < 2) {
                     property.setOwner(-1);
                     setPropertyLevelForGroup(place, 0);
-                    return (property.getPawned()) ? property.getCost() / 2 : property.getCost();
+                    return (pawned) ? property.getCost() / 2 : property.getCost();
                 } else {
                     return 0;
                 }
@@ -178,13 +181,13 @@ public class FieldController {
                 }
                 property.setOwner(-1);
 
-                return (property.getPawned()) ? property.getCost() / 2 : property.getCost();
+                return (pawned) ? property.getCost() / 2 : property.getCost();
 
             case "Brewery":
                 //Since there's only 2 brewery fields, they are both going to be set to 0 if one is sold
                 setPropertyLevelForGroup(place, 0);
                 property.setOwner(-1);
-                return (property.getPawned()) ? property.getCost() / 2 : property.getCost();
+                return (pawned) ? property.getCost() / 2 : property.getCost();
         }
 
         return 0;
@@ -351,12 +354,6 @@ public class FieldController {
         jail.free(player);
     }
 
-    public void setPropertyLevel(int fieldPosition, int level) {
-        if (fields[fieldPosition].getField().equals("Street")) {
-            ((Property) fields[fieldPosition]).setPropertyLevel(level);
-        }
-    }
-
     /**
      * Method for getting the combined worth of all the properties a specific player owns.
      * The value of a property is the cost of it, and if it is a Street, the worth of
@@ -377,7 +374,12 @@ public class FieldController {
                 if (property.getOwner() != player) continue;
 
                 // Add cost of property, and of potential buildings on it to worth
-                worth += property.getCost();
+
+                if (property.getPawned()) {
+                    worth += property.getCost() / 2;
+                } else {
+                    worth += property.getCost();
+                }
                 if (property instanceof Street)
                     worth += (((Street) property).getBuildingCost() / 2) * ((Street) property).getNumberOfBuildings();
             }
@@ -428,10 +430,90 @@ public class FieldController {
         return false;
     }
 
-    public boolean propertyCanBePawned(int position) {
-        if (!(fields[position] instanceof Property)) {
+    private boolean propertyCanBeSold(int position) {
+        if (fields[position].getField().equals("Street")) {
+            return groupHasBuildings(position);
+        }
+        return true;
+    }
+
+    public int[] sellablePropertyPositions(int player) {
+        int[] playerPropertyPositions = getPlayerPropertyPositions(player);
+        int[] sellablePropertyPositions = new int[0];
+        for (int position : playerPropertyPositions) {
+            if (propertyCanBeSold(position)) {
+                sellablePropertyPositions = Utility.addToArray(sellablePropertyPositions, position);
+            }
+        }
+        return sellablePropertyPositions;
+    }
+
+    private boolean buildingCanBeSold(int position) {
+        Property property = (Property) fields[position];
+        int propertyLevel = property.getPropertyLevel();
+        if (property instanceof Street && propertyLevel > 1) {
+            Property nextProperty = (Property) fields[property.getNextRelatedProperty()];
+            for (int i = 0; i < property.getRelatedProperties() - 1; i++) {
+                if (nextProperty.getPropertyLevel() > propertyLevel) {
+                    return false;
+                }
+                nextProperty = (Property) fields[nextProperty.getNextRelatedProperty()];
+            }
+
+        } else {
             return false;
         }
+        return true;
+    }
+
+    public int[] sellableBuildingPositions(int player) {
+        int[] playerPropertyPositions = getPlayerPropertyPositions(player);
+        int[] sellableBuildingPositions = new int[0];
+        for (int position : playerPropertyPositions) {
+            if (buildingCanBeSold(position)) {
+
+                sellableBuildingPositions = Utility.addToArray(sellableBuildingPositions, position);
+            }
+        }
+        return sellableBuildingPositions;
+    }
+
+    public int sellBuilding(int position) {
+        if (buildingCanBeSold(position)) {
+            Street street = (Street) fields[position];
+            street.setPropertyLevel(street.getPropertyLevel() - 1);
+            return street.getBuildingCost() / 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public int sellAllPlayerProperties(int player) {
+        Property[] playerProperties = getPlayerProperties(player);
+        int totalValue = 0;
+        for (Property property : playerProperties) {
+            if (property.getField().equals("Street")) {
+
+                int propertyLevel = property.getPropertyLevel();
+                if (propertyLevel > 1) {
+                    Street street = (Street) property;
+                    totalValue += (street.getBuildingCost() / 2) * (propertyLevel - 1);
+                }
+            }
+            int baseValue = property.getCost();
+            if (property.getPawned()) {
+                totalValue += baseValue / 2;
+            } else {
+                totalValue += baseValue;
+            }
+            property.setPropertyLevel(0);
+            property.setOwner(-1);
+            property.setPawned(false);
+        }
+        return totalValue;
+    }
+
+    public boolean propertyCanBePawned(int position) {
         if (fields[position] instanceof Street) {
             if (groupHasBuildings(position)) {
                 return false;
@@ -440,53 +522,56 @@ public class FieldController {
         return !((Property) fields[position]).getPawned();
     }
 
-    public void pawnProperty(int player, int position) {
-        Property property = (Property) fields[position];
-        if (propertyCanBePawned(position)) {
-            property.setPawned(true);
+    public int[] pawnablePropertyPositions(int player) {
+        int[] playerPropertyPositions = getPlayerPropertyPositions(player);
+        int[] pawnablePropertyPositions = new int[0];
+        for (int position : playerPropertyPositions) {
+            if (propertyCanBePawned(position)) {
+                pawnablePropertyPositions = Utility.addToArray(pawnablePropertyPositions, position);
+            }
         }
-        int relatedProperties = property.getRelatedProperties();
-        int nextRelatedProperty = property.getNextRelatedProperty();
-        int propertyLevel;
-
-        // Adjust property rentLevels
-        switch (property.getField()) {
-            case "Street":
-                if (ownsAllPropertiesInGroup(player, position)) {
-                    for (int i = 0; i < relatedProperties; i++) {
-                        Street nextStreet = (Street) fields[nextRelatedProperty];
-                        setPropertyLevel(nextRelatedProperty, 0);
-                        nextRelatedProperty = nextStreet.getNextRelatedProperty();
-                    }
-                }
-                break;
-
-            case "Shipping":
-                for (int i = 0; i < relatedProperties; i++) {
-                    Shipping nextShipping = (Shipping) fields[nextRelatedProperty];
-                    propertyLevel = nextShipping.getPropertyLevel();
-                    if (nextShipping.getOwner() == player && propertyLevel > 0) {
-                        nextShipping.setPropertyLevel(propertyLevel - 1);
-                    }
-                    nextRelatedProperty = nextShipping.getNextRelatedProperty();
-                }
-                break;
-
-            case "Brewery":
-                for (int i = 0; i < relatedProperties; i++) {
-                    Brewery nextBrewery = (Brewery) fields[nextRelatedProperty];
-                    propertyLevel = nextBrewery.getPropertyLevel();
-                    if (nextBrewery.getOwner() == player && propertyLevel > 0) {
-                        nextBrewery.setPropertyLevel(propertyLevel - 1);
-                    }
-                    nextRelatedProperty = nextBrewery.getNextRelatedProperty();
-                }
-        }
+        return pawnablePropertyPositions;
     }
 
-    public void reclaimProperty(int player, int position) {
+    public int pawnProperty(int player, int position) {
         Property property = (Property) fields[position];
+        int pawnValue = 0;
+        if (propertyCanBePawned(position)) {
+            property.setPawned(true);
+            int propertyLevel = property.getPropertyLevel();
+            pawnValue = property.getCost() / 2;
 
+            Property[] properties = getPropertyGroup(getPropertyGroupIndex(position));
+
+            // Adjust property rentLevels
+            switch (property.getField()) {
+                case "Street":
+                    if (ownsAllPropertiesInGroup(player, position)) {
+                        for (Property groupProperty : properties) {
+                            groupProperty.setPropertyLevel(0);
+                        }
+                    }
+                    break;
+
+                case "Shipping":
+                    for (Property groupProperty : properties) {
+                        if (groupProperty.getOwner() == player && propertyLevel > 0) {
+                            groupProperty.setPropertyLevel(propertyLevel - 1);
+                        }
+                    }
+                    break;
+
+                case "Brewery":
+                    for (Property groupProperty : properties) {
+                        groupProperty.setPropertyLevel(0);
+                    }
+            }
+        }
+        return pawnValue;
+    }
+
+    public int reclaimProperty(int player, int position) {
+        Property property = (Property) fields[position];
         property.setPawned(false);
 
         int relatedProperties = property.getRelatedProperties();
@@ -526,6 +611,7 @@ public class FieldController {
                     nextRelatedProperty = nextBrewery.getNextRelatedProperty();
                 }
         }
+        return property.getCost() / 2;
     }
 
     private Property[] getPlayerProperties(int player) {
@@ -540,6 +626,15 @@ public class FieldController {
         return ownedProperties;
     }
 
+    public int[] getPlayerPropertyPositions(int player) {
+        Property[] playerProperties = getPlayerProperties(player);
+        int[] propertyPositions = new int[playerProperties.length];
+        for (int i = 0; i < playerProperties.length; i++) {
+            propertyPositions[i] = playerProperties[i].getPosition();
+        }
+        return propertyPositions;
+    }
+
     public int[] getPlayerPawnedPropertyPositions(int player) {
         Property[] playerProperties = getPlayerProperties(player);
         int[] pawnedPropertyPositions = new int[0];
@@ -549,6 +644,18 @@ public class FieldController {
             }
         }
         return pawnedPropertyPositions;
+    }
+
+    public Property[] getReclaimableProperties(int player, int playerBalance) {
+        int[] positions = getPlayerPawnedPropertyPositions(player);
+        Property[] properties = new Property[0];
+        for (int i : positions) {
+            Property property = (Property) fields[i];
+            if(property.getPawnValue() < playerBalance) {
+                properties = Utility.addToArray(properties, property);
+            }
+        }
+        return properties;
     }
 
     public boolean playerHasPawnedProperties(int player) {

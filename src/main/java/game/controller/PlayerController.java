@@ -5,7 +5,6 @@ import game.Player;
 public class PlayerController {
 
     private Player[] players;
-    private final boolean[] giftPlayerCheck;
     private final int[] getOutOfJailTries;
 
 
@@ -22,7 +21,6 @@ public class PlayerController {
             players[i] = new Player(playerNames[i], startBalance, i);
         }
 
-        giftPlayerCheck = new boolean[playerNames.length];
         getOutOfJailTries = new int[players.length];
     }
 
@@ -97,17 +95,8 @@ public class PlayerController {
         players[player].removeProperty(place);
     }
 
-    /**
-     * Give a player a gift from all other players
-     *
-     * @param targetPlayer : Which player to receive gifts from other players
-     * @param amount       : Amount each player have to gift
-     * @return Return true if successful, otherwise return false
-     */
-    public boolean giftPlayer(int amount,int targetPlayer) {
-        for (int i = 0; i < players.length; i++) { giftPlayerCheck[i] = makeTransaction(amount, i, targetPlayer); }
-        for (int i = 0; i < players.length; i++) { if (!giftPlayerCheck[i]) { return false; } }
-        return true;
+    public boolean checkLiquidity (int amount, int player) {
+        return !(getPlayerBalance(player) - amount < 0);
     }
 
 
