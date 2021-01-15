@@ -394,19 +394,20 @@ public class GUIController {
 
     /**
      * Choose which property to be prompted
+     *
      * @param propertyPositions : array of field positions which the player owns
-     * @param reference : String reference for StringHandler
+     * @param reference         : String reference for StringHandler
      * @return : position of field
      */
     public int choosePropertyPrompt(int[] propertyPositions, String reference) {
         String[] properties = new String[propertyPositions.length];
-        for(int i=0; i<properties.length;i++){
-            gui.getFields()[propertyPositions[i]].getTitle();
+        for (int i = 0; i < properties.length; i++) {
+            properties[i] = gui.getFields()[propertyPositions[i]].getTitle();
         }
         String userSelection = gui.getUserSelection(getString(reference), properties);
 
-        for(int i=0; i<properties.length;i++){
-            if(gui.getFields()[propertyPositions[i]].getTitle().equals(userSelection)){
+        for (int i = 0; i < properties.length; i++) {
+            if (gui.getFields()[propertyPositions[i]].getTitle().equals(userSelection)) {
                 return propertyPositions[i];
             }
         }
@@ -416,30 +417,33 @@ public class GUIController {
 
     /**
      * Prompts the user for which real estate to sell
+     *
      * @param stringRefs : references of the options which the player can sell
      * @return : position in the array of the option chosen
      */
-    public int sellRealEstatePrompt(String[] stringRefs) {
+    public String sellRealEstatePrompt(String[] stringRefs) {
         String[] options = new String[stringRefs.length];
-        for(int i=0;i<options.length;i++){
+        if (options.length == 0) return "";
+        for (int i = 0; i < options.length; i++) {
             options[i] = getString(stringRefs[i]);
         }
         String userSelection = gui.getUserSelection(getString("chooseRealEstate"), options);
 
-        for(int i=0;i<options.length;i++){
-            if(options[i].equals(userSelection)){
-                return i;
+        for (int i = 0; i < options.length; i++) {
+            if (options[i].equals(userSelection)) {
+                return stringRefs[i];
             }
         }
-        return 0;
+        return "";
     }
 
     /**
      * Sets the description for a field
-     * @param position : position of the field
+     *
+     * @param position  : position of the field
      * @param reference : String reference for the description
      */
-    public void setDescription(int position, String reference){
+    public void setDescription(int position, String reference) {
         gui.getFields()[position].setDescription(getString(reference));
     }
 
