@@ -112,7 +112,7 @@ public class Game {
                 break;
 
             case "TaxField":
-                return taxFieldAction(position, player);
+                return taxFieldAction(player, instructions);
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
@@ -123,22 +123,22 @@ public class Game {
 
     private boolean propertyFieldAction(int position, int player, FieldInstruction instructions) {
 
-        //Check if the field is owned by the player
+        // Check if the field is owned by the player
         if (player == instructions.getOwner()) {
             guiController.stringHandlerMessage("ownField", true);
             return true;
         }
 
-        //Check if the field is owned by the bank
-        else if (instructions.getOwner() == -1) {
+        // Check if the field is owned by the bank
+        if (instructions.getOwner() == -1) {
 
-            //If field is owned by the bank, ask player if they want to buy it
+            // If field is owned by the bank, ask player if they want to buy it
             String yesButton = guiController.stringHandlerMessage("yes", false);
             if (guiController.getUserButton(guiController.stringHandlerMessage("buyField", false),
                     yesButton, guiController.stringHandlerMessage("no", false))
                     .equals(yesButton)) {
 
-                //If they want to buy it, check if they have money for it
+                // If they want to buy it, check if they have money for it
                 if (playerController.makeTransaction(-instructions.getCost(), player)) {
                     buyProperty(player, position, instructions.getRent());
                     updateGuiBalance(player);
@@ -148,17 +148,28 @@ public class Game {
                 }
             }
             return true;
-        }
 
-        //Field is owned by another player, so they have to pay rent
-        else {
+        } else { // Field is owned by another player, so they have to pay rent
+
             int owner = instructions.getOwner();
             guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
 
-            //Make transaction from the current player to the owner of the field
-            boolean successfulRent = playerController.makeTransaction(instructions.getRent(), player, owner);
+            int rent = instructions.getRent();
 
-            //Set the balance of both players in the GUI
+            // If the property is a brewery, the rent needs to be multiplied by the sum of the dice
+            if (instructions.getFieldType().equals("Brewery")) {
+
+                // Calculate new rent
+                rent = rent * diceController.getSum();
+
+                // Announce new rent to player
+                guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
+            }
+
+            // Make transaction from the current player to the owner of the field
+            boolean successfulRent = playerController.makeTransaction(rent, player, owner);
+
+            // Set the balance of both players in the GUI
             updateGuiBalance(player);
             updateGuiBalance(owner);
 
@@ -166,7 +177,7 @@ public class Game {
         }
     }
 
-    private boolean buyProperty(int player, int place, int rent) {
+    private void buyProperty(int player, int place, int rent) {
         boolean propertyLevelChanged = fieldController.buyProperty(player, place);
         playerController.addProperty(player, place);
         guiController.fieldOwnable(place, player, rent);
@@ -181,7 +192,6 @@ public class Game {
                     guiController.setRent(property.getPosition(), property.getCurrentRent());
             }
         }
-        return true;
     }
 
     private boolean sellProperty(int player, int place) {
@@ -212,31 +222,34 @@ public class Game {
         return true;
     }
 
-    private boolean taxFieldAction(int position, int player) {
-        TaxField currentField = (TaxField) fieldController.getFields()[position];
-        int fine = currentField.getFine();
-        int playerValue = fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player);
-        int subtract = (playerValue / 10);
-        if (currentField.getTitle().equals("Statsskat")) {
-            guiController.stringHandlerMessage("stateTax", true);
-            playerController.makeTransaction(-currentField.getFine(), player);
-            guiController.makeTransaction(-currentField.getFine(), player);
-        } else {
+    private boolean taxFieldAction(int player, FieldInstruction instructions) {
+
+        // Get tax
+        int tax = instructions.getFine();
+
+        // Check what kind of taxField it is
+        if (instructions.getTitle().equals("Skat")) {
+
+            // Give player options
             guiController.stringHandlerMessage("tax", true);
-            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", false, String.valueOf(subtract)),
-                    "1", "2");
-            if (playerChoice.equals("1")) {
-                playerController.makeTransaction(-fine, player);
-                guiController.makeTransaction(-fine, player);
-            } else {
+            String playerChoice = guiController.getUserButton(guiController.stringHandlerMessage("taxOptions", false), "1", "2");
 
-                guiController.stringHandlerMessage("playerValue", true, subtract + " kr.");
-
-                playerController.makeTransaction(-subtract, player);
-                guiController.makeTransaction(-subtract, player);
+            // If player chose to pay 10% of their worth, calculate it, and show the player
+            if (playerChoice.equals("2")) {
+                tax = (fieldController.getCombinedPropertyWorth(player) + playerController.getPlayerBalance(player)) / 10;
+                guiController.stringHandlerMessage("playerValue", true, tax + " kr.");
             }
+
         }
-        return true;
+
+        // Player doesn't have any options
+        else guiController.stringHandlerMessage("stateTax", true);
+
+        // Subtract tax from player balance
+        boolean successfulFine = playerController.makeTransaction(-tax, player);
+        updateGuiBalance(player);
+
+        return successfulFine;
     }
 
     private void buildOnStreets() {
@@ -260,7 +273,7 @@ public class Game {
             String streetToBuyHouse = guiController.getUserButton(guiController.stringHandlerMessage("whereToBuyHouse", false), houseCostButtons);
 
             // Extract street name from button text by stripping text from the end
-            // e.g. 'Rødovrevej: 1000 kr.' -> 'Rødovrevej'
+            // e.g. 'Strandvej: 1000 kr.' -> 'Strandvej'
             streetToBuyHouse = streetToBuyHouse.substring(0, streetToBuyHouse.length() - 10);
 
             // Find the street that the user wants to build a building on
@@ -353,7 +366,7 @@ public class Game {
                 return false;
             }
 
-        } else { // Player wants to bay bail
+        } else { // Player wants to pay bail
             return makeTransaction(-bail, playerTurn);
         }
     }
@@ -477,10 +490,6 @@ public class Game {
 
     // Methods related to players.
 
-    private String[] getPlayerNames() {
-        return guiController.returnPlayerNames();
-    }
-
     private boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
@@ -539,13 +548,6 @@ public class Game {
             }
         }
     }
-
-    /*
-    public void setPlayerPosition(int player, int position){
-        playerController.setPlayerPosition(player, position);
-        guiController.setCarPlacement(player, players[player].getPreviousPosition(), players[player].getCurrentPosition());
-    }
-     */
 
     // Miscellaneous.
 
