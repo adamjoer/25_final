@@ -12,7 +12,8 @@ public class Game {
     private final DiceController diceController;
     private final FieldController fieldController;
     private final ChanceCardController chanceCardController;
-    private final int playerCount;
+    private int playerCount;
+    private boolean gameRun = true;
     private int playerTurn;
     private int playerTurnIndex; // look at setPlayerTurn for info
 
@@ -28,9 +29,6 @@ public class Game {
     }
 
     public void gameLoop() {
-
-        // Variable for keeping track of whether a winner has been found
-        boolean stop = false;
 
         // Ask users for player info
         guiController.addPlayers(playerController.getPlayers());
@@ -64,7 +62,7 @@ public class Game {
             movePlayer(playerTurnIndex, diceController.getSum());
 
             // Execute the fieldAction of that field
-            stop = !fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
+            fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
             // If the player rolled two identical dice, they get an extra turn
             if (diceController.isIdentical())
@@ -73,7 +71,7 @@ public class Game {
                 // Otherwise move on to the next player
             else getNextPlayerTurn();
 
-        } while (!stop); // Keep playing until a winner is found
+        } while (gameRun); // Keep playing until a winner is found
 
         // Show message announcing winner
         guiController.stringHandlerMessage("winnerFound", true, playerController.getName(0));
@@ -253,21 +251,23 @@ public class Game {
         int[] eligibleProperties = fieldController.sellablePropertyPositions(player);
         int[] eligiblePawns = fieldController.pawnablePropertyPositions(player);
         String[] guiOptions = new String[0];
-        if (eligibleBuildings.length > 0) Utility.addToArray(guiOptions, "sellBuildingBtn");
-        if (eligibleProperties.length > 0) Utility.addToArray(guiOptions, "sellPropertyBtn");
-        if (eligiblePawns.length > 0) Utility.addToArray(guiOptions, "pawnPropertyBtn");
+        if (eligibleBuildings.length > 0) guiOptions = Utility.addToArray(guiOptions, "sellBuildingBtn");
+        if (eligibleProperties.length > 0) guiOptions = Utility.addToArray(guiOptions, "sellPropertyBtn");
+        if (eligiblePawns.length > 0)  guiOptions = Utility.addToArray(guiOptions, "pawnPropertyBtn");
 
-        int selectedCase = guiController.sellRealEstatePrompt(guiOptions);
+        String selectedCase = guiController.sellRealEstatePrompt(guiOptions);
         switch (selectedCase) {
-            case 0:
+            case "sellBuildingBtn":
                 sellBuilding(player, guiController.choosePropertyPrompt(eligibleBuildings, "sellBuildingPrompt"));
                 break;
-            case 1:
+            case "sellPropertyBtn":
                 sellProperty(player, guiController.choosePropertyPrompt(eligibleProperties, "sellPropertyPrompt"));
                 break;
-            case 2:
+            case "pawnPropertyBtn":
                 pawnProperty(player, guiController.choosePropertyPrompt(eligiblePawns, "pawnPropertyPrompt"));
                 break;
+            default:
+                terminatePlayer(player);
         }
     }
 
@@ -297,6 +297,7 @@ public class Game {
                 updateGuiBalance(player);
                 guiController.removeRentOwnership(position);
                 updateGuiRentForGroup(position);
+                guiController.setDescription(position,"propertyNotPawned");
                 return true;
             } else {
                 guiController.showMessage(guiController.getUserString("stillHaveHouses"));
@@ -596,10 +597,11 @@ public class Game {
     }
 
     private boolean transactionFailed(int player) {
+
         boolean bankrupt = getPlayerTotalValue(player) < 0;
         if (bankrupt) {
             // Sell all buildings and properties automatically
-            sellAllPlayerProperties(player);
+            terminatePlayer(player);
         } else {
             // Let the player choose what real estate to sell and/or pawn to cover deficit.
             int deficit = -playerController.getPlayerBalance(player);
@@ -649,6 +651,7 @@ public class Game {
                 outOfJailCards = playerController.getOutOfJailCards(playerTurn);
             }
         }
+        playerController.removePlayer(player);
     }
 
     private int getPlayerTotalValue(int player) {
@@ -690,5 +693,10 @@ public class Game {
 
     private void updateGuiBalance(int player) {
         guiController.setBalance(playerController.getPlayerBalance(player), player);
+    }
+    private void terminatePlayer (int player) {
+        sellAllPlayerProperties(player);
+        removePlayer(player,playerTurn);
+        gameRun = false;
     }
 }
