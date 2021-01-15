@@ -423,15 +423,16 @@ public class GUIController {
      */
     public String sellRealEstatePrompt(String[] stringRefs) {
         String[] options = new String[stringRefs.length];
-        if (options.length == 0) return "";
-        for (int i = 0; i < options.length; i++) {
-            options[i] = getString(stringRefs[i]);
-        }
-        String userSelection = gui.getUserSelection(getString("chooseRealEstate"), options);
+        if (options.length > 0) {
+            for (int i = 0; i < options.length; i++) {
+                options[i] = getString(stringRefs[i]);
+            }
+            String userSelection = gui.getUserSelection(getString("chooseRealEstate"), options);
 
-        for (int i = 0; i < options.length; i++) {
-            if (options[i].equals(userSelection)) {
-                return stringRefs[i];
+            for (int i = 0; i < options.length; i++) {
+                if (options[i].equals(userSelection)) {
+                    return stringRefs[i];
+                }
             }
         }
         return "";
