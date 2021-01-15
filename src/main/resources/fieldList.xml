@@ -68,7 +68,7 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Shipping</subType>
-        <title>DFDS Seaways</title>
+        <title>DFDS</title>
         <subText>kr. 4.000</subText>
         <description/>
         <cost>4000</cost>
@@ -184,7 +184,7 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Brewery</subType>
-        <title>Squash Tapperi</title>
+        <title>Tuborg</title>
         <subText>kr. 3.000</subText>
         <description/>
         <cost>3000</cost>
@@ -258,7 +258,7 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Street</subType>
-        <title>Bernstorffsvej</title>
+        <title>Bernstorffs- vej</title>
         <subText>kr. 3.600</subText>
         <description/>
         <cost>3600</cost>
@@ -363,7 +363,7 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Street</subType>
-        <title>Østerbrogade</title>
+        <title>Østerbro- gade</title>
         <subText>kr. 4.400</subText>
         <description/>
         <cost>4400</cost>
@@ -464,7 +464,7 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Brewery</subType>
-        <title>Coca-Cola</title>
+        <title>Carlsberg</title>
         <subText>kr. 3.000</subText>
         <description/>
         <cost>3000</cost>
@@ -602,7 +602,7 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Street</subType>
-        <title>Frederiksberggade</title>
+        <title>Frederiks- berggade</title>
         <subText>kr. 7.000</subText>
         <description/>
         <cost>7000</cost>
@@ -631,7 +631,7 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Street</subType>
-        <title>Rådhuspladsen</title>
+        <title>Rådhus- pladsen</title>
         <subText>kr. 8.000</subText>
         <description/>
         <cost>8000</cost>
