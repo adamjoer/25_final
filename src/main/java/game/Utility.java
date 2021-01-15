@@ -150,7 +150,10 @@ public class Utility {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // Counter for the ChanceCardArray due to double and uneven for loop (duplicates).
         int cardCounter = 0;
+
         //Create a ChanceCard[] to add ChanceCards to.
         ChanceCard[] chanceCards = new ChanceCard[arrayLength];
         try {
@@ -281,11 +284,6 @@ public class Utility {
      * element left in the initial array. It then appends the single element arrays in the random order they were
      * extracted. This guarantees a shuffled array. As the method picks out by index rather than by value, it ensures
      * that the recursion is well defined.
-     * <p>
-     * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
-     * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
-     * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
-     * BASE_DECK.
      *
      * @param array The int array to shuffle
      * @return A shuffled int array with the same elements as the argument given, in a random order.
