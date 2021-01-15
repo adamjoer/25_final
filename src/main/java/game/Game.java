@@ -73,8 +73,22 @@ public class Game {
 
         } while (gameRun); // Keep playing until a winner is found
 
+        // Calculate winner
+        int[] playerTotalValues = new int[playerCount];
+        int highScore = 0;
+        int winner = -1;
+        for (int i = 0; i < playerCount; i++) {
+            playerTotalValues[i] = getPlayerTotalValue(i);
+            if (playerTotalValues[i] > 0) highScore = playerTotalValues[i];
+        }
+        for (int i = 0; i < playerCount; i++) {
+            if (playerTotalValues[i] == highScore) {
+                winner = i;
+            }
+        }
+
         // Show message announcing winner
-        guiController.stringHandlerMessage("winnerFound", true, playerController.getName(0));
+        guiController.stringHandlerMessage("winnerFound", true, playerController.getName(winner));
 
         // Close the window when the game is over
         guiController.close();
@@ -696,7 +710,7 @@ public class Game {
     }
     private void terminatePlayer (int player) {
         sellAllPlayerProperties(player);
-        removePlayer(player,playerTurn);
+        // removePlayer(player,playerController.getPlayerPosition(player));
         gameRun = false;
     }
 }
