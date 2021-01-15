@@ -657,6 +657,18 @@ public class FieldController {
         return pawnedPropertyPositions;
     }
 
+    public Property[] getReclaimableProperties(int player, int playerBalance) {
+        int[] positions = getPlayerPawnedPropertyPositions(player);
+        Property[] properties = new Property[0];
+        for (int i : positions) {
+            Property property = (Property) fields[i];
+            if(property.getPawnValue() < playerBalance) {
+                properties = Utility.addToArray(properties, property);
+            }
+        }
+        return properties;
+    }
+
     public boolean playerHasPawnedProperties(int player) {
         return getPlayerPawnedPropertyPositions(player).length != 0;
     }
