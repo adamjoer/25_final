@@ -126,11 +126,13 @@ public class FieldController {
                 int group = getPropertyGroupIndex(propertyPosition),
                         owned = getNumberOfPropertiesOwnedInGroup(player, propertyPosition);
 
-                for (int i = 0; i < properties[group].length; i++) {
-                    if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                if (owned != 1) {
+                    for (int i = 0; i < properties[group].length; i++) {
+                        if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                    }
                 }
 
-                return true;
+                return owned != 1;
 
             case "Brewery":
                 // If the player owns all the properties in the group, change propertyLevel to 1
@@ -385,38 +387,45 @@ public class FieldController {
     }
 
     public int getHouses(int player) {
+
         int houseCount = 0;
-        for (Field field : fields) {
-            if (field instanceof Street) {
-                if (((Property) field).getOwner() == player) houseCount += ((Street) field).getHouses();
+        for (Property[] group : properties) {
+
+            if (!(group[0] instanceof Street)) continue;
+
+            for (Property property : group) {
+                if (property.getOwner() == player)
+                    houseCount += ((Street) property).getHouses();
             }
         }
         return houseCount;
     }
 
     public int getHotels(int player) {
+
         int hotelCount = 0;
-        for (Field field : fields) {
-            if (field instanceof Street) {
-                if (((Property) field).getOwner() == player) hotelCount += ((Street) field).getHotel();
+        for (Property[] group : properties) {
+
+            if (!(group[0] instanceof Street)) continue;
+
+            for (Property property : group) {
+                if (property.getOwner() == player)
+                    hotelCount += ((Street) property).getHotel();
             }
         }
+
         return hotelCount;
     }
 
-    private boolean existsBuildingsOnStreetGroup(int position) {
-        Street referenceStreet = (Street) fields[position];
-        boolean hasBuildings = false;
-        int relatedProperties = referenceStreet.getRelatedProperties();
-        int nextRelatedProperty = referenceStreet.getNextRelatedProperty();
-        for (int i = 0; i < relatedProperties; i++) {
-            Street street = (Street) fields[nextRelatedProperty];
-            nextRelatedProperty = street.getNextRelatedProperty();
-            if (street.getNumberOfBuildings() > 0) {
-                hasBuildings = true;
-            }
+    private boolean groupHasBuildings(int position) {
+
+        int groupIndex = getPropertyGroupIndex(position);
+
+        for (Property property : getPropertyGroup(groupIndex)) {
+            if (((Street) property).getNumberOfBuildings() > 0)
+                return true;
         }
-        return hasBuildings;
+        return false;
     }
 
     public boolean propertyCanBePawned(int position) {
@@ -424,7 +433,7 @@ public class FieldController {
             return false;
         }
         if (fields[position] instanceof Street) {
-            if (existsBuildingsOnStreetGroup(position)) {
+            if (groupHasBuildings(position)) {
                 return false;
             }
         }
@@ -555,6 +564,10 @@ public class FieldController {
     // Relevant getters
     public Field[] getFields() {
         return fields;
+    }
+
+    public Property[][] getProperties() {
+        return properties;
     }
 
     public Property[] getPropertyGroup(int groupIndex) {

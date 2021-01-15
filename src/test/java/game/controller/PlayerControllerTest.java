@@ -1,6 +1,6 @@
-package game;
+package game.controller;
 
-import game.controller.PlayerController;
+import game.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
