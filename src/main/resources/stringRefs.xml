@@ -185,6 +185,46 @@
     </stringRef>
     <stringRef>
         <reference>chooseRealEstate</reference>
-        <outputString>Vælg ejendom der skal sælges:</outputString>
+        <outputString>Vælg en mulighed:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>askReclaimProperty</reference>
+        <outputString>Ønsker De at ophæve pantsætningen af en ejendom?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>reclaimPropertyPrompt</reference>
+        <outputString>Vælg ejendommen De ønsker at ophæve pantsætningen på:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>propertyNotPawned</reference>
+        <outputString/>
+    </stringRef>
+    <stringRef>
+        <reference>propertyIsPawned</reference>
+        <outputString>Ejendommen er pantsat.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingBtn</reference>
+        <outputString>Sælg bygning</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyBtn</reference>
+        <outputString>Sælg ejendom</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyBtn</reference>
+        <outputString>Pantsæt ejendom</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingPrompt</reference>
+        <outputString>Vælg den ejendom De ønsker at sælge en bygning på.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyPrompt</reference>
+        <outputString>Vælg den ejendom De ønsker at sælge.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyPrompt</reference>
+        <outputString>Vælg den ejendom De ønsker at pantsætte.</outputString>
     </stringRef>
 </stringRefs>
