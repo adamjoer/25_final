@@ -194,19 +194,69 @@ public class Game {
         }
     }
 
-    private void reclaimProperty(int player) {
-        // TODO: Still some work left on this.
-        int[] pawnedPropertyPositions = fieldController.getPlayerPawnedPropertyPositions(player);
-        int propertyToReclaim = guiController.choosePropertyPrompt(pawnedPropertyPositions, "reclaimPropertyPrompt");
-        makeTransaction(-fieldController.reclaimProperty(player, propertyToReclaim), player);
+    private void reclaimProperties() {
+        String yesButton = guiController.stringHandlerMessage("yes", false),
+                noButton = guiController.stringHandlerMessage("no", false),
+                askText = guiController.stringHandlerMessage("askReclaimProperty", false);
+
+
+        for (Property[] properties = getReclaimableProperties(playerTurn); properties.length > 0;
+             properties = getReclaimableProperties(playerTurn)) {
+            if (guiController.getUserButton(askText, yesButton, noButton)
+                    .equals(noButton))
+                break;
+
+            String[] reclaimCostButtons = getReclaimCostButtons(properties);
+
+            String propertyToReclaim = guiController.getUserButton(guiController.stringHandlerMessage
+                    ("reclaimPropertyPrompt", false), reclaimCostButtons);
+
+            propertyToReclaim = propertyToReclaim.substring(0, propertyToReclaim.length() - 10);
+
+            for (Property property : properties) {
+                if (!property.getTitle().equals(propertyToReclaim)) continue;
+                else {
+                    reclaimProperty(property.getPosition(), playerTurn);
+                    updateGuiBalance(playerTurn);
+                    break;
+                }
+            }
+        }
+    }
+
+    private Property[] getReclaimableProperties(int player) {
+        int playerBalance = playerController.getPlayerBalance(player);
+        return fieldController.getReclaimableProperties(player, playerBalance);
+    }
+
+    private String[] getReclaimCostButtons(Property[] properties) {
+        String[] reclaimCostButtons = new String[properties.length];
+        for (int i = 0; i < properties.length; i++) {
+            if (properties[i].getPawnValue() < 1000) {
+                reclaimCostButtons[i] = properties[i].getTitle() + ": " + properties[i].getPawnValue() + " kr. ";
+            } else {
+                reclaimCostButtons[i] = properties[i].getTitle() + ": " + properties[i].getPawnValue() + " kr.";
+            }
+        }
+        return reclaimCostButtons;
+    }
+
+    private void reclaimProperty(int position, int player) {
+        makeTransaction(-fieldController.reclaimProperty(player, position), player);
+        guiController.setDescription(position, "propertyNotPawned");
+        updateGuiRentForGroup(position);
     }
 
     private void sellRealEstate(int player) {
         int[] eligibleBuildings = fieldController.sellableBuildingPositions(player);
         int[] eligibleProperties = fieldController.sellablePropertyPositions(player);
         int[] eligiblePawns = fieldController.pawnablePropertyPositions(player);
-        int selectedCase = guiController.sellRealEstatePrompt((eligibleBuildings.length > 0),
-                (eligibleProperties.length > 0), (eligiblePawns.length > 0));
+        String[] guiOptions = new String[0];
+        if (eligibleBuildings.length > 0) Utility.addToArray(guiOptions, "sellBuildingBtn");
+        if (eligibleProperties.length > 0) Utility.addToArray(guiOptions, "sellPropertyBtn");
+        if (eligiblePawns.length > 0) Utility.addToArray(guiOptions, "pawnPropertyBtn");
+
+        int selectedCase = guiController.sellRealEstatePrompt(guiOptions);
         switch (selectedCase) {
             case 0:
                 sellBuilding(player, guiController.choosePropertyPrompt(eligibleBuildings, "sellBuildingPrompt"));
@@ -223,8 +273,9 @@ public class Game {
 
     private void pawnProperty(int player, int position) {
         int pawnValue = fieldController.pawnProperty(player, position);
-        guiController.markPropertyPawned(position, true);
+        guiController.setDescription(position, "propertyIsPawned");
         playerController.makeTransaction(pawnValue, player);
+        updateGuiRentForGroup(position);
         updateGuiBalance(player);
     }
 
@@ -232,6 +283,7 @@ public class Game {
         int buildingValue = fieldController.sellBuilding(position);
         guiController.setHouseOrHotelStreet(position, fieldController.getHouses(player), false);
         playerController.makeTransaction(buildingValue, player);
+        updateGuiRentForGroup(position);
         updateGuiBalance(player);
     }
 
@@ -243,6 +295,7 @@ public class Game {
                 playerController.makeTransaction(propertyCost, player);
                 updateGuiBalance(player);
                 guiController.removeRentOwnership(position);
+                updateGuiRentForGroup(position);
                 return true;
             } else {
                 guiController.showMessage(guiController.getUserString("stillHaveHouses"));
@@ -377,7 +430,7 @@ public class Game {
         // If player has 'get out of jail free' card, take it from them and free player
         if (getOutOfJailCards > 0) {
             guiController.stringHandlerMessage("hasOutOfJailCard", true);
-            playerController.setPlayerOutOfJailCards(playerTurn, getOutOfJailCards-1);
+            playerController.setPlayerOutOfJailCards(playerTurn, getOutOfJailCards - 1);
             chanceCardController.returnOutOfJailCard();
             return true;
         }
@@ -586,8 +639,8 @@ public class Game {
         playerTurn = playerTurn - 1;
         //remove getOutOfJail chance cards
         int outOfJailCards = playerController.getOutOfJailCards(playerTurn);
-        if (outOfJailCards >0){
-            for(int i=0; outOfJailCards > 0;i++){
+        if (outOfJailCards > 0) {
+            for (int i = 0; outOfJailCards > 0; i++) {
                 chanceCardController.returnOutOfJailCard();
                 outOfJailCards = playerController.getOutOfJailCards(playerTurn);
             }
@@ -623,6 +676,12 @@ public class Game {
         diceController.roll();
 
         guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
+    }
+
+    private void updateGuiRentForGroup(int position) {
+        int groupIndex = fieldController.getPropertyGroupIndex(position);
+        Property[] group = fieldController.getPropertyGroup(groupIndex);
+        for (Property property : group) guiController.setRent(position, property.getCurrentRent());
     }
 
     private void updateGuiBalance(int player) {
