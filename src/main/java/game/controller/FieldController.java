@@ -18,6 +18,8 @@ public class FieldController {
         // Generate fields from XML-file
         fields = Utility.fieldGenerator(XML_FILEPATH);
 
+        // Organise properties into groups by putting them into the properties attribute
+
         // Array for keeping track of groups
         Property[] groups = new Property[0];
 
@@ -36,12 +38,17 @@ public class FieldController {
                 continue;
             }
 
-            // Check if we've already registered this group
+            // Check if this property belongs to a group we've already registered
+
+            // Go over each group already found, from back to front, for optimisation:
+            // Properties in the same group are mostly grouped together on board,
+            // and we go through the fields based on position.
+            // The properties recently appended to the end of the 'groups' array are therefore more likely to be a match
             boolean groupIsFound = false;
-            for (Property property : groups) {
+            for (int i = groups.length - 1; i >= 0; i--) {
 
                 // If they have the same color they are in the same group
-                if (property.getColor().hashCode() == field.getColor().hashCode()) {
+                if (groups[i].getColor().hashCode() == field.getColor().hashCode()) {
 
                     // this property is part of a group we've already registered
                     groupIsFound = true;
@@ -54,8 +61,8 @@ public class FieldController {
                 groups = Utility.addToArray(groups, (Property) field);
         }
 
-        // The properties attribute acts as an array of groups (subarrays)
-        // Each subarray contains the properties in that group
+        // The properties attribute acts as an array of groups (arrays)
+        // Each array contains properties that are in the same group
         properties = new Property[groups.length][];
 
         // Go over each group
@@ -121,11 +128,13 @@ public class FieldController {
                 int group = getPropertyGroupIndex(propertyPosition),
                         owned = getNumberOfPropertiesOwnedInGroup(player, propertyPosition);
 
-                for (int i = 0; i < properties[group].length; i++) {
-                    if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                if (owned != 1) {
+                    for (int i = 0; i < properties[group].length; i++) {
+                        if (properties[group][i].getOwner() == player) properties[group][i].setPropertyLevel(owned - 1);
+                    }
                 }
 
-                return true;
+                return owned != 1;
 
             case "Brewery":
                 // If the player owns all the properties in the group, change propertyLevel to 1
@@ -380,38 +389,45 @@ public class FieldController {
     }
 
     public int getHouses(int player) {
+
         int houseCount = 0;
-        for (Field field : fields) {
-            if (field instanceof Street) {
-                if (((Property) field).getOwner() == player) houseCount += ((Street) field).getHouses();
+        for (Property[] group : properties) {
+
+            if (!(group[0] instanceof Street)) continue;
+
+            for (Property property : group) {
+                if (property.getOwner() == player)
+                    houseCount += ((Street) property).getHouses();
             }
         }
         return houseCount;
     }
 
     public int getHotels(int player) {
+
         int hotelCount = 0;
-        for (Field field : fields) {
-            if (field instanceof Street) {
-                if (((Property) field).getOwner() == player) hotelCount += ((Street) field).getHotel();
+        for (Property[] group : properties) {
+
+            if (!(group[0] instanceof Street)) continue;
+
+            for (Property property : group) {
+                if (property.getOwner() == player)
+                    hotelCount += ((Street) property).getHotel();
             }
         }
+
         return hotelCount;
     }
 
-    private boolean existsBuildingsOnStreetGroup(int position) {
-        Street referenceStreet = (Street) fields[position];
-        boolean hasBuildings = false;
-        int relatedProperties = referenceStreet.getRelatedProperties();
-        int nextRelatedProperty = referenceStreet.getNextRelatedProperty();
-        for (int i = 0; i < relatedProperties; i++) {
-            Street street = (Street) fields[nextRelatedProperty];
-            nextRelatedProperty = street.getNextRelatedProperty();
-            if (street.getNumberOfBuildings() > 0) {
-                hasBuildings = true;
-            }
+    private boolean groupHasBuildings(int position) {
+
+        int groupIndex = getPropertyGroupIndex(position);
+
+        for (Property property : getPropertyGroup(groupIndex)) {
+            if (((Street) property).getNumberOfBuildings() > 0)
+                return true;
         }
-        return hasBuildings;
+        return false;
     }
 
     private boolean propertyCanBeSold(int position) {
@@ -499,7 +515,7 @@ public class FieldController {
 
     private boolean propertyCanBePawned(int position) {
         if (fields[position] instanceof Street) {
-            if (existsBuildingsOnStreetGroup(position)) {
+            if (groupHasBuildings(position)) {
                 return false;
             }
         }
@@ -654,6 +670,10 @@ public class FieldController {
     // Relevant getters
     public Field[] getFields() {
         return fields;
+    }
+
+    public Property[][] getProperties() {
+        return properties;
     }
 
     public Property[] getPropertyGroup(int groupIndex) {

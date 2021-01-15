@@ -3,6 +3,7 @@ package game.field;
 public class FieldInstruction {
 
     private final String fieldType;
+    private String title;
     private int owner;
     private int rent;
     private int cost;
@@ -22,15 +23,26 @@ public class FieldInstruction {
         this.fieldType = fieldType;
     }
 
-    // TaxField, Jail, GoToJail
+    // Jail, GoToJail
     public FieldInstruction(String fieldType, int fineOrBailOrJailPosition) {
         this.fieldType = fieldType;
+        this.fineOrBailOrJailPosition = fineOrBailOrJailPosition;
+    }
+
+    // TaxField
+    public FieldInstruction(String fieldType, String title, int fineOrBailOrJailPosition) {
+        this.fieldType = fieldType;
+        this.title = title;
         this.fineOrBailOrJailPosition = fineOrBailOrJailPosition;
     }
 
     // Relevant getters
     public String getFieldType() {
         return fieldType;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public int getOwner() {
