@@ -95,6 +95,10 @@ public class PlayerController {
         players[player].removeProperty(place);
     }
 
+    public boolean checkLiquidity (int amount, int player) {
+        return !(getPlayerBalance(player) - amount < 0);
+    }
+
 
     //Relevant getters
     public int getId(int player) { return players[player].getId(); }
