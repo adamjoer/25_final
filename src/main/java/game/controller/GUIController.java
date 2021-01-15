@@ -434,17 +434,13 @@ public class GUIController {
         return 0;
     }
 
-    public void markPropertyPawned(int position) {
-        // TODO: should it be subText or something else? And set string in StringHandler.
-        GUI_Ownable field = (GUI_Ownable) gui.getFields()[position];
-        field.setSubText("Property is pawned");
-        setRent(position, 0);
-    }
-
-    public void markPropertyPawned(int position, String subText){
-        // TODO: should it be subText or something else?
-        GUI_Ownable field = (GUI_Ownable) gui.getFields()[position];
-        field.setSubText(subText);
+    /**
+     * Sets the description for a field
+     * @param position : position of the field
+     * @param reference : String reference for the description
+     */
+    public void setDescription(int position, String reference){
+        gui.getFields()[position].setDescription(getString(reference));
     }
 
     /**
