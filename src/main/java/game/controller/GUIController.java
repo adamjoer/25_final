@@ -80,7 +80,6 @@ public class GUIController {
         gui = new GUI(guiFields, Color.PINK);
 
         guiCars = new GUI_Car[MAX_PLAYER_AMOUNT];
-        //stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
         playerNames = askForPlayerNames();
         playerAmount = playerNames.length;
         this.guiPlayerList = new GUI_Player[playerAmount];
@@ -393,21 +392,59 @@ public class GUIController {
         ownable.setOwnerName(guiPlayerList[player].getName());
     }
 
+    /**
+     * Choose which property to be prompted
+     * @param propertyPositions : array of field positions which the player owns
+     * @param reference : String reference for StringHandler
+     * @return : position of field
+     */
     public int choosePropertyPrompt(int[] propertyPositions, String reference) {
+        String[] properties = new String[propertyPositions.length];
+        for(int i=0; i<properties.length;i++){
+            gui.getFields()[propertyPositions[i]].getTitle();
+        }
+        String userSelection = gui.getUserSelection(getString(reference), properties);
 
-        // TODO: Fill with something meaningful.
+        for(int i=0; i<properties.length;i++){
+            if(gui.getFields()[propertyPositions[i]].getTitle().equals(userSelection)){
+                return propertyPositions[i];
+            }
+        }
+
         return 0;
     }
 
+    /**
+     * Prompts the user for which real estate to sell
+     * @param stringRefs : references of the options which the player can sell
+     * @return : position in the array of the option chosen
+     */
+    public int sellRealEstatePrompt(String[] stringRefs) {
+        String[] options = new String[stringRefs.length];
+        for(int i=0;i<options.length;i++){
+            options[i] = getString(stringRefs[i]);
+        }
+        String userSelection = gui.getUserSelection(getString("chooseRealEstate"), options);
 
-    public int sellRealEstatePrompt(boolean building, boolean property, boolean pawn) {
-
-        // TODO: Fill with something meaningful.
+        for(int i=0;i<options.length;i++){
+            if(options[i].equals(userSelection)){
+                return i;
+            }
+        }
         return 0;
     }
 
-    public void markPropertyPawned(int position, boolean b) {
-        // TODO: Fill with something meaningful.
+    public void markPropertyPawned(int position) {
+        // TODO: should it be subText or something else? And set string in StringHandler.
+        GUI_Ownable field = (GUI_Ownable) gui.getFields()[position];
+        field.setSubText("Property is pawned");
+        setRent(position, 0);
+    }
+
+    public void markPropertyPawned(int position, String subText){
+        // TODO: should it be subText or something else?
+        GUI_Ownable field = (GUI_Ownable) gui.getFields()[position];
+        field.setSubText(subText);
     }
 
     /**

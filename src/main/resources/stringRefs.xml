@@ -179,4 +179,8 @@
         <reference>stillHaveHouses</reference>
         <outputString>Denne grund har stadig huse!</outputString>
     </stringRef>
+    <stringRef>
+        <reference>chooseRealEstate</reference>
+        <outputString>Vælg ejendom der skal sælges:</outputString>
+    </stringRef>
 </stringRefs>
