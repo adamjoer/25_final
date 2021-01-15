@@ -68,9 +68,9 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Shipping</subType>
-        <title>Scandlines</title>
+        <title>DFDS Seaways</title>
         <subText>kr. 4.000</subText>
-        <description>Helsingør - Helsingborg</description>
+        <description/>
         <cost>4000</cost>
         <rentLevels>4</rentLevels>
         <level>500</level>
@@ -243,7 +243,7 @@
         <subType>Shipping</subType>
         <title>Mols-Linien</title>
         <subText>kr. 4.000</subText>
-        <description>En genvej i Danmark</description>
+        <description/>
         <cost>4000</cost>
         <rentLevels>4</rentLevels>
         <level>500</level>
@@ -405,9 +405,9 @@
     <field>
         <fieldType>Property</fieldType>
         <subType>Shipping</subType>
-        <title>Scandlines</title>
+        <title>Smyril Line</title>
         <subText>kr. 4.000</subText>
-        <description>Gedser - Rostock</description>
+        <description/>
         <cost>4000</cost>
         <rentLevels>4</rentLevels>
         <level>500</level>
@@ -580,7 +580,7 @@
         <subType>Shipping</subType>
         <title>Scandlines</title>
         <subText>kr. 4.000</subText>
-        <description>Rødby - Puttgarden</description>
+        <description/>
         <cost>4000</cost>
         <rentLevels>4</rentLevels>
         <level>500</level>
