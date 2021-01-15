@@ -149,7 +149,14 @@ public class FieldController {
         return false;
     }
 
-
+    /**
+     * disOwnProperty is the method called when it has been verified that a Property can be sold. It adjusts propertyLevel,
+     * sets pawnValue and returns the appropriate value the Property is sold for.
+     *
+     * @param player : The player selling the Property.
+     * @param place  : The position of the Property (for correcting propertyLevel of related Properties).
+     * @return : The sell price of the Property.
+     */
     public int disOwnProperty(int player, int place) {
 
         //Get the property
@@ -388,6 +395,12 @@ public class FieldController {
         return worth;
     }
 
+    /**
+     * Gets the current number of houses a player owns across all Properties. It is used specifically for one type of ChanceCard.
+     *
+     * @param player : The player drawing the ChanceCard related to this.
+     * @return : The number of houses the player owns.
+     */
     public int getHouses(int player) {
 
         int houseCount = 0;
@@ -403,6 +416,12 @@ public class FieldController {
         return houseCount;
     }
 
+    /**
+     * Gets the current number of hotels a player owns across all Properties. It is used specifically for one type of ChanceCard.
+     *
+     * @param player : The player drawing the ChanceCard related to this.
+     * @return : The number of hotels the player owns.
+     */
     public int getHotels(int player) {
 
         int hotelCount = 0;
@@ -419,6 +438,12 @@ public class FieldController {
         return hotelCount;
     }
 
+    /**
+     * Simply checks if a Property group has buildings.
+     *
+     * @param position : The position of any Property in the group.
+     * @return : true if there are buildings any Property the group.
+     */
     private boolean groupHasBuildings(int position) {
 
         int groupIndex = getPropertyGroupIndex(position);
@@ -430,6 +455,12 @@ public class FieldController {
         return false;
     }
 
+    /**
+     * Checks if a property can be sold (i.e. no buildings on Property group, or not a Street)
+     *
+     * @param position : Property to check.
+     * @return : true if Property can be sold.
+     */
     private boolean propertyCanBeSold(int position) {
         if (fields[position].getField().equals("Street")) {
             return groupHasBuildings(position);
@@ -437,6 +468,12 @@ public class FieldController {
         return true;
     }
 
+    /**
+     * Goes through the Properties of the given Player and checks which are sellable.
+     *
+     * @param player : The owner whose Properties are requested.
+     * @return : An int[] with the Property positions of the sellableProperties that belong to the given Player.
+     */
     public int[] sellablePropertyPositions(int player) {
         int[] playerPropertyPositions = getPlayerPropertyPositions(player);
         int[] sellablePropertyPositions = new int[0];
@@ -448,6 +485,12 @@ public class FieldController {
         return sellablePropertyPositions;
     }
 
+    /**
+     * Checks if there's a building on the Property, and whether there's more buildings on other Properties in the group.
+     *
+     * @param position : Position of the Property in question.
+     * @return : true if a building can be sold on this Property, else false.
+     */
     private boolean buildingCanBeSold(int position) {
         Property property = (Property) fields[position];
         int propertyLevel = property.getPropertyLevel();
@@ -466,6 +509,12 @@ public class FieldController {
         return true;
     }
 
+    /**
+     * Gets an int[] of positions for all Properties with sellable buildings owned by the Player in question.
+     *
+     * @param player : Player in question.
+     * @return : int[] of Property positions.
+     */
     public int[] sellableBuildingPositions(int player) {
         int[] playerPropertyPositions = getPlayerPropertyPositions(player);
         int[] sellableBuildingPositions = new int[0];
@@ -478,6 +527,12 @@ public class FieldController {
         return sellableBuildingPositions;
     }
 
+    /**
+     * Sells a building on the specified Property
+     *
+     * @param position : Position of Property.
+     * @return : The reimbursement value.
+     */
     public int sellBuilding(int position) {
         if (buildingCanBeSold(position)) {
             Street street = (Street) fields[position];
@@ -488,6 +543,12 @@ public class FieldController {
         }
     }
 
+    /**
+     * Used when a player is bankrupt, thus ignores propertyLevels. Sells all buildings and Properties for the Player.
+     *
+     * @param player : Player in question.
+     * @return : The total reimbursement for the sales.
+     */
     public int sellAllPlayerProperties(int player) {
         Property[] playerProperties = getPlayerProperties(player);
         int totalValue = 0;
@@ -513,6 +574,12 @@ public class FieldController {
         return totalValue;
     }
 
+    /**
+     * Checks if a Property has buildings and whether it's already pawned.
+     *
+     * @param position : Position of Property.
+     * @return : true if Property can be pawned.
+     */
     public boolean propertyCanBePawned(int position) {
         if (fields[position] instanceof Street) {
             if (groupHasBuildings(position)) {
@@ -522,6 +589,12 @@ public class FieldController {
         return !((Property) fields[position]).getPawned();
     }
 
+    /**
+     * Gets Property positions for all the Properties that the Player in question can pawn.
+     *
+     * @param player : Player in question
+     * @return : int[] with positions of Properties that can be pawned by the Player.
+     */
     public int[] pawnablePropertyPositions(int player) {
         int[] playerPropertyPositions = getPlayerPropertyPositions(player);
         int[] pawnablePropertyPositions = new int[0];
@@ -533,6 +606,13 @@ public class FieldController {
         return pawnablePropertyPositions;
     }
 
+    /**
+     * Pawns the specified Property and adjusts propertyLevels accordingly.
+     *
+     * @param player   : The Player pawning the Property.
+     * @param position : The position of the Property
+     * @return : The pawn value of the property ( = getCost()/2 )
+     */
     public int pawnProperty(int player, int position) {
         Property property = (Property) fields[position];
         int pawnValue = 0;
@@ -570,6 +650,13 @@ public class FieldController {
         return pawnValue;
     }
 
+    /**
+     * Reclaims a pawned Property owned by the Player, and adjusts propertyLevels accordingly.
+     *
+     * @param player   : The Player reclaiming the Property.
+     * @param position : The position of the Property.
+     * @return : The price for reclaiming the Property.
+     */
     public int reclaimProperty(int player, int position) {
         Property property = (Property) fields[position];
         property.setPawned(false);
@@ -614,6 +701,12 @@ public class FieldController {
         return property.getCost() / 2;
     }
 
+    /**
+     * Gets a Property[] of all Properties owned by the specified Player.
+     *
+     * @param player : The owner of the Properties.
+     * @return : A Property[].
+     */
     private Property[] getPlayerProperties(int player) {
         Property[] ownedProperties = new Property[0];
         for (Property[] group : properties) {
@@ -626,6 +719,12 @@ public class FieldController {
         return ownedProperties;
     }
 
+    /**
+     * Gets all Property positions for the Properties of the specified Player.
+     *
+     * @param player : Player in question
+     * @return : An int[] with Property positions.
+     */
     public int[] getPlayerPropertyPositions(int player) {
         Property[] playerProperties = getPlayerProperties(player);
         int[] propertyPositions = new int[playerProperties.length];
@@ -635,6 +734,12 @@ public class FieldController {
         return propertyPositions;
     }
 
+    /**
+     * Gets all the positions of currently pawned Properties owned by the Player.
+     *
+     * @param player : Player in question.
+     * @return : An int[] with pawned Properties owned by the Player.
+     */
     public int[] getPlayerPawnedPropertyPositions(int player) {
         Property[] playerProperties = getPlayerProperties(player);
         int[] pawnedPropertyPositions = new int[0];
@@ -646,26 +751,46 @@ public class FieldController {
         return pawnedPropertyPositions;
     }
 
+    /**
+     * Gets a Property[] of pawned Properties that the Player can currently afford to reclaim.
+     *
+     * @param player        : Player in question.
+     * @param playerBalance : Current playerBalance.
+     * @return : A Property[].
+     */
     public Property[] getReclaimableProperties(int player, int playerBalance) {
         int[] positions = getPlayerPawnedPropertyPositions(player);
         Property[] properties = new Property[0];
         for (int i : positions) {
             Property property = (Property) fields[i];
-            if(property.getPawnValue() < playerBalance) {
+            if (property.getPawnValue() < playerBalance) {
                 properties = Utility.addToArray(properties, property);
             }
         }
         return properties;
     }
 
+    /**
+     * Checks if any of the Properties owned by the Player are pawned.
+     *
+     * @param player : Player in question.
+     * @return : true if the Player has pawned Properties.
+     */
     public boolean playerHasPawnedProperties(int player) {
         return getPlayerPawnedPropertyPositions(player).length != 0;
     }
 
+    /**
+     * Checks if the owner of the specified Property is currently in jail, if the Property is pawned, or if the Player owns the Property.
+     *
+     * @param player   : Player in question.
+     * @param position : Position of Property in question.
+     * @return : true if Property isn't pawned, owner isn't in jail and the Player isn't the owner.
+     */
     public boolean mustPayRent(int player, int position) {
         if (!(fields[position] instanceof Property)) return false;
         Property property = (Property) fields[position];
-        return (property.getPawned() && isInJail(property.getOwner()) && !(property.getOwner() == player));
+        return !(property.getPawned() || isInJail(property.getOwner()) || (property.getOwner() == player));
     }
 
     // Relevant getters
