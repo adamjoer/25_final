@@ -513,7 +513,7 @@ public class FieldController {
         return totalValue;
     }
 
-    private boolean propertyCanBePawned(int position) {
+    public boolean propertyCanBePawned(int position) {
         if (fields[position] instanceof Street) {
             if (groupHasBuildings(position)) {
                 return false;
