@@ -227,4 +227,8 @@
         <reference>pawnPropertyPrompt</reference>
         <outputString>Vælg den ejendom De ønsker at pantsætte.</outputString>
     </stringRef>
+    <stringRef>
+        <reference>bankruptPlayer</reference>
+        <outputString>Du har ikke flere penge tilbage, og dermed ude af spillet.</outputString>
+    </stringRef>
 </stringRefs>
