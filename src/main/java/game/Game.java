@@ -98,6 +98,13 @@ public class Game {
     }
 
     // Methods related to fields.
+
+    /**
+     * fieldAction fetches any relevant information from the Field that the Player has landed on and executes it.
+     * @param position
+     * @param player
+     * @return
+     */
     private boolean fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
 
