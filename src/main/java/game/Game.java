@@ -56,7 +56,7 @@ public class Game {
                 }
             }
             if (fieldController.playerHasPawnedProperties(playerTurn)) reclaimProperties();
-            // If the player has permission to build on their properties, give them the opportunity
+                // If the player has permission to build on their properties, give them the opportunity
             else if (fieldController.canPlayerBuyHouses(playerTurn)) buildOnStreets();
 
             // Roll the dice and move the resulting number of fields forward
@@ -139,7 +139,8 @@ public class Game {
                     .equals(yesButton)) {
 
                 // If they want to buy it, check if they have money for it
-                if (playerController.makeTransaction(-instructions.getCost(), player)) {
+                if (playerController.checkLiquidity(instructions.getCost(), player)) {
+                    makeTransaction(-instructions.getCost(), player);
                     buyProperty(player, position, instructions.getRent());
                     updateGuiBalance(player);
 
@@ -167,7 +168,7 @@ public class Game {
             }
 
             // Make transaction from the current player to the owner of the field
-            boolean successfulRent = playerController.makeTransaction(rent, player, owner);
+            boolean successfulRent = makeTransaction(rent, player, owner);
 
             // Set the balance of both players in the GUI
             updateGuiBalance(player);
@@ -345,7 +346,7 @@ public class Game {
         else guiController.stringHandlerMessage("stateTax", true);
 
         // Subtract tax from player balance
-        boolean successfulFine = playerController.makeTransaction(-tax, player);
+        boolean successfulFine = makeTransaction(-tax, player);
         updateGuiBalance(player);
 
         return successfulFine;
@@ -382,7 +383,10 @@ public class Game {
                 if (!street.getTitle().equals(streetToBuyHouse)) continue;
 
                 //Check if they have money for it
-                if (playerController.makeTransaction(-street.getBuildingCost(), playerTurn)) {
+                if (playerController.checkLiquidity(street.getBuildingCost(), playerTurn)) {
+
+                    //Pay the price of the building
+                    makeTransaction(-street.getBuildingCost(), playerTurn);
 
                     //Increase the streets propertyLevel
                     street.setPropertyLevel(street.getPropertyLevel() + 1);
