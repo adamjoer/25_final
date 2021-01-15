@@ -55,9 +55,9 @@ public class Game {
                     }
                 }
             }
-
+            if (fieldController.playerHasPawnedProperties(playerTurn)) reclaimProperties();
             // If the player has permission to build on their properties, give them the opportunity
-            if (fieldController.canPlayerBuyHouses(playerTurn)) buildOnStreets();
+            else if (fieldController.canPlayerBuyHouses(playerTurn)) buildOnStreets();
 
             // Roll the dice and move the resulting number of fields forward
             rollDice();
