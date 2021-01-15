@@ -79,7 +79,7 @@ public class Game {
         int winner = -1;
         for (int i = 0; i < playerCount; i++) {
             playerTotalValues[i] = getPlayerTotalValue(i);
-            if (playerTotalValues[i] > 0) highScore = playerTotalValues[i];
+            if (playerTotalValues[i] > highScore) highScore = playerTotalValues[i];
         }
         for (int i = 0; i < playerCount; i++) {
             if (playerTotalValues[i] == highScore) {
