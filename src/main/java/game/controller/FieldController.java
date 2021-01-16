@@ -463,7 +463,7 @@ public class FieldController {
      */
     private boolean propertyCanBeSold(int position) {
         if (fields[position].getField().equals("Street")) {
-            return groupHasBuildings(position);
+            return !groupHasBuildings(position);
         }
         return true;
     }
