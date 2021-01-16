@@ -101,6 +101,7 @@ public class Game {
 
     /**
      * fieldAction fetches any relevant information from the Field that the Player has landed on and executes it.
+     *
      * @param position
      * @param player
      * @return
@@ -274,7 +275,7 @@ public class Game {
         String[] guiOptions = new String[0];
         if (eligibleBuildings.length > 0) guiOptions = Utility.addToArray(guiOptions, "sellBuildingBtn");
         if (eligibleProperties.length > 0) guiOptions = Utility.addToArray(guiOptions, "sellPropertyBtn");
-        if (eligiblePawns.length > 0)  guiOptions = Utility.addToArray(guiOptions, "pawnPropertyBtn");
+        if (eligiblePawns.length > 0) guiOptions = Utility.addToArray(guiOptions, "pawnPropertyBtn");
 
         String selectedCase = guiController.sellRealEstatePrompt(guiOptions);
         switch (selectedCase) {
@@ -303,7 +304,8 @@ public class Game {
 
     private void sellBuilding(int player, int position) {
         int buildingValue = fieldController.sellBuilding(position);
-        guiController.setHouseOrHotelStreet(position, fieldController.getHouses(player), false);
+        Street street = (Street) fieldController.getFields()[position];
+        guiController.setHouseOrHotelStreet(position, street.getHouses(), false);
         playerController.makeTransaction(buildingValue, player);
         updateGuiRentForGroup(position);
         updateGuiBalance(player);
@@ -318,7 +320,7 @@ public class Game {
                 updateGuiBalance(player);
                 guiController.removeRentOwnership(position);
                 updateGuiRentForGroup(position);
-                guiController.setDescription(position,"propertyNotPawned");
+                guiController.setDescription(position, "propertyNotPawned");
                 return true;
             } else {
                 guiController.showMessage(guiController.getUserString("stillHaveHouses"));
@@ -333,6 +335,16 @@ public class Game {
         int valueOfProperties = fieldController.sellAllPlayerProperties(player);
         playerController.makeTransaction(valueOfProperties, player);
         updateGuiBalance(player);
+
+        Property[][] propertyGroups = fieldController.getProperties();
+        for (Property[] group : propertyGroups) {
+            updateGuiRentForGroup(group[0].getPosition());
+            for (Property property : group) {
+                if (property instanceof Street && property.getOwner() == -1) {
+                    guiController.setHouseOrHotelStreet(property.getPosition(), 0, false);
+                }
+            }
+        }
     }
 
     private boolean goToJailFieldAction(int player, int jailPosition) {
@@ -540,6 +552,7 @@ public class Game {
             case "MovePlayer":
 
                 movePlayer(playerTurn, chanceCardController.getIncrement());
+                fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
                 break;
 
@@ -548,6 +561,7 @@ public class Game {
                 int delta = chanceCardController.getDestination() - playerController.getPlayerPosition(playerTurn);
                 if (delta < 0) delta += fieldController.getFields().length;
                 movePlayer(playerTurn, delta);
+                fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
                 break;
 
@@ -597,9 +611,9 @@ public class Game {
             }
         }
         currentPosition = playerController.getPlayerPosition(playerTurn);
+        Shipping shipping = (Shipping) fieldController.getFields()[currentPosition];
         fieldAction(currentPosition, playerTurn);
-        // TODO: Add second condition on this - if field is owned.
-        if (doubleRent) {
+        if (doubleRent && shipping.getOwner() != playerTurn) {
             fieldAction(currentPosition, playerTurn);
         }
     }
@@ -709,13 +723,14 @@ public class Game {
     private void updateGuiRentForGroup(int position) {
         int groupIndex = fieldController.getPropertyGroupIndex(position);
         Property[] group = fieldController.getPropertyGroup(groupIndex);
-        for (Property property : group) guiController.setRent(position, property.getCurrentRent());
+        for (Property property : group) guiController.setRent(property.getPosition(), property.getCurrentRent());
     }
 
     private void updateGuiBalance(int player) {
         guiController.setBalance(playerController.getPlayerBalance(player), player);
     }
-    private void terminatePlayer (int player) {
+
+    private void terminatePlayer(int player) {
         sellAllPlayerProperties(player);
         // removePlayer(player,playerController.getPlayerPosition(player));
         gameRun = false;
