@@ -340,10 +340,12 @@ public class Game {
         for (Property[] group : propertyGroups) {
             updateGuiRentForGroup(group[0].getPosition());
             for (Property property : group) {
-                if (property instanceof Street && property.getOwner() == -1) {
-                    guiController.setHouseOrHotelStreet(property.getPosition(), 0, false);
+                if(property.getOwner() == -1) {
+                    if (property instanceof Street) {
+                        guiController.setHouseOrHotelStreet(property.getPosition(), 0, false);
+                    }
+                    guiController.removeRentOwnership(property.getPosition());
                 }
-                guiController.setOwnership(property.getPosition(),property.getOwner());
             }
         }
     }
