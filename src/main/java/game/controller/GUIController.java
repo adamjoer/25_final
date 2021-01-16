@@ -89,10 +89,6 @@ public class GUIController {
         return gui.getFields();
     }
 
-    public void setColor() {
-        getFields()[1].setForeGroundColor(Color.CYAN);
-    }
-
     public String stringHandlerMessage(String stringHandlerRef, boolean showMsg) {
         String msg = stringHandler.getString(stringHandlerRef);
         if (showMsg) {
@@ -242,17 +238,6 @@ public class GUIController {
     }
 
     /**
-     * Check if a GUI player object has a car on a specified field position
-     *
-     * @param player        : Gui player object whose car should be on the field
-     * @param fieldPosition : The field which the players car should be on
-     * @return : boolean, true if car is on the field otherwise false
-     */
-    public boolean hasCarGuiPlayer(GUI_Player player, int fieldPosition) {
-        return gui.getFields()[fieldPosition].hasCar(player);
-    }
-
-    /**
      * Set the players balance on the gui
      *
      * @param balance : balance to be set
@@ -280,6 +265,7 @@ public class GUIController {
         if (guiPlayerList.length == 1) {
             showMessage("" + getGuiPlayer(player).getName());
         } else {
+            showMessage(getString("bankruptPlayer"));
             setCar(player, false, fieldPlacement);
 
             GUI_Player[] tempArr = guiPlayerList;
@@ -334,25 +320,6 @@ public class GUIController {
     }
 
     /**
-     * Places the dice on the board
-     *
-     * @param faceValue1 : Face value of the first dice to be shown on the board
-     * @param faceValue2 : Seconds face of the second dice to be shown on the board
-     */
-    public void setDiceGui(int faceValue1, int faceValue2) {
-        gui.setDice(faceValue1, faceValue2);
-    }
-
-    /**
-     * Shows the face value of a singular dice
-     *
-     * @param faceValue : Face value of the dice, to be shown on the board
-     */
-    public void setDiceGui(int faceValue) {
-        gui.setDie(faceValue);
-    }
-
-    /**
      * Sets a field to be owned by a player, can be done for the following types of fields:
      * - GUI_Street
      * - GUI_Brewery
@@ -379,17 +346,6 @@ public class GUIController {
         ownable.setOwnerName(null);
         ownable.setRent(null);
         ownable.setBorder(Color.BLACK);
-    }
-
-    /**
-     * Sets the ownership of a field
-     *
-     * @param fieldPosition : The position of the field (array position), not the actual position
-     * @param player        : the number of the player
-     */
-    public void setOwnership(int fieldPosition, int player) {
-        GUI_Ownable ownable = (GUI_Ownable) gui.getFields()[fieldPosition];
-        ownable.setOwnerName(guiPlayerList[player].getName());
     }
 
     /**
@@ -503,10 +459,6 @@ public class GUIController {
      */
     public void displayChanceCard() {
         gui.displayChanceCard();
-    }
-
-    public GUI_Field[] getGuiFields() {
-        return gui.getFields();
     }
 
     /**

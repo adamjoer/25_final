@@ -11,17 +11,15 @@ public class Player {
     private int[] properties = new int[0];
     private final String name;
     private final int BOARD_LENGTH = 40;
-    private int id;
 
 
     /**
      * @param name         : Name of the player
      * @param startBalance : The amount of money they start off with
      */
-    public Player(String name, int startBalance, int id) {
+    public Player(String name, int startBalance) {
         account = new Account(startBalance);
         this.name = name;
-        this.id = id;
     }
 
 
@@ -81,10 +79,6 @@ public class Player {
     }
 
     public int getOutOfJailCards(){return this.outOfJailCards;}
-
-    public int getId() {
-        return this.id;
-    }
 
     public String getName() {
         return this.name;

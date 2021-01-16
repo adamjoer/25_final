@@ -18,7 +18,7 @@ public class PlayerController {
         players = new Player[playerNames.length];
 
         for (int i = 0; i < playerNames.length; i++) {
-            players[i] = new Player(playerNames[i], startBalance, i);
+            players[i] = new Player(playerNames[i], startBalance);
         }
 
         getOutOfJailTries = new int[players.length];
@@ -101,7 +101,6 @@ public class PlayerController {
 
 
     //Relevant getters
-    public int getId(int player) { return players[player].getId(); }
     public String getName(int player){ return players[player].getName(); }
     public Player[] getPlayers(){ return players; }
     public int[] getProperties(int player) { return players[player].getProperties(); }
