@@ -57,12 +57,7 @@ public class Game {
             // Roll the dice and move the resulting number of fields forward
             rollDice();
 
-            if(playerController.getPlayers()[playerTurn].getName().equals("A") && playerController.getPlayers()[playerTurn].getBalance() >0){
-                movePlayer(playerTurn, 30);
-            } else{
-                movePlayer(playerTurn, diceController.getSum());
-            }
-
+            movePlayer(playerTurn, diceController.getSum());
             // Execute the fieldAction of that field
             fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
@@ -461,7 +456,6 @@ public class Game {
             playerController.setGetOutOfJailTries(playerTurn, 0);
             guiController.stringHandlerMessage("jailTriesUsed", true);
             boolean transaction = makeTransaction(-bail, playerTurn);
-            System.out.print(transaction);
             if (!transaction){
                 removePlayer(playerTurn, playerController.getPlayerPosition(playerTurn));
             }
