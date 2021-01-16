@@ -486,6 +486,7 @@ public class Game {
             if (!transaction){
                 removePlayer(playerTurn, playerController.getPlayerPosition(playerTurn));
             }
+            fieldController.free(playerTurn);
             return transaction;
         }
     }
