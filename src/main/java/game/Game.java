@@ -343,6 +343,7 @@ public class Game {
                 if (property instanceof Street && property.getOwner() == -1) {
                     guiController.setHouseOrHotelStreet(property.getPosition(), 0, false);
                 }
+                guiController.setOwnership(property.getPosition(),property.getOwner());
             }
         }
     }
