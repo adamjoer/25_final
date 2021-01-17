@@ -439,11 +439,12 @@ public class FieldController {
 
     /**
      * After removal of a player, it sets all the owners with a new index to the new index
+     *
      * @param player : player which index has been changed
      */
-    public void setPropertyOwner(int player){
-        for(Property p : getPlayerProperties(player)){
-            p.setOwner(p.getOwner()-1);
+    public void setPropertyOwner(int player) {
+        for (Property p : getPlayerProperties(player)) {
+            p.setOwner(p.getOwner() - 1);
         }
     }
 
