@@ -145,7 +145,6 @@ public class GUIController {
         String userInputName;
         int i = 0;
         GUI_Car.Type carType = GUI_Car.Type.CAR;
-        Color carColor;
 
         String[] names = new String[MAX_PLAYER_AMOUNT];
         while (true) {
@@ -209,19 +208,12 @@ public class GUIController {
      * @param players : players needs to be created before sending to GUI controller
      * @return true if the players are created otherwise false, can also return false if the player array size is over 4
      */
-    public boolean addPlayers(Player[] players) {
-        boolean playerCheck = false;
-        if (players.length > MAX_PLAYER_AMOUNT || players.length < MIN_PLAYER_AMOUNT) {
-            return false;
-        }
-
+    public void addPlayers(Player[] players) {
         for (int i = 0; i < playerAmount; i++) {
             GUI_Player player = new GUI_Player(players[i].getName(), players[i].getBalance(), guiCars[i]);
-            playerCheck = gui.addPlayer(player);
             guiPlayerList[i] = player;
             setCar(i, true, 0);
         }
-        return playerCheck;
     }
 
     /**
