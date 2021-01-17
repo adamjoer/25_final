@@ -3,11 +3,8 @@ package game.controller;
 import game.Utility;
 import game.field.*;
 
-import java.util.Arrays;
-
 public class FieldController {
 
-    private final String XML_FILEPATH = "src/main/resources/fieldListDA.xml";
     private final Field[] fields;
     private final Property[][] properties;
     private Jail jail;
@@ -16,7 +13,7 @@ public class FieldController {
     public FieldController() {
 
         // Generate fields from XML-file
-        fields = Utility.fieldGenerator(XML_FILEPATH);
+        fields = Utility.fieldGenerator("src/main/resources/fieldListDA.xml");
 
         // Organise properties into groups by putting them into the properties attribute
 
