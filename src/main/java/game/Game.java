@@ -144,8 +144,7 @@ public class Game {
         // Check if the field is owned by the player
         if (player == instructions.getOwner()) {
             guiController.stringHandlerMessage("ownField", true);
-        }
-        else{
+        } else {
             // Check if the field is owned by the bank
             if (instructions.getOwner() == -1) {
 
@@ -595,7 +594,6 @@ public class Game {
 
     /**
      * drawCard executes ChanceCards based on a switch on the type of card.
-     *
      */
     private void drawCard() {
 
@@ -810,8 +808,8 @@ public class Game {
             }
         }
 
-        for(int i=0; i<playerController.getPlayers().length;i++){
-            if(i>player){
+        for (int i = 0; i < playerController.getPlayers().length; i++) {
+            if (i > player) {
                 fieldController.setPropertyOwner(i);
             }
         }
