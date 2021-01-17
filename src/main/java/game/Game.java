@@ -13,9 +13,7 @@ public class Game {
     private final FieldController fieldController;
     private final ChanceCardController chanceCardController;
     private int playerCount;
-    private boolean gameRun = true;
     private int playerTurn;
-    private int playerTurnIndex; // look at setPlayerTurn for info
 
     public Game() {
         fieldController = new FieldController();
@@ -25,7 +23,6 @@ public class Game {
         chanceCardController = new ChanceCardController();
         playerCount = playerController.getPlayers().length;
         playerTurn = (int) Math.round((Math.random() * (playerCount - 1)));
-        playerTurnIndex = playerTurn;
     }
 
     public void gameLoop() {
@@ -50,8 +47,6 @@ public class Game {
                         // If they didn't succeed, continue to the next player
                         getNextPlayerTurn();
                         continue;
-                    } else {
-                        fieldController.free(playerTurn);
                     }
                 }
             }
@@ -61,8 +56,8 @@ public class Game {
 
             // Roll the dice and move the resulting number of fields forward
             rollDice();
-            movePlayer(playerTurnIndex, diceController.getSum());
 
+            movePlayer(playerTurn, diceController.getSum());
             // Execute the fieldAction of that field
             fieldAction(playerController.getPlayerPosition(playerTurn), playerTurn);
 
@@ -73,24 +68,22 @@ public class Game {
                 // Otherwise move on to the next player
             else getNextPlayerTurn();
 
-        } while (gameRun); // Keep playing until a winner is found
-
-        // Calculate winner
-        int[] playerTotalValues = new int[playerCount];
-        int highScore = 0;
-        int winner = -1;
-        for (int i = 0; i < playerCount; i++) {
-            playerTotalValues[i] = getPlayerTotalValue(i);
-            if (playerTotalValues[i] > highScore) highScore = playerTotalValues[i];
-        }
-        for (int i = 0; i < playerCount; i++) {
-            if (playerTotalValues[i] == highScore) {
-                winner = i;
+            for(int i=0; i<playerController.getPlayers().length;i++){
+                if(playerController.getPlayers()[i].getBalance() < 0){
+                    //The following if check is so that, we dont have to make the for loop in isIdentical AND in the following else
+                    if(playerTurn == 0){
+                        playerTurn = playerCount-1; //-1 because it needs to be an index
+                    } else{
+                        playerTurn = playerTurn-1;
+                    }
+                    removePlayer(playerTurn, playerController.getPlayers()[i].getCurrentPosition());
+                }
             }
-        }
+
+        } while (playerCount>1); // Keep playing until a winner is found
 
         // Show message announcing winner
-        guiController.stringHandlerMessage("winnerFound", true, playerController.getName(winner));
+        guiController.stringHandlerMessage("winnerFound", true, playerController.getName(playerTurn));
 
         // Close the window when the game is over
         guiController.close();
@@ -296,10 +289,9 @@ public class Game {
                 pawnProperty(player, guiController.choosePropertyPrompt(eligiblePawns, "pawnPropertyPrompt"));
                 break;
             default:
-                terminatePlayer(player);
+                sellAllPlayerProperties(player);
         }
     }
-
 
     private void pawnProperty(int player, int position) {
         int pawnValue = fieldController.pawnProperty(player, position);
@@ -480,6 +472,7 @@ public class Game {
             guiController.stringHandlerMessage("hasOutOfJailCard", true);
             playerController.setPlayerOutOfJailCards(playerTurn, getOutOfJailCards - 1);
             chanceCardController.returnOutOfJailCard();
+            fieldController.free(playerTurn);
             return true;
         }
 
@@ -490,7 +483,11 @@ public class Game {
         if (playerController.getGetOutOfJailTries(playerTurn) == 3) {
             playerController.setGetOutOfJailTries(playerTurn, 0);
             guiController.stringHandlerMessage("jailTriesUsed", true);
-            return makeTransaction(-bail, playerTurn);
+            boolean transaction = makeTransaction(-bail, playerTurn);
+            if (!transaction){
+                removePlayer(playerTurn, playerController.getPlayerPosition(playerTurn));
+            }
+            return transaction;
         }
 
         // Ask player if they want to pay bail, or try to roll two identical
@@ -502,9 +499,9 @@ public class Game {
             // If dice are identical, free player
             if (diceController.isIdentical()) {
                 guiController.stringHandlerMessage("jailIdenticalDice", true);
+                fieldController.free(playerTurn);
                 playerController.setGetOutOfJailTries(playerTurn, 0);
                 return true;
-
 
             } else { // If they aren't, the player has to stay in jail for the round
                 guiController.stringHandlerMessage("jailNotIdenticalDice", true);
@@ -513,7 +510,12 @@ public class Game {
             }
 
         } else { // Player wants to pay bail
-            return makeTransaction(-bail, playerTurn);
+            boolean transaction = makeTransaction(-bail, playerTurn);
+            if (!transaction){
+                removePlayer(playerTurn, playerController.getPlayerPosition(playerTurn));
+            }
+            fieldController.free(playerTurn);
+            return transaction;
         }
     }
 
@@ -633,19 +635,14 @@ public class Game {
         }
     }
 
-
     // Methods related to players.
-
-    private String[] getPlayerNames() {
-        return guiController.returnPlayerNames();
-    }
 
     private boolean transactionFailed(int player) {
 
         boolean bankrupt = getPlayerTotalValue(player) < 0;
         if (bankrupt) {
             // Sell all buildings and properties automatically
-            terminatePlayer(player);
+            sellAllPlayerProperties(player);
         } else {
             // Let the player choose what real estate to sell and/or pawn to cover deficit.
             int deficit = -playerController.getPlayerBalance(player);
@@ -654,7 +651,7 @@ public class Game {
                 deficit = -playerController.getPlayerBalance(player);
             }
         }
-        return bankrupt;
+        return !bankrupt; //!bankrupt is return because is has to match makeTransaction which is basically the reverse.
     }
 
     private boolean makeTransaction(int amount, int player) {
@@ -682,11 +679,7 @@ public class Game {
     }
 
     private void removePlayer(int player, int fieldPlacement) {
-        // TODO: Add setPlayers() in PlayerController
-        // playerController.setPlayers(playerController.removePlayer(player));
-
-        guiController.removeGuiPlayer(playerTurnIndex, fieldPlacement);
-        playerTurn = playerTurn - 1;
+        guiController.removeGuiPlayer(playerTurn, fieldPlacement);
         //remove getOutOfJail chance cards
         int outOfJailCards = playerController.getOutOfJailCards(playerTurn);
         if (outOfJailCards > 0) {
@@ -695,6 +688,12 @@ public class Game {
                 outOfJailCards = playerController.getOutOfJailCards(playerTurn);
             }
         }
+        if(playerTurn == playerCount-1 || playerTurn == 0){
+            playerTurn = 0;
+        } else{
+            playerTurn = playerTurn-1;
+        }
+        playerCount = playerCount-1;
         playerController.removePlayer(player);
     }
 
@@ -702,22 +701,8 @@ public class Game {
         return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
     }
 
-
     private void getNextPlayerTurn() {
         playerTurn = ++playerTurn % playerCount;
-        setPlayerTurn();
-    }
-
-    /**
-     * This method is used, to get the players index after removal of players in the original array
-     */
-    private void setPlayerTurn() {
-        for (int i = 0; i < playerCount; i++) {
-            if (playerController.getId(i) == playerTurn) {
-                playerTurnIndex = i;
-                break;
-            }
-        }
     }
 
     // Miscellaneous.
@@ -739,9 +724,4 @@ public class Game {
         guiController.setBalance(playerController.getPlayerBalance(player), player);
     }
 
-    private void terminatePlayer(int player) {
-        sellAllPlayerProperties(player);
-        // removePlayer(player,playerController.getPlayerPosition(player));
-        gameRun = false;
-    }
 }

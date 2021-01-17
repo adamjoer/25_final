@@ -228,6 +228,10 @@
         <outputString>Vælg den ejendom De ønsker at pantsætte.</outputString>
     </stringRef>
     <stringRef>
+        <reference>bankruptPlayer</reference>
+        <outputString>Du har ikke flere penge tilbage, og dermed ude af spillet.</outputString>
+    </stringRef>
+    <stringRef>
         <reference>pawnedOrOwnerInJail</reference>
         <outputString>Ejendommen er pantsat eller ejeren er i fængsel, og De skal derfor ikke betale leje.</outputString>
     </stringRef>
