@@ -822,6 +822,13 @@ public class Game {
                 outOfJailCards = playerController.getOutOfJailCards(playerTurn);
             }
         }
+
+        for(int i=0; i<playerController.getPlayers().length;i++){
+            if(i>player){
+                fieldController.setPropertyOwner(i);
+            }
+        }
+
         if (playerTurn == playerCount - 1 || playerTurn == 0) {
             playerTurn = 0;
         } else {
