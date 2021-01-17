@@ -70,19 +70,19 @@ public class Game {
                 // Otherwise move on to the next player
             else getNextPlayerTurn();
 
-            for(int i=0; i<playerController.getPlayers().length;i++){
-                if(playerController.getPlayers()[i].getBalance() < 0){
+            for (int i = 0; i < playerController.getPlayers().length; i++) {
+                if (playerController.getPlayers()[i].getBalance() < 0) {
                     //The following if check is so that, we dont have to make the for loop in isIdentical AND in the following else
-                    if(playerTurn == 0){
-                        playerTurn = playerCount-1; //-1 because it needs to be an index
-                    } else{
-                        playerTurn = playerTurn-1;
+                    if (playerTurn == 0) {
+                        playerTurn = playerCount - 1; //-1 because it needs to be an index
+                    } else {
+                        playerTurn = playerTurn - 1;
                     }
                     removePlayer(playerTurn, playerController.getPlayers()[i].getCurrentPosition());
                 }
             }
 
-        } while (playerCount>1); // Keep playing until a winner is found
+        } while (playerCount > 1); // Keep playing until a winner is found
 
         // Show message announcing winner
         guiController.stringHandlerMessage("winnerFound", true, playerController.getName(playerTurn));
@@ -293,7 +293,7 @@ public class Game {
      * values for the Property and its related Properties (propertyLevel).
      *
      * @param position : Position of the Property.
-     * @param player : Player in question.
+     * @param player   : Player in question.
      */
     private void reclaimProperty(int position, int player) {
         makeTransaction(-fieldController.reclaimProperty(player, position), player);
@@ -530,6 +530,7 @@ public class Game {
 
     /**
      * Gets a Street[] of Streets owned by the Player eligible for building on.
+     *
      * @param player : Player in question.
      * @return : A Street[].
      */
@@ -566,7 +567,7 @@ public class Game {
             playerController.setGetOutOfJailTries(playerTurn, 0);
             guiController.stringHandlerMessage("jailTriesUsed", true);
             boolean transaction = makeTransaction(-bail, playerTurn);
-            if (!transaction){
+            if (!transaction) {
                 removePlayer(playerTurn, playerController.getPlayerPosition(playerTurn));
             }
             return transaction;
@@ -593,7 +594,7 @@ public class Game {
 
         } else { // Player wants to pay bail
             boolean transaction = makeTransaction(-bail, playerTurn);
-            if (!transaction){
+            if (!transaction) {
                 removePlayer(playerTurn, playerController.getPlayerPosition(playerTurn));
             }
             fieldController.free(playerTurn);
@@ -605,6 +606,7 @@ public class Game {
 
     /**
      * drawCard executes ChanceCards based on a switch on the type of card.
+     *
      * @return false, if any transactions fail.
      */
     private boolean drawCard() {
@@ -823,12 +825,12 @@ public class Game {
                 outOfJailCards = playerController.getOutOfJailCards(playerTurn);
             }
         }
-        if(playerTurn == playerCount-1 || playerTurn == 0){
+        if (playerTurn == playerCount - 1 || playerTurn == 0) {
             playerTurn = 0;
-        } else{
-            playerTurn = playerTurn-1;
+        } else {
+            playerTurn = playerTurn - 1;
         }
-        playerCount = playerCount-1;
+        playerCount = playerCount - 1;
         playerController.removePlayer(player);
     }
 
