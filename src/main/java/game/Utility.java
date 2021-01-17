@@ -340,47 +340,6 @@ public class Utility {
 
     }
 
-    /**
-     * Removes element at specified index in specified array. The method will produce an array
-     * which is one element shorter than the specified array, and whose elements are in the same
-     * order as specified array.
-     * <p>
-     * the specified array needs to contain at least one element, otherwise the resulting array
-     * will have a negative length. The specified index also needs to be within bounds of the
-     * specified array, otherwise data outside of array bounds will be accessed.
-     *
-     * @param array Array of length 1 or more
-     * @param index Index of specified array, at which an element will be removed
-     * @return An array which is one element shorter than the specified array,
-     * and which does not contain the element at the specified index
-     */
-
-    public static Property[] removeFromArray(Property[] array, int index) {
-
-        // Declare output array outside of try/catch, otherwise it would be unreachable for return statement
-        Property[] output;
-
-        try {
-            // Allocate space for new array
-            output = new Property[array.length - 1];
-
-            // Copy array into output array, leaving out the element at specified index
-            System.arraycopy(array, 0, output, 0, index);
-            System.arraycopy(array, index + 1, output, index, output.length - index);
-
-        } catch (NegativeArraySizeException | IndexOutOfBoundsException exception) { // Handle if input array doesn't have any elements or if specified index is invalid
-
-            // Print stack trace for debugging
-            exception.printStackTrace();
-
-            // Return unaltered array
-            return array;
-        }
-
-        // Return new, shorter array
-        return output;
-
-    }
 
     /**
      * Removes element at specified index in specified array. The method will produce an array
