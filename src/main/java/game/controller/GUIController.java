@@ -206,7 +206,6 @@ public class GUIController {
      * Adds all players to the board
      *
      * @param players : players needs to be created before sending to GUI controller
-     * @return true if the players are created otherwise false, can also return false if the player array size is over 4
      */
     public void addPlayers(Player[] players) {
         for (int i = 0; i < playerAmount; i++) {
@@ -232,18 +231,6 @@ public class GUIController {
     public void setBalance(int balance, int player) {
         //set balance
         Objects.requireNonNull(getGuiPlayer(player)).setBalance(balance);
-    }
-
-    /**
-     * Makes a transaction on the player in the GUI
-     *
-     * @param amount : the amount to be transferred
-     * @param player : integer which correlates to the player
-     */
-    public void makeTransaction(int amount, int player) {
-        GUI_Player guiPlayer = getGuiPlayer(player);
-        assert guiPlayer != null;
-        guiPlayer.setBalance(amount + guiPlayer.getBalance());
     }
 
     public void removeGuiPlayer(int player, int fieldPlacement) {
