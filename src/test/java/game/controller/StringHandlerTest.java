@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringHandlerTest {
-    StringHandler stringHandler = new StringHandler("src/main/resources/stringRefsDA.xml");
+    StringHandler stringHandler = new StringHandler("stringRefsDA.xml");
 
     @Test
     void testStringReturn(){

@@ -13,7 +13,7 @@ public class FieldController {
     public FieldController() {
 
         // Generate fields from XML-file
-        fields = Utility.fieldGenerator("src/main/resources/fieldListDA.xml");
+        fields = Utility.fieldGenerator("fieldListDA.xml");
 
         // Organise properties into groups by putting them into the properties attribute
 

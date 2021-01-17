@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 import java.awt.Color;
-import java.io.File;
+import java.io.InputStream;
 
 public class Utility {
 
@@ -645,12 +645,18 @@ public class Utility {
 
         try {
 
-            // Import the file specified by the filePath as an abstract file.
+            // Import the file specified by the filePath as an input stream.
+            InputStream inputStream = Utility.class.getClassLoader().getResourceAsStream(filePath);
 
-            File file = new File(filePath);
+            // If the file wasn't found, output error message
+            if (inputStream == null) {
+                System.out.println("Error: file '" + filePath + "' not found. (Make sure it's located in the dedicated resources root)");
+
+                // Close the program with exit code 1 (error)
+                System.exit(1);
+            }
 
             // Create a DocumentBuilderFactory and make a new instance of DocumentBuilder.
-
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newDefaultInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
@@ -658,8 +664,7 @@ public class Utility {
              DocumentBuilder parses the abstract file to the Document type, and prepares the document so that
              the NodeList can be extracted (in document order).
              */
-
-            Document document = dBuilder.parse(file);
+            Document document = dBuilder.parse(inputStream);
             document.getDocumentElement().normalize();
             nodeList = document.getElementsByTagName(mainTag);
 
