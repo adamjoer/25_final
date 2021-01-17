@@ -20,7 +20,7 @@ public class GUIController {
     private String[] playerNames;
     private final GUI_Car[] guiCars;
     private Color[] colorsAvailable = new Color[]{Color.MAGENTA, Color.GRAY, Color.RED, Color.YELLOW, Color.GREEN, Color.CYAN}; //Color.decode("#3E0D0C")
-    private final StringHandler stringHandler = new StringHandler("src/main/resources/stringRefs.xml");
+    private final StringHandler stringHandler = new StringHandler("src/main/resources/stringRefsDA.xml");
     private String[] colorChoices = new String[]{
             "Magenta",
             stringHandler.getString("gray"),

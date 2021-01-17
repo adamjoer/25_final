@@ -5,7 +5,7 @@ import game.chance.card.*;
 
 public class ChanceCardController {
 
-    private final String XML_FILEPATH = "src/main/resources/chanceCards.xml";
+    private final String XML_FILEPATH = "src/main/resources/chanceCardsDA.xml";
     private final ChanceCard[] BASE_DECK;
     private final int BASE_DECK_LENGTH;
     private int currentDeckLength;
