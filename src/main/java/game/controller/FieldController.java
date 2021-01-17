@@ -256,7 +256,7 @@ public class FieldController {
      * @param propertyPosition The position of a property in a specific group
      * @param level            The level which every property in the group will be assigned
      */
-    public void setPropertyLevelForGroup(int propertyPosition, int level) {
+    private void setPropertyLevelForGroup(int propertyPosition, int level) {
 
         // Get the index of the group to which the property belongs
         int group = getPropertyGroupIndex(propertyPosition);
@@ -749,7 +749,7 @@ public class FieldController {
      * @param player : Player in question.
      * @return : An int[] with pawned Properties owned by the Player.
      */
-    public int[] getPlayerPawnedPropertyPositions(int player) {
+    private int[] getPlayerPawnedPropertyPositions(int player) {
         Property[] playerProperties = getPlayerProperties(player);
         int[] pawnedPropertyPositions = new int[0];
         for (Property property : playerProperties) {
