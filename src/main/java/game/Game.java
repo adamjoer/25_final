@@ -99,9 +99,9 @@ public class Game {
     /**
      * fieldAction fetches any relevant information from the Field that the Player has landed on and executes it.
      *
-     * @param position
-     * @param player
-     * @return
+     * @param position : The position of the Player
+     * @param player   : Player in question
+     * @return : true, if the execution was without failed transactions.
      */
     private boolean fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
@@ -200,6 +200,14 @@ public class Game {
         }
     }
 
+    /**
+     * Asks the Player if they wish to buy the Property in question, and if so, transfers ownership, corrects propertyLevel
+     * and makes a transaction to the bank and updates the GUI with rent, ownership and border on Property.
+     *
+     * @param player : Player in question
+     * @param place  : Position of the Property.
+     * @param rent   : The rent for adding to GUI.
+     */
     private void buyProperty(int player, int place, int rent) {
         boolean propertyLevelChanged = fieldController.buyProperty(player, place);
         playerController.addProperty(player, place);
@@ -217,6 +225,10 @@ public class Game {
         }
     }
 
+    /**
+     * Method asking the Player if they wish to reclaim pawned Properties. If the Player chooses to, they get to choose
+     * one of their pawned Properties to reclaim.
+     */
     private void reclaimProperties() {
         String yesButton = guiController.stringHandlerMessage("yes", false),
                 noButton = guiController.stringHandlerMessage("no", false),
@@ -247,11 +259,23 @@ public class Game {
         }
     }
 
+    /**
+     * Gets those of the pawned Properties a player has which they can afford to reclaim.
+     *
+     * @param player : Player in question.
+     * @return : A Property[].
+     */
     private Property[] getReclaimableProperties(int player) {
         int playerBalance = playerController.getPlayerBalance(player);
         return fieldController.getReclaimableProperties(player, playerBalance);
     }
 
+    /**
+     * Gets a String[] of options for the reclaimProperties method.
+     *
+     * @param properties : A Property[] of pawned Properties.
+     * @return : The Properties the Player can afford to reclaim.
+     */
     private String[] getReclaimCostButtons(Property[] properties) {
         String[] reclaimCostButtons = new String[properties.length];
         for (int i = 0; i < properties.length; i++) {
@@ -264,12 +288,24 @@ public class Game {
         return reclaimCostButtons;
     }
 
+    /**
+     * Called when a Player chooses to reclaim a Property. It updates the Property description in the GUI and adjusts
+     * values for the Property and its related Properties (propertyLevel).
+     *
+     * @param position : Position of the Property.
+     * @param player : Player in question.
+     */
     private void reclaimProperty(int position, int player) {
         makeTransaction(-fieldController.reclaimProperty(player, position), player);
         guiController.setDescription(position, "propertyNotPawned");
         updateGuiRentForGroup(position);
     }
 
+    /**
+     * Prompts the Player to sell buildings and/or sell Properties and/or pawn Properties.
+     *
+     * @param player : Player in question.
+     */
     private void sellRealEstate(int player) {
         int[] eligibleBuildings = fieldController.sellableBuildingPositions(player);
         int[] eligibleProperties = fieldController.sellablePropertyPositions(player);
@@ -295,6 +331,12 @@ public class Game {
         }
     }
 
+    /**
+     * Method for pawning a Property. Updates GUI and adjusts values for Property and related Properties (propertyLevel).
+     *
+     * @param player   : Player in question.
+     * @param position : Position of the Property.
+     */
     private void pawnProperty(int player, int position) {
         int pawnValue = fieldController.pawnProperty(player, position);
         guiController.setDescription(position, "propertyIsPawned");
@@ -303,6 +345,12 @@ public class Game {
         updateGuiBalance(player);
     }
 
+    /**
+     * Sells a building on the specified Property owned by the Player.
+     *
+     * @param player   : Player in question.
+     * @param position : Position of the Property.
+     */
     private void sellBuilding(int player, int position) {
         int buildingValue = fieldController.sellBuilding(position);
         Street street = (Street) fieldController.getFields()[position];
@@ -312,6 +360,13 @@ public class Game {
         updateGuiBalance(player);
     }
 
+    /**
+     * Sells a Property owned by the Player.
+     *
+     * @param player   : Player in question.
+     * @param position : Position of the Property.
+     * @return : true if successful.
+     */
     private boolean sellProperty(int player, int position) {
         int[] properties = fieldController.getPlayerPropertyPositions(player);
         if (Arrays.stream(properties).anyMatch(i -> i == position)) {
@@ -332,6 +387,11 @@ public class Game {
         return false;
     }
 
+    /**
+     * Called if the Player goes bankrupt. Sells all Properties owned by the Player and adjusts the Property values.
+     *
+     * @param player : The bankrupt Player.
+     */
     private void sellAllPlayerProperties(int player) {
         int valueOfProperties = fieldController.sellAllPlayerProperties(player);
         playerController.makeTransaction(valueOfProperties, player);
@@ -390,6 +450,10 @@ public class Game {
         return successfulFine;
     }
 
+    /**
+     * Called if the Player is eligible to build on Streets. It asks the Player if they want to build a building, and
+     * proceeds to ask which eligible Street it should be built on.
+     */
     private void buildOnStreets() {
 
         String yesButton = guiController.stringHandlerMessage("yes", false),
@@ -449,6 +513,12 @@ public class Game {
         }
     }
 
+    /**
+     * Gets the price for building on a Street and makes Strings for output in GUI.
+     *
+     * @param properties : A Street[] with Streets eligible for building on.
+     * @return : A String[] for output in GUI.
+     */
     private String[] getHouseCostButtons(Street[] properties) {
         String[] houseCostButtons = new String[properties.length];
         for (int i = 0; i < properties.length; i++) {
@@ -458,12 +528,22 @@ public class Game {
         return houseCostButtons;
     }
 
+    /**
+     * Gets a Street[] of Streets owned by the Player eligible for building on.
+     * @param player : Player in question.
+     * @return : A Street[].
+     */
     private Street[] getBuildableStreets(int player) {
 
         int playerBalance = playerController.getPlayerBalance(player);
         return fieldController.getBuildableStreets(player, playerBalance);
     }
 
+    /**
+     * Lets the Player attempt to get out of Jail.
+     *
+     * @return true, if the attempt was successful.
+     */
     private boolean getOutOfJail() {
 
         // Announce that player is in prison
@@ -523,6 +603,10 @@ public class Game {
 
     // Methods related to chanceCards.
 
+    /**
+     * drawCard executes ChanceCards based on a switch on the type of card.
+     * @return false, if any transactions fail.
+     */
     private boolean drawCard() {
 
         guiController.displayChanceCard(chanceCardController.drawCard());
@@ -602,6 +686,13 @@ public class Game {
         return success;
     }
 
+    /**
+     * Moves the Player to the nearest Shipping field.
+     *
+     * @param shippingLocations : Locations of all Shipping fields on the board.
+     * @param forward           : If true, the Player MUST move forward.
+     * @param doubleRent        : If true, the Player must pay double rent, if the Shipping is owned by another Player.
+     */
     private void moveToNearestShipping(int[] shippingLocations, boolean forward, boolean doubleRent) {
         int currentPosition = playerController.getPlayerPosition(playerTurn);
         if (forward) {
@@ -631,14 +722,28 @@ public class Game {
         }
     }
 
+    // Methods related to players.
+
+    /**
+     * Makes all Players pay an amount to the target Player.
+     *
+     * @param amount       : Amount in question.
+     * @param targetPlayer : Target Player.
+     */
     private void giftPlayer(int amount, int targetPlayer) {
         for (int i = 0; i < playerCount; i++) {
             makeTransaction(amount, i, targetPlayer);
         }
     }
 
-    // Methods related to players.
-
+    /**
+     * Called if a transaction fails, to verify whether the Player is bankrupt. If the Player is bankrupt all the Players
+     * Properties are sold immediately. If the Player is not bankrupt, the Player must sell or pawn Properties or sell
+     * buildings until they have covered their account deficit.
+     *
+     * @param player : Player in question.
+     * @return : true, if the player escaped bankruptcy.
+     */
     private boolean transactionFailed(int player) {
 
         boolean bankrupt = getPlayerTotalValue(player) < 0;
@@ -656,6 +761,13 @@ public class Game {
         return !bankrupt; //!bankrupt is return because is has to match makeTransaction which is basically the reverse.
     }
 
+    /**
+     * Makes a transaction. If the transaction results in a negative account balance, transactionFailed is called.
+     *
+     * @param amount : The amount of the transaction.
+     * @param player : Player in question.
+     * @return : true, if the player isn't bankrupt.
+     */
     private boolean makeTransaction(int amount, int player) {
         boolean transactionSuccess = playerController.makeTransaction(amount, player);
         updateGuiBalance(player);
@@ -665,12 +777,26 @@ public class Game {
         return transactionSuccess;
     }
 
+    /**
+     * Variation of makeTransaction, used between two players. Amount should be POSITIVE when using this.
+     *
+     * @param amount   : Amount to transfer.
+     * @param sender   : The Player to transfer money from.
+     * @param receiver : The Player to transfer money to.
+     * @return : true, if the sender isn't bankrupt.
+     */
     private boolean makeTransaction(int amount, int sender, int receiver) {
         boolean transactionSuccess = makeTransaction(-amount, sender);
         makeTransaction(amount, receiver);
         return transactionSuccess;
     }
 
+    /**
+     * Moves a Player and updates their position in the GUI. If the Player passes Start it outputs a message to the GUI.
+     *
+     * @param player    : Player in question.
+     * @param increment : Increment to move the Player.
+     */
     private void movePlayer(int player, int increment) {
         boolean hasGottenStartReward = playerController.movePlayer(player, increment);
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
@@ -680,6 +806,13 @@ public class Game {
         }
     }
 
+    /**
+     * Removes a Player from the game and their car from GUI. Returns OutOfJailCards to the "discard pile" of the
+     * ChanceCards.
+     *
+     * @param player         : Player in question.
+     * @param fieldPlacement : The current position of the Player.
+     */
     private void removePlayer(int player, int fieldPlacement) {
         guiController.removeGuiPlayer(playerTurn, fieldPlacement);
         //remove getOutOfJail chance cards
@@ -699,6 +832,12 @@ public class Game {
         playerController.removePlayer(player);
     }
 
+    /**
+     * Gets the Players total value - that is, current Account balance and cumulative sell value of any Properties they own.
+     *
+     * @param player : Player in question.
+     * @return : The Players total value.
+     */
     private int getPlayerTotalValue(int player) {
         return playerController.getPlayerBalance(player) + fieldController.getCombinedPropertyWorth(player);
     }
@@ -716,12 +855,22 @@ public class Game {
         guiController.setDiceGui(diceController.getFaceValue(0), (int) (Math.random() * 360), diceController.getFaceValue(1), ((int) (Math.random() * 360)));
     }
 
+    /**
+     * Updates the rent of a specified group of Properties in the GUI.
+     *
+     * @param position : Position of any Property in the Property group.
+     */
     private void updateGuiRentForGroup(int position) {
         int groupIndex = fieldController.getPropertyGroupIndex(position);
         Property[] group = fieldController.getPropertyGroup(groupIndex);
         for (Property property : group) guiController.setRent(property.getPosition(), property.getCurrentRent());
     }
 
+    /**
+     * Updates a Players Account balance in the GUI.
+     *
+     * @param player : Player in question.
+     */
     private void updateGuiBalance(int player) {
         guiController.setBalance(playerController.getPlayerBalance(player), player);
     }
