@@ -5,7 +5,6 @@ import game.chance.card.*;
 
 public class ChanceCardController {
 
-    private final String XML_FILEPATH = "src/main/resources/chanceCardsDA.xml";
     private final ChanceCard[] BASE_DECK;
     private final int BASE_DECK_LENGTH;
     private int currentDeckLength;
@@ -19,7 +18,7 @@ public class ChanceCardController {
      */
 
     public ChanceCardController() {
-        BASE_DECK = Utility.chanceCardGenerator(XML_FILEPATH);
+        BASE_DECK = Utility.chanceCardGenerator("src/main/resources/chanceCardsDA.xml");
         BASE_DECK_LENGTH = BASE_DECK.length;
         shuffleDeck();
     }

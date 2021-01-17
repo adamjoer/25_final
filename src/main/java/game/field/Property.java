@@ -42,10 +42,6 @@ public abstract class Property extends Field {
         return pawnValue;
     }
 
-    public int[] getRentLevels() {
-        return rentLevels;
-    }
-
     public int getPropertyLevel() {
         return propertyLevel;
     }

@@ -7,7 +7,6 @@ public class FieldInstruction {
     private int owner;
     private int rent;
     private int cost;
-    private int propertyLevel;
     private int fineOrBailOrJailPosition;
 
     // Property
@@ -57,15 +56,7 @@ public class FieldInstruction {
         return cost;
     }
 
-    public int getPropertyLevel() {
-        return propertyLevel;
-    }
-
     public int getFine() {
-        return fineOrBailOrJailPosition;
-    }
-
-    public int getBail() {
         return fineOrBailOrJailPosition;
     }
 

@@ -55,7 +55,6 @@ public class GUIController {
                     break;
                 case "Brewery":
                     Brewery brewery = (Brewery) fields[i];
-                    String title = brewery.getTitle();
                     guiFields[i] = new GUI_Brewery("default", brewery.getTitle(), brewery.getSubText(), brewery.getDescription(),
                             String.valueOf(brewery.getCurrentRent()), Color.WHITE, Color.BLACK);
                     break;
@@ -85,10 +84,6 @@ public class GUIController {
         this.guiPlayerList = new GUI_Player[playerAmount];
     }
 
-    public GUI_Field[] getFields() {
-        return gui.getFields();
-    }
-
     public String stringHandlerMessage(String stringHandlerRef, boolean showMsg) {
         String msg = stringHandler.getString(stringHandlerRef);
         if (showMsg) {
@@ -97,12 +92,11 @@ public class GUIController {
         return msg;
     }
 
-    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg, String msg) {
+    public void stringHandlerMessage(String stringHandlerRef, boolean showMsg, String msg) {
         String stringHandlerMsg = stringHandler.getString(stringHandlerRef);
         if (showMsg) {
             showMessage(stringHandlerMsg + msg);
         }
-        return stringHandlerMsg;
     }
 
     /**
@@ -151,7 +145,6 @@ public class GUIController {
         String userInputName;
         int i = 0;
         GUI_Car.Type carType = GUI_Car.Type.CAR;
-        Color carColor;
 
         String[] names = new String[MAX_PLAYER_AMOUNT];
         while (true) {
@@ -213,21 +206,14 @@ public class GUIController {
      * Adds all players to the board
      *
      * @param players : players needs to be created before sending to GUI controller
-     * @return true if the players are created otherwise false, can also return false if the player array size is over 4
      */
-    public boolean addPlayers(Player[] players) {
-        boolean playerCheck = false;
-        if (players.length > MAX_PLAYER_AMOUNT || players.length < MIN_PLAYER_AMOUNT) {
-            return false;
-        }
-
+    public void addPlayers(Player[] players) {
         for (int i = 0; i < playerAmount; i++) {
             GUI_Player player = new GUI_Player(players[i].getName(), players[i].getBalance(), guiCars[i]);
-            playerCheck = gui.addPlayer(player);
+            gui.addPlayer(player);
             guiPlayerList[i] = player;
             setCar(i, true, 0);
         }
-        return playerCheck;
     }
 
     /**
@@ -248,20 +234,7 @@ public class GUIController {
         Objects.requireNonNull(getGuiPlayer(player)).setBalance(balance);
     }
 
-    /**
-     * Makes a transaction on the player in the GUI
-     *
-     * @param amount : the amount to be transferred
-     * @param player : integer which correlates to the player
-     */
-    public void makeTransaction(int amount, int player) {
-        GUI_Player guiPlayer = getGuiPlayer(player);
-        assert guiPlayer != null;
-        guiPlayer.setBalance(amount + guiPlayer.getBalance());
-    }
-
     public void removeGuiPlayer(int player, int fieldPlacement) {
-        // TODO: finish this
         if (guiPlayerList.length == 1) {
             showMessage("" + getGuiPlayer(player).getName());
         } else {
@@ -454,12 +427,6 @@ public class GUIController {
         gui.displayChanceCard(msg);
     }
 
-    /**
-     * Display the current chance card text in the center
-     */
-    public void displayChanceCard() {
-        gui.displayChanceCard();
-    }
 
     /**
      * Closes the GUI window.

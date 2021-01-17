@@ -15,11 +15,6 @@ public class TaxField extends Field {
         return new FieldInstruction(getField(), title, fine);
     }
 
-    //Relevant getters
-    public int getFine() {
-        return fine;
-    }
-
     public String toString() {
         return super.toString() +
                "\n\t[fine=" + fine + ']';

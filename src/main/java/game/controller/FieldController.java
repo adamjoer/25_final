@@ -3,11 +3,8 @@ package game.controller;
 import game.Utility;
 import game.field.*;
 
-import java.util.Arrays;
-
 public class FieldController {
 
-    private final String XML_FILEPATH = "src/main/resources/fieldListDA.xml";
     private final Field[] fields;
     private final Property[][] properties;
     private Jail jail;
@@ -16,7 +13,7 @@ public class FieldController {
     public FieldController() {
 
         // Generate fields from XML-file
-        fields = Utility.fieldGenerator(XML_FILEPATH);
+        fields = Utility.fieldGenerator("src/main/resources/fieldListDA.xml");
 
         // Organise properties into groups by putting them into the properties attribute
 
@@ -795,11 +792,10 @@ public class FieldController {
     /**
      * Checks if the owner of the specified Property is currently in jail or if the Property is pawned.
      *
-     * @param player   : Player in question.
      * @param position : Position of Property in question.
      * @return : true if Property isn't pawned and owner isn't in jail.
      */
-    public boolean mustPayRent(int player, int position) {
+    public boolean mustPayRent(int position) {
         if (!(fields[position] instanceof Property)) return false;
         Property property = (Property) fields[position];
         return !(property.getPawned() || isInJail(property.getOwner()));
