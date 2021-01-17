@@ -406,7 +406,7 @@ public class Game {
         fieldController.incarcerate(player);
     }
 
-    private boolean taxFieldAction(int player, FieldInstruction instructions) {
+    private void taxFieldAction(int player, FieldInstruction instructions) {
 
         // Get tax
         int tax = instructions.getFine();
@@ -432,8 +432,6 @@ public class Game {
         // Subtract tax from player balance
         boolean successfulFine = makeTransaction(-tax, player);
         updateGuiBalance(player);
-
-        return successfulFine;
     }
 
     /**
