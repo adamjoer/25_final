@@ -9,6 +9,6 @@ class StringHandlerTest {
 
     @Test
     void testStringReturn(){
-        assertEquals("Du er landet på skat.",stringHandler.getString("tax"));
+        assertEquals("De er landet på skat.",stringHandler.getString("tax"));
     }
 }
