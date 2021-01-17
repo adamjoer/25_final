@@ -173,7 +173,7 @@ public class Game {
         } else { // Field is owned by another player, so they have to pay rent
 
             int owner = instructions.getOwner();
-            if (fieldController.mustPayRent(player,position)) {
+            if (fieldController.mustPayRent(player, position)) {
                 guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
 
                 int rent = instructions.getRent();
@@ -197,7 +197,7 @@ public class Game {
 
                 return successfulRent;
             } else {
-                guiController.stringHandlerMessage("pawnedOrOwnerInJail",true);
+                guiController.stringHandlerMessage("pawnedOrOwnerInJail", true);
                 return true;
             }
         }
@@ -328,7 +328,7 @@ public class Game {
                 guiController.setDescription(position, "propertyNotPawned");
                 return true;
             } else {
-                guiController.showMessage(guiController.stringHandlerMessage("stillHaveHouses",true));
+                guiController.showMessage(guiController.stringHandlerMessage("stillHaveHouses", true));
                 return false;
             }
 
@@ -345,7 +345,7 @@ public class Game {
         for (Property[] group : propertyGroups) {
             updateGuiRentForGroup(group[0].getPosition());
             for (Property property : group) {
-                if(property.getOwner() == -1) {
+                if (property.getOwner() == -1) {
                     if (property instanceof Street) {
                         guiController.setHouseOrHotelStreet(property.getPosition(), 0, false);
                     }
