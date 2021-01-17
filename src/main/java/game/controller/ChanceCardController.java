@@ -18,7 +18,7 @@ public class ChanceCardController {
      */
 
     public ChanceCardController() {
-        BASE_DECK = Utility.chanceCardGenerator("src/main/resources/chanceCardsDA.xml");
+        BASE_DECK = Utility.chanceCardGenerator("chanceCardsDA.xml");
         BASE_DECK_LENGTH = BASE_DECK.length;
         shuffleDeck();
     }

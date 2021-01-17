@@ -11,7 +11,7 @@ class UtilityTest {
 
     @Test
     void fieldGenerator() {
-        Field[] fields = Utility.fieldGenerator("src/main/resources/fieldListDA.xml");
+        Field[] fields = Utility.fieldGenerator("fieldListDA.xml");
         // Checks that Strings are correctly imported from the XML file. In this case the class name.
         assertEquals(fields[10].getField(), "Jail");
         // Checks that ints and int arrays are correctly imported AND that the last place is filled in the array.
@@ -27,7 +27,7 @@ class UtilityTest {
 
     @Test
     void chanceCardGenerator() {
-        ChanceCard[] deck = Utility.chanceCardGenerator("src/main/resources/testFiles/chanceCardTest.xml");
+        ChanceCard[] deck = Utility.chanceCardGenerator("testFiles/chanceCardTest.xml");
         // Checks that the length of the array is correct (differs from fieldGenerator, in that it accounts for duplicates.
         assertEquals(deck.length, 15);
         // Checks that the last spot in the array is filled with an OutOfJailCard as expected.
@@ -42,7 +42,7 @@ class UtilityTest {
 
     @Test
     void stringRefGenerator() {
-        StringRef[] stringRefs = Utility.stringRefGenerator("src/main/resources/stringRefsDA.xml");
+        StringRef[] stringRefs = Utility.stringRefGenerator("stringRefsDA.xml");
         // Checks that the 6th element in the array has the correct reference and then checks that the output String corresponds.
         assertTrue(stringRefs[5].checkReference("maxPlayerReachedPrompt"));
         assertEquals(stringRefs[5].getString(), "Det maksimale antal spillere er nået, vil De:");
