@@ -50,6 +50,8 @@ public class Game {
                         // If they didn't succeed, continue to the next player
                         getNextPlayerTurn();
                         continue;
+                    } else {
+                        fieldController.free(playerTurn);
                     }
                 }
             }
@@ -500,7 +502,6 @@ public class Game {
             // If dice are identical, free player
             if (diceController.isIdentical()) {
                 guiController.stringHandlerMessage("jailIdenticalDice", true);
-                fieldController.free(playerTurn);
                 playerController.setGetOutOfJailTries(playerTurn, 0);
                 return true;
 
