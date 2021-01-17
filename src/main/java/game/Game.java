@@ -765,12 +765,10 @@ public class Game {
      * @param amount   : Amount to transfer.
      * @param sender   : The Player to transfer money from.
      * @param receiver : The Player to transfer money to.
-     * @return : true, if the sender isn't bankrupt.
      */
-    private boolean makeTransaction(int amount, int sender, int receiver) {
-        boolean transactionSuccess = makeTransaction(-amount, sender);
+    private void makeTransaction(int amount, int sender, int receiver) {
+        makeTransaction(-amount, sender);
         makeTransaction(amount, receiver);
-        return transactionSuccess;
     }
 
     /**
