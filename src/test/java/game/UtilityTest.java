@@ -27,7 +27,7 @@ class UtilityTest {
 
     @Test
     void chanceCardGenerator() {
-        ChanceCard[] deck = Utility.chanceCardGenerator("src/main/resources/test.files/chanceCardTest.xml");
+        ChanceCard[] deck = Utility.chanceCardGenerator("src/main/resources/testFiles/chanceCardTest.xml");
         // Checks that the length of the array is correct (differs from fieldGenerator, in that it accounts for duplicates.
         assertEquals(deck.length, 15);
         // Checks that the last spot in the array is filled with an OutOfJailCard as expected.
