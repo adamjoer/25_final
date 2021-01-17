@@ -92,12 +92,11 @@ public class GUIController {
         return msg;
     }
 
-    public String stringHandlerMessage(String stringHandlerRef, boolean showMsg, String msg) {
+    public void stringHandlerMessage(String stringHandlerRef, boolean showMsg, String msg) {
         String stringHandlerMsg = stringHandler.getString(stringHandlerRef);
         if (showMsg) {
             showMessage(stringHandlerMsg + msg);
         }
-        return stringHandlerMsg;
     }
 
     /**
