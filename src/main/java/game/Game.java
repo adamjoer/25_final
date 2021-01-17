@@ -118,6 +118,7 @@ public class Game {
 
             case "GoToJail":
                 goToJailFieldAction(player, instructions.getJailPosition());
+                break;
 
             case "Jail":
                 guiController.stringHandlerMessage("justVisitingJail", true);
@@ -129,6 +130,7 @@ public class Game {
 
             case "TaxField":
                 taxFieldAction(player, instructions);
+                break;
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
