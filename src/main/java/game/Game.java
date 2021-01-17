@@ -248,11 +248,10 @@ public class Game {
 
             for (Property property : properties) {
                 if (!property.getTitle().equals(propertyToReclaim)) continue;
-                else {
-                    reclaimProperty(property.getPosition(), playerTurn);
-                    updateGuiBalance(playerTurn);
-                    break;
-                }
+
+                reclaimProperty(property.getPosition(), playerTurn);
+                updateGuiBalance(playerTurn);
+                break;
             }
         }
     }
