@@ -22,7 +22,7 @@
     </stringRef>
     <stringRef>
         <reference>maxPlayerReachedPrompt</reference>
-        <outputString>The maximum amount of players has been reached, do you:</outputString>
+        <outputString>The maximum amount of players has been reached, do you want to:</outputString>
     </stringRef>
     <stringRef>
         <reference>closeGameOption</reference>
@@ -34,7 +34,7 @@
     </stringRef>
     <stringRef>
         <reference>inputNamePrompt</reference>
-        <outputString>Input name here.</outputString>
+        <outputString>Write your name here.</outputString>
     </stringRef>
     <stringRef>
         <reference>nameNotUniqueError</reference>
@@ -49,8 +49,8 @@
         <outputString>You have rolled a pair and are therefore given an extra turn!</outputString>
     </stringRef>
     <stringRef>
-        <reference>test</reference>
-        <outputString>Test did not fail!</outputString>
+        <reference>hasPassedStart</reference>
+        <outputString>You have passed START and receive 4.000 kr.</outputString>
     </stringRef>
     <stringRef>
         <reference>justVisitingJail</reference>
@@ -116,7 +116,7 @@
     </stringRef>
     <stringRef>
         <reference>buyField</reference>
-        <outputString>No players own this field. Do you wish to buy it?</outputString>
+        <outputString>No players own this property. Do you wish to buy it?</outputString>
     </stringRef>
     <stringRef>
         <reference>noMoney</reference>
@@ -124,7 +124,7 @@
     </stringRef>
     <stringRef>
         <reference>payRent</reference>
-        <outputString>The field is owned by another player, you must pay rent to</outputString>
+        <outputString>The field is owned by another player, you must pay rent to </outputString>
     </stringRef>
     <stringRef>
         <reference>breweryRent</reference>
@@ -132,7 +132,7 @@
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
-        <outputString>Do you wish to buy houses?</outputString>
+        <outputString>Do you wish to build houses?</outputString>
     </stringRef>
     <stringRef>
         <reference>whereToBuyHouse</reference>
