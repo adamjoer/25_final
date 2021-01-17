@@ -227,4 +227,8 @@
         <reference>pawnPropertyPrompt</reference>
         <outputString>Vælg den ejendom De ønsker at pantsætte.</outputString>
     </stringRef>
+    <stringRef>
+        <reference>pawnedOrOwnerInJail</reference>
+        <outputString>Ejendommen er pantsat eller ejeren er i fængsel, og De skal derfor ikke betale leje.</outputString>
+    </stringRef>
 </stringRefs>

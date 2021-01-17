@@ -173,28 +173,33 @@ public class Game {
         } else { // Field is owned by another player, so they have to pay rent
 
             int owner = instructions.getOwner();
-            guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
+            if (fieldController.mustPayRent(player,position)) {
+                guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
 
-            int rent = instructions.getRent();
+                int rent = instructions.getRent();
 
-            // If the property is a brewery, the rent needs to be multiplied by the sum of the dice
-            if (instructions.getFieldType().equals("Brewery")) {
+                // If the property is a brewery, the rent needs to be multiplied by the sum of the dice
+                if (instructions.getFieldType().equals("Brewery")) {
 
-                // Calculate new rent
-                rent = rent * diceController.getSum();
+                    // Calculate new rent
+                    rent = rent * diceController.getSum();
 
-                // Announce new rent to player
-                guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
+                    // Announce new rent to player
+                    guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
+                }
+
+                // Make transaction from the current player to the owner of the field
+                boolean successfulRent = makeTransaction(rent, player, owner);
+
+                // Set the balance of both players in the GUI
+                updateGuiBalance(player);
+                updateGuiBalance(owner);
+
+                return successfulRent;
+            } else {
+                guiController.stringHandlerMessage("pawnedOrOwnerInJail",true);
+                return true;
             }
-
-            // Make transaction from the current player to the owner of the field
-            boolean successfulRent = makeTransaction(rent, player, owner);
-
-            // Set the balance of both players in the GUI
-            updateGuiBalance(player);
-            updateGuiBalance(owner);
-
-            return successfulRent;
         }
     }
 
@@ -323,7 +328,7 @@ public class Game {
                 guiController.setDescription(position, "propertyNotPawned");
                 return true;
             } else {
-                guiController.showMessage(guiController.getUserString("stillHaveHouses"));
+                guiController.showMessage(guiController.stringHandlerMessage("stillHaveHouses",true));
                 return false;
             }
 
