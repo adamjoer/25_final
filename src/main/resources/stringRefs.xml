@@ -2,7 +2,7 @@
 <stringRefs>
     <stringRef>
         <reference>playerTurn</reference>
-        <outputString>Det er din tur til at spille, </outputString>
+        <outputString>Det er Deres tur til at spille, </outputString>
     </stringRef>
     <stringRef>
         <reference>rollDice</reference>
@@ -22,7 +22,7 @@
     </stringRef>
     <stringRef>
         <reference>maxPlayerReachedPrompt</reference>
-        <outputString>Det maksimale antal spillere er nået, vil du:</outputString>
+        <outputString>Det maksimale antal spillere er nået, vil De:</outputString>
     </stringRef>
     <stringRef>
         <reference>closeGameOption</reference>
@@ -46,102 +46,102 @@
     </stringRef>
     <stringRef>
         <reference>extraTurnIdenticalDice</reference>
-        <outputString>Du har slået to ens og får derfor en ekstra tur!</outputString>
+        <outputString>De har slået to ens og får derfor en ekstra tur!</outputString>
     </stringRef>
     <stringRef>
         <reference>hasPassedStart</reference>
-        <outputString>Du har passeret START og modtager 4.000 kr.</outputString>
+        <outputString>De har passeret START og modtager 4.000 kr.</outputString>
     </stringRef>
     <stringRef>
         <reference>justVisitingJail</reference>
-        <outputString>Du er på besøg i fængsel</outputString>
+        <outputString>De er på besøg i fængsel</outputString>
     </stringRef>
     <stringRef>
         <reference>goToJail</reference>
-        <outputString>Du bliver smidt i fængsel!</outputString>
+        <outputString>De bliver smidt i fængsel!</outputString>
     </stringRef>
     <stringRef>
         <reference>hasOutOfJailCard</reference>
-        <outputString>Du bruger din benådning fra kongen til at komme fri</outputString>
+        <outputString>De bruger Deres benådning fra kongen til at komme fri</outputString>
     </stringRef>
     <stringRef>
         <reference>isInJail</reference>
-        <outputString>Du er i fængsel og skal ud før du kan rykke dig</outputString>
+        <outputString>De er i fængsel og skal ud før De kan rykke Dem</outputString>
     </stringRef>
     <stringRef>
         <reference>inJailOptions</reference>
-        <outputString>Du har to valgmuligheder:
-            1: Prøv at slå to ens (Du har maks 3 forsøg)
+        <outputString>De har to valgmuligheder:
+            1: Prøv at slå to ens (De har maks 3 forsøg)
             2: Betal kautionen på 1.000 kr.
         </outputString>
     </stringRef>
     <stringRef>
         <reference>jailTriesUsed</reference>
-        <outputString>Du har brugt alle dine forsøg og skal nu betale kautionen på 1.000 kr.</outputString>
+        <outputString>De har brugt alle Deres forsøg og skal nu betale kautionen på 1.000 kr.</outputString>
     </stringRef>
     <stringRef>
         <reference>jailIdenticalDice</reference>
-        <outputString>Du slog to ens og er nu fri!</outputString>
+        <outputString>De slog to ens og er nu fri!</outputString>
     </stringRef>
     <stringRef>
         <reference>jailNotIdenticalDice</reference>
-        <outputString>Du slog desværre ikke to ens og skal blive i fængsel</outputString>
+        <outputString>De slog desværre ikke to ens og skal blive i fængsel</outputString>
     </stringRef>
     <stringRef>
         <reference>chanceCard</reference>
-        <outputString>Du har landet på et 'prøv lykken' felt og trækker et lykkekort. Tryk OK for at gøre hvad der står på det</outputString>
+        <outputString>De har landet på et 'prøv lykken' felt og trækker et lykkekort. Tryk OK for at gøre hvad der står på det</outputString>
     </stringRef>
     <stringRef>
         <reference>stateTax</reference>
-        <outputString>Du er landet på statsskat, og skal dermed af med 2000 kr.</outputString>
+        <outputString>De er landet på statsskat, og skal dermed af med 2000 kr.</outputString>
     </stringRef>
     <stringRef>
         <reference>tax</reference>
-        <outputString>Du er landet på skat.</outputString>
+        <outputString>De er landet på skat.</outputString>
     </stringRef>
     <stringRef>
         <reference>playerValue</reference>
-        <outputString>10% af din værdi er blevet udregnet til at være </outputString>
+        <outputString>10% af Deres værdi er blevet udregnet til at være </outputString>
     </stringRef>
 
     <stringRef>
         <reference>taxOptions</reference>
-        <outputString>Du har to valgmuligheder:
-            1: Betal 4.000 kr.
-            2: Betal 10% af din værdi
+        <outputString>De har to valgmuligheder:
+            1: Betal kr. 4.000
+            2: Betal 10% af Deres værdi
         </outputString>
     </stringRef>
     <stringRef>
         <reference>ownField</reference>
-        <outputString>Du er landet på dit eget felt</outputString>
+        <outputString>De er landet på Deres eget felt</outputString>
     </stringRef>
     <stringRef>
         <reference>buyField</reference>
-        <outputString>Ingen spillere ejer dette felt, vil du købe det?</outputString>
+        <outputString>Ingen spillere ejer dette felt, vil De købe det?</outputString>
     </stringRef>
     <stringRef>
         <reference>noMoney</reference>
-        <outputString>Du har ikke nok penge</outputString>
+        <outputString>De har ikke nok penge</outputString>
     </stringRef>
     <stringRef>
         <reference>payRent</reference>
-        <outputString>Feltet er eget af en anden spiller, du skal betale husleje til </outputString>
+        <outputString>Feltet er eget af en anden spiller, De skal betale husleje til </outputString>
     </stringRef>
     <stringRef>
         <reference>breweryRent</reference>
-        <outputString>På bryggerier ganges lejen med det tal som terningerne viser. Din husleje er derfor </outputString>
+        <outputString>På bryggerier ganges lejen med det tal som terningerne viser. Deres husleje er derfor </outputString>
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
-        <outputString>Vil du købe huse?</outputString>
+        <outputString>Vil De købe huse?</outputString>
     </stringRef>
     <stringRef>
         <reference>whereToBuyHouse</reference>
-        <outputString>Hvor vil du købe et hus?</outputString>
+        <outputString>Hvor vil De købe et hus?</outputString>
     </stringRef>
     <stringRef>
         <reference>winnerFound</reference>
-        <outputString>Tillykke! Du har vundet spillet, </outputString>
+        <outputString>Tillykke! De har vundet spillet, </outputString>
     </stringRef>
     <stringRef>
         <reference>test</reference>
@@ -149,11 +149,11 @@
     </stringRef>
     <stringRef>
         <reference>vehicleType</reference>
-        <outputString>Vælg type af dit køretøj</outputString>
+        <outputString>Vælg type af Deres køretøj</outputString>
     </stringRef>
     <stringRef>
         <reference>vehicleColor</reference>
-        <outputString>Vælg farven til dit køretøj</outputString>
+        <outputString>Vælg farven til Deres køretøj</outputString>
     </stringRef>
     <stringRef>
         <reference>gray</reference>
@@ -229,7 +229,7 @@
     </stringRef>
     <stringRef>
         <reference>bankruptPlayer</reference>
-        <outputString>Du har ikke flere penge tilbage, og dermed ude af spillet.</outputString>
+        <outputString>De har ikke flere penge tilbage, og dermed ude af spillet.</outputString>
     </stringRef>
     <stringRef>
         <reference>pawnedOrOwnerInJail</reference>
