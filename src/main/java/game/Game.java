@@ -111,6 +111,7 @@ public class Game {
             case "Street":
             case "Shipping":
                 propertyFieldAction(position, player, instructions);
+                break;
 
             case "Chance":
                 drawCard();
@@ -144,55 +145,58 @@ public class Game {
         if (player == instructions.getOwner()) {
             guiController.stringHandlerMessage("ownField", true);
         }
+        else{
+            // Check if the field is owned by the bank
+            if (instructions.getOwner() == -1) {
 
-        // Check if the field is owned by the bank
-        if (instructions.getOwner() == -1) {
+                // If field is owned by the bank, ask player if they want to buy it
+                String yesButton = guiController.stringHandlerMessage("yes", false);
+                if (guiController.getUserButton(guiController.stringHandlerMessage("buyField", false),
+                        yesButton, guiController.stringHandlerMessage("no", false))
+                        .equals(yesButton)) {
 
-            // If field is owned by the bank, ask player if they want to buy it
-            String yesButton = guiController.stringHandlerMessage("yes", false);
-            if (guiController.getUserButton(guiController.stringHandlerMessage("buyField", false),
-                    yesButton, guiController.stringHandlerMessage("no", false))
-                    .equals(yesButton)) {
+                    // If they want to buy it, check if they have money for it
+                    if (playerController.checkLiquidity(instructions.getCost(), player)) {
+                        makeTransaction(-instructions.getCost(), player);
+                        buyProperty(player, position, instructions.getRent());
+                        updateGuiBalance(player);
 
-                // If they want to buy it, check if they have money for it
-                if (playerController.checkLiquidity(instructions.getCost(), player)) {
-                    makeTransaction(-instructions.getCost(), player);
-                    buyProperty(player, position, instructions.getRent());
+                    } else {
+                        guiController.stringHandlerMessage("noMoney", true);
+                    }
+                }
+
+            } else { // Field is owned by another player, so they have to pay rent
+
+                int owner = instructions.getOwner();
+                if (fieldController.mustPayRent(position)) {
+                    guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
+
+                    int rent = instructions.getRent();
+
+                    // If the property is a brewery, the rent needs to be multiplied by the sum of the dice
+                    if (instructions.getFieldType().equals("Brewery")) {
+
+                        // Calculate new rent
+                        rent = rent * diceController.getSum();
+
+                        // Announce new rent to player
+                        guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
+                    }
+
+                    makeTransaction(rent, player, owner);
+
+                    // Set the balance of both players in the GUI
                     updateGuiBalance(player);
+                    updateGuiBalance(owner);
 
                 } else {
-                    guiController.stringHandlerMessage("noMoney", true);
+                    guiController.stringHandlerMessage("pawnedOrOwnerInJail", true);
                 }
-            }
-
-        } else { // Field is owned by another player, so they have to pay rent
-
-            int owner = instructions.getOwner();
-            if (fieldController.mustPayRent(position)) {
-                guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
-
-                int rent = instructions.getRent();
-
-                // If the property is a brewery, the rent needs to be multiplied by the sum of the dice
-                if (instructions.getFieldType().equals("Brewery")) {
-
-                    // Calculate new rent
-                    rent = rent * diceController.getSum();
-
-                    // Announce new rent to player
-                    guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
-                }
-
-                makeTransaction(rent, player, owner);
-
-                // Set the balance of both players in the GUI
-                updateGuiBalance(player);
-                updateGuiBalance(owner);
-
-            } else {
-                guiController.stringHandlerMessage("pawnedOrOwnerInJail", true);
             }
         }
+
+
     }
 
     /**
