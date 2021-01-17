@@ -24,6 +24,12 @@ public class ChanceCardController {
         shuffleDeck();
     }
 
+    /**
+     * shuffleDeck creates an int array with the same length as BASE_DECK and makes it so the each element of the int
+     * array corresponds to its index. The int array is then shuffled with shuffleIntArray and used as a shuffle
+     * reference for the drawPile so that each element in the drawPile has a reference to a different element in the
+     * BASE_DECK.
+     */
     private void shuffleDeck() {
         currentDeckLength = BASE_DECK_LENGTH - outOfJailCardsDrawn;
         drawPile = new ChanceCard[currentDeckLength];

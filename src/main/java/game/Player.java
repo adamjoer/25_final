@@ -76,9 +76,14 @@ public class Player {
     public void movePlayer(int increment) {
         previousPosition = currentPosition;
         currentPosition = (currentPosition + increment) % BOARD_LENGTH;
+        while (currentPosition < 0) {
+            currentPosition += BOARD_LENGTH;
+        }
     }
 
-    public int getOutOfJailCards(){return this.outOfJailCards;}
+    public int getOutOfJailCards() {
+        return this.outOfJailCards;
+    }
 
     public String getName() {
         return this.name;
