@@ -136,12 +136,11 @@ public class Game {
         }
     }
 
-    private boolean propertyFieldAction(int position, int player, FieldInstruction instructions) {
+    private void propertyFieldAction(int position, int player, FieldInstruction instructions) {
 
         // Check if the field is owned by the player
         if (player == instructions.getOwner()) {
             guiController.stringHandlerMessage("ownField", true);
-            return true;
         }
 
         // Check if the field is owned by the bank
@@ -163,7 +162,6 @@ public class Game {
                     guiController.stringHandlerMessage("noMoney", true);
                 }
             }
-            return true;
 
         } else { // Field is owned by another player, so they have to pay rent
 
@@ -190,10 +188,8 @@ public class Game {
                 updateGuiBalance(player);
                 updateGuiBalance(owner);
 
-                return successfulRent;
             } else {
                 guiController.stringHandlerMessage("pawnedOrOwnerInJail", true);
-                return true;
             }
         }
     }
