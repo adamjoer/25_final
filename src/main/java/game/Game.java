@@ -181,9 +181,6 @@ public class Game {
                     guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
                 }
 
-                // Make transaction from the current player to the owner of the field
-                boolean successfulRent = makeTransaction(rent, player, owner);
-
                 // Set the balance of both players in the GUI
                 updateGuiBalance(player);
                 updateGuiBalance(owner);
@@ -361,7 +358,7 @@ public class Game {
      * @param position : Position of the Property.
      * @return : true if successful.
      */
-    private boolean sellProperty(int player, int position) {
+    private void sellProperty(int player, int position) {
         int[] properties = fieldController.getPlayerPropertyPositions(player);
         if (Arrays.stream(properties).anyMatch(i -> i == position)) {
             int propertyCost = fieldController.disOwnProperty(player, position);
@@ -371,14 +368,11 @@ public class Game {
                 guiController.removeRentOwnership(position);
                 updateGuiRentForGroup(position);
                 guiController.setDescription(position, "propertyNotPawned");
-                return true;
             } else {
                 guiController.showMessage(guiController.stringHandlerMessage("stillHaveHouses", true));
-                return false;
             }
 
         }
-        return false;
     }
 
     /**
