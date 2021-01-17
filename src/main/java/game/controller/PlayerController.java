@@ -112,7 +112,6 @@ public class PlayerController {
 
     //Relevant setters
     public void setPlayerPosition(int player, int position) { players[player].setCurrentPosition(position); }
-    public void setPlayerBalance(int player, int balance) { players[player].setBalance(balance); }
     public void setPlayerOutOfJailCards(int player, int cards){ players[player].setOutOfJailCards(cards); }
     public void setGetOutOfJailTries(int player, int tries) { getOutOfJailTries[player] = tries; }
     public void incrementGetOutOfJailTries(int player) { getOutOfJailTries[player]++; }
