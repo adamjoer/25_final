@@ -555,7 +555,6 @@ public class Game {
             guiController.stringHandlerMessage("hasOutOfJailCard", true);
             playerController.setPlayerOutOfJailCards(playerTurn, getOutOfJailCards - 1);
             chanceCardController.returnOutOfJailCard();
-            fieldController.free(playerTurn);
             return true;
         }
 
@@ -582,7 +581,6 @@ public class Game {
             // If dice are identical, free player
             if (diceController.isIdentical()) {
                 guiController.stringHandlerMessage("jailIdenticalDice", true);
-                fieldController.free(playerTurn);
                 playerController.setGetOutOfJailTries(playerTurn, 0);
                 return true;
 
@@ -597,7 +595,6 @@ public class Game {
             if (!transaction) {
                 removePlayer(playerTurn, playerController.getPlayerPosition(playerTurn));
             }
-            fieldController.free(playerTurn);
             return transaction;
         }
     }
