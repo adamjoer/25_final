@@ -101,9 +101,8 @@ public class Game {
      *
      * @param position : The position of the Player
      * @param player   : Player in question
-     * @return : true, if the execution was without failed transactions.
      */
-    private boolean fieldAction(int position, int player) {
+    private void fieldAction(int position, int player) {
         FieldInstruction instructions = fieldController.fieldAction(position);
 
         switch (instructions.getFieldType()) {
@@ -111,14 +110,14 @@ public class Game {
             case "Brewery":
             case "Street":
             case "Shipping":
-                return propertyFieldAction(position, player, instructions);
+                propertyFieldAction(position, player, instructions);
 
             case "Chance":
                 drawCard();
                 break;
 
             case "GoToJail":
-                return goToJailFieldAction(player, instructions.getJailPosition());
+                goToJailFieldAction(player, instructions.getJailPosition());
 
             case "Jail":
                 guiController.stringHandlerMessage("justVisitingJail", true);
@@ -129,13 +128,12 @@ public class Game {
                 break;
 
             case "TaxField":
-                return taxFieldAction(player, instructions);
+                taxFieldAction(player, instructions);
 
             default:
                 throw new IllegalArgumentException("Field type '" + instructions.getFieldType() + "' not recognised");
 
         }
-        return true;
     }
 
     private boolean propertyFieldAction(int position, int player, FieldInstruction instructions) {
