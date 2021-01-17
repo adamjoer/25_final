@@ -58,12 +58,15 @@
     </stringRef>
     <stringRef>
         <reference>goToJail</reference>
-        <outputString>You are going to prison!</outputString>
+        <outputString>You are going to jail!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>hasOutOfJailCard</reference>
+        <outputString>You use your pardon from the king to get out of jail</outputString>
     </stringRef>
     <stringRef>
         <reference>isInJail</reference>
-        <outputString>You have to get out of jail, before you can move forward.
-        </outputString>
+        <outputString>You have to get out of jail, before you can move forward.</outputString>
     </stringRef>
     <stringRef>
         <reference>inJailOptions</reference>
@@ -82,7 +85,11 @@
     </stringRef>
     <stringRef>
         <reference>jailNotIdenticalDice</reference>
-        <outputString>Sadly you didn't roll a pair and must stay in prison</outputString>
+        <outputString>Sadly you didn't roll a pair and must stay in jail</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>chanceCard</reference>
+        <outputString>You have landed on a chance field, and take a chance card. Press OK to do what it says</outputString>
     </stringRef>
     <stringRef>
         <reference>stateTax</reference>
@@ -90,13 +97,12 @@
     </stringRef>
     <stringRef>
         <reference>tax</reference>
-        <outputString>You have landed on tax.</outputString>
+        <outputString>You have landed on the tax field.</outputString>
     </stringRef>
     <stringRef>
         <reference>playerValue</reference>
         <outputString>10 % of your net worth has been calculated to be </outputString>
     </stringRef>
-
     <stringRef>
         <reference>taxOptions</reference>
         <outputString>You have two options:
@@ -121,12 +127,8 @@
         <outputString>The field is owned by another player, you must pay rent to</outputString>
     </stringRef>
     <stringRef>
-        <reference>goToJail</reference>
-        <outputString>You have been thrown in jail!</outputString>
-    </stringRef>
-    <stringRef>
-        <reference>jail</reference>
-        <outputString>You are visiting the jail</outputString>
+        <reference>breweryRent</reference>
+        <outputString>On breweries, the rent is multiplied by the sum of the dice. Your rent is therefore </outputString>
     </stringRef>
     <stringRef>
         <reference>askBuyHouse</reference>
@@ -136,6 +138,96 @@
         <reference>whereToBuyHouse</reference>
         <outputString>Where do you wish to buy houses?</outputString>
     </stringRef>
-
-
+    <stringRef>
+        <reference>winnerFound</reference>
+        <outputString>Congratulations! You have won the game </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleType</reference>
+        <outputString>Choose your type of vehicle</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleColor</reference>
+        <outputString>Choose the color of your vehicle</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>gray</reference>
+        <outputString>Gray</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>red</reference>
+        <outputString>Red</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>yellow</reference>
+        <outputString>Yellow</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>green</reference>
+        <outputString>Green</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>cyan</reference>
+        <outputString>Cyan</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>winner</reference>
+        <outputString>The winner of the game is </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>stillHaveHouses</reference>
+        <outputString>Your property still has houses!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>chooseRealEstate</reference>
+        <outputString>Choose an option:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>askReclaimProperty</reference>
+        <outputString>Do you wish to reclaim a property?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>reclaimPropertyPrompt</reference>
+        <outputString>Choose the property you wish to reclaim:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>propertyNotPawned</reference>
+        <outputString/>
+    </stringRef>
+    <stringRef>
+        <reference>propertyIsPawned</reference>
+        <outputString>The property has been pawned</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingBtn</reference>
+        <outputString>Sell the building</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyBtn</reference>
+        <outputString>Sell the property</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyBtn</reference>
+        <outputString>Pawn the property</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingPrompt</reference>
+        <outputString>Choose a property on which you wish to sell a property:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyPrompt</reference>
+        <outputString>Choose a property you wish to sell</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyPrompt</reference>
+        <outputString>Choose a property you wish to pawn</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>bankruptPlayer</reference>
+        <outputString>You have gone bankrupt and is therefore out of the game</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnedOrOwnerInJail</reference>
+        <outputString>The property has been pawned or the owner is in jail. You will therefore not pay rent</outputString>
+    </stringRef>
 </stringRefs>
