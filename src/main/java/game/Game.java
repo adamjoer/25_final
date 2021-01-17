@@ -590,18 +590,16 @@ public class Game {
     /**
      * drawCard executes ChanceCards based on a switch on the type of card.
      *
-     * @return false, if any transactions fail.
      */
-    private boolean drawCard() {
+    private void drawCard() {
 
         guiController.displayChanceCard(chanceCardController.drawCard());
         guiController.stringHandlerMessage("chanceCard", true);
 
-        boolean success = true;
         switch (chanceCardController.getCurrentCardType()) {
             case "BankTransaction":
 
-                success = makeTransaction(chanceCardController.getAmount(), playerTurn);
+                makeTransaction(chanceCardController.getAmount(), playerTurn);
                 break;
 
             case "CashFromPlayer":
@@ -614,7 +612,7 @@ public class Game {
                 int houses = fieldController.getHouses(playerTurn);
                 int hotels = fieldController.getHotels(playerTurn);
                 int fine = houses * chanceCardController.getHouseTax() + hotels * chanceCardController.getHotelTax();
-                success = makeTransaction(-fine, playerTurn);
+                makeTransaction(-fine, playerTurn);
 
                 break;
 
@@ -668,7 +666,6 @@ public class Game {
 
                 break;
         }
-        return success;
     }
 
     /**
