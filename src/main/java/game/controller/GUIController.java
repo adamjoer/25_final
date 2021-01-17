@@ -234,7 +234,6 @@ public class GUIController {
     }
 
     public void removeGuiPlayer(int player, int fieldPlacement) {
-        // TODO: finish this
         if (guiPlayerList.length == 1) {
             showMessage("" + getGuiPlayer(player).getName());
         } else {
@@ -427,12 +426,6 @@ public class GUIController {
         gui.displayChanceCard(msg);
     }
 
-    /**
-     * Display the current chance card text in the center
-     */
-    public void displayChanceCard() {
-        gui.displayChanceCard();
-    }
 
     /**
      * Closes the GUI window.
