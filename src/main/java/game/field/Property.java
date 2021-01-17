@@ -62,6 +62,8 @@ public abstract class Property extends Field {
         return pawned;
     }
 
+    public int[] getRentLevels() { return rentLevels; }
+
     // Relevant setters
     public void setPropertyLevel(int propertyLevel) {
         this.propertyLevel = propertyLevel;
