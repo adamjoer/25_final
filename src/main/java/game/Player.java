@@ -4,24 +4,22 @@ import org.apache.commons.lang.ArrayUtils;
 
 public class Player {
 
-    private Account account;
+    private final Account account;
     private int previousPosition;
     private int currentPosition;
     private int outOfJailCards = 0;
     private int[] properties = new int[0];
-    private final String NAME;
+    private final String name;
     private final int BOARD_LENGTH = 40;
-    private int id;
 
 
     /**
-     * @param NAME         : Name of the player
+     * @param name         : Name of the player
      * @param startBalance : The amount of money they start off with
      */
-    public Player(String NAME, int startBalance, int id) {
+    public Player(String name, int startBalance) {
         account = new Account(startBalance);
-        this.NAME = NAME;
-        this.id = id;
+        this.name = name;
     }
 
 
@@ -59,14 +57,12 @@ public class Player {
         for (int i : properties) {
             if (i == place) {
                 owned = true;
+                break;
             }
         }
         if (owned) {
             int[] newList = new int[properties.length - 1];
-            if(newList.length == 0){
-                //do nothing
-            }
-            else{
+            if (newList.length != 0) {
                 properties[ArrayUtils.indexOf(properties, place)] = properties[properties.length - 1];
                 System.arraycopy(properties, 0, newList, 0, newList.length);
             }
@@ -80,14 +76,17 @@ public class Player {
     public void movePlayer(int increment) {
         previousPosition = currentPosition;
         currentPosition = (currentPosition + increment) % BOARD_LENGTH;
+        while (currentPosition < 0) {
+            currentPosition += BOARD_LENGTH;
+        }
     }
-    public boolean hasOutOfJailCard(){ return outOfJailCards > 0; }
 
-    public int getId(){
-        return this.id;
+    public int getOutOfJailCards() {
+        return this.outOfJailCards;
     }
-    public String getName(){
-        return this.NAME;
+
+    public String getName() {
+        return this.name;
     }
 
     public int getBalance() {
@@ -106,7 +105,10 @@ public class Player {
         return previousPosition;
     }
 
-    public void setOutOfJailCards(int cards){ outOfJailCards += cards; }
+    public void setOutOfJailCards(int cards) {
+        outOfJailCards = cards;
+    }
+
     public void setBalance(int amount) {
         account.setBalance(amount);
     }

@@ -13,6 +13,7 @@ public abstract class Property extends Field {
     protected final int relatedProperties;
     protected final int nextRelatedProperty;
     protected int owner = -1; // -1 means the property is owned by the bank
+    protected boolean pawned = false;
 
     // Constructor
     public Property(String title, String subText, String description, int position, Color color, int cost, int pawnValue, int[] rentLevels, int relatedProperties, int nextRelatedProperty) {
@@ -41,10 +42,6 @@ public abstract class Property extends Field {
         return pawnValue;
     }
 
-    public int[] getRentLevels() {
-        return rentLevels;
-    }
-
     public int getPropertyLevel() {
         return propertyLevel;
     }
@@ -61,6 +58,12 @@ public abstract class Property extends Field {
         return owner;
     }
 
+    public boolean getPawned() {
+        return pawned;
+    }
+
+    public int[] getRentLevels() { return rentLevels; }
+
     // Relevant setters
     public void setPropertyLevel(int propertyLevel) {
         this.propertyLevel = propertyLevel;
@@ -70,14 +73,19 @@ public abstract class Property extends Field {
         this.owner = owner;
     }
 
+    public void setPawned(boolean pawned) {
+        this.pawned = pawned;
+    }
+
     public String toString() {
         return super.toString() +
-                "\n\t[cost=" + cost +
-                "]\n\t[pawnValue=" + pawnValue +
-                "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
-                "]\n\t[propertyLevel=" + propertyLevel +
-                "]\n\t[relatedProperties=" + relatedProperties +
-                "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
-                "]\n\t[owner=" + owner + ']';
+               "\n\t[cost=" + cost +
+               "]\n\t[pawnValue=" + pawnValue +
+               "]\n\t[rentLevels=" + Arrays.toString(rentLevels) +
+               "]\n\t[propertyLevel=" + propertyLevel +
+               "]\n\t[relatedProperties=" + relatedProperties +
+               "]\n\t[nexRelatedProperty=" + nextRelatedProperty +
+               "]\n\t[owner=" + owner +
+               "]\n\t[pawned=" + pawned + ']';
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<stringRefs>
+    <stringRef>
+        <reference>test1</reference>
+        <outputText>Test1</outputText>
+    </stringRef>
+    <stringRef>
+        <reference>test1</reference>
+        <outputText>NotTest1</outputText>
+    </stringRef>
+    <stringRef>
+        <reference>test2</reference>
+        <outputText>Test2</outputText>
+    </stringRef>
+    <stringRef>
+        <reference>test3</reference>
+        <outputText/>
+    </stringRef>
+</stringRefs>

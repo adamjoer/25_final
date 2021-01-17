@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<stringRefs>
+    <stringRef>
+        <reference>playerTurn</reference>
+        <outputString>Det er Deres tur til at spille, </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>rollDice</reference>
+        <outputString>Tryk OK for at kaste terningerne</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>createPlayer</reference>
+        <outputString>Opret ny spiller?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>yes</reference>
+        <outputString>Ja</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>no</reference>
+        <outputString>Nej</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>maxPlayerReachedPrompt</reference>
+        <outputString>Det maksimale antal spillere er nået, vil De:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>closeGameOption</reference>
+        <outputString>Afslut spil</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>continueOption</reference>
+        <outputString>Fortsæt</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>inputNamePrompt</reference>
+        <outputString>Indtast navn her.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>nameNotUniqueError</reference>
+        <outputString>Det navn eksisterer allerede!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>tooFewPlayersError</reference>
+        <outputString>Der skal mindst to spillere til for at fortsætte.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>extraTurnIdenticalDice</reference>
+        <outputString>De har slået to ens og får derfor en ekstra tur!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>hasPassedStart</reference>
+        <outputString>De har passeret START og modtager 4.000 kr.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>justVisitingJail</reference>
+        <outputString>De er på besøg i fængsel</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>goToJail</reference>
+        <outputString>De bliver smidt i fængsel!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>hasOutOfJailCard</reference>
+        <outputString>De bruger Deres benådning fra kongen til at komme fri</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>isInJail</reference>
+        <outputString>De er i fængsel og skal ud før De kan rykke Dem</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>inJailOptions</reference>
+        <outputString>De har to valgmuligheder:
+            1: Prøv at slå to ens (De har maks 3 forsøg)
+            2: Betal kautionen på 1.000 kr.
+        </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailTriesUsed</reference>
+        <outputString>De har brugt alle Deres forsøg og skal nu betale kautionen på 1.000 kr.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailIdenticalDice</reference>
+        <outputString>De slog to ens og er nu fri!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailNotIdenticalDice</reference>
+        <outputString>De slog desværre ikke to ens og skal blive i fængsel</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>chanceCard</reference>
+        <outputString>De har landet på et 'prøv lykken' felt og trækker et lykkekort. Tryk OK for at gøre hvad der står på det</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>stateTax</reference>
+        <outputString>De er landet på statsskat, og skal dermed af med 2000 kr.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>tax</reference>
+        <outputString>De er landet på skat.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>playerValue</reference>
+        <outputString>10% af Deres værdi er blevet udregnet til at være </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>taxOptions</reference>
+        <outputString>De har to valgmuligheder:
+            1: Betal kr. 4.000
+            2: Betal 10% af Deres værdi
+        </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>ownField</reference>
+        <outputString>De er landet på Deres eget felt</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>buyField</reference>
+        <outputString>Ingen spillere ejer dette felt, vil De købe det?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>noMoney</reference>
+        <outputString>De har ikke nok penge</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>payRent</reference>
+        <outputString>Feltet er eget af en anden spiller, De skal betale husleje til </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>breweryRent</reference>
+        <outputString>På bryggerier ganges lejen med det tal som terningerne viser. Deres husleje er derfor </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>askBuyHouse</reference>
+        <outputString>Vil De købe huse?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>whereToBuyHouse</reference>
+        <outputString>Hvor vil De købe et hus?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>winnerFound</reference>
+        <outputString>Tillykke! De har vundet spillet, </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleType</reference>
+        <outputString>Vælg type af Deres køretøj</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleColor</reference>
+        <outputString>Vælg farven til Deres køretøj</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>gray</reference>
+        <outputString>Grå</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>red</reference>
+        <outputString>Rød</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>yellow</reference>
+        <outputString>Gul</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>green</reference>
+        <outputString>Grøn</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>cyan</reference>
+        <outputString>Turkis</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>winner</reference>
+        <outputString>Vinderen af spillet er:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>stillHaveHouses</reference>
+        <outputString>Denne grund har stadig huse!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>chooseRealEstate</reference>
+        <outputString>Vælg en mulighed:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>askReclaimProperty</reference>
+        <outputString>Ønsker De at ophæve pantsætningen af en ejendom?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>reclaimPropertyPrompt</reference>
+        <outputString>Vælg ejendommen De ønsker at ophæve pantsætningen på:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>propertyNotPawned</reference>
+        <outputString/>
+    </stringRef>
+    <stringRef>
+        <reference>propertyIsPawned</reference>
+        <outputString>Ejendommen er pantsat.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingBtn</reference>
+        <outputString>Sælg bygning</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyBtn</reference>
+        <outputString>Sælg ejendom</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyBtn</reference>
+        <outputString>Pantsæt ejendom</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingPrompt</reference>
+        <outputString>Vælg den ejendom De ønsker at sælge en bygning på.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyPrompt</reference>
+        <outputString>Vælg den ejendom De ønsker at sælge.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyPrompt</reference>
+        <outputString>Vælg den ejendom De ønsker at pantsætte.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>bankruptPlayer</reference>
+        <outputString>De har ikke flere penge tilbage, og dermed ude af spillet.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnedOrOwnerInJail</reference>
+        <outputString>Ejendommen er pantsat eller ejeren er i fængsel, og De skal derfor ikke betale leje.</outputString>
+    </stringRef>
+</stringRefs>

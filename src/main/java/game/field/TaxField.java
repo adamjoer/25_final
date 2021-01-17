@@ -12,12 +12,7 @@ public class TaxField extends Field {
     }
 
     public FieldInstruction fieldAction() {
-        return new FieldInstruction(getField(), fine);
-    }
-
-    //Relevant getters
-    public int getFine() {
-        return fine;
+        return new FieldInstruction(getField(), title, fine);
     }
 
     public String toString() {
