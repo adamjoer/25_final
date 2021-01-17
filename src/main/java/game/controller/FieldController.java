@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class FieldController {
 
-    private final String XML_FILEPATH = "src/main/resources/fieldList.xml";
+    private final String XML_FILEPATH = "src/main/resources/fieldListDA.xml";
     private final Field[] fields;
     private final Property[][] properties;
     private Jail jail;

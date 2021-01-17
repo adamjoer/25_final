@@ -103,7 +103,6 @@
         <reference>playerValue</reference>
         <outputString>10% af Deres værdi er blevet udregnet til at være </outputString>
     </stringRef>
-
     <stringRef>
         <reference>taxOptions</reference>
         <outputString>De har to valgmuligheder:
@@ -142,10 +141,6 @@
     <stringRef>
         <reference>winnerFound</reference>
         <outputString>Tillykke! De har vundet spillet, </outputString>
-    </stringRef>
-    <stringRef>
-        <reference>test</reference>
-        <outputString>Test did not fail!</outputString>
     </stringRef>
     <stringRef>
         <reference>vehicleType</reference>

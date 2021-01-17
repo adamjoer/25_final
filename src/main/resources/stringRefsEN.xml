@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<stringRefs>
+    <stringRef>
+        <reference>playerTurn</reference>
+        <outputString>It is your turn to play, </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>rollDice</reference>
+        <outputString>Press OK to throw the dice</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>createPlayer</reference>
+        <outputString>Create new player?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>yes</reference>
+        <outputString>Yes</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>no</reference>
+        <outputString>No</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>maxPlayerReachedPrompt</reference>
+        <outputString>The maximum amount of players has been reached, do you want to:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>closeGameOption</reference>
+        <outputString>End game</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>continueOption</reference>
+        <outputString>Continue</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>inputNamePrompt</reference>
+        <outputString>Write your name here.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>nameNotUniqueError</reference>
+        <outputString>The name already exists!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>tooFewPlayersError</reference>
+        <outputString>At least two players are needed to continue.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>extraTurnIdenticalDice</reference>
+        <outputString>You have rolled a pair and are therefore given an extra turn!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>hasPassedStart</reference>
+        <outputString>You have passed START and receive 4.000 kr.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>justVisitingJail</reference>
+        <outputString>You are visiting the prison</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>goToJail</reference>
+        <outputString>You are going to jail!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>hasOutOfJailCard</reference>
+        <outputString>You use your pardon from the king to get out of jail</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>isInJail</reference>
+        <outputString>You have to get out of jail, before you can move forward.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>inJailOptions</reference>
+        <outputString>You have two options:
+            1: Try to roll a pair (you have at most 3 tries)
+            2: Pay the fine of 1.000 kr.
+        </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailTriesUsed</reference>
+        <outputString>You have used all your tries, and must therefore pay the fine.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailIdenticalDice</reference>
+        <outputString>You rolled a pair and are thus released!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>jailNotIdenticalDice</reference>
+        <outputString>Sadly you didn't roll a pair and must stay in jail</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>chanceCard</reference>
+        <outputString>You have landed on a chance field, and take a chance card. Press OK to do what it says</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>stateTax</reference>
+        <outputString>You have landed on the State tax field and must pay 2000 kr.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>tax</reference>
+        <outputString>You have landed on the tax field.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>playerValue</reference>
+        <outputString>10 % of your net worth has been calculated to be </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>taxOptions</reference>
+        <outputString>You have two options:
+            1: Pay 4.000 kr.
+            2: Pay 10% of you net worth.
+        </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>ownField</reference>
+        <outputString>You have landed on your own field</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>buyField</reference>
+        <outputString>No players own this property. Do you wish to buy it?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>noMoney</reference>
+        <outputString>You don't have enough money.</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>payRent</reference>
+        <outputString>The field is owned by another player, you must pay rent to </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>breweryRent</reference>
+        <outputString>On breweries, the rent is multiplied by the sum of the dice. Your rent is therefore </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>askBuyHouse</reference>
+        <outputString>Do you wish to build houses?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>whereToBuyHouse</reference>
+        <outputString>Where do you wish to buy houses?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>winnerFound</reference>
+        <outputString>Congratulations! You have won the game </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleType</reference>
+        <outputString>Choose your type of vehicle</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>vehicleColor</reference>
+        <outputString>Choose the color of your vehicle</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>gray</reference>
+        <outputString>Gray</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>red</reference>
+        <outputString>Red</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>yellow</reference>
+        <outputString>Yellow</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>green</reference>
+        <outputString>Green</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>cyan</reference>
+        <outputString>Cyan</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>winner</reference>
+        <outputString>The winner of the game is </outputString>
+    </stringRef>
+    <stringRef>
+        <reference>stillHaveHouses</reference>
+        <outputString>Your property still has houses!</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>chooseRealEstate</reference>
+        <outputString>Choose an option:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>askReclaimProperty</reference>
+        <outputString>Do you wish to reclaim a property?</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>reclaimPropertyPrompt</reference>
+        <outputString>Choose the property you wish to reclaim:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>propertyNotPawned</reference>
+        <outputString/>
+    </stringRef>
+    <stringRef>
+        <reference>propertyIsPawned</reference>
+        <outputString>The property has been pawned</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingBtn</reference>
+        <outputString>Sell the building</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyBtn</reference>
+        <outputString>Sell the property</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyBtn</reference>
+        <outputString>Pawn the property</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellBuildingPrompt</reference>
+        <outputString>Choose a property on which you wish to sell a property:</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>sellPropertyPrompt</reference>
+        <outputString>Choose a property you wish to sell</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnPropertyPrompt</reference>
+        <outputString>Choose a property you wish to pawn</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>bankruptPlayer</reference>
+        <outputString>You have gone bankrupt and is therefore out of the game</outputString>
+    </stringRef>
+    <stringRef>
+        <reference>pawnedOrOwnerInJail</reference>
+        <outputString>The property has been pawned or the owner is in jail. You will therefore not pay rent</outputString>
+    </stringRef>
+</stringRefs>
