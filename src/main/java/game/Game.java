@@ -181,6 +181,8 @@ public class Game {
                     guiController.stringHandlerMessage("breweryRent", true, rent + " kr.");
                 }
 
+                makeTransaction(rent, player, owner);
+
                 // Set the balance of both players in the GUI
                 updateGuiBalance(player);
                 updateGuiBalance(owner);
@@ -430,7 +432,7 @@ public class Game {
         else guiController.stringHandlerMessage("stateTax", true);
 
         // Subtract tax from player balance
-        boolean successfulFine = makeTransaction(-tax, player);
+        makeTransaction(-tax, player);
         updateGuiBalance(player);
     }
 
