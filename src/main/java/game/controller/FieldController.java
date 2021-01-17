@@ -792,11 +792,10 @@ public class FieldController {
     /**
      * Checks if the owner of the specified Property is currently in jail or if the Property is pawned.
      *
-     * @param player   : Player in question.
      * @param position : Position of Property in question.
      * @return : true if Property isn't pawned and owner isn't in jail.
      */
-    public boolean mustPayRent(int player, int position) {
+    public boolean mustPayRent(int position) {
         if (!(fields[position] instanceof Property)) return false;
         Property property = (Property) fields[position];
         return !(property.getPawned() || isInJail(property.getOwner()));

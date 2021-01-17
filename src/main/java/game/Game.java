@@ -170,7 +170,7 @@ public class Game {
         } else { // Field is owned by another player, so they have to pay rent
 
             int owner = instructions.getOwner();
-            if (fieldController.mustPayRent(player, position)) {
+            if (fieldController.mustPayRent(position)) {
                 guiController.stringHandlerMessage("payRent", true, playerController.getName(owner));
 
                 int rent = instructions.getRent();
