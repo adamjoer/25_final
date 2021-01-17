@@ -358,7 +358,9 @@ public class FieldController {
 
 
     public void free(int player) {
-        jail.free(player);
+        if (isInJail(player)) {
+            jail.free(player);
+        }
     }
 
     /**

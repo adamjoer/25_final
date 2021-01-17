@@ -47,6 +47,8 @@ public class Game {
                         // If they didn't succeed, continue to the next player
                         getNextPlayerTurn();
                         continue;
+                    } else {
+                        fieldController.free(playerTurn);
                     }
                 }
             }
