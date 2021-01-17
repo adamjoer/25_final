@@ -356,7 +356,6 @@ public class Game {
      *
      * @param player   : Player in question.
      * @param position : Position of the Property.
-     * @return : true if successful.
      */
     private void sellProperty(int player, int position) {
         int[] properties = fieldController.getPlayerPropertyPositions(player);
@@ -399,13 +398,12 @@ public class Game {
         }
     }
 
-    private boolean goToJailFieldAction(int player, int jailPosition) {
+    private void goToJailFieldAction(int player, int jailPosition) {
 
         guiController.stringHandlerMessage("goToJail", true);
         playerController.setPlayerPosition(player, jailPosition);
         guiController.setCarPlacement(player, playerController.getPreviousPlayerPosition(player), playerController.getPlayerPosition(player));
         fieldController.incarcerate(player);
-        return true;
     }
 
     private boolean taxFieldAction(int player, FieldInstruction instructions) {
