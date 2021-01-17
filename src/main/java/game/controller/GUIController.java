@@ -55,7 +55,6 @@ public class GUIController {
                     break;
                 case "Brewery":
                     Brewery brewery = (Brewery) fields[i];
-                    String title = brewery.getTitle();
                     guiFields[i] = new GUI_Brewery("default", brewery.getTitle(), brewery.getSubText(), brewery.getDescription(),
                             String.valueOf(brewery.getCurrentRent()), Color.WHITE, Color.BLACK);
                     break;
@@ -83,10 +82,6 @@ public class GUIController {
         playerNames = askForPlayerNames();
         playerAmount = playerNames.length;
         this.guiPlayerList = new GUI_Player[playerAmount];
-    }
-
-    public GUI_Field[] getFields() {
-        return gui.getFields();
     }
 
     public String stringHandlerMessage(String stringHandlerRef, boolean showMsg) {
